@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+pydantic
+python-dotenv
+psycopg2-binary
+sentence-transformers
+faiss-cpu
+numpy
+requests

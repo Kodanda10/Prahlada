@@ -1,0 +1,5 @@
+{
+  "name": "Project Dhruv",
+  "description": "A Hindi-first, VisionOS-style glassmorphic dashboard for analyzing social media events, geography, and schemes using multi-layer parsing and FAISS-powered semantics.",
+  "requestFramePermissions": []
+}
