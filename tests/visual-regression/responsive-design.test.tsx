@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { AnimatedGlassCard } from '../../components/AnimatedGlassCard';
-import { CustomBarChart } from '../../components/charts/CustomBarChart';
+import CustomBarChart from '../../components/charts/CustomBarChart';
 
 describe('Responsive Design Visual Regression', () => {
   const mockChartData = [

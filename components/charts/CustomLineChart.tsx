@@ -6,6 +6,7 @@ interface CustomLineChartProps {
   data: any[];
   xKey: string;
   dataKey: string;
+  width?: number | string;
   height?: number | string;
   lineColor?: string;
 }
@@ -14,11 +15,12 @@ const CustomLineChart: React.FC<CustomLineChartProps> = ({
   data,
   xKey,
   dataKey,
+  width = '100%',
   height = 300,
   lineColor = "#22d3ee"
 }) => {
   return (
-    <div style={{ height, width: '100%' }}>
+    <div style={{ height, width }}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />

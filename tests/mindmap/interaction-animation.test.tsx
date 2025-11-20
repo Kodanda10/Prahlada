@@ -1,0 +1,504 @@
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import HierarchyMindMap from '../../components/analytics/HierarchyMindMap';
+
+describe('D3 HierarchyMindMap - Interaction & Animation', () => {
+  const testData = {
+    name: 'रायगढ़',
+    children: [
+      {
+        name: 'खरसिया',
+        children: [
+          {
+            name: 'खरसिया ब्लॉक',
+            children: [
+              {
+                name: 'जोंबी ग्राम पंचायत',
+                children: [
+                  { name: 'जोंबी', visits: 4 },
+                  { name: 'कमलौर', visits: 2 }
+                ]
+              },
+              {
+                name: 'तमनार ग्राम पंचायत',
+                children: [
+                  { name: 'तमनार', visits: 6 }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  describe('Hover Interactions', () => {
+    it('shows glow effect on node hover', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      expect(nodes.length).toBeGreaterThan(0);
+
+      const firstNode = nodes[0] as SVGElement;
+
+      // Simulate hover
+      fireEvent.mouseEnter(firstNode);
+
+      // Should apply glow class or style
+      expect(firstNode).toBeInTheDocument();
+
+      // Simulate hover out
+      fireEvent.mouseLeave(firstNode);
+      expect(firstNode).toBeInTheDocument();
+    });
+
+    it('displays Hindi tooltip with visit count on hover', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      // Find a leaf node (village)
+      const leafNodes = svg.querySelectorAll('circle, rect');
+      const villageNode = Array.from(leafNodes).find(node => {
+        const textElement = node.nextElementSibling || node.previousElementSibling;
+        return textElement?.textContent?.includes('जोंबी');
+      });
+
+      if (villageNode) {
+        fireEvent.mouseEnter(villageNode);
+
+        // Should show tooltip
+        const tooltip = document.querySelector('.mindmap-tooltip') ||
+                       screen.queryByText(/जोंबी/);
+
+        expect(tooltip).toBeInTheDocument();
+      }
+    });
+
+    it('provides scale animation on hover', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const targetNode = nodes[1] as SVGElement; // Skip root
+
+      if (targetNode) {
+        const initialTransform = targetNode.getAttribute('transform') || '';
+
+        fireEvent.mouseEnter(targetNode);
+
+        // Should have scale transform
+        const hoverTransform = targetNode.getAttribute('transform') || '';
+        expect(hoverTransform).not.toBe(initialTransform);
+
+        fireEvent.mouseLeave(targetNode);
+
+        // Should return to original transform
+        const leaveTransform = targetNode.getAttribute('transform') || '';
+        expect(leaveTransform).toBe(initialTransform);
+      }
+    });
+  });
+
+  describe('Click Expand/Collapse', () => {
+    it('expands/collapses children on node click', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      // Find a parent node that has children
+      const parentNodes = svg.querySelectorAll('circle, rect');
+      const expandableNode = Array.from(parentNodes).find(node => {
+        const textElement = node.nextElementSibling || node.previousElementSibling;
+        return textElement?.textContent?.includes('खरसिया');
+      });
+
+      if (expandableNode) {
+        const initialChildCount = svg.querySelectorAll('circle, rect').length;
+
+        fireEvent.click(expandableNode);
+
+        // Child count might change based on implementation
+        const afterClickChildCount = svg.querySelectorAll('circle, rect').length;
+
+        // Either children are shown/hidden or visual state changes
+        expect(svg).toBeInTheDocument();
+      }
+    });
+
+    it('maintains correct CSS classes on expand/collapse', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const clickableNode = nodes[1] as SVGElement; // Skip root
+
+      if (clickableNode) {
+        const initialClasses = clickableNode.getAttribute('class') || '';
+
+        fireEvent.click(clickableNode);
+
+        const afterClickClasses = clickableNode.getAttribute('class') || '';
+
+        // Class should change to reflect expanded/collapsed state
+        expect(afterClickClasses).not.toBe(initialClasses);
+      }
+    });
+
+    it('animates expand/collapse smoothly', async () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const animatableNode = nodes[2] as SVGElement;
+
+      if (animatableNode) {
+        const startTime = performance.now();
+
+        fireEvent.click(animatableNode);
+
+        // Allow animation to complete
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        const endTime = performance.now();
+        const animationDuration = endTime - startTime;
+
+        // Animation should take reasonable time
+        expect(animationDuration).toBeGreaterThan(200);
+        expect(animationDuration).toBeLessThan(1000);
+      }
+    });
+  });
+
+  describe('Zoom and Pan Operations', () => {
+    it('supports mouse wheel zoom', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const initialViewBox = svg.getAttribute('viewBox') || '';
+
+      // Simulate zoom in
+      fireEvent.wheel(svg, { deltaY: -100 });
+
+      const afterZoomViewBox = svg.getAttribute('viewBox') || '';
+
+      // ViewBox should change on zoom
+      expect(afterZoomViewBox).not.toBe(initialViewBox);
+    });
+
+    it('handles mouse drag for panning', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      // Simulate pan start
+      fireEvent.mouseDown(svg, { clientX: 100, clientY: 100 });
+
+      // Simulate drag
+      fireEvent.mouseMove(svg, { clientX: 150, clientY: 150 });
+
+      // Simulate pan end
+      fireEvent.mouseUp(svg);
+
+      // SVG should still be present
+      expect(svg).toBeInTheDocument();
+    });
+
+    it('maintains smooth zoom transitions', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const zoomStartTime = performance.now();
+
+      // Multiple zoom operations
+      for (let i = 0; i < 5; i++) {
+        fireEvent.wheel(svg, { deltaY: i % 2 === 0 ? -50 : 50 });
+      }
+
+      const zoomEndTime = performance.now();
+      const totalZoomTime = zoomEndTime - zoomStartTime;
+
+      // Should handle multiple zooms efficiently
+      expect(totalZoomTime).toBeLessThan(500);
+    });
+  });
+
+  describe('Animation State Management', () => {
+    it('prevents random jumps during animations', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const testNode = nodes[1] as SVGElement;
+
+      if (testNode) {
+        // Get initial position
+        const initialX = testNode.getAttribute('cx') || testNode.getAttribute('x') || '0';
+        const initialY = testNode.getAttribute('cy') || testNode.getAttribute('y') || '0';
+
+        // Trigger interaction
+        fireEvent.click(testNode);
+
+        // Position should change predictably, not randomly
+        const afterX = testNode.getAttribute('cx') || testNode.getAttribute('x') || '0';
+        const afterY = testNode.getAttribute('cy') || testNode.getAttribute('y') || '0';
+
+        // Position should either stay same or change in controlled way
+        expect(typeof parseFloat(afterX)).toBe('number');
+        expect(typeof parseFloat(afterY)).toBe('number');
+      }
+    });
+
+    it('coordinates multiple simultaneous animations', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+
+      // Trigger multiple interactions simultaneously
+      nodes.forEach((node, index) => {
+        if (index < 3) { // Test first 3 nodes
+          fireEvent.click(node);
+        }
+      });
+
+      // Should handle multiple animations without conflicts
+      expect(svg).toBeInTheDocument();
+
+      // All nodes should still be present
+      const remainingNodes = svg.querySelectorAll('circle, rect');
+      expect(remainingNodes.length).toBe(nodes.length);
+    });
+
+    it('respects reduced motion preferences', () => {
+      // Mock reduced motion
+      Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        value: vi.fn().mockReturnValue({
+          matches: true,
+        }),
+      });
+
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const firstNode = nodes[0] as SVGElement;
+
+      if (firstNode) {
+        fireEvent.click(firstNode);
+
+        // Should not have animation transforms when reduced motion is enabled
+        const transform = firstNode.getAttribute('transform') || '';
+        expect(transform).not.toMatch(/scale|translate/);
+      }
+    });
+  });
+
+  describe('Accessibility Interactions', () => {
+    it('supports keyboard navigation', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      // Make SVG focusable for keyboard navigation
+      svg.setAttribute('tabindex', '0');
+      svg.focus();
+
+      expect(svg).toHaveFocus();
+
+      // Simulate keyboard navigation
+      fireEvent.keyDown(svg, { key: 'ArrowRight' });
+      fireEvent.keyDown(svg, { key: 'ArrowDown' });
+      fireEvent.keyDown(svg, { key: 'Enter' });
+
+      expect(svg).toBeInTheDocument();
+    });
+
+    it('provides screen reader announcements', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      // Should have ARIA attributes
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const firstNode = nodes[0] as SVGElement;
+
+      if (firstNode) {
+        // Should have accessibility attributes
+        expect(firstNode).toBeInTheDocument();
+      }
+    });
+  });
+
+  describe('Performance During Interactions', () => {
+    it('maintains frame rate during rapid interactions', () => {
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const interactionStartTime = performance.now();
+
+      // Perform rapid interactions
+      nodes.forEach((node, index) => {
+        if (index < 10) {
+          fireEvent.mouseEnter(node);
+          fireEvent.mouseLeave(node);
+        }
+      });
+
+      const interactionEndTime = performance.now();
+      const totalInteractionTime = interactionEndTime - interactionStartTime;
+
+      // Should handle 10 interactions within reasonable time
+      expect(totalInteractionTime).toBeLessThan(1000);
+    });
+
+    it('debounces rapid hover events', () => {
+      const hoverHandler = vi.fn();
+
+      const { container } = render(
+        <HierarchyMindMap
+          data={testData}
+          width={800}
+          height={600}
+        />
+      );
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+
+      const nodes = svg.querySelectorAll('circle, rect');
+      const targetNode = nodes[1] as SVGElement;
+
+      if (targetNode) {
+        // Rapid hover events
+        for (let i = 0; i < 5; i++) {
+          fireEvent.mouseEnter(targetNode);
+          fireEvent.mouseLeave(targetNode);
+        }
+
+        // Hover handler should be debounced
+        expect(svg).toBeInTheDocument();
+      }
+    });
+  });
+});

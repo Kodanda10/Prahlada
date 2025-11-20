@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
-import { HierarchyMindMap } from '../../components/analytics/HierarchyMindMap';
+import HierarchyMindMap from '../../components/analytics/HierarchyMindMap';
 
 describe('D3 Mindmap Critical Features', () => {
   const mockData = {

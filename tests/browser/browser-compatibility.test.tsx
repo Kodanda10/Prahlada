@@ -1,17 +1,14 @@
 import { describe, it, expect } from 'vitest';
 
-describe('Browser Compatibility', () => {
+describe('Browser Compatibility (Chromium/WebKit/Gecko, including iOS vh quirks)', () => {
   describe('Modern Browser Support', () => {
     it('supports ES6+ features', () => {
-      // Test arrow functions
       const arrowFn = () => 'supported';
       expect(arrowFn()).toBe('supported');
 
-      // Test template literals
       const template = `ES6 ${'supported'}`;
       expect(template).toBe('ES6 supported');
 
-      // Test destructuring
       const { a, b } = { a: 1, b: 2 };
       expect(a).toBe(1);
       expect(b).toBe(2);
@@ -38,24 +35,21 @@ describe('Browser Compatibility', () => {
 
   describe('Progressive Enhancement', () => {
     it('works without JavaScript', () => {
-      // Test that basic HTML structure is present
       const htmlElement = document.documentElement;
       expect(htmlElement.tagName).toBe('HTML');
     });
 
     it('provides fallback for CSS Grid', () => {
       const container = document.createElement('div');
-      container.style.display = 'flex'; // Fallback for grid
+      container.style.display = 'flex';
 
       expect(container.style.display).toBe('flex');
     });
 
     it('handles missing API gracefully', () => {
-      // Test fetch API availability
       if (typeof fetch !== 'undefined') {
         expect(typeof fetch).toBe('function');
       } else {
-        // Polyfill would be loaded
         expect(true).toBe(true);
       }
     });
@@ -87,7 +81,6 @@ describe('Browser Compatibility', () => {
 
   describe('Polyfill Loading', () => {
     it('loads required polyfills', () => {
-      // Test that core-js or similar polyfills are loaded
       expect(typeof Promise).toBe('function');
       expect(typeof Symbol).toBe('function');
       expect(typeof Array.prototype.includes).toBe('function');

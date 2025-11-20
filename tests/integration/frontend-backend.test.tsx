@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, waitFor, screen } from '@testing-library/react';
-import { apiService } from '../../services/api';
+import { apiService } from '../services/api';
 
 describe('Frontend-Backend Integration', () => {
   describe('API Service Integration', () => {

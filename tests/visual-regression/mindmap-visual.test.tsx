@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
-import { HierarchyMindMap } from '../../components/analytics/HierarchyMindMap';
-import { MapBoxVisual } from '../../components/analytics/MapBoxVisual';
+import HierarchyMindMap from '../components/analytics/HierarchyMindMap';
+import MapBoxVisual from '../components/analytics/MapBoxVisual';
 
 describe('Mindmap & Map Visualization Visual Regression', () => {
   const mockMindmapData = {

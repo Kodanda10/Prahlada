@@ -6,6 +6,7 @@ interface CustomBarChartProps {
   data: any[];
   xKey: string;
   dataKey: string;
+  width?: number | string;
   height?: number | string;
   barColor?: string;
 }
@@ -14,12 +15,13 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
   data,
   xKey,
   dataKey,
+  width = '100%',
   height = 200,
   barColor = "#8BF5E6"
 }) => {
   return (
-    <div style={{ height, width: '100%' }}>
-      <ResponsiveContainer width="100%" height="100%">
+    <div style={{ height, width }}>
+      <ResponsiveContainer width={width} height={height}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
           <XAxis 

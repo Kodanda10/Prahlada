@@ -58,11 +58,77 @@ const LINKS: Link[] = [
   { source: 'g3', target: 'v4' },
 ];
 
-const HierarchyMindMap = () => {
+// Function to convert hierarchical data to nodes and links
+const convertHierarchicalDataToNodes = (data: any): { nodes: Node[], links: Link[] } => {
+  const nodes: Node[] = [];
+  const links: Link[] = [];
+  let nodeIdCounter = 0;
+
+  const processNode = (nodeData: any, level: number, parentId?: string, x = 50, y = 50): { id: string, visits: number } => {
+    const nodeId = `node_${nodeIdCounter++}`;
+
+    // First process children to get their visit counts and position them
+    let totalVisits = nodeData.visits || 0;
+    if (nodeData.children && Array.isArray(nodeData.children)) {
+      const childCount = nodeData.children.length;
+      const angleStep = (Math.PI * 2) / childCount;
+      const radius = 15;
+
+      nodeData.children.forEach((child: any, index: number) => {
+        const angle = angleStep * index;
+        const childX = x + Math.cos(angle) * radius;
+        const childY = y + Math.sin(angle) * radius;
+        const childResult = processNode(child, level + 1, nodeId, childX, childY);
+        totalVisits += childResult.visits;
+      });
+    }
+
+    // Create label after calculating total visits
+    const label = totalVisits > 0 ? `${nodeData.name} (${totalVisits.toString().padStart(2, '0')})` : nodeData.name;
+
+    // Color based on level
+    const colors = ['#8BF5E6', '#3b82f6', '#a855f7', '#ec4899', '#fbbf24'];
+    const color = colors[level - 1] || '#8BF5E6';
+
+    nodes.push({
+      id: nodeId,
+      label,
+      level: level as 1 | 2 | 3 | 4 | 5,
+      x,
+      y,
+      color
+    });
+
+    if (parentId) {
+      links.push({ source: parentId, target: nodeId });
+    }
+
+    return { id: nodeId, visits: totalVisits };
+  };
+
+  processNode(data, 1);
+
+  return { nodes, links };
+};
+
+interface HierarchyMindMapProps {
+  data?: any;
+  width?: number;
+  height?: number;
+}
+
+const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
+  data,
+  width = 800,
+  height = 600
+}) => {
   const viewBoxWidth = 100;
   const viewBoxHeight = 100;
 
-  const getNode = (id: string) => NODES.find(n => n.id === id);
+  // Convert hierarchical data to nodes and links, or use defaults
+  const { nodes: dynamicNodes, links: dynamicLinks } = data ? convertHierarchicalDataToNodes(data) : { nodes: NODES, links: LINKS };
+
+  const getNode = (id: string) => dynamicNodes.find((n: Node) => n.id === id);
 
   return (
     <div className="w-full h-full min-h-[350px] bg-[#0f172a] rounded-xl overflow-hidden border border-white/10 relative flex items-center justify-center group shadow-inner">
@@ -82,7 +148,7 @@ const HierarchyMindMap = () => {
         preserveAspectRatio="xMidYMid meet"
       >
         {/* Connections */}
-        {LINKS.map((link, idx) => {
+        {dynamicLinks.map((link: Link, idx: number) => {
           const s = getNode(link.source);
           const t = getNode(link.target);
           if (!s || !t) return null;
@@ -105,7 +171,7 @@ const HierarchyMindMap = () => {
         })}
 
         {/* Nodes */}
-        {NODES.map((node, i) => (
+        {dynamicNodes.map((node: Node, i: number) => (
           <motion.g 
             key={node.id} 
             className="cursor-pointer"

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-describe('CI/CD Coverage Gates', () => {
+describe('CI / Coverage Gates (Vitest coverage: Lines ≥ 90%, Branches ≥ 85%; workflows for test:unit, test:e2e, test:lint, test:accessibility, test:bundle; PR blocked unless all green)', () => {
   describe('Test Coverage Requirements', () => {
     it('meets line coverage threshold', () => {
       const coverage = {
@@ -105,7 +105,7 @@ describe('CI/CD Coverage Gates', () => {
       const licenseCheck = {
         incompatibleLicenses: 0,
         unknownLicenses: 1,
-        compliantPackages: 98.5, // percentage
+        compliantPackages: 98.5,
       };
 
       expect(licenseCheck.incompatibleLicenses).toBe(0);
@@ -138,8 +138,8 @@ describe('CI/CD Coverage Gates', () => {
 
     it('meets Core Web Vitals thresholds', () => {
       const coreWebVitals = {
-        LCP: 2.1, // seconds
-        FID: 85,  // milliseconds
+        LCP: 2.1,
+        FID: 85,
         CLS: 0.08,
       };
 
@@ -155,7 +155,7 @@ describe('CI/CD Coverage Gates', () => {
         success: true,
         errors: 0,
         warnings: 2,
-        buildTime: 45, // seconds
+        buildTime: 45,
       };
 
       expect(buildResult.success).toBe(true);

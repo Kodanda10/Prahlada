@@ -47,3 +47,72 @@ export async function fetchAnalyticsData(type: 'event-types' | 'districts') {
     return [];
   }
 }
+
+// API Service object for tests
+export const apiService = {
+  async get(endpoint: string) {
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('API GET Error:', error);
+      throw error;
+    }
+  },
+
+  async post(endpoint: string, data: any) {
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('API POST Error:', error);
+      throw error;
+    }
+  },
+
+  async put(endpoint: string, data: any) {
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('API PUT Error:', error);
+      throw error;
+    }
+  },
+
+  async delete(endpoint: string) {
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('API DELETE Error:', error);
+      throw error;
+    }
+  }
+};

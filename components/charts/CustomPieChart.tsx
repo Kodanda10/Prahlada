@@ -7,6 +7,7 @@ interface CustomPieChartProps {
   dataKey?: string;
   nameKey?: string;
   colors?: string[];
+  width?: number | string;
   height?: number | string;
   innerRadius?: number;
   outerRadius?: number;
@@ -18,6 +19,7 @@ const CustomPieChart: React.FC<CustomPieChartProps> = ({
   data,
   dataKey = "value",
   nameKey = "name",
+  width = '100%',
   height = 250,
   innerRadius = 60,
   outerRadius = 80,
@@ -26,7 +28,7 @@ const CustomPieChart: React.FC<CustomPieChartProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="relative w-full" style={{ height }}>
+      <div className="relative" style={{ width, height }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie

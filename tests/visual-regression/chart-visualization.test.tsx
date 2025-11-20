@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
-import { CustomBarChart } from '../../components/charts/CustomBarChart';
-import { CustomLineChart } from '../../components/charts/CustomLineChart';
-import { CustomPieChart } from '../../components/charts/CustomPieChart';
+import CustomBarChart from '../../components/charts/CustomBarChart';
+import CustomLineChart from '../../components/charts/CustomLineChart';
+import CustomPieChart from '../../components/charts/CustomPieChart';
 
 describe('Chart Visualization Visual Regression', () => {
   const mockBarData = [

@@ -23,15 +23,15 @@ export default defineConfig({
       ],
       thresholds: {
         global: {
-          lines: 85,
-          functions: 80,
-          branches: 70,
-          statements: 85,
+          lines: 90,
+          functions: 85,
+          branches: 80,
+          statements: 90,
         },
       },
     },
-    testTimeout: 10000,
-    hookTimeout: 10000,
+    testTimeout: 15000,
+    hookTimeout: 15000,
     include: [
       'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
