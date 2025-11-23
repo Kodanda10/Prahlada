@@ -1,8 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { GlassCard } from '../../components/GlassCard';
-import { AnimatedNavTabs } from '../../components/AnimatedNavTabs';
+import { Home } from 'lucide-react';
+import { BrowserRouter } from 'react-router-dom';
+import GlassCard from '../../components/GlassCard';
+import AnimatedNavTabs from '../../components/AnimatedNavTabs';
 
 describe('WCAG 2.1 AA Compliance', () => {
   describe('Keyboard Navigation', () => {
@@ -10,17 +12,19 @@ describe('WCAG 2.1 AA Compliance', () => {
       const user = userEvent.setup();
 
       render(
-        <div>
-          <button>First Button</button>
-          <AnimatedNavTabs
-            tabs={[
-              { id: 'tab1', label: 'Tab 1', path: '/tab1' },
-              { id: 'tab2', label: 'Tab 2', path: '/tab2' },
-            ]}
-            activeTab="tab1"
-            onTabChange={() => {}}
-          />
-        </div>
+        <BrowserRouter>
+          <div>
+            <button>First Button</button>
+            <AnimatedNavTabs
+              tabs={[
+                { label: 'Tab 1', path: '/tab1', icon: Home },
+                { label: 'Tab 2', path: '/tab2', icon: Home },
+              ]}
+              activePath="/tab1"
+              isAuthenticated={true}
+            />
+          </div>
+        </BrowserRouter>
       );
 
       await user.tab();
@@ -48,14 +52,16 @@ describe('WCAG 2.1 AA Compliance', () => {
       const onTabChange = vi.fn();
 
       render(
-        <AnimatedNavTabs
-          tabs={[
-            { id: 'tab1', label: 'Tab 1', path: '/tab1' },
-            { id: 'tab2', label: 'Tab 2', path: '/tab2' },
-          ]}
-          activeTab="tab1"
-          onTabChange={onTabChange}
-        />
+        <BrowserRouter>
+          <AnimatedNavTabs
+            tabs={[
+              { label: 'Tab 1', path: '/tab1', icon: Home },
+              { label: 'Tab 2', path: '/tab2', icon: Home },
+            ]}
+            activePath="/tab1"
+            isAuthenticated={true}
+          />
+        </BrowserRouter>
       );
 
       const tabContainer = document.querySelector('.animated-nav-tabs');
@@ -143,7 +149,15 @@ describe('WCAG 2.1 AA Compliance', () => {
         })),
       });
 
-      render(<AnimatedNavTabs tabs={[]} activeTab="" onTabChange={() => {}} />);
+      render(
+        <BrowserRouter>
+          <AnimatedNavTabs
+            tabs={[]}
+            activePath=""
+            isAuthenticated={true}
+          />
+        </BrowserRouter>
+      );
 
       expect(window.matchMedia).toHaveBeenCalledWith('(prefers-reduced-motion: reduce)');
     });

@@ -17,7 +17,7 @@ describe('AnimatedNavTabs', () => {
         <AnimatedNavTabs 
           tabs={MOCK_TABS} 
           activePath="/" 
-          isAdminLoggedIn={true} 
+          isAuthenticated={true} 
         />
       </BrowserRouter>
     );
@@ -31,7 +31,7 @@ describe('AnimatedNavTabs', () => {
         <AnimatedNavTabs 
           tabs={MOCK_TABS} 
           activePath="/" 
-          isAdminLoggedIn={false} 
+          isAuthenticated={false} 
         />
       </BrowserRouter>
     );

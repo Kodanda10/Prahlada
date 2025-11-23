@@ -1,123 +1,14 @@
-
-import React, { useState } from 'react';
-import { Check, X, Edit2, Search, RotateCw, Sparkles, ChevronRight, MapPin, Zap, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, RotateCw, Sparkles, CheckCircle, Zap } from 'lucide-react';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
-import { MOCK_REVIEW_QUEUE } from '../services/mockData';
+import ReviewCard from '../components/ReviewCard';
 import { ParsedEvent } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import NumberTicker from '../components/NumberTicker';
+import { GeocodingService } from '../services/GeocodingService';
 
-// Helper component to render location breadcrumbs
-const LocationBreadcrumbs = ({ location }: { location: ParsedEvent['location_canonical'] }) => {
-  if (!location) return <span className="text-red-400 text-xs font-hindi">स्थान पार्स नहीं हुआ</span>;
-
-  const isUrban = !!location.ulb;
-  
-  const BreadcrumbItem = ({ label, type, isLast }: { label?: string, type: string, isLast?: boolean }) => {
-    if (!label) return null;
-    return (
-      <div className="flex items-center">
-        <div className={`flex flex-col ${isLast ? 'opacity-100' : 'opacity-60 group-hover:opacity-80 transition-opacity'}`}>
-          <span className={`text-xs font-bold font-hindi ${isLast ? 'text-[#8BF5E6]' : 'text-slate-300'}`}>{label}</span>
-          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-hindi">{type}</span>
-        </div>
-        {!isLast && <ChevronRight size={14} className="text-slate-700 mx-1.5" />}
-      </div>
-    );
-  };
-
-  return (
-    <div className="flex flex-wrap items-center gap-y-2 bg-black/30 p-3 rounded-xl border border-white/10 w-full">
-      <BreadcrumbItem label={location.district} type="जिला" />
-      <BreadcrumbItem label={location.constituency} type="विधानसभा" />
-      
-      {isUrban ? (
-        <>
-          <BreadcrumbItem label={location.ulb} type="निकाय" />
-          <BreadcrumbItem label={location.zone} type="जोन" />
-          <BreadcrumbItem label={location.ward} type="वार्ड" isLast />
-        </>
-      ) : (
-        <>
-          <BreadcrumbItem label={location.block} type="विकासखंड" />
-          <BreadcrumbItem label={location.gp} type="ग्राम पंचायत" />
-          <BreadcrumbItem label={location.village} type="ग्राम" isLast />
-        </>
-      )}
-    </div>
-  );
-};
-
-const ReviewCard = ({ event, onAction }: { event: ParsedEvent, onAction: (type: string) => void }) => {
-  return (
-    <motion.div 
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      className="bg-white/5 p-5 rounded-2xl border border-white/10 mb-4 hover:bg-white/10 transition-colors group relative shadow-lg"
-    >
-      {/* Tweet Text */}
-      <p className="text-sm text-slate-200 mb-4 leading-relaxed font-hindi bg-black/20 p-3 rounded-lg border border-white/5">
-        "{event.clean_text}"
-      </p>
-
-      {/* Parsed Metadata */}
-      <div className="space-y-4 mb-5">
-        
-        {/* Event Type & Confidence */}
-        <div className="flex items-center justify-between">
-           <div className="flex gap-2">
-             {event.event_type.map(type => (
-               <span key={type} className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-lg border border-purple-500/30 font-medium font-hindi">
-                 {type}
-               </span>
-             ))}
-           </div>
-           <div className="flex items-center gap-2 text-xs bg-black/30 px-3 py-1 rounded-full border border-white/10">
-             <span className="text-slate-400 font-hindi">AI आत्मविश्वास:</span>
-             <span className={`font-bold ${event.confidence_scores.faiss > 0.9 ? 'text-green-400' : 'text-yellow-400'}`}>
-               {(event.confidence_scores.faiss * 100).toFixed(0)}%
-             </span>
-           </div>
-        </div>
-
-        {/* Hierarchical Location */}
-        <div>
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold font-hindi">
-            <MapPin size={12} className="text-[#8BF5E6]" /> अनुमानित स्थान पदानुक्रम
-          </div>
-          <LocationBreadcrumbs location={event.location_canonical} />
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex flex-col gap-3">
-        <div className="flex gap-3">
-          <button 
-            onClick={() => onAction('approve')}
-            className="flex-1 bg-green-600/20 text-green-400 py-2.5 rounded-xl hover:bg-green-600/30 transition-all text-xs border border-green-600/30 flex justify-center items-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] font-hindi"
-          >
-            <Check size={16} /> स्वीकृत करें
-          </button>
-          <button className="flex-1 bg-blue-600/20 text-blue-400 py-2.5 rounded-xl hover:bg-blue-600/30 transition-all text-xs border border-blue-600/30 flex justify-center items-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] font-hindi">
-            <Edit2 size={16} /> संपादित करें
-          </button>
-          <button className="flex-1 bg-red-600/20 text-red-400 py-2.5 rounded-xl hover:bg-red-600/30 transition-all text-xs border border-red-600/30 flex justify-center items-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] font-hindi">
-            <X size={16} /> अस्वीकार करें
-          </button>
-        </div>
-        
-        {/* Micro-Hint for Dynamic Learning */}
-        <div className="text-center pt-1">
-           <span className="text-[10px] text-slate-500 flex items-center justify-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity font-hindi">
-             <Sparkles size={10} className="text-yellow-500" /> आपके सुधार AI को भविष्य में बेहतर बनाते हैं (डायनामिक लर्निंग)
-           </span>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
+// Import real data directly (in a real app this would be an API call)
+import ingestedTweets from '../data/ingested_tweets.json';
 
 const DynamicLearningPanel = () => {
   return (
@@ -164,13 +55,91 @@ const DynamicLearningPanel = () => {
 }
 
 const Review = () => {
-  const [queue, setQueue] = useState<ParsedEvent[]>(MOCK_REVIEW_QUEUE);
+  // Filter only pending tweets (approved_by_human = false)
+  const [queue, setQueue] = useState<ParsedEvent[]>([]);
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleAction = (type: string) => {
+  useEffect(() => {
+    // Simulate loading delay for effect
+    setTimeout(() => {
+      // Cast imported JSON to ParsedEvent[] (handling raw_text vs text mismatch via type assertion if needed)
+      const pendingTweets = (ingestedTweets as unknown as ParsedEvent[]).filter(t => !t.approved_by_human);
+      setQueue(pendingTweets);
+      setLoading(false);
+    }, 500);
+  }, []);
+
+  const handleApprove = async (excludeFromAnalytics: boolean) => {
+    const currentTweet = queue[0];
+    if (!currentTweet) return;
+
+    // 1. Optimistic UI update: Remove from queue immediately
+    const newQueue = queue.slice(1);
+    setQueue(newQueue);
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
+
+    // 2. Geocode if missing location (Background)
+    if (!currentTweet.parsed_data_v8.location?.lat) {
+        const locationStr = GeocodingService.getLocationString(currentTweet.parsed_data_v8.location);
+        if (locationStr) {
+            GeocodingService.geocode(locationStr).then(res => {
+                if (res) {
+                    console.log(`Geocoded ${locationStr} to`, res);
+                    // In a real app, we would save this to the backend
+                }
+            });
+        }
+    }
+
+    // 3. API Call (Placeholder)
+    console.log('Approved tweet:', currentTweet.tweet_id, 'Exclude:', excludeFromAnalytics);
+    // await api.approveTweet(...)
   };
+
+  const handleEdit = () => {
+    console.log('Edit requested');
+    // Implement edit modal logic here
+  };
+
+  const handleSave = async (newData: any) => {
+    const currentTweet = queue[0];
+    if (!currentTweet) return;
+
+    console.log("Triggering Cognitive Engine with correction:", newData);
+    
+    try {
+        const response = await fetch('/api/cognitive/correct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                tweet_id: currentTweet.tweet_id,
+                text: currentTweet.raw_text,
+                old_data: currentTweet.parsed_data_v8,
+                correction: newData
+            }),
+        });
+        
+        const result = await response.json();
+        console.log("Cognitive Engine Result:", result);
+        
+        if (result.status === "success" && result.decision?.decision === "AUTO_DEPLOY") {
+            // Show success toast
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
+        }
+        
+    } catch (error) {
+        console.error("Error triggering engine:", error);
+    }
+  };
+
+  if (loading) {
+      return <div className="flex h-full items-center justify-center text-slate-400 font-hindi">डेटा लोड हो रहा है...</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full relative pb-10">
@@ -200,11 +169,15 @@ const Review = () => {
         >
           <div className="flex-1 bg-black/20 rounded-2xl border border-white/5 p-1 overflow-y-auto scrollbar-none">
              <div className="p-2 space-y-2">
-               {queue.map(event => (
-                 <ReviewCard key={event.tweet_id} event={event} onAction={handleAction} />
-               ))}
-               
-               {queue.length === 0 && (
+               {queue.length > 0 ? (
+                 <ReviewCard 
+                    key={queue[0].tweet_id} 
+                    event={queue[0]} 
+                    onApprove={handleApprove}
+                    onEdit={handleEdit}
+                    onSave={handleSave}
+                 />
+               ) : (
                  <div className="h-64 flex items-center justify-center text-slate-500 font-hindi">
                    समीक्षा के लिए कोई लंबित ईवेंट नहीं है।
                  </div>

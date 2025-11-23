@@ -1,214 +1,467 @@
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import * as d3 from 'd3';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ZoomIn, ZoomOut, Maximize2, RefreshCw } from 'lucide-react';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-
-interface Node {
+interface HierarchyNode {
   id: string;
   label: string;
-  level: 1 | 2 | 3 | 4 | 5; // Dist, Assembly, Block, GP, Village
-  x: number;
-  y: number;
+  level: 1 | 2 | 3 | 4 | 5; // District, Assembly, Block, GP, Village
+  visits: number;
+  children?: HierarchyNode[];
+  parent?: string;
+}
+
+interface D3Node extends d3.SimulationNodeDatum {
+  id: string;
+  label: string;
+  level: number;
+  visits: number;
   color: string;
+  radius: number;
 }
 
-interface Link {
-  source: string;
-  target: string;
+interface D3Link extends d3.SimulationLinkDatum<D3Node> {
+  source: string | D3Node;
+  target: string | D3Node;
 }
-
-// Full Hierarchy Data: District -> Assembly -> Block -> GP -> Village
-// Strictly Hindi Labels with English Numerals for counts
-const NODES: Node[] = [
-  // Level 1: District (जिला)
-  { id: 'd1', label: 'रायगढ़ (142)', level: 1, x: 5, y: 50, color: '#8BF5E6' },
-  
-  // Level 2: Assembly (विधानसभा)
-  { id: 'a1', label: 'खरसिया (78)', level: 2, x: 25, y: 30, color: '#3b82f6' },
-  { id: 'a2', label: 'रायगढ़ शहर (64)', level: 2, x: 25, y: 70, color: '#3b82f6' },
-
-  // Level 3: Block (विकासखंड)
-  { id: 'b1', label: 'खरसिया ब्लॉक (45)', level: 3, x: 45, y: 20, color: '#a855f7' },
-  { id: 'b2', label: 'तमनार (33)', level: 3, x: 45, y: 40, color: '#a855f7' },
-  { id: 'b3', label: 'नगर निगम (64)', level: 3, x: 45, y: 70, color: '#a855f7' },
-
-  // Level 4: GP / Zone (ग्राम पंचायत)
-  { id: 'g1', label: 'जोबी (12)', level: 4, x: 65, y: 10, color: '#ec4899' },
-  { id: 'g2', label: 'सोनबरसा (08)', level: 4, x: 65, y: 25, color: '#ec4899' },
-  { id: 'g3', label: 'गांधी नगर (20)', level: 4, x: 65, y: 60, color: '#ec4899' },
-
-  // Level 5: Village / Ward (ग्राम/वार्ड)
-  { id: 'v1', label: 'ग्राम जोबी (05)', level: 5, x: 85, y: 5, color: '#fbbf24' },
-  { id: 'v2', label: 'बानीपाथर (07)', level: 5, x: 85, y: 15, color: '#fbbf24' },
-  { id: 'v3', label: 'वार्ड 04 (10)', level: 5, x: 85, y: 55, color: '#fbbf24' },
-  { id: 'v4', label: 'वार्ड 06 (10)', level: 5, x: 85, y: 65, color: '#fbbf24' },
-];
-
-const LINKS: Link[] = [
-  { source: 'd1', target: 'a1' },
-  { source: 'd1', target: 'a2' },
-  { source: 'a1', target: 'b1' },
-  { source: 'a1', target: 'b2' },
-  { source: 'a2', target: 'b3' },
-  { source: 'b1', target: 'g1' },
-  { source: 'b1', target: 'g2' },
-  { source: 'b3', target: 'g3' },
-  { source: 'g1', target: 'v1' },
-  { source: 'g1', target: 'v2' },
-  { source: 'g3', target: 'v3' },
-  { source: 'g3', target: 'v4' },
-];
-
-// Function to convert hierarchical data to nodes and links
-const convertHierarchicalDataToNodes = (data: any): { nodes: Node[], links: Link[] } => {
-  const nodes: Node[] = [];
-  const links: Link[] = [];
-  let nodeIdCounter = 0;
-
-  const processNode = (nodeData: any, level: number, parentId?: string, x = 50, y = 50): { id: string, visits: number } => {
-    const nodeId = `node_${nodeIdCounter++}`;
-
-    // First process children to get their visit counts and position them
-    let totalVisits = nodeData.visits || 0;
-    if (nodeData.children && Array.isArray(nodeData.children)) {
-      const childCount = nodeData.children.length;
-      const angleStep = (Math.PI * 2) / childCount;
-      const radius = 15;
-
-      nodeData.children.forEach((child: any, index: number) => {
-        const angle = angleStep * index;
-        const childX = x + Math.cos(angle) * radius;
-        const childY = y + Math.sin(angle) * radius;
-        const childResult = processNode(child, level + 1, nodeId, childX, childY);
-        totalVisits += childResult.visits;
-      });
-    }
-
-    // Create label after calculating total visits
-    const label = totalVisits > 0 ? `${nodeData.name} (${totalVisits.toString().padStart(2, '0')})` : nodeData.name;
-
-    // Color based on level
-    const colors = ['#8BF5E6', '#3b82f6', '#a855f7', '#ec4899', '#fbbf24'];
-    const color = colors[level - 1] || '#8BF5E6';
-
-    nodes.push({
-      id: nodeId,
-      label,
-      level: level as 1 | 2 | 3 | 4 | 5,
-      x,
-      y,
-      color
-    });
-
-    if (parentId) {
-      links.push({ source: parentId, target: nodeId });
-    }
-
-    return { id: nodeId, visits: totalVisits };
-  };
-
-  processNode(data, 1);
-
-  return { nodes, links };
-};
 
 interface HierarchyMindMapProps {
-  data?: any;
+  data?: HierarchyNode;
   width?: number;
   height?: number;
 }
 
+const LEVEL_COLORS = {
+  1: '#8BF5E6', // District - Neon Cyan
+  2: '#3b82f6', // Assembly - Blue
+  3: '#a855f7', // Block - Purple
+  4: '#ec4899', // GP/Zone - Pink
+  5: '#fbbf24', // Village/Ward - Amber
+};
+
+const LEVEL_LABELS_HI = {
+  1: 'जिला',
+  2: 'विधानसभा',
+  3: 'विकासखंड',
+  4: 'पंचायत/जोन',
+  5: 'ग्राम/वार्ड',
+};
+
 const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
   data,
   width = 800,
-  height = 600
+  height = 600,
 }) => {
-  const viewBoxWidth = 100;
-  const viewBoxHeight = 100;
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [selectedNode, setSelectedNode] = useState<D3Node | null>(null);
+  const [hoveredNode, setHoveredNode] = useState<D3Node | null>(null);
+  const [transform, setTransform] = useState({ k: 1, x: 0, y: 0 });
 
-  // Convert hierarchical data to nodes and links, or use defaults
-  const { nodes: dynamicNodes, links: dynamicLinks } = data ? convertHierarchicalDataToNodes(data) : { nodes: NODES, links: LINKS };
+  // Convert hierarchical data to flat nodes and links
+  const convertToD3Data = useCallback((rootNode: HierarchyNode): { nodes: D3Node[]; links: D3Link[] } => {
+    const nodes: D3Node[] = [];
+    const links: D3Link[] = [];
 
-  const getNode = (id: string) => dynamicNodes.find((n: Node) => n.id === id);
+    const traverse = (node: HierarchyNode, level: number, parentId?: string) => {
+      const d3Node: D3Node = {
+        id: node.id,
+        label: `${node.label} (${node.visits.toString().padStart(2, '0')})`,
+        level,
+        visits: node.visits,
+        color: LEVEL_COLORS[level as keyof typeof LEVEL_COLORS] || '#64748b',
+        radius: Math.max(8, Math.min(20, 8 + node.visits / 5)),
+      };
+
+      nodes.push(d3Node);
+
+      if (parentId) {
+        links.push({ source: parentId, target: node.id });
+      }
+
+      if (node.children) {
+        node.children.forEach((child) => traverse(child, level + 1, node.id));
+      }
+    };
+
+    traverse(rootNode, 1);
+    return { nodes, links };
+  }, []);
+
+  // Default demo data
+  const defaultData: HierarchyNode = {
+    id: 'd1',
+    label: 'रायगढ़',
+    level: 1,
+    visits: 142,
+    children: [
+      {
+        id: 'a1',
+        label: 'खरसिया',
+        level: 2,
+        visits: 78,
+        children: [
+          {
+            id: 'b1',
+            label: 'खरसिया ब्लॉक',
+            level: 3,
+            visits: 45,
+            children: [
+              {
+                id: 'g1',
+                label: 'जोबी',
+                level: 4,
+                visits: 12,
+                children: [
+                  { id: 'v1', label: 'ग्राम जोबी', level: 5, visits: 5 },
+                  { id: 'v2', label: 'बानीपाथर', level: 5, visits: 7 },
+                ],
+              },
+              { id: 'g2', label: 'सोनबरसा', level: 4, visits: 8 },
+            ],
+          },
+          { id: 'b2', label: 'तमनार', level: 3, visits: 33 },
+        ],
+      },
+      {
+        id: 'a2',
+        label: 'रायगढ़ शहर',
+        level: 2,
+        visits: 64,
+        children: [
+          {
+            id: 'b3',
+            label: 'नगर निगम',
+            level: 3,
+            visits: 64,
+            children: [
+              {
+                id: 'g3',
+                label: 'गांधी नगर',
+                level: 4,
+                visits: 20,
+                children: [
+                  { id: 'v3', label: 'वार्ड 04', level: 5, visits: 10 },
+                  { id: 'v4', label: 'वार्ड 06', level: 5, visits: 10 },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+
+  const { nodes, links } = data ? convertToD3Data(data) : convertToD3Data(defaultData);
+
+  useEffect(() => {
+    if (!svgRef.current || nodes.length === 0) return;
+
+    const svg = d3.select(svgRef.current);
+    svg.selectAll('*').remove();
+
+    const container = svg.append('g').attr('class', 'zoom-container');
+
+    // Zoom behavior
+    const zoom = d3
+      .zoom<SVGSVGElement, unknown>()
+      .scaleExtent([0.3, 3])
+      .on('zoom', (event) => {
+        container.attr('transform', event.transform);
+        setTransform({ k: event.transform.k, x: event.transform.x, y: event.transform.y });
+      });
+
+    svg.call(zoom as any);
+
+    // Force simulation
+    const simulation = d3
+      .forceSimulation(nodes)
+      .force(
+        'link',
+        d3
+          .forceLink<D3Node, D3Link>(links)
+          .id((d) => d.id)
+          .distance(100)
+          .strength(0.5)
+      )
+      .force('charge', d3.forceManyBody().strength(-300))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('collision', d3.forceCollide().radius((d: any) => d.radius + 10))
+      .force('x', d3.forceX(width / 2).strength(0.05))
+      .force('y', d3.forceY(height / 2).strength(0.05));
+
+    // Create links
+    const link = container
+      .append('g')
+      .attr('class', 'links')
+      .selectAll('line')
+      .data(links)
+      .join('line')
+      .attr('stroke', 'rgba(255, 255, 255, 0.15)')
+      .attr('stroke-width', 2)
+      .attr('stroke-opacity', 0.6);
+
+    // Create node groups
+    const node = container
+      .append('g')
+      .attr('class', 'nodes')
+      .selectAll('g')
+      .data(nodes)
+      .join('g')
+      .attr('cursor', 'pointer')
+      .call(
+        d3
+          .drag<SVGGElement, D3Node>()
+          .on('start', (event, d) => {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on('drag', (event, d) => {
+            d.fx = event.x;
+            d.fy = event.y;
+          })
+          .on('end', (event, d) => {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+          }) as any
+      )
+      .on('click', (event, d) => {
+        event.stopPropagation();
+        setSelectedNode(d);
+      })
+      .on('mouseenter', (event, d) => setHoveredNode(d))
+      .on('mouseleave', () => setHoveredNode(null));
+
+    // Outer glow (pulse effect)
+    node
+      .append('circle')
+      .attr('r', (d) => d.radius + 6)
+      .attr('fill', (d) => d.color)
+      .attr('opacity', 0.15)
+      .attr('class', 'pulse-ring');
+
+    // Main node circle
+    node
+      .append('circle')
+      .attr('r', (d) => d.radius)
+      .attr('fill', (d) => d.color)
+      .attr('stroke', 'rgba(255, 255, 255, 0.3)')
+      .attr('stroke-width', 2)
+      .attr('filter', 'url(#glow)');
+
+    // Node labels
+    node
+      .append('text')
+      .text((d) => d.label)
+      .attr('text-anchor', 'middle')
+      .attr('dy', (d) => d.radius + 18)
+      .attr('fill', '#94a3b8')
+      .attr('font-size', '12px')
+      .attr('font-weight', '500')
+      .attr('font-family', 'Noto Sans Devanagari, sans-serif')
+      .attr('class', 'select-none');
+
+    // Add glow filter
+    const defs = svg.append('defs');
+    const filter = defs.append('filter').attr('id', 'glow');
+    filter
+      .append('feGaussianBlur')
+      .attr('stdDeviation', '3')
+      .attr('result', 'coloredBlur');
+    const feMerge = filter.append('feMerge');
+    feMerge.append('feMergeNode').attr('in', 'coloredBlur');
+    feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
+    // Update positions on tick
+    simulation.on('tick', () => {
+      link
+        .attr('x1', (d: any) => d.source.x)
+        .attr('y1', (d: any) => d.source.y)
+        .attr('x2', (d: any) => d.target.x)
+        .attr('y2', (d: any) => d.target.y);
+
+      node.attr('transform', (d) => `translate(${d.x},${d.y})`);
+    });
+
+    // Pulse animation for glow rings
+    const pulseAnimation = () => {
+      container
+        .selectAll('.pulse-ring')
+        .transition()
+        .duration(1500)
+        .attr('r', (d: any) => d.radius + 10)
+        .attr('opacity', 0)
+        .transition()
+        .duration(0)
+        .attr('r', (d: any) => d.radius + 6)
+        .attr('opacity', 0.15)
+        .on('end', pulseAnimation);
+    };
+    pulseAnimation();
+
+    return () => {
+      simulation.stop();
+    };
+  }, [nodes, links, width, height]);
+
+  const handleReset = () => {
+    if (svgRef.current) {
+      const svg = d3.select(svgRef.current);
+      svg
+        .transition()
+        .duration(750)
+        .call(
+          d3.zoom<SVGSVGElement, unknown>().transform as any,
+          d3.zoomIdentity
+        );
+    }
+  };
+
+  const handleZoomIn = () => {
+    if (svgRef.current) {
+      const svg = d3.select(svgRef.current);
+      svg.transition().duration(300).call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 1.3);
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (svgRef.current) {
+      const svg = d3.select(svgRef.current);
+      svg.transition().duration(300).call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 0.7);
+    }
+  };
 
   return (
-    <div className="w-full h-full min-h-[350px] bg-[#0f172a] rounded-xl overflow-hidden border border-white/10 relative flex items-center justify-center group shadow-inner">
-      
+    <div className="relative w-full h-full min-h-[500px] bg-[#0f172a] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
       {/* Background Grid */}
-      <div className="absolute inset-0 opacity-10" 
-           style={{
-             backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-             backgroundSize: '20px 20px'
-           }}>
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage:
+            'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+          backgroundSize: '20px 20px',
+        }}
+      />
+
+      {/* SVG Canvas */}
+      <svg ref={svgRef} width={width} height={height} className="w-full h-full" />
+
+      {/* Control Panel */}
+      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 rounded-lg p-3 space-y-2">
+        <div className="text-xs font-bold text-slate-200 mb-2 font-hindi">
+          पदानुक्रम दृश्य
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={handleZoomIn}
+            className="p-2 bg-white/10 hover:bg-white/20 rounded text-white transition-colors"
+            title="Zoom In"
+          >
+            <ZoomIn size={14} />
+          </button>
+          <button
+            onClick={handleZoomOut}
+            className="p-2 bg-white/10 hover:bg-white/20 rounded text-white transition-colors"
+            title="Zoom Out"
+          >
+            <ZoomOut size={14} />
+          </button>
+          <button
+            onClick={handleReset}
+            className="p-2 bg-white/10 hover:bg-white/20 rounded text-white transition-colors"
+            title="Reset View"
+          >
+            <RefreshCw size={14} />
+          </button>
+        </div>
+        <div className="text-[10px] text-slate-400">
+          Zoom: {transform.k.toFixed(2)}x
+        </div>
       </div>
 
-      {/* D3-like SVG */}
-      <svg 
-        className="w-full h-full" 
-        viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} 
-        preserveAspectRatio="xMidYMid meet"
-      >
-        {/* Connections */}
-        {dynamicLinks.map((link: Link, idx: number) => {
-          const s = getNode(link.source);
-          const t = getNode(link.target);
-          if (!s || !t) return null;
-
-          const midX = (s.x + t.x) / 2;
-          const d = `M ${s.x} ${s.y} C ${midX} ${s.y}, ${midX} ${t.y}, ${t.x} ${t.y}`;
-
-          return (
-            <motion.path
-              key={idx}
-              d={d}
-              fill="none"
-              stroke="rgba(255, 255, 255, 0.15)"
-              strokeWidth="0.3"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1.5, delay: 0.2 }}
+      {/* Legend */}
+      <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-white/10 rounded-lg p-3 space-y-2">
+        <div className="text-[10px] font-bold text-slate-200 mb-2 font-hindi">
+          किंवदंती
+        </div>
+        {Object.entries(LEVEL_LABELS_HI).map(([level, label]) => (
+          <div key={level} className="flex items-center gap-2 text-[10px] text-slate-300">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: LEVEL_COLORS[parseInt(level) as keyof typeof LEVEL_COLORS] }}
             />
-          );
-        })}
-
-        {/* Nodes */}
-        {dynamicNodes.map((node: Node, i: number) => (
-          <motion.g 
-            key={node.id} 
-            className="cursor-pointer"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: i * 0.05, type: "spring" }}
-            whileHover={{ scale: 1.2 }}
-          >
-            {/* Outer Glow Pulse */}
-            <circle cx={node.x} cy={node.y} r={2.5} fill={node.color} opacity="0.15" className="animate-pulse" />
-            {/* Inner Core */}
-            <circle cx={node.x} cy={node.y} r={1} fill={node.color} stroke="rgba(0,0,0,0.5)" strokeWidth="0.1" />
-            
-            {/* Hindi Label */}
-            <text 
-              x={node.x} 
-              y={node.y + 3} 
-              fill="#94a3b8" 
-              fontSize="2.5" 
-              fontFamily="Noto Sans Devanagari"
-              fontWeight="500"
-              textAnchor="middle"
-              className="select-none font-hindi"
-            >
-              {node.label}
-            </text>
-          </motion.g>
+            <span className="font-hindi">{label}</span>
+          </div>
         ))}
-      </svg>
+      </div>
 
-      {/* Hindi Legend */}
-      <div className="absolute top-4 right-4 flex flex-col items-end gap-1 bg-black/40 p-2 rounded-lg backdrop-blur-sm border border-white/5">
-        <div className="flex items-center gap-2 text-[10px] text-slate-300 font-hindi"><span className="w-1.5 h-1.5 rounded-full bg-[#8BF5E6]"></span> जिला</div>
-        <div className="flex items-center gap-2 text-[10px] text-slate-300 font-hindi"><span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6]"></span> विधानसभा</div>
-        <div className="flex items-center gap-2 text-[10px] text-slate-300 font-hindi"><span className="w-1.5 h-1.5 rounded-full bg-[#a855f7]"></span> विकासखंड</div>
-        <div className="flex items-center gap-2 text-[10px] text-slate-300 font-hindi"><span className="w-1.5 h-1.5 rounded-full bg-[#ec4899]"></span> पंचायत/जोन</div>
-        <div className="flex items-center gap-2 text-[10px] text-slate-300 font-hindi"><span className="w-1.5 h-1.5 rounded-full bg-[#fbbf24]"></span> ग्राम/वार्ड</div>
+      {/* Selected Node Info Panel */}
+      <AnimatePresence>
+        {selectedNode && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-xl border border-white/20 rounded-lg p-4 min-w-[300px] shadow-2xl"
+          >
+            <div className="flex justify-between items-start mb-2">
+              <div className="text-sm font-bold text-[#8BF5E6] font-hindi">
+                {selectedNode.label}
+              </div>
+              <button
+                onClick={() => setSelectedNode(null)}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-1 text-xs text-slate-300">
+              <div className="flex justify-between">
+                <span className="text-slate-500">स्तर:</span>
+                <span className="font-medium font-hindi">
+                  {LEVEL_LABELS_HI[selectedNode.level as keyof typeof LEVEL_LABELS_HI]}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">दौरे:</span>
+                <span className="font-medium text-[#8BF5E6]">
+                  {selectedNode.visits}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hover Tooltip */}
+      <AnimatePresence>
+        {hoveredNode && !selectedNode && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2 pointer-events-none z-50"
+          >
+            <div className="text-xs text-white font-hindi">
+              {hoveredNode.label}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Instructions */}
+      <div className="absolute bottom-4 right-4 bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 text-[10px] text-slate-400 max-w-[200px]">
+        <div className="font-hindi">
+          • खींचें: नोड्स को स्थानांतरित करें
+        </div>
+        <div className="font-hindi">
+          • क्लिक: विवरण देखें
+        </div>
+        <div className="font-hindi">
+          • स्क्रॉल: ज़ूम इन/आउट
+        </div>
       </div>
     </div>
   );

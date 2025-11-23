@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, useNavigate, Outlet, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { 
   BarChart3, 
@@ -17,12 +16,17 @@ import Home from './pages/Home';
 import Review from './pages/Review';
 import CommandView from './pages/CommandView';
 import Events from './pages/Events';
-import Assistant from './pages/Assistant';
 import AnimatedNavTabs, { TabItem } from './components/AnimatedNavTabs';
+import RouteGuard from './components/RouteGuard';
+import ErrorBoundary from './components/ErrorBoundary';
+import Login from './pages/Login';
+import { AuthProvider } from './contexts/AuthContext';
+import useAuth from './hooks/useAuth';
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Layout: React.FC = () => {
   const location = useLocation();
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(true);
+  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const tabs: TabItem[] = [
@@ -31,6 +35,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     { path: '/review', label: 'समीक्षा', icon: FileText, protected: true },
     { path: '/control', label: 'कंट्रोल', icon: Settings, protected: true },
   ];
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const handleLoginNavigate = () => {
+    navigate('/login');
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#2e1065] bg-gradient-to-br from-[#1e1b4b] via-[#2e1065] to-[#4c1d95] text-white overflow-x-hidden font-sans selection:bg-[#8BF5E6] selection:text-[#2e1065]">
@@ -58,9 +71,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         
         {/* Admin Button - Absolute Positioning to prevent centering offset */}
         <div className="absolute right-6 top-6 hidden md:block z-50">
-            {isAdminLoggedIn ? (
+            {isAuthenticated ? (
               <button 
-                onClick={() => setIsAdminLoggedIn(false)}
+                onClick={handleLogout}
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 hover:bg-red-500/20 text-red-200 border border-red-500/20 transition-all text-xs font-hindi backdrop-blur-md"
               >
                 <LogOut size={14} />
@@ -68,7 +81,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               </button>
             ) : (
               <button 
-                onClick={() => setIsAdminLoggedIn(true)}
+                onClick={handleLoginNavigate}
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#8BF5E6]/10 hover:bg-[#8BF5E6]/20 text-[#8BF5E6] border border-[#8BF5E6]/20 transition-all text-xs font-hindi backdrop-blur-md shadow-[0_0_15px_rgba(139,245,230,0.1)]"
               >
                 <User size={14} />
@@ -115,7 +128,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <AnimatedNavTabs 
             tabs={tabs} 
             activePath={location.pathname} 
-            isAdminLoggedIn={isAdminLoggedIn} 
+            isAuthenticated={isAuthenticated} 
           />
         </div>
       </header>
@@ -131,7 +144,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           >
             <div className="bg-[#1e1b4b]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 space-y-2">
               {tabs.map((tab) => (
-                (!tab.protected || isAdminLoggedIn) && (
+                (!tab.protected || isAuthenticated) && (
                   <div 
                     key={tab.path}
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -139,7 +152,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <AnimatedNavTabs 
                        tabs={[tab]} 
                        activePath={location.pathname} 
-                       isAdminLoggedIn={isAdminLoggedIn} 
+                       isAuthenticated={isAuthenticated} 
                     />
                   </div>
                 )
@@ -159,7 +172,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            {children}
+            <Outlet />
           </motion.div>
         </AnimatePresence>
       </main>
@@ -174,16 +187,51 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const App = () => {
   return (
-    <HashRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<AnalyticsDashboard />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/review" element={<Review />} />
-          <Route path="/control" element={<CommandView />} />
-        </Routes>
-      </Layout>
-    </HashRouter>
+    <ErrorBoundary>
+      <AuthProvider>
+        <HashRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<AnalyticsDashboard />} />
+              <Route
+                path="/home"
+                element={
+                  <RouteGuard>
+                    <Home />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/review"
+                element={
+                  <RouteGuard>
+                    <Review />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/control"
+                element={
+                  <RouteGuard>
+                    <CommandView />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/events"
+                element={
+                  <RouteGuard>
+                    <Events />
+                  </RouteGuard>
+                }
+              />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </HashRouter>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 };
 

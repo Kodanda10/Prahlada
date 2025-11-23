@@ -1,0 +1,36 @@
+[
+  {
+    "id": "1",
+    "timestamp": "2025-11-03T09:00:00Z",
+    "content": "Test tweet content",
+    "text": "Test tweet content",
+    "event_type": "rally",
+    "event_type_confidence": 0.85,
+    "overall_confidence": 0.88,
+    "needs_review": false,
+    "review_status": "approved",
+    "locations": [{"name": "रायगढ़", "confidence": 0.9}],
+    "people_mentioned": ["मुख्यमंत्री"],
+    "organizations": ["भाजपा"],
+    "schemes_mentioned": ["योजना"],
+    "parsed_by": "system",
+    "parsed_at": "2025-11-03T10:00:00Z"
+  },
+  {
+    "id": "2",
+    "timestamp": "2025-11-03T08:00:00Z",
+    "content": "Another test tweet",
+    "text": "Another test tweet",
+    "event_type": "meeting",
+    "event_type_confidence": 0.90,
+    "overall_confidence": 0.92,
+    "needs_review": true,
+    "review_status": "pending",
+    "locations": [{"name": "रायपुर", "confidence": 0.85}],
+    "people_mentioned": ["सांसद"],
+    "organizations": ["कांग्रेस"],
+    "schemes_mentioned": ["कार्यक्रम"],
+    "parsed_by": "system",
+    "parsed_at": "2025-11-03T09:00:00Z"
+  }
+]

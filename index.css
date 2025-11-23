@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+.font-hindi {
+    font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+/* Mapbox Popup Customization */
+.custom-popup .mapboxgl-popup-content {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+.custom-popup .mapboxgl-popup-close-button {
+    color: #fff !important;
+    font-size: 20px !important;
+    padding: 5px !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 50% !important;
+    width: 28px !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    text-align: center !important;
+    right: 5px !important;
+    top: 5px !important;
+}
+
+.custom-popup .mapboxgl-popup-close-button:hover {
+    background: rgba(139, 245, 230, 0.3) !important;
+}
+
+.custom-popup .mapboxgl-popup-tip {
+    border-top-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+/* Mapbox Controls Styling */
+.mapboxgl-ctrl-group {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.mapboxgl-ctrl-group button {
+    background-color: transparent !important;
+    color: #8BF5E6 !important;
+}
+
+.mapboxgl-ctrl-group button:hover {
+    background-color: rgba(139, 245, 230, 0.1) !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(139, 245, 230, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 245, 230, 0.5);
+}
+
+/* Smooth Transitions */
+* {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right,
+            rgba(15, 23, 42, 0.8) 0%,
+            rgba(139, 245, 230, 0.1) 50%,
+            rgba(15, 23, 42, 0.8) 100%);
+    background-size: 1000px 100%;
+}

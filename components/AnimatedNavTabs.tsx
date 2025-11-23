@@ -13,14 +13,14 @@ export interface TabItem {
 interface AnimatedNavTabsProps {
   tabs: TabItem[];
   activePath: string;
-  isAdminLoggedIn: boolean;
+  isAuthenticated: boolean;
 }
 
-const AnimatedNavTabs: React.FC<AnimatedNavTabsProps> = ({ tabs, activePath, isAdminLoggedIn }) => {
+const AnimatedNavTabs: React.FC<AnimatedNavTabsProps> = ({ tabs, activePath, isAuthenticated }) => {
   return (
     <div className="flex flex-wrap justify-center gap-1 p-1.5 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl relative isolate">
       {tabs.map((tab) => {
-        if (tab.protected && !isAdminLoggedIn) return null;
+        if (tab.protected && !isAuthenticated) return null;
         
         const isActive = activePath === tab.path;
 

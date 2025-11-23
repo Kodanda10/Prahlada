@@ -1,6 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import { AnimatedNavTabs } from '../../components/AnimatedNavTabs';
+import { BrowserRouter } from 'react-router-dom';
+import { Home } from 'lucide-react';
+import AnimatedNavTabs from '../../components/AnimatedNavTabs';
 
 describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
   beforeEach(() => {
@@ -13,19 +15,20 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
 
   describe('Tab Click Response Time', () => {
     it('responds to tab clicks within 50ms', async () => {
-      const onTabChange = vi.fn();
       const clickTimestamps: number[] = [];
 
       render(
-        <AnimatedNavTabs
-          tabs={[
-            { id: 'home', label: 'Home', path: '/home' },
-            { id: 'analytics', label: 'Analytics', path: '/analytics' },
-            { id: 'review', label: 'Review', path: '/review' },
-          ]}
-          activeTab="home"
-          onTabChange={onTabChange}
-        />
+        <BrowserRouter>
+          <AnimatedNavTabs
+            tabs={[
+              { label: 'Home', path: '/home', icon: Home },
+              { label: 'Analytics', path: '/analytics', icon: Home },
+              { label: 'Review', path: '/review', icon: Home },
+            ]}
+            activePath="/home"
+            isAuthenticated={true}
+          />
+        </BrowserRouter>
       );
 
       const analyticsTab = screen.getByText('Analytics');
@@ -43,23 +46,23 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
       const responseTime = endTime - startTime;
 
       expect(responseTime).toBeLessThan(50); // 50ms target
-      expect(onTabChange).toHaveBeenCalledWith('analytics');
     });
 
     it('maintains low latency during animations', async () => {
-      const onTabChange = vi.fn();
       const interactionTimes: number[] = [];
 
       render(
-        <AnimatedNavTabs
-          tabs={[
-            { id: 'tab1', label: 'Tab 1', path: '/tab1' },
-            { id: 'tab2', label: 'Tab 2', path: '/tab2' },
-            { id: 'tab3', label: 'Tab 3', path: '/tab3' },
-          ]}
-          activeTab="tab1"
-          onTabChange={onTabChange}
-        />
+        <BrowserRouter>
+          <AnimatedNavTabs
+            tabs={[
+              { label: 'Tab 1', path: '/tab1', icon: Home },
+              { label: 'Tab 2', path: '/tab2', icon: Home },
+              { label: 'Tab 3', path: '/tab3', icon: Home },
+            ]}
+            activePath="/tab1"
+            isAuthenticated={true}
+          />
+        </BrowserRouter>
       );
 
       // Simulate ongoing animation
@@ -76,7 +79,6 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
       interactionTimes.push(endTime - startTime);
 
       expect(interactionTimes[0]).toBeLessThan(50);
-      expect(onTabChange).toHaveBeenCalledWith('tab2');
     });
   });
 
@@ -222,14 +224,16 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
       const stateChangeTimes: number[] = [];
 
       render(
-        <AnimatedNavTabs
-          tabs={[
-            { id: 'state1', label: 'State 1', path: '/state1' },
-            { id: 'state2', label: 'State 2', path: '/state2' },
-          ]}
-          activeTab="state1"
-          onTabChange={() => {}}
-        />
+        <BrowserRouter>
+          <AnimatedNavTabs
+            tabs={[
+              { label: 'State 1', path: '/state1', icon: Home },
+              { label: 'State 2', path: '/state2', icon: Home },
+            ]}
+            activePath="/state1"
+            isAuthenticated={true}
+          />
+        </BrowserRouter>
       );
 
       // Measure state transition time
@@ -246,35 +250,38 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
     });
 
     it('queues rapid state changes efficiently', async () => {
-      const stateChanges: string[] = [];
       const changeTimes: number[] = [];
 
       const { rerender } = render(
-        <AnimatedNavTabs
-          tabs={[
-            { id: 'rapid1', label: 'Rapid 1', path: '/rapid1' },
-            { id: 'rapid2', label: 'Rapid 2', path: '/rapid2' },
-            { id: 'rapid3', label: 'Rapid 3', path: '/rapid3' },
-          ]}
-          activeTab="rapid1"
-          onTabChange={(tabId) => stateChanges.push(tabId)}
-        />
+        <BrowserRouter>
+          <AnimatedNavTabs
+            tabs={[
+              { label: 'Rapid 1', path: '/rapid1', icon: Home },
+              { label: 'Rapid 2', path: '/rapid2', icon: Home },
+              { label: 'Rapid 3', path: '/rapid3', icon: Home },
+            ]}
+            activePath="/rapid1"
+            isAuthenticated={true}
+          />
+        </BrowserRouter>
       );
 
       // Rapid state changes
-      const tabs = ['rapid2', 'rapid3', 'rapid1', 'rapid2'];
+      const tabs = ['/rapid2', '/rapid3', '/rapid1', '/rapid2'];
       for (const tab of tabs) {
         const startTime = performance.now();
         rerender(
-          <AnimatedNavTabs
-            tabs={[
-              { id: 'rapid1', label: 'Rapid 1', path: '/rapid1' },
-              { id: 'rapid2', label: 'Rapid 2', path: '/rapid2' },
-              { id: 'rapid3', label: 'Rapid 3', path: '/rapid3' },
-            ]}
-            activeTab={tab}
-            onTabChange={(tabId) => stateChanges.push(tabId)}
-          />
+          <BrowserRouter>
+            <AnimatedNavTabs
+              tabs={[
+                { label: 'Rapid 1', path: '/rapid1', icon: Home },
+                { label: 'Rapid 2', path: '/rapid2', icon: Home },
+                { label: 'Rapid 3', path: '/rapid3', icon: Home },
+              ]}
+              activePath={tab}
+              isAuthenticated={true}
+            />
+          </BrowserRouter>
         );
         const endTime = performance.now();
         changeTimes.push(endTime - startTime);
@@ -287,8 +294,6 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
       changeTimes.forEach(time => {
         expect(time).toBeLessThan(100); // Slightly more lenient for re-renders
       });
-
-      expect(stateChanges.length).toBe(tabs.length);
     });
   });
 

@@ -1,0 +1,37 @@
+{
+  "parser_version": "1.0.0",
+  "total_tweets": 2611,
+  "event_distribution": {
+    "बैठक": 30,
+    "आंतरिक सुरक्षा / पुलिस": 123,
+    "खेल / गौरव": 62,
+    "राजनीतिक वक्तव्य": 193,
+    "धार्मिक / सांस्कृतिक कार्यक्रम": 184,
+    "शुभकामना / बधाई": 340,
+    "अन्य": 1177,
+    "योजना घोषणा": 68,
+    "उद्घाटन": 191,
+    "प्रशासनिक समीक्षा बैठक": 97,
+    "शोक संदेश": 53,
+    "सम्मान / Felicitation": 55,
+    "चुनाव प्रचार": 38
+  },
+  "location_type_distribution": {
+    "rural": 0,
+    "urban": 543,
+    "district": 17,
+    "none": 2051
+  },
+  "confidence_distribution": {
+    "high": 1372,
+    "medium": 62,
+    "low": 1177
+  },
+  "avg_processing_time_ms": 0.00038299502106472615,
+  "location_resolver_stats": {
+    "dict_hits": 661,
+    "semantic_hits": 0,
+    "hierarchy_enrichments": 560,
+    "not_found": 1950
+  }
+}

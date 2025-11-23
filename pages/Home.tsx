@@ -1,29 +1,50 @@
 
 import React, { useState } from 'react';
-import { Filter, CheckSquare, MapPin, Tag, Calendar } from 'lucide-react';
+import { Filter, CheckSquare, MapPin, Tag, Calendar, ExternalLink } from 'lucide-react';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
 import { PulseButton } from '../components/interactions/RiveLikeIcons';
-
-const mockTweets = [
-  { id: 1, date: '19 Nov', location: 'रायगढ़', event: 'बैठक', tags: ['विकास', 'प्रशासन'], desc: 'लंबित परियोजनाओं के संबंध में जिला प्रशासन की समीक्षा बैठक।', status: 'parsed' },
-  { id: 2, date: '19 Nov', location: 'खरसिया', event: 'दौरा', tags: ['जनता', 'निरीक्षण'], desc: 'पेयजल योजनाओं का निरीक्षण करने के लिए स्थानीय गांवों का दौरा किया।', status: 'parsed' },
-  { id: 3, date: '18 Nov', location: 'अज्ञात', event: 'ट्वीट', tags: [], desc: 'सभी को दिवाली की हार्दिक शुभकामनाएं! #त्योहार', status: 'unparsed' },
-  { id: 4, date: '18 Nov', location: 'घरघोड़ा', event: 'उद्घाटन', tags: ['इंफ्रा', 'सड़क'], desc: 'खनन क्षेत्र को जोड़ने वाली नई बाईपास सड़क का उद्घाटन किया।', status: 'parsed' },
-  { id: 5, date: '17 Nov', location: 'रायगढ़', event: 'बैठक', tags: ['युवा', 'खेल'], desc: 'खेल संघ के प्रतिनिधियों के साथ बैठक की।', status: 'parsed' },
-];
+import ingestedTweets from '../data/ingested_tweets.json';
+import { ParsedEvent } from '../types';
+import TweetPreviewModal from '../components/TweetPreviewModal';
 
 const Home = () => {
   const [isBulkReview, setIsBulkReview] = useState(false);
-  const [tweets] = useState(mockTweets);
+  // Cast imported JSON to ParsedEvent[]
+  const [tweets] = useState<ParsedEvent[]>(ingestedTweets as unknown as ParsedEvent[]);
   const [isLoading, setIsLoading] = useState(false);
+  const [hoverState, setHoverState] = useState<{isOpen: boolean, tweetId: string, text: string, x: number, y: number}>({ 
+      isOpen: false, tweetId: '', text: '', x: 0, y: 0 
+  });
 
   const handleRefresh = () => {
     setIsLoading(true);
     setTimeout(() => setIsLoading(false), 1500);
   };
 
+  const handleMouseEnter = (e: React.MouseEvent, tweet: ParsedEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHoverState({
+        isOpen: true,
+        tweetId: tweet.tweet_id,
+        text: tweet.raw_text,
+        x: rect.right + 10,
+        y: rect.top - 20
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoverState(prev => ({ ...prev, isOpen: false }));
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      <TweetPreviewModal 
+         isOpen={hoverState.isOpen} 
+         tweetId={hoverState.tweetId} 
+         text={hoverState.text}
+         x={hoverState.x}
+         y={hoverState.y}
+      />
       
       {/* Consolidated Single Card for seamless UI */}
       <AnimatedGlassCard className="p-0 overflow-hidden min-h-[600px]">
@@ -93,42 +114,59 @@ const Home = () => {
                 <th className="px-6 py-5 font-medium tracking-wider font-hindi">🎯 दौरा / कार्यक्रम</th>
                 <th className="px-6 py-5 font-medium tracking-wider font-hindi">👥 कौन/टैग</th>
                 <th className="px-6 py-5 font-medium tracking-wider w-1/3 font-hindi">📝 विवरण</th>
+                <th className="px-6 py-5 font-medium tracking-wider font-hindi">🔗 स्रोत</th>
                 {isBulkReview && <th className="px-6 py-5 font-medium text-right tracking-wider font-hindi">स्थिति</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5 text-slate-300">
-              {tweets.map((tweet) => (
-                <tr key={tweet.id} className="hover:bg-white/5 transition-colors group">
-                  <td className="px-6 py-4 whitespace-nowrap text-slate-400 font-mono text-xs">{tweet.date}</td>
+              {tweets.slice(0, 50).map((tweet) => (
+                <tr key={tweet.tweet_id} className="hover:bg-white/5 transition-colors group">
+                  <td className="px-6 py-4 whitespace-nowrap text-slate-400 font-mono text-xs">
+                      {tweet.parsed_data_v8.event_date || tweet.created_at.split('T')[0]}
+                  </td>
                   <td className="px-6 py-4 font-medium text-white">
                     <div className="flex items-center gap-2">
                        <div className="p-1.5 bg-white/5 rounded-full"><MapPin size={12} className="text-[#8BF5E6]" /></div>
-                       <span className="font-hindi">{tweet.location}</span>
+                       <span className="font-hindi">
+                           {tweet.parsed_data_v8.location?.ulb || tweet.parsed_data_v8.location?.village || tweet.parsed_data_v8.location?.district || "अज्ञात"}
+                       </span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium border font-hindi ${
-                      tweet.event === 'बैठक' ? 'bg-blue-500/10 border-blue-500/20 text-blue-300' :
-                      tweet.event === 'दौरा' ? 'bg-pink-500/10 border-pink-500/20 text-pink-300' :
-                      tweet.event === 'जनसम्पर्क' ? 'bg-green-500/10 border-green-500/20 text-green-300' :
+                      tweet.parsed_data_v8.event_type === 'बैठक' ? 'bg-blue-500/10 border-blue-500/20 text-blue-300' :
+                      tweet.parsed_data_v8.event_type === 'दौरा' ? 'bg-pink-500/10 border-pink-500/20 text-pink-300' :
+                      tweet.parsed_data_v8.event_type === 'जनसम्पर्क' ? 'bg-green-500/10 border-green-500/20 text-green-300' :
                       'bg-slate-500/10 border-slate-500/20 text-slate-300'
                     }`}>
-                      {tweet.event}
+                      {tweet.parsed_data_v8.event_type}
                     </span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex gap-1.5 flex-wrap">
-                      {tweet.tags.length > 0 ? tweet.tags.map(tag => (
-                        <span key={tag} className="text-[10px] px-2 py-1 bg-white/5 rounded-md text-slate-400 border border-white/5 font-hindi">#{tag}</span>
+                      {tweet.parsed_data_v8.people_canonical?.length > 0 ? tweet.parsed_data_v8.people_canonical.slice(0, 2).map(tag => (
+                        <span key={tag} className="text-[10px] px-2 py-1 bg-white/5 rounded-md text-slate-400 border border-white/5 font-hindi">{tag}</span>
                       )) : <span className="text-slate-600">-</span>}
                     </div>
                   </td>
                   <td className="px-6 py-4 max-w-md truncate text-slate-400 group-hover:text-slate-200 transition-colors font-hindi">
-                    {tweet.desc}
+                    {tweet.raw_text}
+                  </td>
+                  <td className="px-6 py-4">
+                     <a 
+                       href={`https://twitter.com/i/web/status/${tweet.tweet_id}`} 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       className="text-blue-400 hover:text-blue-300 transition-colors"
+                       onMouseEnter={(e) => handleMouseEnter(e, tweet)}
+                       onMouseLeave={handleMouseLeave}
+                     >
+                        <ExternalLink size={14} />
+                     </a>
                   </td>
                   {isBulkReview && (
                     <td className="px-6 py-4 text-right">
-                      {tweet.status === 'parsed' ? (
+                      {tweet.approved_by_human ? (
                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-medium font-hindi">
                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
                            पूर्ण
