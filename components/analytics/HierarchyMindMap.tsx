@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ZoomIn, ZoomOut, Maximize2, RefreshCw } from 'lucide-react';
+import { ZoomIn, ZoomOut, Maximize2, Minimize2, RefreshCw } from 'lucide-react';
 
 interface HierarchyNode {
   id: string;
@@ -54,9 +54,11 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
   height = 600,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [selectedNode, setSelectedNode] = useState<D3Node | null>(null);
   const [hoveredNode, setHoveredNode] = useState<D3Node | null>(null);
   const [transform, setTransform] = useState({ k: 1, x: 0, y: 0 });
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Convert hierarchical data to flat nodes and links
   const convertToD3Data = useCallback((rootNode: HierarchyNode): { nodes: D3Node[]; links: D3Link[] } => {
@@ -306,6 +308,28 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
     };
   }, [nodes, links, width, height]);
 
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+    
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
   const handleReset = () => {
     if (svgRef.current) {
       const svg = d3.select(svgRef.current);
@@ -334,7 +358,10 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
   };
 
   return (
-    <div className="relative w-full h-full min-h-[500px] bg-[#0f172a] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+    <div 
+      ref={containerRef}
+      className={`relative w-full h-full min-h-[500px] bg-[#0f172a] rounded-xl overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[100] rounded-none border-0' : ''}`}
+    >
       {/* Background Grid */}
       <div
         className="absolute inset-0 opacity-10"
@@ -346,7 +373,7 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
       />
 
       {/* SVG Canvas */}
-      <svg ref={svgRef} width={width} height={height} className="w-full h-full" />
+      <svg ref={svgRef} width={isFullscreen ? window.innerWidth : width} height={isFullscreen ? window.innerHeight : height} className="w-full h-full" />
 
       {/* Control Panel */}
       <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 rounded-lg p-3 space-y-2">
@@ -374,6 +401,13 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
             title="Reset View"
           >
             <RefreshCw size={14} />
+          </button>
+          <button
+            onClick={toggleFullscreen}
+            className="p-2 bg-white/10 hover:bg-white/20 rounded text-white transition-colors"
+            title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          >
+            {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
           </button>
         </div>
         <div className="text-[10px] text-slate-400">

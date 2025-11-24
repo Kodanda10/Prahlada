@@ -117,13 +117,19 @@ class VectorStore:
         """
         Loads the index and metadata from disk if they exist.
         """
-        if os.path.exists(self.index_path) and os.path.exists(self.metadata_path):
+        if os.path.exists(self.index_path):
             try:
                 print(f"Loading FAISS index from {self.index_path}...")
                 self.index = faiss.read_index(self.index_path)
-                with open(self.metadata_path, 'rb') as f:
-                    self.metadata = pickle.load(f)
-                print(f"Index loaded successfully with {self.index.ntotal} vectors.")
+                
+                # Load metadata if it exists, otherwise start with empty list
+                if os.path.exists(self.metadata_path):
+                    with open(self.metadata_path, 'rb') as f:
+                        self.metadata = pickle.load(f)
+                    print(f"Index loaded successfully with {self.index.ntotal} vectors and {len(self.metadata)} metadata entries.")
+                else:
+                    print(f"Index loaded with {self.index.ntotal} vectors. No metadata file found - starting with empty metadata.")
+                    self.metadata = []
             except Exception as e:
                 print(f"Warning: Could not load existing index. Starting fresh. Error: {e}")
                 self.index = None
@@ -139,7 +145,17 @@ def get_vector_store() -> VectorStore:
     """Get or create the global vector store instance."""
     global _vector_store_instance
     if _vector_store_instance is None:
-        _vector_store_instance = VectorStore()
+        # Read paths from environment variables
+        index_path = os.getenv('FAISS_INDEX_PATH', 'data/faiss_index.bin')
+        # Derive metadata path from index path
+        metadata_path = index_path.replace('.bin', '_metadata.pkl')
+        model_name = os.getenv('FAISS_EMBEDDING_MODEL', 'all-MiniLM-L6-v2')
+        
+        _vector_store_instance = VectorStore(
+            model_name=model_name,
+            index_path=index_path,
+            metadata_path=metadata_path
+        )
     return _vector_store_instance
 
 # For backward compatibility, but initialization happens lazily

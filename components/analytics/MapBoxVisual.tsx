@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import Map, { Marker, Popup, NavigationControl, ScaleControl, FullscreenControl, Layer, Source } from 'react-map-gl';
 import type { MapRef, ViewState } from 'react-map-gl';
-import { MapPin, Navigation2, Layers, Loader2, Zap } from 'lucide-react';
+import { MapPin, Navigation2, Layers, Loader2, Zap, Maximize2, Minimize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -35,6 +35,7 @@ const INITIAL_VIEW_STATE: Partial<ViewState> = {
 
 const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MAPBOX_TOKEN }) => {
   const mapRef = useRef<MapRef>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(null);
   const [hoveredLocation, setHoveredLocation] = useState<LocationData | null>(null);
@@ -42,6 +43,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
   const [showClusters, setShowClusters] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Generate GeoJSON for clustering
   const geojsonData = {
@@ -187,6 +189,28 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
     satellite: 'mapbox://styles/mapbox/satellite-streets-v12',
   };
 
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+    
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
   useEffect(() => {
     // Simulate initial loading
     const timer = setTimeout(() => {
@@ -196,7 +220,10 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
   }, []);
 
   return (
-    <div className="relative w-full h-full min-h-[500px] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+    <div 
+      ref={containerRef}
+      className={`relative w-full h-full min-h-[500px] rounded-xl overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[100] rounded-none border-0' : ''}`}
+    >
       {/* Loading Overlay */}
       <AnimatePresence>
         {isLoading && (
@@ -400,7 +427,16 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
         {/* Controls */}
         <NavigationControl position="top-right" />
         <ScaleControl position="bottom-right" />
-        <FullscreenControl position="top-right" />
+        {/* Custom Fullscreen Control */}
+        <div className="mapboxgl-ctrl-top-right" style={{ marginTop: '100px', marginRight: '10px' }}>
+           <button 
+             onClick={toggleFullscreen}
+             className="mapboxgl-ctrl-icon bg-white text-black p-1 rounded shadow hover:bg-gray-100 transition-colors"
+             title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+           >
+             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+           </button>
+        </div>
 
         {/* Custom Control Panel */}
         <motion.div

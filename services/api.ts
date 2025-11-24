@@ -1,9 +1,34 @@
 import { ParsedEvent, Stats } from '../types';
 import { AllowedEventFilter, normalizeEventFilter, redactSensitiveLogData } from '../utils/security';
 
-// Points to the FastAPI backend
-// Ensure your backend is running on port 8000
-const API_BASE = 'http://localhost:8000';
+// Points to the FastAPI backend; prefer env override and HTTPS when available
+const resolveApiBase = () => {
+  const envBase = import.meta.env.VITE_API_BASE?.trim();
+
+  const isLocal = (url: string) =>
+    url.includes('localhost') ||
+    url.includes('127.0.0.1') ||
+    url.startsWith('http://0.0.0.0') ||
+    url.startsWith('http://[::1]');
+
+  if (envBase) {
+    if (!envBase.startsWith('https://') && !isLocal(envBase)) {
+      console.warn('Insecure API base detected; consider using HTTPS in production');
+    }
+    return envBase.replace(/\/+$/, '');
+  }
+
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    const origin = window.location.origin;
+    const defaultPort = origin.includes('localhost') ? '8000' : '';
+    const base = defaultPort ? `${origin.replace(/:\\d+$/, '')}:${defaultPort}` : origin;
+    return base.replace(/\/+$/, '');
+  }
+
+  return 'http://localhost:8000';
+};
+
+const API_BASE = resolveApiBase();
 
 type HeadersObject = Record<string, string>;
 
