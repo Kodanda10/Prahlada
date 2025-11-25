@@ -1,0 +1,336 @@
+🚀 Starting Golden Standard Regression Test
+📂 Loading Gold Standard: /Users/abhijita/Documents/Project-Prahlada/data/gold_standard_tweets.csv
+Initializing Gemini Parser V2 (SOTA)...
+✅ Parser V2 initialized
+
+Processing Tweet 1991484499914551567...
+✅ PASS
+
+Processing Tweet 1991470463206527328...
+❌ FAIL
+  - Missing People: {'दुर्गा दास', 'विष्णु देव', 'श्री किरण'}
+
+Processing Tweet 1991445498151289139...
+✅ PASS
+
+Processing Tweet 1991433908383060049...
+❌ FAIL
+  - Missing People: {'सांसद', 'दुर्गा दास', 'विष्णु देव'}
+
+Processing Tweet 1991428224157708480...
+❌ FAIL
+  - Missing People: {'श्री नितिन'}
+
+Processing Tweet 1991419570394132565...
+❌ FAIL
+  - Missing People: {'श्री नीतीश', 'श्री विजय', 'श्री सम्राट'}
+
+Processing Tweet 1991410196355379259...
+❌ FAIL
+  - Missing People: {'केंद्रीय वित्त'}
+
+Processing Tweet 1991396628406890866...
+✅ PASS
+
+Processing Tweet 1991370002818298076...
+✅ PASS
+
+Processing Tweet 1991332340204003707...
+✅ PASS
+
+Processing Tweet 1991163135504654795...
+❌ FAIL
+  - Missing People: {'द्रौपदी मुर्मू', 'दुर्गा दास', 'मंत्री'}
+
+Processing Tweet 1991153205468918127...
+❌ FAIL
+  - Missing People: {'श्री दुर्गादास', 'मंत्री'}
+
+Processing Tweet 1991103045321826387...
+✅ PASS
+
+Processing Tweet 1991090533616525643...
+✅ PASS
+
+Processing Tweet 1991072660504166542...
+❌ FAIL
+  - Missing People: {'विष्णु देव'}
+
+Processing Tweet 1991067653494976603...
+✅ PASS
+
+Processing Tweet 1991058854046793836...
+✅ PASS
+
+Processing Tweet 1991047432881516620...
+✅ PASS
+
+Processing Tweet 1890405869168234731...
+✅ PASS
+
+Processing Tweet 1890378865639407799...
+✅ PASS
+
+Processing Tweet 1890431461016080876...
+✅ PASS
+
+Processing Tweet 1890582740170391875...
+✅ PASS
+
+Processing Tweet 1890589912568561852...
+✅ PASS
+
+Processing Tweet 1890645345245266055...
+✅ PASS
+
+Processing Tweet 1890626286361448937...
+✅ PASS
+
+Processing Tweet 1890629745915646432...
+✅ PASS
+
+Processing Tweet 1890641564755460096...
+✅ PASS
+
+Processing Tweet 1890649138326388767...
+✅ PASS
+
+Processing Tweet 1890656118671618388...
+✅ PASS
+
+Processing Tweet 1890658841445949541...
+✅ PASS
+
+Processing Tweet 1890697226474631322...
+✅ PASS
+
+Processing Tweet 1890668447987576951...
+✅ PASS
+
+Processing Tweet 1890674297984692633...
+✅ PASS
+
+Processing Tweet 1890683848494559625...
+✅ PASS
+
+Processing Tweet 1890690777480610216...
+✅ PASS
+
+Processing Tweet 1890662244972720535...
+✅ PASS
+
+Processing Tweet 1890717291328799106...
+✅ PASS
+
+Processing Tweet 1890710779843813421...
+✅ PASS
+
+Processing Tweet 1890723217054048339...
+❌ FAIL
+  - Missing People: {'सरिता मुरारी'}
+
+Processing Tweet 1890746512356856010...
+❌ FAIL
+  - Missing People: {'संजय भूषण'}
+
+Processing Tweet 1890731294197223588...
+❌ FAIL
+  - Missing People: {'अभिलाषा कैलाश'}
+
+Processing Tweet 1890769087506079838...
+✅ PASS
+
+Processing Tweet 1890770192218698177...
+✅ PASS
+
+Processing Tweet 1890792274662936751...
+❌ FAIL
+  - Missing People: {'विष्णु देव'}
+
+Processing Tweet 1890801577444647013...
+✅ PASS
+
+Processing Tweet 1890810183602819115...
+✅ PASS
+
+Processing Tweet 1890822127000907851...
+✅ PASS
+
+Processing Tweet 1890823749525496076...
+✅ PASS
+
+Processing Tweet 1890834922476023991...
+❌ FAIL
+  - Missing People: {'जगत प्रकाश'}
+
+Processing Tweet 1891074904772030598...
+✅ PASS
+
+Processing Tweet 1890939965707620570...
+✅ PASS
+
+Processing Tweet 1890966091284803641...
+✅ PASS
+
+Processing Tweet 1890980481052610710...
+✅ PASS
+
+Processing Tweet 1891026946869395647...
+✅ PASS
+
+Processing Tweet 1890835421728497891...
+✅ PASS
+
+Processing Tweet 1891087900294447372...
+❌ FAIL
+  - Missing People: {'विष्णु देव'}
+
+Processing Tweet 1891368503900283388...
+✅ PASS
+
+Processing Tweet 1891352637410357412...
+✅ PASS
+
+Processing Tweet 1891316618036195608...
+✅ PASS
+
+Processing Tweet 1891329251187564696...
+✅ PASS
+
+Processing Tweet 1891341533288268158...
+✅ PASS
+
+Processing Tweet 1891375516411666875...
+✅ PASS
+
+Processing Tweet 1891379037894824358...
+✅ PASS
+
+Processing Tweet 1891387657889997006...
+❌ FAIL
+  - Missing People: {'उप मुख्यमंत्री'}
+
+Processing Tweet 1891439760981283186...
+❌ FAIL
+  - Missing People: {'मंत्री'}
+
+Processing Tweet 1891400305801138507...
+✅ PASS
+
+Processing Tweet 1891452585795592697...
+✅ PASS
+
+Processing Tweet 1891481538912829882...
+❌ FAIL
+  - Missing People: {'विष्णु देव'}
+
+Processing Tweet 1891524376828215758...
+❌ FAIL
+  - Missing People: {'दयाल दास', 'मंत्री'}
+
+Processing Tweet 1891508871765921904...
+✅ PASS
+
+Processing Tweet 1891539880783523948...
+✅ PASS
+
+Processing Tweet 1891526319478919532...
+✅ PASS
+
+Processing Tweet 1891685850544493037...
+✅ PASS
+
+Processing Tweet 1891669304950554806...
+✅ PASS
+
+Processing Tweet 1891699754666467577...
+❌ FAIL
+  - Missing People: {'सरिता मुरारी'}
+
+Processing Tweet 1891710656899899408...
+❌ FAIL
+  - Missing People: {'राम के'}
+
+Processing Tweet 1891716438085251556...
+✅ PASS
+
+Processing Tweet 1891740170132574216...
+✅ PASS
+
+Processing Tweet 1891768812850049469...
+✅ PASS
+
+Processing Tweet 1891783272553673049...
+✅ PASS
+
+Processing Tweet 1891802313259384936...
+❌ FAIL
+  - Missing People: {'विष्णु देव'}
+
+Processing Tweet 1891836177939886438...
+✅ PASS
+
+Processing Tweet 1891850471687557170...
+✅ PASS
+
+Processing Tweet 1892027642448060608...
+✅ PASS
+
+Processing Tweet 1892039273542713574...
+✅ PASS
+
+Processing Tweet 1892059706555809934...
+❌ FAIL
+  - Missing People: {'गोपाल कृष्ण'}
+
+Processing Tweet 1892074220844097819...
+✅ PASS
+
+Processing Tweet 1892118846854791376...
+❌ FAIL
+  - Missing People: {'विधायक'}
+
+Processing Tweet 1892096409215610935...
+✅ PASS
+
+Processing Tweet 1892101585343217830...
+✅ PASS
+
+Processing Tweet 1892144608823390254...
+✅ PASS
+
+Processing Tweet 1892155129677094976...
+✅ PASS
+
+Processing Tweet 75...
+✅ PASS
+
+Processing Tweet 1892199359611298033...
+✅ PASS
+
+Processing Tweet 1892205847226306843...
+✅ PASS
+
+Processing Tweet 1892211536854196582...
+✅ PASS
+
+Processing Tweet 1892254490960543943...
+✅ PASS
+
+Processing Tweet 1892389869470540094...
+✅ PASS
+
+Processing Tweet 1892430638931673304...
+✅ PASS
+
+Processing Tweet 1892403355416142326...
+✅ PASS
+
+==================================================
+TEST RESULTS Summary
+==================================================
+Total: 100
+Passed: 77
+Failed: 23
+Accuracy: 77.00%
+==================================================
