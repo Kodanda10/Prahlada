@@ -11,17 +11,17 @@ SCRIPTS_DIR = PROJECT_ROOT / "scripts"
 sys.path.append(str(SCRIPTS_DIR))
 
 try:
-    import gemini_parser_v1
-    from gemini_parser_v1 import GeminiParserV1
+    import gemini_parser_v2
+    from gemini_parser_v2 import GeminiParserV2
 except ImportError:
-    print("Error: Could not import gemini_parser_v1. Make sure it is in scripts/")
+    print("Error: Could not import gemini_parser_v2. Make sure it is in scripts/")
     sys.exit(1)
 
 class Sandbox:
     def __init__(self, data_path: Path):
         self.data_path = data_path
         self.sample_data = self._load_sample_data()
-        self.parser = GeminiParserV1(enable_full_hierarchy=False, enable_semantic=False) # Faster for sandbox
+        self.parser = GeminiParserV2(enable_semantic=False) # Faster for sandbox
 
     def _load_sample_data(self, sample_size: int = 100) -> List[Dict]:
         """Load a random sample of tweets + Golden Set (if available)"""
@@ -49,13 +49,13 @@ class Sandbox:
         baseline_results = self._run_parser(self.sample_data)
         
         # 2. Apply Fix (Dynamic Code Execution)
-        # We modify the module-level variables in gemini_parser_v1
+        # We modify the module-level variables in gemini_parser_v2
         try:
             # Create a context with the module
             exec_context = {
-                "EVENT_KEYWORD_CLUSTERS": gemini_parser_v1.EVENT_KEYWORD_CLUSTERS,
-                "SCHEME_PATTERNS": gemini_parser_v1.SCHEME_PATTERNS,
-                "re": gemini_parser_v1.re
+                "EVENT_SCORING_RULES": gemini_parser_v2.EVENT_SCORING_RULES,
+                "SCHEME_PATTERNS": gemini_parser_v2.SCHEME_PATTERNS,
+                "re": gemini_parser_v2.re
             }
             
             # Execute the snippet
@@ -88,7 +88,7 @@ class Sandbox:
                 del rec_copy["parsed_data_v8"]
                 
             parsed = self.parser.parse_tweet(rec_copy)
-            results[parsed['tweet_id']] = parsed['parsed_data_v8']
+            results[parsed['tweet_id']] = parsed
         return results
 
     def _generate_diff_report(self, baseline: Dict, test: Dict) -> Dict[str, Any]:
@@ -102,6 +102,10 @@ class Sandbox:
             if not test_res: continue
             
             # Check for changes in key fields
+            if 'event_type' not in base_res:
+                print(f"DEBUG: Missing event_type in base_res for {tweet_id}. Keys: {list(base_res.keys())}")
+                continue
+                
             if base_res['event_type'] != test_res['event_type']:
                 change = {
                     "tweet_id": tweet_id,

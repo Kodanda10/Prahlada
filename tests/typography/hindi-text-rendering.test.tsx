@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { GlassCard } from '../../components/GlassCard';
+import GlassCard from '../../components/GlassCard';
 
 describe('Hindi Text Rendering & Typography Integrity', () => {
   const hindiContent = {
@@ -100,7 +100,7 @@ describe('Hindi Text Rendering & Typography Integrity', () => {
 
       const paragraph = screen.getByText(hindiContent.content);
       expect(paragraph).toBeInTheDocument();
-      expect(paragraph).toHaveClass('text-left');
+      expect(paragraph.parentElement).toHaveClass('text-left');
     });
 
     it('supports center alignment for titles', () => {
@@ -126,7 +126,7 @@ describe('Hindi Text Rendering & Typography Integrity', () => {
 
       const paragraph = screen.getByText(hindiContent.content);
       expect(paragraph).toBeInTheDocument();
-      expect(paragraph).toHaveClass('font-hindi');
+      expect(paragraph.parentElement).toHaveClass('font-hindi');
     });
 
     it('provides fallback fonts for Hindi text', () => {

@@ -1,92 +1,106 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
-import { AnimatedNavTabs } from '../../components/AnimatedNavTabs';
-import { NumberTicker } from '../../components/NumberTicker';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { Activity } from 'lucide-react';
+import AnimatedNavTabs from '../../components/AnimatedNavTabs';
+import NumberTicker from '../../components/NumberTicker';
 
 describe('Component Visual Snapshots', () => {
   describe('AnimatedNavTabs Component', () => {
     const mockTabs = [
-      { id: 'home', label: 'Home', path: '/home' },
-      { id: 'analytics', label: 'Analytics', path: '/analytics' },
-      { id: 'review', label: 'Review', path: '/review' },
+      { label: 'Home', path: '/home', icon: Activity },
+      { label: 'Analytics', path: '/analytics', icon: Activity },
+      { label: 'Review', path: '/review', icon: Activity },
     ];
 
     it('renders consistent tab layout', () => {
       const { container } = render(
-        <AnimatedNavTabs
-          tabs={mockTabs}
-          activeTab="home"
-          onTabChange={() => {}}
-        />
+        <MemoryRouter>
+          <AnimatedNavTabs
+            tabs={mockTabs}
+            activePath="/home"
+            isAuthenticated={true}
+            className="animated-nav-tabs"
+          />
+        </MemoryRouter>
       );
 
       const navElement = container.querySelector('.animated-nav-tabs');
       expect(navElement).toBeInTheDocument();
 
-      const tabButtons = container.querySelectorAll('.tab-button');
-      expect(tabButtons).toHaveLength(3);
+      const tabLinks = screen.getAllByRole('link');
+      expect(tabLinks).toHaveLength(3);
 
       // Verify tab structure
       mockTabs.forEach((tab, index) => {
-        expect(tabButtons[index]).toHaveTextContent(tab.label);
+        expect(tabLinks[index]).toHaveTextContent(tab.label);
       });
     });
 
     it('maintains active tab visual state', () => {
-      const { container } = render(
-        <AnimatedNavTabs
-          tabs={mockTabs}
-          activeTab="analytics"
-          onTabChange={() => {}}
-        />
+      render(
+        <MemoryRouter>
+          <AnimatedNavTabs
+            tabs={mockTabs}
+            activePath="/analytics"
+            isAuthenticated={true}
+            className="animated-nav-tabs"
+          />
+        </MemoryRouter>
       );
 
-      const activeTab = container.querySelector('.tab-button.active');
+      // Active tab has bold text class 'font-bold'
+      const activeTab = screen.getByText('Analytics').closest('a');
       expect(activeTab).toBeInTheDocument();
-      expect(activeTab).toHaveTextContent('Analytics');
+      expect(activeTab).toHaveClass('font-bold');
     });
 
     it('handles tab transitions smoothly', () => {
-      const { rerender, container } = render(
-        <AnimatedNavTabs
-          tabs={mockTabs}
-          activeTab="home"
-          onTabChange={() => {}}
-        />
+      const { rerender } = render(
+        <MemoryRouter>
+          <AnimatedNavTabs
+            tabs={mockTabs}
+            activePath="/home"
+            isAuthenticated={true}
+            className="animated-nav-tabs"
+          />
+        </MemoryRouter>
       );
 
-      let activeTab = container.querySelector('.tab-button.active');
-      expect(activeTab).toHaveTextContent('Home');
+      let activeTab = screen.getByText('Home').closest('a');
+      expect(activeTab).toHaveClass('font-bold');
 
       rerender(
-        <AnimatedNavTabs
-          tabs={mockTabs}
-          activeTab="review"
-          onTabChange={() => {}}
-        />
+        <MemoryRouter>
+          <AnimatedNavTabs
+            tabs={mockTabs}
+            activePath="/review"
+            isAuthenticated={true}
+            className="animated-nav-tabs"
+          />
+        </MemoryRouter>
       );
 
-      activeTab = container.querySelector('.tab-button.active');
-      expect(activeTab).toHaveTextContent('Review');
+      activeTab = screen.getByText('Review').closest('a');
+      expect(activeTab).toHaveClass('font-bold');
     });
   });
 
   describe('NumberTicker Component', () => {
     it('renders number with consistent formatting', () => {
-      const { container } = render(<NumberTicker value={1234} />);
+      const { container } = render(<NumberTicker value={1234} className="number-ticker" />);
 
       const tickerElement = container.querySelector('.number-ticker');
       expect(tickerElement).toBeInTheDocument();
 
-      // Check if number is displayed (exact formatting may vary)
-      const numberDisplay = container.querySelector('.ticker-value') || tickerElement;
-      expect(numberDisplay).toBeInTheDocument();
+      // Check if number is displayed
+      expect(tickerElement).toHaveTextContent('1,234');
     });
 
     it('handles different number ranges', () => {
-      const { container: smallContainer } = render(<NumberTicker value={42} />);
-      const { container: largeContainer } = render(<NumberTicker value={999999} />);
-      const { container: decimalContainer } = render(<NumberTicker value={123.45} />);
+      const { container: smallContainer } = render(<NumberTicker value={42} className="number-ticker" />);
+      const { container: largeContainer } = render(<NumberTicker value={999999} className="number-ticker" />);
+      const { container: decimalContainer } = render(<NumberTicker value={123.45} className="number-ticker" />);
 
       expect(smallContainer.querySelector('.number-ticker')).toBeInTheDocument();
       expect(largeContainer.querySelector('.number-ticker')).toBeInTheDocument();
@@ -96,7 +110,7 @@ describe('Component Visual Snapshots', () => {
     it('maintains consistent dimensions', () => {
       const { container } = render(
         <div style={{ width: '200px' }}>
-          <NumberTicker value={56789} />
+          <NumberTicker value={56789} className="number-ticker" />
         </div>
       );
 

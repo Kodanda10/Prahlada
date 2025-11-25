@@ -14,8 +14,9 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
       return 1;
     });
 
-    // Mock performance.now
-    vi.spyOn(performance, 'now').mockReturnValue(0);
+    // Mock performance.now with a variable we can control
+    let now = 0;
+    vi.spyOn(performance, 'now').mockImplementation(() => now);
   });
 
   afterEach(() => {
@@ -28,14 +29,9 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
       const frameTimestamps: number[] = [];
       let frameCount = 0;
 
-      // Mock performance.now to track frame timing
-      const mockNow = vi.fn();
-      performance.now = mockNow;
-
-      // Generate 60 FPS timestamps
-      for (let i = 0; i < 60; i++) {
-        mockNow.mockReturnValueOnce(i * 16.67); // 60 FPS intervals
-      }
+      // Use a local variable for precise control in this test
+      let currentTime = 0;
+      vi.spyOn(performance, 'now').mockImplementation(() => currentTime);
 
       render(
         <div className="hero-section">
@@ -49,6 +45,7 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
       await act(async () => {
         for (let i = 0; i < 60; i++) {
           frameTimestamps.push(performance.now());
+          currentTime += 16.67;
           vi.advanceTimersByTime(16);
           frameCount++;
         }
@@ -66,6 +63,10 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
     });
 
     it('handles multiple simultaneous entrance animations', async () => {
+      // Setup time incrementing
+      let currentTime = 0;
+      vi.spyOn(performance, 'now').mockImplementation(() => currentTime);
+
       const startTime = performance.now();
 
       render(
@@ -79,7 +80,11 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
       );
 
       await act(async () => {
-        vi.advanceTimersByTime(1000); // Run for 1 second
+        // Advance time in chunks
+        for(let i=0; i<60; i++) {
+             currentTime += 16.67;
+             vi.advanceTimersByTime(16);
+        }
       });
 
       const endTime = performance.now();
@@ -92,8 +97,6 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
 
   describe('Card Stagger Animation Performance', () => {
     it('maintains smooth stagger timing across multiple cards', async () => {
-      const animationStartTimes: number[] = [];
-
       render(
         <div className="card-stagger">
           {Array.from({ length: 8 }, (_, i) => (
@@ -110,17 +113,12 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
           vi.advanceTimersByTime(16);
         }
       });
-
-      // Verify all cards rendered
-      const cards = document.querySelectorAll('.animated-glass-card');
-      // Note: Class name might not be exactly 'animated-glass-card' depending on implementation,
-      // but checking length is the intent.
-      // Since we can't easily check class without modifying component, we assume it renders.
-      // For this test, we just want to ensure no crash and timing.
     });
 
     it('prevents frame drops during peak stagger load', async () => {
       const frameTimes: number[] = [];
+      let currentTime = 0;
+      vi.spyOn(performance, 'now').mockImplementation(() => currentTime);
 
       render(
         <div className="peak-load-test">
@@ -135,6 +133,7 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
       await act(async () => {
         const startTime = performance.now();
         for (let frame = 0; frame < 180; frame++) { // 3 seconds
+          currentTime += 16.67;
           vi.advanceTimersByTime(16);
           frameTimes.push(performance.now() - startTime);
         }
@@ -154,6 +153,8 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
     it('animates number changes at consistent frame rate', async () => {
       const tickerValues: number[] = [];
       let animationFrameCount = 0;
+      let currentTime = 0;
+      vi.spyOn(performance, 'now').mockImplementation(() => currentTime);
 
       render(<div className="ticker-container"></div>);
 
@@ -169,6 +170,7 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
           animationFrameCount++;
 
           if (progress < 1) {
+            currentTime += 16; // Advance mock time
             setTimeout(animate, 16); // 60 FPS
           }
         };
@@ -206,6 +208,8 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
   describe('Performance Benchmarks', () => {
     it('meets 55-60 FPS target for complex animations', async () => {
       const frameTimestamps: number[] = [];
+      let currentTime = 0;
+      vi.spyOn(performance, 'now').mockImplementation(() => currentTime);
 
       render(
         <BrowserRouter>
@@ -231,6 +235,7 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
       await act(async () => {
         const startTime = performance.now();
         for (let frame = 0; frame < 120; frame++) {
+          currentTime += 16.67;
           frameTimestamps.push(performance.now() - startTime);
           vi.advanceTimersByTime(16);
         }
@@ -238,7 +243,9 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
 
       // Calculate FPS
       const totalTime = frameTimestamps[frameTimestamps.length - 1] - frameTimestamps[0];
-      const fps = (frameTimestamps.length / totalTime) * 1000;
+      // Prevent division by zero
+      const validTotalTime = totalTime > 0 ? totalTime : 1;
+      const fps = (frameTimestamps.length / validTotalTime) * 1000;
 
       expect(fps).toBeGreaterThanOrEqual(55);
       expect(fps).toBeLessThanOrEqual(65); // Allow some variance
@@ -251,7 +258,7 @@ describe('Frame Rate Monitoring (60 FPS)', () => {
       render(
         <div className="memory-pressure-test">
           {Array.from({ length: componentCount }, (_, i) => (
-            <AnimatedGlassCard key={i} delay={i * 100}>
+            <AnimatedGlassCard key={i} delay={i * 100} className="animated-glass-card">
               <div>Memory Test {i + 1}</div>
             </AnimatedGlassCard>
           ))}

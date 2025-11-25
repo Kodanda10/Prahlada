@@ -20,7 +20,7 @@ describe('Reduced Motion', () => {
       })),
     });
 
-    render(<AnimatedGlassCard><div>Test</div></AnimatedGlassCard>);
+    render(<AnimatedGlassCard data-testid="glass-card"><div>Test</div></AnimatedGlassCard>);
     // Since framer-motion is mocked to return basic elements, it should work
     expect(screen.getByTestId('glass-card')).toBeInTheDocument();
   });

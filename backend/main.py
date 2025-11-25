@@ -183,6 +183,16 @@ async def login(payload: schemas.AuthRequest, db: AsyncSession = Depends(get_db_
     return schemas.AuthResponse(token=token, user=user_payload)
 
 
+@app.get("/api/auth/verify", response_model=schemas.AuthUser)
+async def verify_token(
+    user: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Verifies the current token and returns user details.
+    """
+    return schemas.AuthUser.model_validate(user)
+
+
 @app.get("/api/stats", response_model=schemas.StatsResponse)
 async def get_stats(
     db: AsyncSession = Depends(get_db_session),
@@ -483,3 +493,72 @@ async def trigger_correction(
         "decision": result.get("decision"),
         "details": result.get("details")
     }
+
+@app.post("/api/events/{tweet_id}/approve")
+async def approve_event(
+    tweet_id: str,
+    db: AsyncSession = Depends(get_db_session),
+    user: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Marks an event as approved.
+    """
+    event = await db.get(models.ParsedEvent, tweet_id)
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+        
+    event.review_status = "approved"
+    event.needs_review = False
+    event.reviewed_at = datetime.datetime.utcnow()
+    event.reviewed_by = user.username
+    
+    await db.commit()
+    
+    return {"status": "success", "message": f"Event {tweet_id} approved"}
+
+@app.post("/api/search", response_model=list[schemas.SearchResult])
+async def search_tweets(
+    payload: schemas.SearchRequest,
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Performs a semantic search on indexed tweets.
+    """
+    vector_store = get_vector_store()
+    if not vector_store.index or vector_store.index.ntotal == 0:
+        # Fallback or empty return if index isn't ready
+        return []
+
+    results = vector_store.search(payload.query, k=payload.k)
+    
+    search_results = []
+    for res in results:
+        metadata = res.get("metadata", {})
+        search_results.append(
+            schemas.SearchResult(
+                tweet_id=metadata.get("tweet_id", "unknown"),
+                text=metadata.get("text", ""),
+                score=res.get("distance", 0.0),
+                metadata=metadata
+            )
+        )
+        
+    return search_results
+
+@app.post("/api/telemetry", status_code=201)
+async def log_telemetry(
+    payload: schemas.TelemetryRequest,
+    db: AsyncSession = Depends(get_db_session),
+    # Optional auth for telemetry? Usually open or basic auth.
+    # Removing strict auth for telemetry to allow capturing login errors etc.
+):
+    """
+    Logs telemetry events from the frontend.
+    """
+    # In a real system, save to a dedicated table or timeseries DB.
+    # For now, just print to stdout
+    print(f"TELEMETRY [{payload.type.upper()}]: {payload.name} - {payload.data}")
+    return {"status": "success"}
+
+

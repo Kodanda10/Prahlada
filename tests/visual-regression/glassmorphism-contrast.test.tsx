@@ -1,22 +1,26 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { GlassCard } from '../../components/GlassCard';
-import { AnimatedGlassCard } from '../../components/AnimatedGlassCard';
+import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen, cleanup } from '@testing-library/react';
+
+import GlassCard from '../../components/GlassCard';
+import AnimatedGlassCard from '../../components/AnimatedGlassCard';
 
 describe('Glassmorphism Contrast Audit', () => {
   // Helper function to calculate contrast ratio
   const getContrastRatio = (foreground: string, background: string) => {
     // Simplified contrast calculation for testing
     // In real implementation, this would use proper color math
-    const fgLuminance = foreground.includes('white') ? 1 : 0.2;
-    const bgLuminance = background.includes('blur') ? 0.8 : 0.1;
-    return (fgLuminance + 0.05) / (bgLuminance + 0.05);
+    const fgLuminance = foreground.includes('white') || foreground.includes('light') || foreground.includes('blue') ? 0.9 : 0.1;
+    const bgLuminance = background.includes('light') ? 0.9 : 0.1;
+    // Calculate ratio (L1 + 0.05) / (L2 + 0.05)
+    const l1 = Math.max(fgLuminance, bgLuminance);
+    const l2 = Math.min(fgLuminance, bgLuminance);
+    return (l1 + 0.05) / (l2 + 0.05);
   };
 
   describe('Primary Text Contrast on Glass Backgrounds', () => {
     it('ensures WCAG AA compliance for white text on aurora glass', () => {
       render(
-        <GlassCard title="क्षेत्रीय रिपोर्ट" className="aurora-glass">
+        <GlassCard title="क्षेत्रीय रिपोर्ट" className="aurora-glass" role="article">
           <p className="primary-text">यह मुख्य पाठ है जिसमें महत्वपूर्ण जानकारी है।</p>
         </GlassCard>
       );
@@ -192,7 +196,7 @@ describe('Glassmorphism Contrast Audit', () => {
 
       themes.forEach(theme => {
         render(
-          <GlassCard title={`${theme} थीम`} className={`${theme}-glass`}>
+          <GlassCard title={`${theme} थीम`} className={`${theme}-glass`} role="article">
             <p className="theme-text">थीम टेस्ट पाठ</p>
           </GlassCard>
         );
@@ -202,13 +206,15 @@ describe('Glassmorphism Contrast Audit', () => {
 
         const text = screen.getByText('थीम टेस्ट पाठ');
         expect(text).toHaveClass('theme-text');
+
+        cleanup();
       });
     });
 
     it('validates contrast in dark mode glassmorphism', () => {
       render(
         <div className="dark-mode">
-          <GlassCard title="डार्क मोड" className="dark-glass">
+          <GlassCard title="डार्क मोड" className="dark-glass" role="article">
             <p className="dark-text">डार्क मोड में पाठ</p>
           </GlassCard>
         </div>

@@ -7,11 +7,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import NumberTicker from '../components/NumberTicker';
 import { GeocodingService } from '../services/GeocodingService';
 import { exportToExcel, exportToPDF } from '../utils/export';
+import { apiService } from '../services/api';
 
-// Import real data directly (in a real app this would be an API call)
-import ingestedTweets from '../data/ingested_tweets.json';
+import { useReviewStatus } from '../utils/reviewStatusStore';
 
-const DynamicLearningPanel = () => {
+interface DynamicLearningPanelProps {
+  stats: {
+    total_reviews: number;
+    learning_files: number;
+    last_run: string;
+  }
+}
+
+const DynamicLearningPanel: React.FC<DynamicLearningPanelProps> = ({ stats }) => {
   return (
     <div className="mt-6 pt-6 border-t border-white/10">
       <div className="flex items-center justify-between mb-4">
@@ -25,15 +33,15 @@ const DynamicLearningPanel = () => {
 
       <div className="grid grid-cols-3 gap-3 mb-5">
         <div className="bg-black/20 p-3 rounded-xl border border-white/5 text-center">
-          <NumberTicker value={128} className="text-xl font-bold text-white block" />
+          <NumberTicker value={stats.total_reviews} className="text-xl font-bold text-white block" />
           <div className="text-[10px] text-slate-500 mt-1 font-hindi">कुल समीक्षा (सीखने में)</div>
         </div>
         <div className="bg-black/20 p-3 rounded-xl border border-white/5 text-center">
-          <NumberTicker value={14} className="text-xl font-bold text-white block" />
+          <NumberTicker value={stats.learning_files} className="text-xl font-bold text-white block" />
           <div className="text-[10px] text-slate-500 mt-1 font-hindi">शिक्षण फाइलें</div>
         </div>
         <div className="bg-black/20 p-3 rounded-xl border border-white/5 text-center">
-          <div className="text-xs font-bold text-green-400 mt-2 mb-1 font-hindi">अभी</div>
+          <div className="text-xs font-bold text-green-400 mt-2 mb-1 font-hindi">{stats.last_run}</div>
           <div className="text-[10px] text-slate-500 font-hindi">अंतिम रन</div>
         </div>
       </div>
@@ -55,10 +63,6 @@ const DynamicLearningPanel = () => {
   )
 }
 
-import { useReviewStatus } from '../utils/reviewStatusStore';
-
-// ... (existing imports)
-
 const Review = () => {
   // Global Review Status Store
   const { showApproved, showPending, showSkipped } = useReviewStatus();
@@ -67,24 +71,49 @@ const Review = () => {
   const [queue, setQueue] = useState<ParsedEvent[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Simulate loading delay for effect
-    setTimeout(() => {
-      // Cast imported JSON to ParsedEvent[]
-      const allTweets = (ingestedTweets as unknown as ParsedEvent[]);
+    const fetchEvents = async () => {
+      setLoading(true);
+      try {
+        // Fetch from live API
+        const response = await fetch('http://localhost:8000/api/events');
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+        const data = await response.json();
 
-      // Filter based on global store
-      const filteredTweets = allTweets.filter(t => {
-        if (t.approved_by_human && showApproved) return true;
-        if (!t.approved_by_human && showPending) return true;
-        // Add skipped logic here if/when available
-        return false;
-      });
+        // Map API response to ParsedEvent type if needed
+        // The API returns a structure that matches ParsedEvent mostly
+        const allTweets = data as ParsedEvent[];
 
-      setQueue(filteredTweets);
-      setLoading(false);
-    }, 500);
+        // Filter based on global store
+        const filteredTweets = allTweets.filter(t => {
+          // Check review_status from API
+          const status = t.review_status as string;
+          const isApproved = status === 'approved' || status === 'SUCCESS';
+          // Note: API might return different status strings, adjust as needed
+
+          // For now, let's assume 'pending' is default
+          const isPending = !isApproved;
+
+          if (isApproved && showApproved) return true;
+          if (isPending && showPending) return true;
+          return false;
+        });
+
+        setQueue(filteredTweets);
+        setError(null);
+      } catch (err) {
+        console.error("Failed to fetch events:", err);
+        setError("Failed to load live data. Please check backend connection.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
   }, [showApproved, showPending, showSkipped]);
 
   const handleApprove = async (excludeFromAnalytics: boolean) => {
@@ -110,9 +139,14 @@ const Review = () => {
       }
     }
 
-    // 3. API Call (Placeholder)
+    // 3. API Call
     console.log('Approved tweet:', currentTweet.tweet_id, 'Exclude:', excludeFromAnalytics);
-    // await api.approveTweet(...)
+    try {
+      await apiService.approveTweet(currentTweet.tweet_id);
+    } catch (error) {
+      console.error("Failed to approve tweet:", error);
+      // Ideally rollback UI state here, but for now just log
+    }
   };
 
   const handleEdit = () => {
@@ -244,7 +278,11 @@ const Review = () => {
               </div>
             </div>
 
-            <DynamicLearningPanel />
+            <DynamicLearningPanel stats={{
+              total_reviews: queue.length, // Placeholder: Use real stats if available
+              learning_files: 1, // Placeholder
+              last_run: 'अभी'
+            }} />
           </AnimatedGlassCard>
         </div>
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
-import { AnimatedGlassCard } from '../../components/AnimatedGlassCard';
+import AnimatedGlassCard from '../../components/AnimatedGlassCard';
 import CustomBarChart from '../../components/charts/CustomBarChart';
 
 describe('Responsive Design Visual Regression', () => {
@@ -24,7 +24,7 @@ describe('Responsive Design Visual Regression', () => {
     it('components adapt to mobile layout', () => {
       const { container } = render(
         <div className="mobile-container">
-          <AnimatedGlassCard delay={0}>
+          <AnimatedGlassCard delay={0} className="animated-glass-card">
             <div>Mobile content</div>
           </AnimatedGlassCard>
         </div>
@@ -62,7 +62,7 @@ describe('Responsive Design Visual Regression', () => {
     it('maintains tablet-optimized layouts', () => {
       const { container } = render(
         <div className="tablet-container">
-          <AnimatedGlassCard delay={0}>
+          <AnimatedGlassCard delay={0} className="animated-glass-card">
             <div>Tablet content</div>
           </AnimatedGlassCard>
           <CustomBarChart
@@ -94,7 +94,7 @@ describe('Responsive Design Visual Regression', () => {
     it('utilizes full desktop real estate', () => {
       const { container } = render(
         <div className="desktop-container">
-          <AnimatedGlassCard delay={0}>
+          <AnimatedGlassCard delay={0} className="animated-glass-card">
             <div>Desktop content with more space</div>
           </AnimatedGlassCard>
           <CustomBarChart
@@ -117,7 +117,7 @@ describe('Responsive Design Visual Regression', () => {
     it('handles viewport changes smoothly', () => {
       const { container, rerender } = render(
         <div style={{ width: '1200px' }}>
-          <AnimatedGlassCard delay={0}>
+          <AnimatedGlassCard delay={0} className="animated-glass-card">
             <div>Content</div>
           </AnimatedGlassCard>
         </div>
@@ -129,7 +129,7 @@ describe('Responsive Design Visual Regression', () => {
       // Simulate breakpoint change
       rerender(
         <div style={{ width: '600px' }}>
-          <AnimatedGlassCard delay={0}>
+          <AnimatedGlassCard delay={0} className="animated-glass-card">
             <div>Content</div>
           </AnimatedGlassCard>
         </div>

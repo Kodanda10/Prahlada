@@ -15,7 +15,7 @@ describe('Build & Bundle Optimisation (tree-shaking, Lighthouse gates: Perf ≥ 
     });
 
     it('lazy loads route components', () => {
-      const lazyComponent = () => import('./LazyComponent');
+      const lazyComponent = () => import('./LazyComponent.tsx');
       expect(typeof lazyComponent).toBe('function');
     });
 

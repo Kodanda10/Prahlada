@@ -1,15 +1,17 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { authService, TOKEN_KEY } from '../../services/auth';
 
 describe('Security & Authentication', () => {
   describe('Input Validation', () => {
     it('sanitizes user inputs', () => {
       const dangerousInput = '<script>alert("xss")</script>';
-      const sanitizedInput = dangerousInput.replace(/[<>]/g, '');
+      const sanitizedInput = authService.sanitizeInput(dangerousInput);
 
       render(<div>{sanitizedInput}</div>);
 
-      expect(screen.getByText('scriptalert("xss")/script')).toBeInTheDocument();
+      // Expect escaped characters
+      expect(screen.getByText('&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;')).toBeInTheDocument();
       expect(screen.queryByText(dangerousInput)).not.toBeInTheDocument();
     });
 
@@ -17,13 +19,15 @@ describe('Security & Authentication', () => {
       const validEmails = ['user@example.com', 'test.email+tag@gmail.com'];
       const invalidEmails = ['invalid-email', '@example.com', 'user@'];
 
-      // Test validation logic would go here
+      // Simple regex for testing purposes
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
       validEmails.forEach(email => {
-        expect(email.includes('@')).toBe(true);
+        expect(emailRegex.test(email)).toBe(true);
       });
 
       invalidEmails.forEach(email => {
-        expect(email).not.toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+        expect(emailRegex.test(email)).toBe(false);
       });
     });
 
@@ -35,47 +39,52 @@ describe('Security & Authentication', () => {
       ];
 
       sqlInjectionAttempts.forEach(attempt => {
-        // Test would verify input is parameterized
-        expect(attempt.includes(';')).toBe(true);
+        expect(authService.validateInput(attempt)).toBe(false);
       });
+      
+      expect(authService.validateInput("normal user input")).toBe(true);
     });
   });
 
   describe('Authentication Flow', () => {
     it('requires authentication for protected routes', () => {
-      // Mock authentication state
-      const isAuthenticated = false;
-
-      if (!isAuthenticated) {
-        expect(window.location.pathname).not.toBe('/protected');
-      }
+      localStorage.removeItem(TOKEN_KEY);
+      expect(authService.isAuthenticated()).toBe(false);
     });
 
     it('validates JWT tokens', () => {
-      const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.valid.signature';
-      const invalidToken = 'invalid.jwt.token';
+      // Valid JWT structure (header.payload.signature)
+      // Payload is base64 encoded JSON
+      const validPayload = btoa(JSON.stringify({ sub: 'user', exp: Date.now() / 1000 + 3600 }));
+      const validToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${validPayload}.signature`;
+      
+      const invalidToken = 'invalid-token';
 
-      // Basic JWT structure validation
-      expect(validToken.split('.')).toHaveLength(3);
-      expect(invalidToken.split('.')).toHaveLength(1);
+      expect(authService.validateToken(validToken)).toBe(true);
+      expect(authService.validateToken(invalidToken)).toBe(false);
     });
 
     it('handles session expiration', () => {
-      const expiredToken = 'expired.jwt.token';
+      // Token expired 1 hour ago
+      const expiredPayload = btoa(JSON.stringify({ sub: 'user', exp: Math.floor(Date.now() / 1000) - 3600 }));
+      const expiredToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${expiredPayload}.signature`;
 
-      // Test would verify token expiry handling
-      expect(expiredToken).toBeDefined();
+      localStorage.setItem(TOKEN_KEY, expiredToken);
+      
+      const logoutSpy = vi.spyOn(authService, 'logout').mockImplementation(() => {});
+
+      expect(authService.isAuthenticated()).toBe(false);
+      expect(logoutSpy).toHaveBeenCalled();
+      
+      logoutSpy.mockRestore();
+      localStorage.removeItem(TOKEN_KEY);
     });
   });
 
   describe('API Security', () => {
     it('includes CSRF tokens in requests', () => {
       const csrfToken = 'csrf-token-123';
-
-      // Mock API call with CSRF token
-      const mockFetch = vi.fn();
-
-      // Test would verify CSRF token is included
+      // Placeholder for CSRF test - assuming headers check logic would be here
       expect(csrfToken).toBeDefined();
     });
 
@@ -83,7 +92,6 @@ describe('Security & Authentication', () => {
       const allowedOrigins = ['https://app.example.com', 'https://api.example.com'];
       const requestOrigin = 'https://malicious-site.com';
 
-      expect(allowedOrigins).toContain('https://app.example.com');
       expect(allowedOrigins).not.toContain(requestOrigin);
     });
 
@@ -91,7 +99,6 @@ describe('Security & Authentication', () => {
       let requestCount = 0;
       const maxRequests = 100;
 
-      // Simulate request counting
       for (let i = 0; i < 50; i++) {
         requestCount++;
       }
@@ -111,7 +118,7 @@ describe('Security & Authentication', () => {
 
     it('masks sensitive information in logs', () => {
       const logEntry = 'User login: password=secret123, email=user@example.com';
-      const maskedEntry = logEntry.replace(/password=[^&\s]+/g, 'password=***');
+      const maskedEntry = logEntry.replace(/password=[^&\s,]+/, 'password=***');
 
       expect(maskedEntry).toContain('password=***');
       expect(maskedEntry).not.toContain('secret123');

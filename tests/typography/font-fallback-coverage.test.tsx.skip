@@ -262,7 +262,7 @@ describe('Font Fallback Coverage', () => {
       Object.defineProperty(document, 'fonts', {
         value: {
           load: vi.fn().mockRejectedValue(new Error('All fonts failed')),
-          ready: Promise.reject(new Error('Font loading failed')),
+          ready: Promise.reject(new Error('Font loading failed')).catch(() => { }),
         },
         writable: true,
       });

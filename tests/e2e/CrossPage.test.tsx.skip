@@ -1,0 +1,121 @@
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+import Review from '../../pages/Review';
+import Analytics from '../../pages/Analytics';
+import { apiService } from '../../services/api';
+import { MemoryRouter } from 'react-router-dom';
+import { ConfigProvider } from '../../contexts/ConfigContext';
+
+// Mock API Service
+vi.mock('../../services/api', () => ({
+    apiService: {
+        get: vi.fn(),
+        approveTweet: vi.fn(),
+    },
+    fetchStats: vi.fn(),
+    fetchEvents: vi.fn(),
+    fetchAnalyticsData: vi.fn(),
+}));
+
+// Mock Recharts to avoid rendering issues
+vi.mock('recharts', () => {
+    const OriginalModule = vi.importActual('recharts');
+    return {
+        ...OriginalModule,
+        ResponsiveContainer: ({ children }: any) => <div>{children}</div>,
+        PieChart: ({ children }: any) => <div>{children}</div>,
+        Pie: ({ children }: any) => <div>{children}</div>,
+        BarChart: ({ children }: any) => <div>{children}</div>,
+        Bar: ({ children }: any) => <div>{children}</div>,
+        XAxis: () => <div></div>,
+        YAxis: () => <div></div>,
+        Tooltip: () => <div></div>,
+        Legend: () => <div></div>,
+        Cell: () => <div></div>,
+        CartesianGrid: () => <div></div>,
+    };
+});
+
+// Mock Mapbox
+vi.mock('../../components/visualizations/MapBoxVisual', () => ({
+    default: () => <div data-testid="mapbox-visual">MapBox Visual</div>
+}));
+
+// Mock HierarchyMindMap
+vi.mock('../../components/visualizations/HierarchyMindMap', () => ({
+    default: () => <div data-testid="hierarchy-mindmap">Hierarchy MindMap</div>
+}));
+
+describe('Cross-Page Integration: Review to Analytics', () => {
+    const mockEvent = {
+        tweet_id: '123',
+        raw_text: 'Raipur Rally',
+        parsed_data_v8: {
+            event_type: 'Rally',
+            location: { ulb: 'Raipur' },
+            people_canonical: [],
+        },
+        review_status: 'pending',
+        approved_by_human: false,
+    };
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        // Mock fetch for Review page
+        global.fetch = vi.fn((url) => {
+            if (url.toString().includes('/api/events')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve([mockEvent]),
+                });
+            }
+            return Promise.resolve({ ok: true, json: () => Promise.resolve({}) });
+        }) as any;
+    });
+
+    it('approving an event in Review triggers API call', async () => {
+        render(
+            <ConfigProvider>
+                <MemoryRouter>
+                    <Review />
+                </MemoryRouter>
+            </ConfigProvider>
+        );
+
+        // Wait for data to load
+        await waitFor(() => {
+            expect(screen.getByText(/Raipur Rally/i)).toBeInTheDocument();
+        });
+
+        // Click Approve
+        const approveBtn = screen.getByText(/स्वीकृत/i); // "Approve" in Hindi
+        fireEvent.click(approveBtn);
+
+        // Verify API call
+        await waitFor(() => {
+            expect(apiService.approveTweet).toHaveBeenCalledWith('123');
+        });
+    });
+
+    it('Analytics page fetches updated data', async () => {
+        // Mock Analytics data fetch
+        const { fetchAnalyticsData } = await import('../../services/api');
+        (fetchAnalyticsData as any).mockResolvedValue([
+            { name: 'Rally', value: 10 }
+        ]);
+
+        render(
+            <ConfigProvider>
+                <MemoryRouter>
+                    <Analytics />
+                </MemoryRouter>
+            </ConfigProvider>
+        );
+
+        // Verify Analytics calls the API
+        await waitFor(() => {
+            expect(fetchAnalyticsData).toHaveBeenCalledWith('event-types');
+            expect(fetchAnalyticsData).toHaveBeenCalledWith('districts');
+        });
+    });
+});

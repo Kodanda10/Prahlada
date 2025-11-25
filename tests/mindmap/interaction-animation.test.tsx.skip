@@ -4,25 +4,40 @@ import HierarchyMindMap from '../../components/analytics/HierarchyMindMap';
 
 describe('D3 HierarchyMindMap - Interaction & Animation', () => {
   const testData = {
-    name: 'रायगढ़',
+    id: 'root',
+    label: 'रायगढ़',
+    visits: 100,
+    level: 1,
     children: [
       {
-        name: 'खरसिया',
+        id: 'c1',
+        label: 'खरसिया',
+        visits: 50,
+        level: 2,
         children: [
           {
-            name: 'खरसिया ब्लॉक',
+            id: 'b1',
+            label: 'खरसिया ब्लॉक',
+            visits: 30,
+            level: 3,
             children: [
               {
-                name: 'जोंबी ग्राम पंचायत',
+                id: 'g1',
+                label: 'जोंबी ग्राम पंचायत',
+                visits: 15,
+                level: 4,
                 children: [
-                  { name: 'जोंबी', visits: 4 },
-                  { name: 'कमलौर', visits: 2 }
+                  { id: 'v1', label: 'जोंबी', visits: 4, level: 5 },
+                  { id: 'v2', label: 'कमलौर', visits: 2, level: 5 }
                 ]
               },
               {
-                name: 'तमनार ग्राम पंचायत',
+                id: 'g2',
+                label: 'तमनार ग्राम पंचायत',
+                visits: 10,
+                level: 4,
                 children: [
-                  { name: 'तमनार', visits: 6 }
+                  { id: 'v3', label: 'तमनार', visits: 6, level: 5 }
                 ]
               }
             ]
@@ -84,10 +99,9 @@ describe('D3 HierarchyMindMap - Interaction & Animation', () => {
         fireEvent.mouseEnter(villageNode);
 
         // Should show tooltip
-        const tooltip = document.querySelector('.mindmap-tooltip') ||
-                       screen.queryByText(/जोंबी/);
-
-        expect(tooltip).toBeInTheDocument();
+        const tooltips = document.querySelectorAll('.mindmap-tooltip');
+        const textMatches = screen.queryAllByText(/जोंबी/);
+        expect(tooltips.length > 0 || textMatches.length > 0).toBeTruthy();
       }
     });
 

@@ -374,9 +374,9 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
 
       // Measure interaction latency during background load
       await act(async () => {
-        // Start background tasks
-        backgroundTasks.forEach(task => task);
-
+        // Start background tasks (timers are already scheduled by creation above)
+        
+        // Advance timers partially to simulate concurrent load
         vi.advanceTimersByTime(50);
 
         // Measure interaction
@@ -385,6 +385,9 @@ describe('Input Latency (INP) - Target: < 50ms on mid-tier profile', () => {
         const endTime = performance.now();
         interactionLatencies.push(endTime - startTime);
 
+        // Advance timers enough to complete all background tasks
+        vi.advanceTimersByTime(200); 
+        
         // Wait for background tasks
         await Promise.all(backgroundTasks);
       });

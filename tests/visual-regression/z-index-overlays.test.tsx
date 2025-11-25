@@ -1,14 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { GlassCard } from '../../components/GlassCard';
-import { AnimatedNavTabs } from '../../components/AnimatedNavTabs';
+import GlassCard from '../../components/GlassCard';
+import AnimatedNavTabs from '../../components/AnimatedNavTabs';
+import { Home } from 'lucide-react';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('Z-Index & Overlay Tests', () => {
   describe('Tooltip Z-Index Management', () => {
     it('ensures tooltips appear above glass layers', () => {
       render(
         <div className="content-stack">
-          <GlassCard title="Background Card">
+          <GlassCard title="Background Card" role="article">
             <p>Background content</p>
           </GlassCard>
           <div className="tooltip-overlay" data-testid="tooltip">
@@ -44,24 +46,27 @@ describe('Z-Index & Overlay Tests', () => {
   describe('Dropdown and Modal Overlays', () => {
     it('positions dropdowns above navigation and content', () => {
       render(
-        <div className="nav-stack">
-          <AnimatedNavTabs
-            tabs={[
-              { id: 'tab1', label: 'Tab 1', path: '/tab1' },
-              { id: 'tab2', label: 'Tab 2', path: '/tab2' },
-            ]}
-            activeTab="tab1"
-            onTabChange={() => {}}
-          />
-          <div className="dropdown-menu" data-testid="dropdown">
-            <div className="dropdown-item">Option 1</div>
-            <div className="dropdown-item">Option 2</div>
+        <BrowserRouter>
+          <div className="nav-stack">
+            <AnimatedNavTabs
+              tabs={[
+                { label: 'Tab 1', path: '/tab1', icon: Home },
+                { label: 'Tab 2', path: '/tab2', icon: Home },
+              ]}
+              activePath="/tab1"
+              onTabChange={() => {}}
+              isAuthenticated={true}
+            />
+            <div className="dropdown-menu" data-testid="dropdown">
+              <div className="dropdown-item">Option 1</div>
+              <div className="dropdown-item">Option 2</div>
+            </div>
           </div>
-        </div>
+        </BrowserRouter>
       );
 
       const dropdown = screen.getByTestId('dropdown');
-      const navTabs = document.querySelector('.animated-nav-tabs');
+      const navTabs = document.querySelector('.tab-button')?.closest('div');
 
       expect(dropdown).toBeInTheDocument();
       expect(navTabs).toBeInTheDocument();
@@ -167,21 +172,24 @@ describe('Z-Index & Overlay Tests', () => {
   describe('Header and Navigation Overlay Priority', () => {
     it('ensures header elements stay above content', () => {
       render(
-        <div className="page-stack">
-          <header className="page-header">
-            <h1>Page Title</h1>
-            <AnimatedNavTabs
-              tabs={[{ id: 'tab1', label: 'Tab', path: '/tab' }]}
-              activeTab="tab1"
-              onTabChange={() => {}}
-            />
-          </header>
-          <main className="page-content">
-            <GlassCard title="Content Card">
-              <p>Page content</p>
-            </GlassCard>
-          </main>
-        </div>
+        <BrowserRouter>
+          <div className="page-stack">
+            <header className="page-header">
+              <h1>Page Title</h1>
+              <AnimatedNavTabs
+                tabs={[{ label: 'Tab', path: '/tab', icon: Home }]}
+                activePath="/tab"
+                onTabChange={() => {}}
+                isAuthenticated={true}
+              />
+            </header>
+            <main className="page-content">
+              <GlassCard title="Content Card" role="article">
+                <p>Page content</p>
+              </GlassCard>
+            </main>
+          </div>
+        </BrowserRouter>
       );
 
       const header = document.querySelector('.page-header');

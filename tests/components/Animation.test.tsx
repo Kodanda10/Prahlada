@@ -10,7 +10,7 @@ describe('Animation & Interaction', () => {
     // However, we can check if the mock was called or if the component renders.
     
     render(
-      <AnimatedGlassCard title="Test">
+      <AnimatedGlassCard title="Test" data-testid="glass-card">
         <div>Content</div>
       </AnimatedGlassCard>
     );

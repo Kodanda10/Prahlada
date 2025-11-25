@@ -92,7 +92,7 @@ describe('Mixed-Script Input Safety', () => {
         </div>
       );
 
-      const textElement = screen.getByText(mixedText.substring(0, 20) + '...');
+      const textElement = screen.getByText(mixedText);
       expect(textElement).toBeInTheDocument();
       expect(textElement).toHaveClass('mixed-wrap-text');
     });

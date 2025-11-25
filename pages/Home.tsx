@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Filter, Download } from 'lucide-react';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
 import { PulseButton } from '../components/interactions/RiveLikeIcons';
-import ingestedTweets from '../data/ingested_tweets.json';
+// import ingestedTweets from '../data/ingested_tweets.json'; // REMOVED
 import { ParsedEvent } from '../types';
 import TweetPreviewModal from '../components/TweetPreviewModal';
 import TweetFilters from '../components/home/TweetFilters';
@@ -10,17 +10,37 @@ import TweetTable from '../components/home/TweetTable';
 import { exportToExcel, exportToPDF } from '../utils/export';
 import ReviewStatusControl from '../components/controlhub/ReviewStatusControl';
 import { useReviewStatus } from '../utils/reviewStatusStore';
+import { fetchEvents } from '../services/api';
 
 const Home = () => {
   // Global Review Status Store
   const { showApproved, showPending, showSkipped } = useReviewStatus();
 
-  // Cast imported JSON to ParsedEvent[]
-  const [tweets] = useState<ParsedEvent[]>(ingestedTweets as unknown as ParsedEvent[]);
-  const [isLoading, setIsLoading] = useState(false);
+  // State
+  const [tweets, setTweets] = useState<ParsedEvent[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [hoverState, setHoverState] = useState<{ isOpen: boolean, tweetId: string, text: string, x: number, y: number }>({
     isOpen: false, tweetId: '', text: '', x: 0, y: 0
   });
+
+
+
+  // Fetch Data
+  useEffect(() => {
+    const loadTweets = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchEvents();
+        setTweets(data);
+      } catch (error) {
+        console.error("Error fetching tweets:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadTweets();
+  }, []);
 
   // Filter States
   const [locationFilter, setLocationFilter] = useState('');
@@ -32,9 +52,16 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 50;
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 1500);
+    try {
+      const data = await fetchEvents();
+      setTweets(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleMouseEnter = (e: React.MouseEvent, tweet: ParsedEvent) => {

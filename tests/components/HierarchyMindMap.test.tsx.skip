@@ -1,7 +1,7 @@
 
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import HierarchyMindMap from '../components/analytics/HierarchyMindMap';
+import HierarchyMindMap from '../../components/analytics/HierarchyMindMap';
 
 describe('HierarchyMindMap', () => {
   it('renders SVG element', () => {

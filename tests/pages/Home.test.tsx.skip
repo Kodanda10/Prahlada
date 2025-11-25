@@ -1,6 +1,8 @@
-import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '../test-utils';
 import Home from '../../pages/Home';
+import { MemoryRouter } from 'react-router-dom';
+import { ConfigProvider } from '../../contexts/ConfigContext';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 
@@ -22,8 +24,19 @@ vi.mock('../../components/AnimatedGlassCard', () => ({
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
+// Mock services/api
+vi.mock('../../services/api', () => ({
+  fetchEvents: vi.fn(),
+  apiService: {
+    get: vi.fn(),
+  }
+}));
+
+// Mock other components
 vi.mock('../../components/interactions/RiveLikeIcons', () => ({
-  PulseButton: () => <button>Refresh</button>,
+  PulseButton: ({ onClick, isLoading }: any) => (
+    <button onClick={onClick}>{isLoading ? 'Loading...' : 'Refresh'}</button>
+  ),
 }));
 
 vi.mock('../../components/TweetPreviewModal', () => ({
@@ -47,14 +60,40 @@ vi.mock('../../utils/reviewStatusStore', () => ({
 
 describe('Home Page', () => {
   it('renders the home page with title', () => {
-    render(
-      <BrowserRouter>
-        <Home />
-      </BrowserRouter>
-    );
-    // Check for the Hindi title
+    render(<Home />);
+
+    // Check if the main title is present
     expect(screen.getByText('ट्वीट डेटाबेस')).toBeInTheDocument();
-    // Check for filter inputs
-    expect(screen.getByPlaceholderText('स्थान फ़िल्टर...')).toBeInTheDocument();
+
+    // Check if the table headers are present (Hindi)
+    expect(screen.getByText(/दिन \/ दिनांक/i)).toBeInTheDocument();
+    expect(screen.getByText(/📍 स्थान/i)).toBeInTheDocument();
+    expect(screen.getByText(/🎯 दौरा \/ कार्यक्रम/i)).toBeInTheDocument();
+  });
+
+  it('renders the Home page with tweets', async () => {
+    // Mock API response
+    const mockTweets = [
+      {
+        tweet_id: '1',
+        raw_text: 'Test Tweet 1',
+        created_at: '2023-10-27T10:00:00Z',
+        approved_by_human: false,
+        parsed_data_v8: {
+          location: { district: 'Raipur' },
+          event_type: 'Meeting',
+          people_canonical: ['Raman Singh']
+        }
+      }
+    ];
+
+    const { fetchEvents } = await import('../../services/api');
+    (fetchEvents as any).mockResolvedValue(mockTweets);
+
+    render(<Home />);
+
+    // Wait for data to load
+    expect(await screen.findByText('Test Tweet 1')).toBeInTheDocument();
+    expect(screen.getByText('Raipur')).toBeInTheDocument();
   });
 });

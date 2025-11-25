@@ -100,3 +100,22 @@ class CorrectionResponse(BaseModel):
     log_id: Optional[str] = None
     decision: Optional[Dict[str, Any]] = None
     details: Optional[Dict[str, Any]] = None
+
+class SearchRequest(BaseModel):
+    query: str
+    k: int = 10
+
+class SearchResult(BaseModel):
+    tweet_id: str
+    text: str
+    score: float
+    metadata: Optional[Dict[str, Any]] = None
+
+class TelemetryRequest(BaseModel):
+    type: str
+    name: str
+    data: Optional[Dict[str, Any]] = None
+    url: Optional[str] = None
+    timestamp: Optional[int] = None
+
+

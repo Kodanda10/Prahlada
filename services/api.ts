@@ -19,10 +19,21 @@ const resolveApiBase = () => {
   }
 
   if (typeof window !== 'undefined' && window.location?.origin) {
-    const origin = window.location.origin;
-    const defaultPort = origin.includes('localhost') ? '8000' : '';
-    const base = defaultPort ? `${origin.replace(/:\\d+$/, '')}:${defaultPort}` : origin;
-    return base.replace(/\/+$/, '');
+    try {
+      const url = new URL(window.location.origin);
+      const defaultPort = url.hostname === 'localhost' || url.hostname === '127.0.0.1' ? '8000' : '';
+      if (defaultPort) {
+        url.port = defaultPort;
+      }
+      return url.toString().replace(/\/+$/, '');
+    } catch (e) {
+      // Fallback if URL parsing fails
+      const origin = window.location.origin;
+      const defaultPort = origin.includes('localhost') ? '8000' : '';
+      // Ensure we strip any existing port before adding the new one
+      const base = defaultPort ? `${origin.replace(/:\d+$/, '')}:${defaultPort}` : origin;
+      return base.replace(/\/+$/, '');
+    }
   }
 
   return 'http://localhost:8000';
@@ -202,6 +213,18 @@ export const apiService = {
       return await parseJson(res, `DELETE ${endpoint}`);
     } catch (error) {
       logApiError(`delete-${endpoint}`, error);
+      throw error;
+    }
+  },
+
+  async approveTweet(tweetId: string) {
+    try {
+      const res = await fetch(`${API_BASE}/api/events/${tweetId}/approve`, withAuth({
+        method: 'POST',
+      }));
+      return await parseJson(res, `POST /api/events/${tweetId}/approve`);
+    } catch (error) {
+      logApiError(`approve-${tweetId}`, error);
       throw error;
     }
   }

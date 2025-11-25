@@ -4,7 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import Home from '../../pages/Home';
 import Analytics from '../../pages/Analytics';
 import Review from '../../pages/Review';
-import CommandView from '../../pages/CommandView';
 
 describe('Snapshot Regression Tests', () => {
   // Note: In a real implementation, these would use visual regression tools like Playwright or Percy
@@ -99,27 +98,6 @@ describe('Snapshot Regression Tests', () => {
     });
   });
 
-  describe('CommandView Page Snapshots', () => {
-    viewports.forEach(({ name, width, height }) => {
-      it(`preserves command interface on ${name} viewport`, () => {
-        Object.defineProperty(window, 'innerWidth', {
-          writable: true,
-          configurable: true,
-          value: width,
-        });
-
-        const { container } = render(
-          <MemoryRouter>
-            <CommandView />
-          </MemoryRouter>
-        );
-
-        const mainContainer = container.querySelector('main') || container.firstChild;
-        expect(mainContainer).toBeInTheDocument();
-      });
-    });
-  });
-
   describe('Layout Drift Detection', () => {
     it('prevents card spacing drift below भू-मानचित्रण section', () => {
       const { container } = render(
@@ -166,7 +144,6 @@ describe('Snapshot Regression Tests', () => {
         { component: Home, name: 'Home' },
         { component: Analytics, name: 'Analytics' },
         { component: Review, name: 'Review' },
-        { component: CommandView, name: 'CommandView' },
       ];
 
       pages.forEach(({ component: PageComponent, name }) => {

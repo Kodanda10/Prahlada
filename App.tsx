@@ -35,7 +35,7 @@ const Layout: React.FC = () => {
     { path: '/', label: 'एनालिटिक्स', icon: BarChart3 },
     { path: '/home', label: 'होम', icon: HomeIcon, protected: true },
     { path: '/review', label: 'समीक्षा', icon: FileText, protected: true },
-    { path: '/control', label: 'कंट्रोल', icon: Settings, protected: true },
+    { path: '/control', label: 'कंट्रोल हब', icon: Settings, protected: true },
   ];
 
   const handleLogout = () => {

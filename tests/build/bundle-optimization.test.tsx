@@ -16,8 +16,7 @@ describe('Build & Bundle Optimization', () => {
     });
 
     it('lazy loads route components', () => {
-      // Test dynamic imports
-      const lazyComponent = () => import('./LazyComponent');
+      const lazyComponent = () => import('./LazyComponent.tsx');
       expect(typeof lazyComponent).toBe('function');
     });
 

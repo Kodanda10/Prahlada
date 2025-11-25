@@ -1,4 +1,5 @@
 import React from 'react';
+import { telemetryService } from '../services/telemetry';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -20,6 +21,12 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
   componentDidCatch(error: unknown, info: React.ErrorInfo) {
     console.error('UI Error Boundary caught exception', error, info);
+    // Log to telemetry service
+    if (error instanceof Error) {
+        telemetryService.logError(error, info);
+    } else {
+        telemetryService.logError(new Error(String(error)), info);
+    }
   }
 
   render() {

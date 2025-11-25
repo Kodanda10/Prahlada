@@ -9,27 +9,15 @@ import HierarchyMindMap from '../components/analytics/HierarchyMindMap';
 import NumberTicker from '../components/NumberTicker';
 import { exportToExcel, exportToPDF } from '../utils/export';
 
-// 100% Hindi Data with English Numerals for Data values
-const eventTypeData = [
-  { name: 'जनसम्पर्क', value: 35, fill: '#8BF5E6' },
-  { name: 'समीक्षा बैठक', value: 25, fill: '#3b82f6' },
-  { name: 'उद्घाटन', value: 15, fill: '#a855f7' },
-  { name: 'दौरा', value: 15, fill: '#ec4899' },
-  { name: 'अन्य', value: 10, fill: '#64748b' },
-];
+import { fetchAnalyticsData } from '../services/api';
 
-const developmentData = [
-  { name: 'शिक्षा', value: 80 },
-  { name: 'स्वास्थ्य', value: 65 },
-  { name: 'इंफ्रा', value: 90 },
-  { name: 'जल', value: 50 },
-];
-
-const schemeData = [
-  { name: 'पीएम आवास', count: 145 },
-  { name: 'जल जीवन', count: 120 },
-  { name: 'महतारी वंदन', count: 98 },
-  { name: 'आयुष्मान', count: 85 },
+// Initial empty data or loading state
+const initialEventTypeData = [
+  { name: 'जनसम्पर्क', value: 0, fill: '#8BF5E6' },
+  { name: 'समीक्षा बैठक', value: 0, fill: '#3b82f6' },
+  { name: 'उद्घाटन', value: 0, fill: '#a855f7' },
+  { name: 'दौरा', value: 0, fill: '#ec4899' },
+  { name: 'अन्य', value: 0, fill: '#64748b' },
 ];
 
 // Parent variants for staggering
@@ -46,6 +34,32 @@ const containerVariants = {
 
 const AnalyticsDashboard = () => {
   const [geoViewMode, setGeoViewMode] = useState<'map' | 'hierarchy'>('map');
+  const [eventTypeData, setEventTypeData] = useState(initialEventTypeData);
+  const [developmentData, setDevelopmentData] = useState<any[]>([]);
+  const [schemeData, setSchemeData] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    const loadData = async () => {
+      try {
+        const events = await fetchAnalyticsData('event-types');
+        if (events && events.length > 0) {
+          // Map API data to chart format
+          const mappedEvents = events.map((e: any, idx: number) => ({
+            name: e.name,
+            value: e.value,
+            fill: ['#8BF5E6', '#3b82f6', '#a855f7', '#ec4899', '#64748b'][idx % 5]
+          }));
+          setEventTypeData(mappedEvents);
+        }
+
+        const districts = await fetchAnalyticsData('districts');
+        // Use districts data or other endpoints as needed
+      } catch (err) {
+        console.error("Failed to load analytics data", err);
+      }
+    };
+    loadData();
+  }, []);
 
   const handleDownloadExcel = () => {
     // Combine all data for export

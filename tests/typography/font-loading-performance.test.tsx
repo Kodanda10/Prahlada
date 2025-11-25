@@ -1,12 +1,37 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 
 describe('Font Loading Performance & Fallbacks', () => {
+  beforeEach(() => {
+    // Mock FontFace
+    global.FontFace = vi.fn(function(family, source) {
+      return {
+        family,
+        source,
+        load: vi.fn().mockResolvedValue({}),
+        status: 'loaded',
+      };
+    }) as any;
+    // Mock document.fonts
+    (document as any).fonts = {
+        add: vi.fn(),
+        check: vi.fn().mockReturnValue(true),
+        ready: Promise.resolve(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+    };
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe('Font Loading Strategy', () => {
     it('loads fonts asynchronously without blocking', async () => {
       // Mock font loading
       const mockFont = new FontFace('HindiFont', 'url(mock-font.woff2)');
-      const loadSpy = vi.spyOn(mockFont, 'load').mockResolvedValue(mockFont);
+      const loadSpy = vi.spyOn(mockFont, 'load');
 
       render(
         <div className="hindi-font-container">
@@ -14,11 +39,16 @@ describe('Font Loading Performance & Fallbacks', () => {
         </div>
       );
 
+      // Simulate loading
+      document.fonts.add(mockFont);
+      await mockFont.load();
+
       const container = screen.getByText('Hindi text content').parentElement;
       expect(container).toHaveClass('hindi-font-container');
 
       // Verify font loading doesn't block render
       expect(screen.getByText('Hindi text content')).toBeInTheDocument();
+      expect(loadSpy).toHaveBeenCalled();
     });
 
     it('provides immediate fallback fonts', () => {
@@ -74,7 +104,7 @@ describe('Font Loading Performance & Fallbacks', () => {
         </article>
       );
 
-      const paragraph = screen.getByText(longText.substring(0, 50) + '...');
+      const paragraph = screen.getByText((content) => content.startsWith('हिंदी में लिखा गया'));
       expect(paragraph).toBeInTheDocument();
     });
 
