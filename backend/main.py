@@ -1,15 +1,30 @@
 import os
+print("DEBUG: Imported os")
+import json
+from pathlib import Path
+from typing import Any
 from fastapi import FastAPI, HTTPException, Depends, status
+print("DEBUG: Imported fastapi")
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, text
 from contextlib import asynccontextmanager
 import datetime
+from dotenv import load_dotenv
+from pydantic import BaseModel
+print("DEBUG: Imported standard libs")
+
+load_dotenv()
+print("DEBUG: Loaded dotenv")
 
 from . import models, schemas
+print("DEBUG: Imported models, schemas")
 from .database import engine, get_db_session, AsyncSessionLocal
+print("DEBUG: Imported database")
 from .vector_store import get_vector_store
+print("DEBUG: Imported vector_store")
 from .auth import authenticate_user, create_access_token, get_current_user, ensure_default_admin
+print("DEBUG: Imported auth")
 
 # --- FastAPI Lifespan Management ---
 @asynccontextmanager
@@ -18,12 +33,21 @@ async def lifespan(app: FastAPI):
     Manages application startup and shutdown events.
     """
     # On startup:
-    print("Application startup...")
+    print("DEBUG: Application startup begin...")
     # Initialize database tables (if they don't exist)
-    async with engine.begin() as conn:
-        # await conn.run_sync(models.Base.metadata.drop_all) # Use for development reset
-        await conn.run_sync(models.Base.metadata.create_all)
+    print("DEBUG: Connecting to database...")
+    try:
+        async with engine.begin() as conn:
+            # print("DEBUG: Database connected. Creating tables...")
+            # await conn.run_sync(models.Base.metadata.drop_all) # Use for development reset
+            # await conn.run_sync(models.Base.metadata.create_all)
+            # print("DEBUG: Tables created.")
+            pass
+    except Exception as e:
+        print(f"DEBUG: Database connection failed: {e}")
+        raise e
 
+    print("DEBUG: Database initialization complete.")
     admin_username = os.getenv("ADMIN_USERNAME")
     admin_password = os.getenv("ADMIN_PASSWORD")
     if admin_username and admin_password:
@@ -76,14 +100,7 @@ app = FastAPI(
 )
 
 # --- CORS Middleware Setup ---
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:4173",
-    "http://127.0.0.1:4173",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -99,11 +116,18 @@ app.add_middleware(
 def read_root():
     return {"status": "Project Dhruv API is running"}
 
-@app.get("/config")
-def get_config():
-    """
-    Returns the UI configuration.
-    """
+# Use absolute path relative to this file's location
+CONFIG_FILE = Path(__file__).parent / "data" / "config.json"
+
+def load_config():
+    if CONFIG_FILE.exists():
+        try:
+            with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading config: {e}")
+    
+    # Default config
     return {
         "titles": {
             "app_title": "सोशल मीडिया एनालिटिक्स",
@@ -116,11 +140,70 @@ def get_config():
         "modules": {
             "analytics": True,
             "review": True,
-            "control_hub": True
+            "control_hub": True,
+            # Add other defaults as needed to match frontend expectations
+            "home_header": True,
+            "home_filters": True,
+            "home_table": True,
+            "review_header": True,
+            "review_queue": True,
+            "review_ai_assistant": True,
+            "review_semantic_search": True,
+            "review_metrics": True,
+            "analytics_header": True,
+            "analytics_summary": True,
+            "analytics_geo": True,
+            "analytics_tour": True,
+            "analytics_development": True,
+            "analytics_outreach": True,
+            "analytics_schemes": True,
+            "analytics_target_groups": True,
+            "analytics_thematic": True,
+            "analytics_raigarh": True,
+            "controlhub_header_systemhealth": True,
+            "controlhub_grid_analytics_sync": True,
+            "controlhub_panel_title_editor": True,
+            "controlhub_panel_api_health": True
         }
     }
 
-@app.get("/health/system")
+def save_config(config_data):
+    try:
+        # Ensure the parent directory exists
+        CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(config_data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f"Error saving config: {e}")
+
+@app.get("/api/config")
+def get_config():
+    """
+    Returns the UI configuration.
+    """
+    return load_config()
+
+class ConfigUpdate(BaseModel):
+    section: str
+    key: str
+    value: Any
+
+@app.post("/api/config")
+def update_config(update: ConfigUpdate):
+    """
+    Updates a specific configuration setting.
+    """
+    config = load_config()
+    
+    if update.section not in config:
+        config[update.section] = {}
+        
+    config[update.section][update.key] = update.value
+    save_config(config)
+    
+    return {"status": "success", "config": config}
+
+@app.get("/api/health/system")
 def get_system_health():
     """
     Returns system health statistics.
@@ -149,7 +232,7 @@ def get_system_health():
         }
     }
 
-@app.get("/health/analytics")
+@app.get("/api/health/analytics")
 def get_analytics_health():
     """
     Returns analytics health statistics.
@@ -244,7 +327,7 @@ async def get_events(
         select(models.ParsedEvent, models.RawTweet)
         .join(models.RawTweet, models.RawTweet.tweet_id == models.ParsedEvent.tweet_id, isouter=True)
         .order_by(models.ParsedEvent.parsed_at.desc())
-        .limit(100)
+        .limit(3000)
     )
     if status_filter:
         query = query.where(models.RawTweet.processing_status == status_filter)
@@ -292,9 +375,33 @@ async def get_events(
         }
         return mapping.get(raw_status.lower(), "SUCCESS")
 
+    # Word bucket definitions for dynamic extraction
+    WORD_BUCKET_KEYWORDS = {
+        "कृषि": ["किसान", "कृषि", "धान", "फसल", "बीज", "खाद", "सिंचाई", "MSP", "समर्थन मूल्य"],
+        "शिक्षा": ["शिक्षा", "स्कूल", "कॉलेज", "विद्यार्थी", "छात्र", "शिक्षक", "परीक्षा"],
+        "स्वास्थ्य": ["स्वास्थ्य", "अस्पताल", "इलाज", "डॉक्टर", "दवा", "मेडिकल", "एम्बुलेंस"],
+        "बुनियादी_ढांचा": ["सड़क", "बिजली", "पानी", "निर्माण", "पुल", "भवन", "रेलवे"],
+        "कल्याण": ["राशन", "पेंशन", "आवास", "गरीब", "कल्याण", "सहायता", "अनुदान"],
+        "शासन": ["प्रशासन", "योजना", "बैठक", "समीक्षा", "निरीक्षण", "उद्घाटन", "लोकार्पण"],
+        "सुरक्षा": ["पुलिस", "नक्सल", "सुरक्षा", "कानून", "अपराध", "गिरफ्तार", "जवान"],
+        "संस्कृति": ["संस्कृति", "त्योहार", "परंपरा", "मेला", "महोत्सव", "कला", "पर्यटन"],
+        "रोजगार": ["रोजगार", "नौकरी", "भर्ती", "स्वरोजगार", "कौशल", "प्रशिक्षण"],
+        "विकास": ["विकास", "प्रगति", "सौगात", "आधारशिला", "विकसित"]
+    }
+
+    def extract_word_buckets_from_text(text: str) -> list:
+        """Dynamically extract word buckets from tweet text."""
+        if not text:
+            return []
+        buckets = []
+        for bucket_name, keywords in WORD_BUCKET_KEYWORDS.items():
+            if any(kw in text for kw in keywords):
+                buckets.append(bucket_name)
+        return buckets
+
     response: list[dict] = []
     for parsed_event, raw_tweet in rows:
-        categories = parsed_event.categories or {}
+        categories = parsed_event.categories if isinstance(parsed_event.categories, dict) else {}
         event_types = as_list(categories.get("event") or parsed_event.event_type)
         scheme_tags = as_list(categories.get("schemes") or parsed_event.schemes_mentioned)
         raw_text = (
@@ -310,6 +417,19 @@ async def get_events(
             or raw_text
         )
         location_text = resolve_locations(categories, parsed_event.locations)
+        
+        # Extract people
+        people = as_list(categories.get("people") or parsed_event.people_mentioned)
+        
+        # Word buckets - try categories first, then extract dynamically from text
+        word_buckets = as_list(
+            categories.get("keywords") or 
+            categories.get("hashtags") or 
+            categories.get("word_buckets")
+        )
+        if not word_buckets and raw_text:
+            word_buckets = extract_word_buckets_from_text(raw_text)
+
         log_entries = [f"parsed_at={parsed_event.parsed_at.isoformat()}"]
         if raw_tweet and raw_tweet.processing_status:
             log_entries.append(f"processing_status={raw_tweet.processing_status}")
@@ -322,6 +442,8 @@ async def get_events(
             "event_type": event_types,
             "location_text": location_text,
             "scheme_tags": scheme_tags,
+            "people_mentioned": people,
+            "word_buckets": word_buckets,
             "parsing_status": map_status(raw_tweet.processing_status if raw_tweet else None),
             "logs": log_entries or ["Loaded from parsed_events"]
         })
@@ -516,6 +638,64 @@ async def approve_event(
     
     return {"status": "success", "message": f"Event {tweet_id} approved"}
 
+@app.put("/api/events/{tweet_id}")
+async def update_event(
+    tweet_id: str,
+    payload: schemas.EventUpdateRequest,
+    db: AsyncSession = Depends(get_db_session),
+    user: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Updates an event's parsed data.
+    """
+    event = await db.get(models.ParsedEvent, tweet_id)
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    
+    data = payload.parsed_data
+    
+    # Update top-level fields
+    if "event_type" in data:
+        event.event_type = data["event_type"]
+    
+    if "location" in data and isinstance(data["location"], dict):
+        loc_text = data["location"].get("canonical")
+        if loc_text:
+            event.locations = [loc_text]
+            
+    if "schemes_mentioned" in data:
+        event.schemes_mentioned = data["schemes_mentioned"]
+        
+    if "people_mentioned" in data:
+        event.people_mentioned = data["people_mentioned"]
+        
+    # Update categories JSONB to reflect changes
+    if event.categories:
+        cats = dict(event.categories)
+    else:
+        cats = {}
+        
+    if "event_type" in data:
+        cats["event"] = [data["event_type"]]
+    if "location" in data and isinstance(data["location"], dict):
+        cats["locations"] = [data["location"].get("canonical")]
+    if "schemes_mentioned" in data:
+        cats["schemes"] = data["schemes_mentioned"]
+    if "people_mentioned" in data:
+        cats["people"] = data["people_mentioned"]
+        
+    event.categories = cats
+    
+    # Mark as edited
+    event.review_status = "edited"
+    event.reviewed_at = datetime.datetime.utcnow()
+    event.reviewed_by = user.username
+    
+    await db.commit()
+    
+    return {"status": "success", "message": f"Event {tweet_id} updated"}
+
+
 @app.post("/api/search", response_model=list[schemas.SearchResult])
 async def search_tweets(
     payload: schemas.SearchRequest,
@@ -560,5 +740,164 @@ async def log_telemetry(
     # For now, just print to stdout
     print(f"TELEMETRY [{payload.type.upper()}]: {payload.name} - {payload.data}")
     return {"status": "success"}
+
+
+# --- Overlay Service Endpoints ---
+
+@app.post("/api/overlay/add")
+async def add_overlay_correction(
+    payload: schemas.AddOverlayRequest,
+    db: AsyncSession = Depends(get_db_session),
+    user: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Add a human-reviewed correction overlay.
+
+    Creates a correction record that will be applied to parsed data without
+    modifying the original parser output.
+    """
+    from .services.overlay_service import get_overlay_service
+
+    overlay_service = get_overlay_service()
+
+    record = overlay_service.add_overlay(
+        tweet_id=payload.tweet_id,
+        field=payload.field,
+        corrected_value=payload.corrected_value.value,
+        reviewer_id=payload.reviewer_id,
+        reviewer_name=payload.reviewer_name,
+        notes=payload.notes
+    )
+
+    return {
+        "status": "success",
+        "overlay": record.to_dict()
+    }
+
+
+@app.get("/api/overlay/tweet/{tweet_id}")
+async def get_tweet_overlays(
+    tweet_id: str,
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Get all overlay corrections for a specific tweet.
+    """
+    from .services.overlay_service import get_overlay_service
+
+    overlay_service = get_overlay_service()
+    overlays = overlay_service.get_overlays_for_tweet(tweet_id)
+
+    return [overlay.to_dict() for overlay in overlays]
+
+
+@app.post("/api/overlay/apply")
+async def apply_overlay_corrections(
+    payload: schemas.ApplyOverlayRequest,
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+) -> schemas.ApplyOverlayResponse:
+    """
+    Apply overlay corrections to parsed data.
+
+    Returns the corrected data with overlays applied where available.
+    """
+    from .services.overlay_service import get_overlay_service
+
+    overlay_service = get_overlay_service()
+    corrected_data = overlay_service.apply_overlays(
+        payload.parsed_data,
+        payload.tweet_id
+    )
+
+    # Count applied overlays
+    overlays = overlay_service.get_overlays_for_tweet(payload.tweet_id)
+    applied_count = len([
+        o for o in overlays
+        if o.field in payload.parsed_data and
+        (o.confidence >= 0.8 or o.source == "human_review")
+    ])
+
+    return schemas.ApplyOverlayResponse(
+        status="success",
+        corrected_data=corrected_data,
+        applied_overlays=applied_count
+    )
+
+
+@app.get("/api/overlay/stats")
+async def get_overlay_statistics(
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Get comprehensive statistics about stored overlay corrections.
+    """
+    from .services.overlay_service import get_overlay_service
+
+    overlay_service = get_overlay_service()
+    stats = overlay_service.get_overlay_stats()
+
+    return stats
+
+
+@app.delete("/api/overlay/tweet/{tweet_id}")
+async def clear_tweet_overlays(
+    tweet_id: str,
+    db: AsyncSession = Depends(get_db_session),
+    user: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Remove all overlay corrections for a specific tweet.
+
+    Requires admin privileges for data management operations.
+    """
+    if "admin" not in user.roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin privileges required for overlay management"
+        )
+
+    from .services.overlay_service import get_overlay_service
+
+    overlay_service = get_overlay_service()
+    removed_count = overlay_service.clear_overlays_for_tweet(tweet_id)
+
+    return {
+        "status": "success",
+        "removed_overlays": removed_count
+    }
+
+
+@app.get("/api/overlay/health")
+async def get_overlay_health(
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+) -> schemas.OverlayHealthResponse:
+    """
+    Get overlay service health and performance metrics.
+    """
+    from .services.overlay_service import get_overlay_service
+    import time
+
+    overlay_service = get_overlay_service()
+
+    start_time = time.time()
+    stats = overlay_service.get_overlay_stats()
+    query_time = time.time() - start_time
+
+    return schemas.OverlayHealthResponse(
+        status="healthy",
+        query_performance_ms=round(query_time * 1000, 2),
+        total_overlays=stats["total_overlays"],
+        tweets_with_overlays=stats["tweets_with_overlays"],
+        service_ready=True
+    )
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 

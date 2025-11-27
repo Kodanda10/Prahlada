@@ -88,19 +88,19 @@ const ControlHub = () => {
     exportToPDF(data, 'system_health_report');
   };
 
-  // Fallback data for when backend is unreachable
+  // Fallback data for when backend is unreachable - shows "Unknown" / "Down" with 0 values
   const fallbackSystemHealth: SystemHealth = {
     cpu_usage: 0,
     memory_usage: 0,
     memory_total_gb: 0,
     services: {
-      ollama: { status: 'down', details: 'Unreachable' },
-      cognitive_engine: { status: 'down', details: 'Unreachable' },
-      database_file: { status: 'down', details: 'Unreachable' },
-      mapbox_integration: { status: 'down', details: 'Unreachable' }
+      ollama: { status: 'down', details: 'Unknown' },
+      cognitive_engine: { status: 'down', details: 'Unknown' },
+      database_file: { status: 'down', details: 'Unknown' },
+      mapbox_integration: { status: 'down', details: 'Unknown' }
     },
     parser_uptime_seconds: 0,
-    api_error_rate: 1,
+    api_error_rate: 0,
     p95_latency_ms: 0
   };
 
@@ -114,8 +114,8 @@ const ControlHub = () => {
 
   const fetchData = async () => {
     try {
-      const sys = await apiService.get('/health/system') as SystemHealth;
-      const ana = await apiService.get('/health/analytics') as AnalyticsHealth;
+      const sys = await apiService.get('/api/health/system') as SystemHealth;
+      const ana = await apiService.get('/api/health/analytics') as AnalyticsHealth;
 
       if (sys) {
         // Merge with fallback to guard against missing keys from the backend
@@ -353,20 +353,96 @@ const ControlHub = () => {
       {/* E. Module Visibility Control */}
       <ModuleWrapper id="controlhub_panel_api_health">
         <AnimatedGlassCard title="मॉड्यूल दृश्यता (Module Visibility)" className="min-h-[200px]">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {Object.entries(config.modules).map(([key, enabled]) => (
-              <div key={key} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
-                <span className="text-xs text-slate-300 font-mono truncate mr-2" title={key}>
-                  {key.replace('controlhub_', '').replace('analytics_', '')}
-                </span>
-                <button
-                  onClick={() => updateConfig('modules', key, !enabled)}
-                  className={`transition-colors ${enabled ? 'text-[#8BF5E6]' : 'text-slate-600'}`}
-                >
-                  {enabled ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
-                </button>
+          <div className="space-y-6">
+
+            {/* Home Page Toggles */}
+            <div>
+              <h4 className="text-xs text-slate-500 font-bold uppercase mb-3 font-hindi border-b border-white/10 pb-1">होम पेज (Home)</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Object.entries(config.modules)
+                  .filter(([key]) => key.startsWith('home_'))
+                  .map(([key, enabled]) => (
+                    <div key={key} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+                      <span className="text-xs text-slate-300 font-mono truncate mr-2" title={key}>
+                        {key.replace('home_', '')}
+                      </span>
+                      <button
+                        onClick={() => updateConfig('modules', key, !enabled)}
+                        className={`transition-colors ${enabled ? 'text-[#8BF5E6]' : 'text-slate-600'}`}
+                      >
+                        {enabled ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
+                      </button>
+                    </div>
+                  ))}
               </div>
-            ))}
+            </div>
+
+            {/* Review Page Toggles */}
+            <div>
+              <h4 className="text-xs text-slate-500 font-bold uppercase mb-3 font-hindi border-b border-white/10 pb-1">समीक्षा पेज (Review)</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Object.entries(config.modules)
+                  .filter(([key]) => key.startsWith('review_'))
+                  .map(([key, enabled]) => (
+                    <div key={key} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+                      <span className="text-xs text-slate-300 font-mono truncate mr-2" title={key}>
+                        {key.replace('review_', '')}
+                      </span>
+                      <button
+                        onClick={() => updateConfig('modules', key, !enabled)}
+                        className={`transition-colors ${enabled ? 'text-[#8BF5E6]' : 'text-slate-600'}`}
+                      >
+                        {enabled ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Analytics Page Toggles */}
+            <div>
+              <h4 className="text-xs text-slate-500 font-bold uppercase mb-3 font-hindi border-b border-white/10 pb-1">एनालिटिक्स पेज (Analytics)</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Object.entries(config.modules)
+                  .filter(([key]) => key.startsWith('analytics_'))
+                  .map(([key, enabled]) => (
+                    <div key={key} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+                      <span className="text-xs text-slate-300 font-mono truncate mr-2" title={key}>
+                        {key.replace('analytics_', '')}
+                      </span>
+                      <button
+                        onClick={() => updateConfig('modules', key, !enabled)}
+                        className={`transition-colors ${enabled ? 'text-[#8BF5E6]' : 'text-slate-600'}`}
+                      >
+                        {enabled ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Control Hub Toggles */}
+            <div>
+              <h4 className="text-xs text-slate-500 font-bold uppercase mb-3 font-hindi border-b border-white/10 pb-1">कंट्रोल हब (Control Hub)</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Object.entries(config.modules)
+                  .filter(([key]) => key.startsWith('controlhub_'))
+                  .map(([key, enabled]) => (
+                    <div key={key} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+                      <span className="text-xs text-slate-300 font-mono truncate mr-2" title={key}>
+                        {key.replace('controlhub_', '')}
+                      </span>
+                      <button
+                        onClick={() => updateConfig('modules', key, !enabled)}
+                        className={`transition-colors ${enabled ? 'text-[#8BF5E6]' : 'text-slate-600'}`}
+                      >
+                        {enabled ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
           </div>
         </AnimatedGlassCard>
       </ModuleWrapper>
