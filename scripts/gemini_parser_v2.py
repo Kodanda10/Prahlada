@@ -687,6 +687,32 @@ class EntityExtractorV2:
             "orgs": orgs
         }
 
+    def extract_word_buckets(self, text: str) -> List[str]:
+        """
+        Extract word buckets (thematic categories) from tweet text.
+        Matches keywords to assign tweets to predefined buckets.
+        """
+        if not text:
+            return []
+        
+        # Word bucket keywords - thematic categories for tweet classification
+        word_bucket_keywords = {
+            "स्वास्थ्य": ["स्वास्थ्य", "अस्पताल", "चिकित्सा", "डॉक्टर", "आयुष्मान", "एम्स", "मेडिकल"],
+            "शिक्षा": ["शिक्षा", "स्कूल", "विद्यालय", "विश्वविद्यालय", "छात्र", "शिक्षक", "पढ़ाई"],
+            "कृषि": ["कृषि", "किसान", "फसल", "खेती", "सिंचाई", "धान", "खरीदी", "समर्थन मूल्य"],
+            "शासन": ["प्रशासन", "योजना", "बैठक", "समीक्षा", "निरीक्षण", "उद्घाटन", "लोकार्पण"],
+            "सुरक्षा": ["पुलिस", "नक्सल", "सुरक्षा", "कानून", "अपराध", "गिरफ्तार", "जवान"],
+            "संस्कृति": ["संस्कृति", "त्योहार", "परंपरा", "मेला", "महोत्सव", "कला", "पर्यटन"],
+            "रोजगार": ["रोजगार", "नौकरी", "भर्ती", "स्वरोजगार", "कौशल", "प्रशिक्षण"],
+            "विकास": ["विकास", "प्रगति", "सौगात", "आधारशिला", "विकसित"]
+        }
+        
+        buckets = []
+        for bucket_name, keywords in word_bucket_keywords.items():
+            if any(kw in text for kw in keywords):
+                buckets.append(bucket_name)
+        return buckets
+
 # ==========================================
 # MULTI-LABEL EVENT CLASSIFIER
 # ==========================================
@@ -758,6 +784,7 @@ class GeminiParserV2:
         people = self.entity_extractor.extract_people(text)
         schemes = self.entity_extractor.extract_schemes(text)
         other_entities = self.entity_extractor.extract_others(text)
+        word_buckets = self.entity_extractor.extract_word_buckets(text)
         
         # 2. Event Classification
         event_type, event_scores = self.event_classifier.classify(text, schemes)
@@ -824,6 +851,7 @@ class GeminiParserV2:
             "target_groups": other_entities["target_groups"],
             "communities": other_entities["communities"],
             "organizations": other_entities["orgs"],
+            "word_buckets": word_buckets,
             "confidence": round(confidence, 2),
             "parsing_trace": parsing_trace,
             "model_version": "gemini-parser-v2",

@@ -46,6 +46,7 @@ class ParsedEvent(Base):
     locations = Column(ARRAY(String), nullable=True)
     people_mentioned = Column(ARRAY(String), nullable=True)
     schemes_mentioned = Column(ARRAY(String), nullable=True)
+    word_buckets = Column(ARRAY(String), nullable=True)
 
     # Review and confidence
     overall_confidence = Column(Float, default=0.0)

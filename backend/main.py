@@ -80,6 +80,29 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"WARNING: Cognitive Engine initialization failed: {e}")
         app.state.cognitive_engine = None
+
+    # Initialize Phi 3.5 Cognitive Interface
+    print("Initializing Phi 3.5 Cognitive Interface...")
+    try:
+        from .cognitive import configure_cognitive_interface, get_cognitive_interface
+        phi_enabled = os.getenv("PHI_ENABLED", "false").lower() == "true"
+        phi_base_url = os.getenv("PHI_BASE_URL", "http://localhost:11434")
+        phi_model = os.getenv("PHI_MODEL", "phi3.5")
+        
+        configure_cognitive_interface(
+            phi_enabled=phi_enabled,
+            phi_base_url=phi_base_url,
+            phi_model=phi_model
+        )
+        app.state.cognitive_interface = get_cognitive_interface()
+        
+        if phi_enabled:
+            print(f"✅ Phi 3.5 Cognitive Interface enabled (model: {phi_model}, url: {phi_base_url})")
+        else:
+            print("⚠️ Phi 3.5 Cognitive Interface disabled (set PHI_ENABLED=true to enable)")
+    except Exception as e:
+        print(f"WARNING: Phi 3.5 Cognitive Interface initialization failed: {e}")
+        app.state.cognitive_interface = None
     
     yield  # Application is now running
     
@@ -216,6 +239,21 @@ def get_system_health():
         cpu_usage = 45.0  # Mock value
         memory_usage = 60.0  # Mock value
 
+    # Check Phi 3.5 / Cognitive Interface status
+    phi_status = {"status": "down", "details": "Not initialized"}
+    cognitive_interface = getattr(app.state, "cognitive_interface", None)
+    if cognitive_interface:
+        try:
+            readiness = cognitive_interface.check_cognitive_readiness()
+            if readiness.get("phi_3_5_available"):
+                phi_status = {"status": "up", "details": "Phi 3.5 Ready"}
+            elif readiness.get("phi_3_5_enabled"):
+                phi_status = {"status": "degraded", "details": "Enabled but not responding"}
+            else:
+                phi_status = {"status": "disabled", "details": "Disabled by configuration"}
+        except Exception:
+            phi_status = {"status": "error", "details": "Health check failed"}
+
     return {
         "status": "healthy",
         "cpu_usage": cpu_usage,
@@ -227,6 +265,7 @@ def get_system_health():
         "services": {
             "ollama": {"status": "up", "details": "Running"},
             "cognitive_engine": {"status": "up", "details": "Ready"},
+            "phi_3_5": phi_status,
             "database_file": {"status": "up", "details": "Connected"},
             "mapbox_integration": {"status": "up", "details": "Active"}
         }
