@@ -14,10 +14,15 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set. Please create a .env file or set it.")
 
+# Handle SQLite specific configuration
+connect_args = {}
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+
 # --- SQLAlchemy Engine and Session ---
 # Create an asynchronous engine for FastAPI to use.
 # `echo=False` in production to avoid logging every SQL query.
-engine = create_async_engine(DATABASE_URL, echo=False, future=True)
+engine = create_async_engine(DATABASE_URL, echo=False, future=True, connect_args=connect_args)
 
 # Create a sessionmaker that will be used to create new sessions for each request.
 # `expire_on_commit=False` is important for async sessions.

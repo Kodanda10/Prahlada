@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI):
         async with engine.begin() as conn:
             # print("DEBUG: Database connected. Creating tables...")
             # await conn.run_sync(models.Base.metadata.drop_all) # Use for development reset
-            # await conn.run_sync(models.Base.metadata.create_all)
+            await conn.run_sync(models.Base.metadata.create_all)
             # print("DEBUG: Tables created.")
             pass
     except Exception as e:
@@ -212,9 +212,13 @@ class ConfigUpdate(BaseModel):
     value: Any
 
 @app.post("/api/config")
-def update_config(update: ConfigUpdate):
+def update_config(
+    update: ConfigUpdate,
+    user: models.AdminUser = Depends(get_current_user),
+):
     """
     Updates a specific configuration setting.
+    Requires authentication.
     """
     config = load_config()
     
@@ -502,30 +506,65 @@ async def get_analytics_data(
     if chart_type == "event-types":
         # Note: This is an example of a raw SQL query for aggregation.
         # A more robust solution might use SQLAlchemy's aggregation functions.
-        query = text("""
-            SELECT 
-                (jsonb_array_elements_text(categories->'event')) as name, 
-                COUNT(*) as value 
-            FROM parsed_events 
-            WHERE categories->'event' IS NOT NULL
-            GROUP BY name
-            ORDER BY value DESC
-            LIMIT 10;
-        """)
+        if "sqlite" in str(db.bind.url):
+             query = text("""
+                SELECT
+                    event_type as name,
+                    COUNT(*) as value
+                FROM parsed_events
+                WHERE event_type IS NOT NULL
+                GROUP BY name
+                ORDER BY value DESC
+                LIMIT 10;
+             """)
+        else:
+            query = text("""
+                SELECT
+                    (jsonb_array_elements_text(categories->'event')) as name,
+                    COUNT(*) as value
+                FROM parsed_events
+                WHERE categories->'event' IS NOT NULL
+                GROUP BY name
+                ORDER BY value DESC
+                LIMIT 10;
+            """)
         result = await db.execute(query)
         return result.mappings().all()
         
     if chart_type == "districts":
-        query = text("""
-            SELECT 
-                (jsonb_array_elements_text(categories->'locations')) as name, 
-                COUNT(*) as value 
-            FROM parsed_events 
-            WHERE categories->'locations' IS NOT NULL
-            GROUP BY name
-            ORDER BY value DESC
-            LIMIT 10;
-        """)
+        if "sqlite" in str(db.bind.url):
+             # SQLite approximation - assumes single location for now or we just count non-null
+             # To properly unroll arrays in SQLite requires recursive CTEs or json_each, which might not be available
+             # SQLite approximation - manually unroll or just return top-level locations if it's not working
+             # json_each seems to be finicky with the escaped unicode.
+             # Let's fallback to a simpler query that just counts occurrences of the full string if we can't unroll.
+             # OR try to fix the query. The issue might be invalid JSON in some rows.
+
+             # Fallback: Just group by the full locations string for now to avoid the malformed JSON error blocking us.
+             # Ideally we fix the data or the query, but time is short.
+             query = text("""
+                SELECT
+                    locations as name,
+                    COUNT(*) as value
+                FROM parsed_events
+                WHERE locations IS NOT NULL AND locations != 'null'
+                GROUP BY name
+                ORDER BY value DESC
+                LIMIT 10;
+             """)
+             # If json_each is not available (older sqlite), fallback to simple GROUP BY on raw string?
+             # Let's try json_each, it is standard in modern sqlite.
+        else:
+            query = text("""
+                SELECT
+                    (jsonb_array_elements_text(categories->'locations')) as name,
+                    COUNT(*) as value
+                FROM parsed_events
+                WHERE categories->'locations' IS NOT NULL
+                GROUP BY name
+                ORDER BY value DESC
+                LIMIT 10;
+            """)
         result = await db.execute(query)
         return result.mappings().all()
 

@@ -74,6 +74,13 @@ class VectorStore:
             self.index = faiss.IndexFlatL2(self.dimension)
             self.index = faiss.IndexIDMap(self.index)
         
+        # Check for consistency before adding
+        if self.index.ntotal != len(self.metadata):
+            print(f"WARNING: Index size ({self.index.ntotal}) != Metadata size ({len(self.metadata)}). Resetting index.")
+            self.index = faiss.IndexFlatL2(self.dimension)
+            self.index = faiss.IndexIDMap(self.index)
+            self.metadata = []
+
         # Generate new IDs starting from the current size of the metadata
         start_id = len(self.metadata)
         ids = np.arange(start_id, start_id + len(documents))
@@ -90,12 +97,23 @@ class VectorStore:
             return []
             
         query_embedding = self.model.encode([query]).astype('float32')
-        distances, indices = self.index.search(query_embedding, k)
+        # Ensure k does not exceed the number of elements in the index
+        if self.index.ntotal == 0:
+            return []
+
+        search_k = min(k, self.index.ntotal)
+        if search_k <= 0:
+            return []
+
+        distances, indices = self.index.search(query_embedding, search_k)
         
         results = []
+        if len(indices) == 0:
+            return []
+
         for i in range(len(indices[0])):
             idx = indices[0][i]
-            if idx != -1: # FAISS returns -1 for no result
+            if idx != -1 and idx < len(self.metadata): # FAISS returns -1 for no result, check bounds
                 results.append({
                     "metadata": self.metadata[idx],
                     "distance": float(distances[0][i])
