@@ -9,6 +9,7 @@ Actual Schema:
 - needs_review, review_status, parsed_at
 """
 import json
+import sqlite3
 import psycopg2
 from psycopg2.extras import Json
 from datetime import datetime
@@ -38,13 +39,31 @@ def log_message(message):
     with open(LOG_FILE, 'a') as f:
         f.write(log_entry + "\n")
 
+def get_connection():
+    if "sqlite" in DB_URL:
+        db_path = DB_URL.replace("sqlite+aiosqlite:///", "")
+        return sqlite3.connect(db_path)
+    else:
+        return psycopg2.connect(DB_URL)
+
 def backup_existing_data(conn):
     """Backup existing parsed_events"""
     log_message("Creating backup...")
     
     cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) FROM parsed_events")
-    count = cur.fetchone()[0]
+    # Check if table exists (SQLite)
+    if "sqlite" in DB_URL:
+        cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='parsed_events';")
+        if not cur.fetchone():
+             log_message("Table parsed_events does not exist. Skipping backup.")
+             return 0
+
+    try:
+        cur.execute("SELECT COUNT(*) FROM parsed_events")
+        count = cur.fetchone()[0]
+    except Exception:
+         log_message("Table likely doesn't exist or error reading count. Skipping backup.")
+         return 0
     
     if count > 0:
         cur.execute("""
@@ -81,6 +100,12 @@ def delete_old_data(conn):
     log_message("Deleting old data...")
     
     cur = conn.cursor()
+
+    if "sqlite" in DB_URL:
+        cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='parsed_events';")
+        if not cur.fetchone():
+             return 0
+
     cur.execute("DELETE FROM parsed_events")
     deleted = cur.rowcount
     conn.commit()
@@ -107,6 +132,8 @@ def ingest_new_data(conn):
     inserted = 0
     skipped = 0
     
+    is_sqlite = "sqlite" in DB_URL
+
     for tweet in parsed_tweets:
         tweet_id = tweet.get("tweet_id")
         parsed_data = tweet.get("parsed_data_v9", {})
@@ -133,27 +160,60 @@ def ingest_new_data(conn):
             orgs = parsed_data.get("organizations", [])
             confidence = parsed_data.get("confidence", 0.0)
             
+            # Serialize JSON fields for SQLite
+            if is_sqlite:
+                locations = json.dumps(locations)
+                people = json.dumps(people)
+                schemes = json.dumps(schemes)
+                orgs = json.dumps(orgs)
+            else:
+                 locations = Json(locations)
+
             # Insert (let DB auto-generate id)
             try:
-                cur.execute("""
-                    INSERT INTO parsed_events (
-                        tweet_id, event_type, locations, people_mentioned,
-                        schemes_mentioned, organizations, overall_confidence,
-                        needs_review, review_status, parsed_at
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (tweet_id) DO UPDATE SET
-                        event_type = EXCLUDED.event_type,
-                        locations = EXCLUDED.locations,
-                        people_mentioned = EXCLUDED.people_mentioned,
-                        schemes_mentioned = EXCLUDED.schemes_mentioned,
-                        organizations = EXCLUDED.organizations,
-                        overall_confidence = EXCLUDED.overall_confidence,
-                        parsed_at = EXCLUDED.parsed_at
-                """, (
-                    tweet_id, event_type, Json(locations), people,
-                    schemes, orgs, confidence, confidence < 0.8, 'pending',
-                    datetime.utcnow()
-                ))
+                if is_sqlite:
+                    # SQLite UPSERT syntax
+                    # Note: We need to provide 'id' or let it be tweet_id since tweet_id is unique and id is PK
+                    # The schema says id is String PK.
+                    cur.execute("""
+                        INSERT INTO parsed_events (
+                            id, tweet_id, event_type, locations, people_mentioned,
+                            schemes_mentioned, organizations, overall_confidence,
+                            needs_review, review_status, parsed_at
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ON CONFLICT (tweet_id) DO UPDATE SET
+                            event_type = excluded.event_type,
+                            locations = excluded.locations,
+                            people_mentioned = excluded.people_mentioned,
+                            schemes_mentioned = excluded.schemes_mentioned,
+                            organizations = excluded.organizations,
+                            overall_confidence = excluded.overall_confidence,
+                            parsed_at = excluded.parsed_at
+                    """, (
+                        tweet_id, tweet_id, event_type, locations, people,
+                        schemes, orgs, confidence, 1 if confidence < 0.8 else 0, 'pending',
+                        datetime.utcnow()
+                    ))
+                else:
+                    cur.execute("""
+                        INSERT INTO parsed_events (
+                            id, tweet_id, event_type, locations, people_mentioned,
+                            schemes_mentioned, organizations, overall_confidence,
+                            needs_review, review_status, parsed_at
+                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        ON CONFLICT (tweet_id) DO UPDATE SET
+                            event_type = EXCLUDED.event_type,
+                            locations = EXCLUDED.locations,
+                            people_mentioned = EXCLUDED.people_mentioned,
+                            schemes_mentioned = EXCLUDED.schemes_mentioned,
+                            organizations = EXCLUDED.organizations,
+                            overall_confidence = EXCLUDED.overall_confidence,
+                            parsed_at = EXCLUDED.parsed_at
+                    """, (
+                        tweet_id, tweet_id, event_type, locations, people,
+                        schemes, orgs, confidence, confidence < 0.8, 'pending',
+                        datetime.utcnow()
+                    ))
                 conn.commit()  # Commit after each successful insert
                 inserted += 1
                 
@@ -199,9 +259,17 @@ def main():
     log_message("="*60)
     
     try:
-        conn = psycopg2.connect(DB_URL)
+        conn = get_connection()
         log_message("Connected")
         
+        # Ensure tables exist (Hack for SQLite first run)
+        # Note: In a real app, use Alembic/SQLAlchemy to create tables.
+        # But here we are hacking a script.
+        # Let's trust that the backend app will create tables when it runs.
+        # BUT the user wants us to run ingestion script *now*.
+        # So I'll just check if I can run the backend initialization logic?
+        # Or I can just start the backend once to init DB.
+
         backup_count = backup_existing_data(conn)
         deleted_count = delete_old_data(conn)
         inserted, skipped = ingest_new_data(conn)

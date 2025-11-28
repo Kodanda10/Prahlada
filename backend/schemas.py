@@ -118,4 +118,30 @@ class TelemetryRequest(BaseModel):
     url: Optional[str] = None
     timestamp: Optional[int] = None
 
+class EventUpdateRequest(BaseModel):
+    parsed_data: Dict[str, Any]
+
+class AddOverlayRequest(BaseModel):
+    tweet_id: str
+    field: str
+    corrected_value: Any
+    reviewer_id: str
+    reviewer_name: Optional[str] = None
+    notes: Optional[str] = None
+
+class ApplyOverlayRequest(BaseModel):
+    tweet_id: str
+    parsed_data: Dict[str, Any]
+
+class ApplyOverlayResponse(BaseModel):
+    status: str
+    corrected_data: Dict[str, Any]
+    applied_overlays: int
+
+class OverlayHealthResponse(BaseModel):
+    status: str
+    query_performance_ms: float
+    total_overlays: int
+    tweets_with_overlays: int
+    service_ready: bool
 
