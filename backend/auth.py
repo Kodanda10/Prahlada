@@ -24,10 +24,17 @@ bearer_scheme = HTTPBearer(auto_error=False)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
+    # bcrypt limitation: inputs must be <= 72 bytes. Truncate if necessary to avoid 500 errors.
+    # In a real system, you might want to hash the password with SHA256 before passing to bcrypt
+    # to handle arbitrary lengths safely, but for now truncation prevents the crash.
+    if len(plain_password.encode('utf-8')) > 72:
+         plain_password = plain_password[:72]
     return pwd_context.verify(plain_password, hashed_password)
 
 
 def get_password_hash(password: str) -> str:
+    if len(password.encode('utf-8')) > 72:
+         password = password[:72]
     return pwd_context.hash(password)
 
 
