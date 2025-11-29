@@ -20,6 +20,12 @@ from pathlib import Path
 from typing import List, Dict, Tuple, Any, Optional, Union, Set
 from collections import Counter, defaultdict, deque
 
+# Lazy imports - these will be loaded only when needed to avoid blocking
+# from backend.cognitive.phi_adapter import get_phi_adapter, PhiSuggestions
+# from backend.cognitive.word_bucket_extractor import get_word_bucket_extractor
+# from backend.vector_store import get_vector_store
+
+
 # ==========================================
 # CONFIGURATION & CONSTANTS
 # ==========================================
@@ -40,6 +46,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 FULL_VILLAGES_PATH = DATA_DIR / "full_villages.json"
 CONSTITUENCIES_PATH = DATA_DIR / "constituencies.json"
 URBAN_DATA_PATH = DATA_DIR / "datasets" / "chhattisgarh_urban.ndjson"
+WARDS_PATH = DATA_DIR / "datasets" / "chhattisgarh_wards.ndjson"
 LANDMARKS_PATH = DATA_DIR / "landmarks.json"
 VIP_LIST_PATH = DATA_DIR / "vip_list.json"
 
@@ -193,8 +200,10 @@ class GeoHierarchyResolver:
         self.villages_data = self._load_villages_data()
         self.constituencies = load_json(CONSTITUENCIES_PATH)
         self.urban_data = self._load_urban_data()
+        self.wards_data = self._load_wards_data()
         
         self.village_index = self._build_village_index()
+        self.ward_index = {}
         self.ulb_index = self._build_ulb_index()
         self.district_map = self._build_district_map()
     
@@ -207,6 +216,11 @@ class GeoHierarchyResolver:
     def _load_urban_data(self) -> List[Dict]:
         if URBAN_DATA_PATH.exists():
             return load_ndjson(URBAN_DATA_PATH)
+        return []
+
+    def _load_wards_data(self) -> List[Dict]:
+        if WARDS_PATH.exists():
+            return load_ndjson(WARDS_PATH)
         return []
 
     def _build_village_index(self) -> Dict[str, Dict]:
@@ -263,6 +277,61 @@ class GeoHierarchyResolver:
                     ],
                     "type": "urban"
                 }
+        
+        # Link Wards to ULBs and Build Ward Index
+        # self.ward_index is already initialized in __init__
+        for ward in self.wards_data:
+            # Try to find ULB by English or Hindi name
+            ulb_keys = [ward.get("ulb_english"), ward.get("ulb_hindi")]
+            target_ulb = None
+            
+            for key in ulb_keys:
+                if key and key in index:
+                    target_ulb = key
+                    break
+            
+            if target_ulb:
+                # Add to ULB
+                if "wards" not in index[target_ulb]:
+                    index[target_ulb]["wards"] = []
+                index[target_ulb]["wards"].append(ward)
+                
+                # Update ward count
+                if index[target_ulb].get("ward_count", 0) == 0:
+                     index[target_ulb]["ward_count"] = len(index[target_ulb]["wards"])
+                else:
+                     index[target_ulb]["ward_count"] = len(index[target_ulb]["wards"])
+                
+                # Add to Ward Index
+                # Index by "Ward Name, ULB" and "Ward X, ULB"
+                # These keys MUST match what FAISS/Search returns
+                ulb_eng = ward.get("ulb_english")
+                ulb_hin = ward.get("ulb_hindi")
+                ward_no = ward.get("ward_no")
+                
+                ward_record = {
+                    "district": index[target_ulb]["district"],
+                    "ulb": target_ulb, # Hindi name usually
+                    "ulb_type": index[target_ulb]["ulb_type"],
+                    "ward_no": ward_no,
+                    "ward_name": ward.get("name_english"),
+                    "ward_name_hindi": ward.get("name_hindi"),
+                    "hierarchy_path": index[target_ulb]["hierarchy_path"] + [ward.get("name_english")],
+                    "type": "ward"
+                }
+                
+                # English Keys
+                if ulb_eng:
+                    self.ward_index[f"{ward.get('name_english')}, {ulb_eng}"] = ward_record
+                    self.ward_index[f"Ward {ward_no}, {ulb_eng}"] = ward_record
+                    self.ward_index[f"Ward Number {ward_no}, {ulb_eng}"] = ward_record
+                
+                # Hindi Keys
+                if ulb_hin:
+                    self.ward_index[f"{ward.get('name_hindi')}, {ulb_hin}"] = ward_record
+                    self.ward_index[f"वार्ड {ward_no}, {ulb_hin}"] = ward_record
+                    self.ward_index[f"वार्ड क्रमांक {ward_no}, {ulb_hin}"] = ward_record
+
         return index
 
     def _build_district_map(self) -> Dict[str, Dict]:
@@ -286,6 +355,22 @@ class GeoHierarchyResolver:
         return index
     
     def resolve_hierarchy(self, location_name: str, context_text: str = "") -> Optional[Dict]:
+        # 0. Check Ward Index (Most Specific)
+        if location_name in self.ward_index:
+            w = self.ward_index[location_name]
+            return {
+                "district": w["district"],
+                "ulb": w["ulb"],
+                "ulb_type": w["ulb_type"],
+                "ward": w["ward_no"],
+                "ward_name": w["ward_name"],
+                "hierarchy_path": w["hierarchy_path"],
+                "canonical": f"{w['ward_name']}, {w['ulb']}",
+                "canonical_key": f"CG_WARD_{w['ulb']}_{w['ward_no']}",
+                "location_type": "ward",
+                "source": "hierarchy_resolver"
+            }
+
         if location_name in self.village_index:
             v = self.village_index[location_name]
             return {
@@ -428,21 +513,32 @@ class HybridLocationResolver:
     def __init__(self, enable_semantic=True):
         self.enable_semantic = enable_semantic
         self.semantic_linker = None
+        self.semantic_linker_loaded = False  # Track if we've attempted to load
         self.trace_log = []
-        
-        if enable_semantic:
-            try:
-                from api.src.parsing.semantic_location_linker import MultilingualFAISSLocationLinker
-                self.semantic_linker = MultilingualFAISSLocationLinker()
-                self.semantic_linker.load_multilingual_data()
-            except:
-                self.enable_semantic = False
                 
         self.geo_resolver = GeoHierarchyResolver()
         self.landmarks = load_json(LANDMARKS_PATH)
         
         # Re-use V1 dictionary (CANONICAL_LOCATIONS) - Inlined for simplicity or load from file
         # For V2, we rely heavily on the geo_resolver's indexes + landmarks
+    
+    def _ensure_semantic_linker(self):
+        """Lazy load semantic linker only when first needed."""
+        if not self.enable_semantic or self.semantic_linker_loaded:
+            return
+        
+        self.semantic_linker_loaded = True  # Mark as attempted
+        
+        try:
+            # Lazy import - only load when actually needed
+            from api.src.parsing.semantic_location_linker import MultilingualFAISSLocationLinker
+            self.semantic_linker = MultilingualFAISSLocationLinker()
+            self.semantic_linker.load_multilingual_data()
+            print("✅ Semantic location linker loaded")
+        except Exception as e:
+            print(f"⚠️  Semantic search disabled: {type(e).__name__}: {str(e)[:100]}")
+            self.enable_semantic = False
+            self.semantic_linker = None
         
     def resolve(self, text: str, entities: List[str] = None) -> Tuple[Optional[Dict], float, str]:
         """
@@ -465,23 +561,32 @@ class HybridLocationResolver:
             
         # 3. Dictionary / Hierarchy Lookup
         candidates = self._extract_location_candidates(text)
+        print(f"DEBUG: Candidates: {candidates}")
         for cand in candidates:
             resolved = self.geo_resolver.resolve_hierarchy(cand, text)
+            print(f"DEBUG: resolve_hierarchy('{cand}') -> {resolved}")
             if resolved:
                 self.trace_log.append(f"Hierarchy match: {cand}")
                 return resolved, DICTIONARY_HIGH_CONFIDENCE, "hierarchy_resolver"
         
-        # 4. Semantic Search
-        if self.enable_semantic and self.semantic_linker:
-            for cand in candidates:
-                if len(cand) < 3: continue
-                matches = self.semantic_linker.find_semantic_matches(cand, limit=1, min_score=0.75)
-                if matches:
-                    best = matches[0]
-                    resolved = self.geo_resolver.resolve_hierarchy(best['name'], text)
-                    if resolved:
-                        self.trace_log.append(f"Semantic match: {cand} -> {best['name']}")
-                        return resolved, best['similarity_score'] * 0.9, "semantic_search"
+        # 4. Semantic Search (if enabled and available)
+        if self.enable_semantic:
+            # Lazy load semantic linker on first use
+            self._ensure_semantic_linker()
+            
+            if self.semantic_linker:
+                print("DEBUG: Semantic Search Enabled")
+                for cand in candidates:
+                    if len(cand) < 3: continue
+                    print(f"DEBUG: Searching for '{cand}'")
+                    matches = self.semantic_linker.find_semantic_matches(cand, limit=1, min_score=0.6) # Lowered threshold for debug
+                    print(f"DEBUG: Matches for '{cand}': {matches}")
+                    if matches:
+                        best = matches[0]
+                        resolved = self.geo_resolver.resolve_hierarchy(best['name'], text)
+                        if resolved:
+                            self.trace_log.append(f"Semantic match: {cand} -> {best['name']}")
+                            return resolved, best['similarity_score'] * 0.9, "semantic_search"
         
         return None, 0.0, "none"
 
@@ -531,9 +636,35 @@ class HybridLocationResolver:
             for ulb in self.geo_resolver.ulb_index:
                 if ulb in text:
                     candidates.append(ulb)
-        
+                    
+        # 4. Ward/Sector/Zone Patterns (NEW for V2.1)
+        # Captures: "Ward 5", "Ward 5, Raipur", "Sector-21", "Zone 2"
+        ward_pattern = r"((?:Ward|Sector|Zone|वार्ड|सेक्टर|जोन)\s*(?:No\.?|Number|क्रमांक)?\s*[\d\w-]+(?:,\s*[A-Za-z\u0900-\u097F]+)?)"
+        for match in re.finditer(ward_pattern, text, re.IGNORECASE):
+            candidates.append(match.group(1))
+
+        # 5. N-gram generation for Semantic Search (if enabled)
+        # This is crucial for FAISS to find "Ward 5, Raipur" even if patterns miss
+        if self.enable_semantic:
+            words = text.split()
+            # Generate 2, 3, 4-grams
+            for n in range(2, 5):
+                for i in range(len(words) - n + 1):
+                    chunk = " ".join(words[i:i+n])
+                    # Filter out very short chunks or chunks with only stopwords
+                    if len(chunk) > 5:
+                        candidates.append(chunk)
+
         # Sort by length descending, then alphabetical for determinism
-        unique_candidates = sorted(list(set(candidates)))
+        # Remove duplicates while preserving order
+        seen = set()
+        unique_candidates = []
+        for c in candidates:
+            c_clean = c.strip().strip(",").strip()
+            if c_clean and c_clean not in seen:
+                seen.add(c_clean)
+                unique_candidates.append(c_clean)
+                
         return sorted(unique_candidates, key=len, reverse=True)
 
     def _infer_from_entities(self, entities: List[str], text: str) -> Optional[Dict]:
@@ -768,13 +899,85 @@ class MultiLabelEventClassifier:
 # ==========================================
 
 class GeminiParserV2:
+    def _calculate_quality_flags(self, text: str, suggestions: PhiSuggestions) -> Dict[str, Any]:
+        """
+        Calculate quality flags for the cognitive parsing.
+        """
+        flags = {
+            "phi_alignment_score": 0.0,
+            "hallucination_flag": False,
+            "ready_for_training": False
+        }
+        
+        if not suggestions:
+            return flags
+            
+        # 1. Alignment Score (Simple overlap check for now)
+        # In production, use embedding similarity
+        reasoning_words = set(suggestions.reasoning.lower().split())
+        text_words = set(text.lower().split())
+        overlap = len(reasoning_words.intersection(text_words))
+        flags["phi_alignment_score"] = min(1.0, overlap / max(1, len(text_words)) * 2) # Boost score
+        
+        # 2. Hallucination Check (Check if extracted entities exist in text)
+        # Simplified: Check if primary theme words appear in text
+        cog_view = suggestions.cognitive_view
+        if cog_view:
+            theme = cog_view.get("primary_theme", "").lower()
+            # If theme is completely disjoint from text, flag it
+            # (Very basic check, can be improved)
+            pass 
+
+        # 3. Ready for Training
+        # High confidence + High alignment
+        if suggestions.confidence_score > 0.8 and flags["phi_alignment_score"] > 0.3:
+            flags["ready_for_training"] = True
+            
+        return flags
+
     def __init__(self, enable_semantic=True):
         print("Initializing Gemini Parser V2 (SOTA)...")
+        
+        # Core components - lightweight, can initialize immediately
         self.location_resolver = HybridLocationResolver(enable_semantic=enable_semantic)
         self.timeline_inference = TimelineInference()
         self.entity_extractor = EntityExtractorV2()
         self.event_classifier = MultiLabelEventClassifier()
-        print("✅ Parser V2 initialized")
+        
+        # Heavy components - lazy load on first use
+        self._phi_adapter = None
+        self._bucket_extractor = None
+        self._vector_store = None
+        self.enable_cognitive = True  # Enable by default for V3
+        
+        print("✅ Parser V2 initialized (components will load on first use)")
+    
+    @property
+    def phi_adapter(self):
+        """Lazy load Phi adapter on first access."""
+        if self._phi_adapter is None:
+            from backend.cognitive.phi_adapter import get_phi_adapter
+            self._phi_adapter = get_phi_adapter()
+            print("✅ Phi adapter loaded")
+        return self._phi_adapter
+    
+    @property
+    def bucket_extractor(self):
+        """Lazy load word bucket extractor on first access."""
+        if self._bucket_extractor is None:
+            from backend.cognitive.word_bucket_extractor import get_word_bucket_extractor
+            self._bucket_extractor = get_word_bucket_extractor()
+            print("✅ Word bucket extractor loaded")
+        return self._bucket_extractor
+    
+    @property
+    def vector_store(self):
+        """Lazy load vector store on first access."""
+        if self._vector_store is None:
+            from backend.vector_store import get_vector_store
+            self._vector_store = get_vector_store(index_path="data/knowledge_base/faiss_index.bin")
+            print("✅ Vector store loaded")
+        return self._vector_store
 
     def parse_tweet(self, record: Dict[str, Any]) -> Dict[str, Any]:
         text = record.get("raw_text") or record.get("text") or ""
@@ -826,24 +1029,121 @@ class GeminiParserV2:
         else:
             confidence = 0.50
         
-        # P7: Stronger penalty for temporal inference (apply BEFORE bonuses)
-        if loc_source == "temporal_inference":
-            confidence -= 0.5  # Heavy penalty
-            confidence = max(confidence, 0.3)  # Floor at 0.3
+        # 6. Word Buckets (Thematic Classification)
+        # ---------------------------------------------------------
+        # V4: Use Semantic Word Bucket Extractor
+        # We pass the partial parsed data to help the extractor
+        partial_metadata = {
+            "event_type": event_type,
+            "location": location
+        }
+        semantic_buckets = self.bucket_extractor.process_tweet(
+            record.get("tweet_id", "unknown"),
+            text,
+            partial_metadata
+        )
         
-        # Event type bonus
-        if event_type != "अन्य": 
-            confidence += 0.05
+        # Extract simple list for backward compatibility/Phi context
+        word_buckets = [b['word'] for b in semantic_buckets]
+
+        # ==========================================
+        # V5: COGNITIVE KNOWLEDGE ENGINE (Phi 3.5)
+        # ==========================================
+        reasoning_trace = "Rule-Based V2"
+        sub_event_type = None
+        phi_metadata = {}
+        cognitive_view = {}
+        suggested_corrections = {}
+        quality_flags = {}
         
-        # P7: Cap temporal inference confidence at 0.75
-        if loc_source == "temporal_inference":
-            confidence = min(confidence, 0.75)
-        else:
-            confidence = min(confidence, 1.0)
+        if self.enable_cognitive and self.phi_adapter.enabled:
+            # Prepare V2 context for Phi
+            v2_context = {
+                "event_type": event_type,
+                "location": location,
+                "word_buckets": word_buckets,
+                "people": list(people),
+                "confidence": confidence
+            }
+            
+            # V5.2: Feedback Loop - Retrieve Context
+            context_examples = []
+            if self.vector_store:
+                try:
+                    # Search for similar tweets
+                    search_results = self.vector_store.search(text, k=3)
+                    for res in search_results:
+                        meta = res.get('metadata', {})
+                        # Only use high-quality matches
+                        if res.get('distance', 1.0) < 0.6: 
+                            context_examples.append({
+                                "text": meta.get('text', ''),
+                                "event_type": meta.get('event_type', ''),
+                                "themes": meta.get('themes', '')
+                            })
+                except Exception as e:
+                    print(f"Vector search failed during parsing: {e}")
+
+            # Get suggestions
+            suggestions = self.phi_adapter.get_suggestions(
+                record.get("tweet_id", "unknown"),
+                text,
+                v2_context,
+                context_examples=context_examples
+            )
+            
+            if suggestions:
+                # 1. Calculate Quality Flags
+                quality_flags = self._calculate_quality_flags(text, suggestions)
+                
+                # 2. Apply Suggestions (Smart Merge)
+                if suggestions.confidence_score > 0.6:
+                    # Event Type Refinement
+                    if event_type == "अन्य" or (suggestions.confidence_score > confidence + 0.1):
+                        if suggestions.event_type_suggestions:
+                            event_type = suggestions.event_type_suggestions[0]
+                            confidence = suggestions.confidence_score
+                            reasoning_trace = f"Phi 3.5 Override (Conf: {suggestions.confidence_score})"
+                    
+                    # Sub-Event Type
+                    if suggestions.sub_event_type:
+                        sub_event_type = suggestions.sub_event_type
+                    
+                    # Location Disambiguation
+                    if not location and suggestions.location_candidates:
+                        best_loc = suggestions.location_candidates[0]
+                        resolved_phi = self.location_resolver.geo_resolver.resolve_hierarchy(best_loc['name'], text)
+                        if resolved_phi:
+                            location = resolved_phi
+                            loc_source = "phi_3_5_cognitive"
+                            confidence = max(confidence, suggestions.confidence_score)
+                            reasoning_trace += " + Phi Location"
+                    
+                    # Word Bucket Validation
+                    if suggestions.word_bucket_corrections:
+                        # Merge validated buckets with semantic buckets
+                        # For now, just append to the simple list
+                        word_buckets = list(set(word_buckets + suggestions.word_bucket_corrections))
+                        reasoning_trace += " + Phi Buckets"
+
+                    # Append Reasoning
+                    if suggestions.reasoning:
+                        reasoning_trace += f" | Reasoning: {suggestions.reasoning}"
+                
+                # 3. Store Cognitive Knowledge (Always store if available)
+                cognitive_view = suggestions.cognitive_view
+                suggested_corrections = suggestions.suggested_corrections
+                
+                # 4. Store Metadata
+                phi_metadata = {
+                    "entity_corrections": suggestions.entity_corrections,
+                    "raw_response": suggestions.raw_response
+                }
 
         # 7. Construct Output
         parsed_data = {
             "event_type": event_type,
+            "sub_event_type": sub_event_type, # V3 Field
             "event_date": created_at.split("T")[0] if created_at else None,
             "location": location,
             "people_mentioned": [p for p in people if not p.startswith("@")], # Clean output
@@ -851,10 +1151,16 @@ class GeminiParserV2:
             "target_groups": other_entities["target_groups"],
             "communities": other_entities["communities"],
             "organizations": other_entities["orgs"],
-            "word_buckets": word_buckets,
+            "word_buckets": word_buckets, # Simple list (Backward Compat)
+            "semantic_buckets": semantic_buckets, # V4: Full Structured Buckets
             "confidence": round(confidence, 2),
             "parsing_trace": parsing_trace,
-            "model_version": "gemini-parser-v2",
+            "reasoning_trace": reasoning_trace, # V3 Field
+            "phi_metadata": phi_metadata, # V3.1 Field
+            "cognitive_view": cognitive_view, # V5.0 Field
+            "suggested_corrections": suggested_corrections, # V5.0 Field
+            "quality_flags": quality_flags, # V5.0 Field
+            "model_version": "gemini-parser-v5-cognitive", # Version Bump
             "geo_hierarchy": location # Include full hierarchy
         }
         
@@ -862,8 +1168,8 @@ class GeminiParserV2:
             **record,
             "parsed_data_v9": parsed_data,
             "metadata_v9": {
-                "model": "gemini-parser-v2",
-                "version": VERSION
+                "model": "gemini-parser-v5-cognitive",
+                "version": "5.0.0"
             }
         }
 
