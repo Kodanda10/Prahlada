@@ -133,10 +133,14 @@ class MassIngestionPipeline:
         self,
         tweet: Dict,
         parser: GeminiParserV2,
-        knowledge_store: KnowledgeStore
+        knowledge_store: KnowledgeStore,
+        delay_ms: int = 500
     ) -> bool:
         """
-        Process a single tweet.
+        Process a single tweet with rate limiting.
+        
+        Args:
+            delay_ms: Delay in milliseconds between LLM calls (default 500ms)
         
         Returns:
             True if successful, False otherwise
@@ -149,7 +153,7 @@ class MassIngestionPipeline:
                 logger.warning(f"Empty text for tweet {tweet_id}, skipping")
                 return False
             
-            # Parse
+            # Parse with LLM
             parsed = parser.parse_tweet({
                 'tweet_id': tweet_id,
                 'text': text,
@@ -171,6 +175,10 @@ class MassIngestionPipeline:
                 (self.stats['avg_confidence'] * (n - 1) + conf) / n
             )
             
+            # Rate limiting: delay between LLM calls
+            if delay_ms > 0:
+                await asyncio.sleep(delay_ms / 1000.0)
+            
             return True
             
         except Exception as e:
@@ -182,22 +190,26 @@ class MassIngestionPipeline:
         self,
         batch: List[Dict],
         parser: GeminiParserV2,
-        db_session
+        db_session,
+        delay_ms: int = 500
     ) -> int:
         """
-        Process a batch of tweets.
+        Process a batch of tweets with rate limiting.
+        
+        Args:
+            delay_ms: Delay between LLM calls in milliseconds
         
         Returns:
             Number of successfully processed tweets
         """
         knowledge_store = KnowledgeStore(db_session)
         
-        tasks = [
-            self.process_tweet(tweet, parser, knowledge_store)
-            for tweet in batch
-        ]
-        
-        results = await asyncio.gather(*tasks, return_exceptions=True)
+        # Process sequentially to respect rate limits (not parallel)
+        success_count = 0
+        for tweet in batch:
+            result = await self.process_tweet(tweet, parser, knowledge_store, delay_ms)
+            if result:
+                success_count += 1
         
         # Commit batch
         try:
@@ -207,17 +219,16 @@ class MassIngestionPipeline:
             await db_session.rollback()
             return 0
         
-        # Count successes
-        success_count = sum(1 for r in results if r is True)
         return success_count
     
-    async def ingest_all(self, source_file: Path, limit: int = None):
+    async def ingest_all(self, source_file: Path, limit: int = None, delay_ms: int = 500):
         """
-        Main ingestion loop with progress tracking.
+        Main ingestion loop with progress tracking and rate limiting.
         
         Args:
             source_file: Path to tweets file (JSONL or CSV)
             limit: Optional limit on number of tweets to process
+            delay_ms: Delay between LLM calls in milliseconds (default 500ms for safety)
         """
         self.stats['start_time'] = datetime.now().isoformat()
         
@@ -254,7 +265,7 @@ class MassIngestionPipeline:
                 batch = remaining[i:i + self.batch_size]
                 
                 async with AsyncSessionLocal() as db_session:
-                    success_count = await self.process_batch(batch, parser, db_session)
+                    success_count = await self.process_batch(batch, parser, db_session, delay_ms)
                 
                 # Update checkpoint
                 batch_ids = {str(t.get('tweet_id') or t.get('id')) for t in batch}
