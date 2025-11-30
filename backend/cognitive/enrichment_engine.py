@@ -227,9 +227,15 @@ Respond in JSON format:
         # Location corrections (if Phi has high-confidence hints)
         location_corrections = {}
         for loc, conf in reasoning.location_hints.items():
-            if conf > 0.75:  # High confidence threshold
+            # Ensure confidence is a float
+            try:
+                confidence_float = float(conf) if conf else 0.0
+            except (ValueError, TypeError):
+                confidence_float = 0.0
+            
+            if confidence_float > 0.75:  # High confidence threshold
                 location_corrections[loc] = {
-                    "confidence": conf,
+                    "confidence": confidence_float,  # Store as float
                     "reasoning": reasoning.location_reasoning
                 }
         enriched["location_corrections"] = location_corrections
@@ -237,8 +243,15 @@ Respond in JSON format:
         # Event corrections (if Phi has nuanced classification)
         event_corrections = {}
         if reasoning.event_confidence > 0.7:
-            event_corrections["nuance"] = reasoning.event_nuance
-            event_corrections["confidence"] = reasoning.event_confidence
+            # Ensure confidence is a float
+            try:
+                event_conf = float(reasoning.event_confidence) if reasoning.event_confidence else 0.0
+            except (ValueError, TypeError):
+                event_conf = 0.0
+                
+            if event_conf > 0.7:
+                event_corrections["nuance"] = reasoning.event_nuance
+                event_corrections["confidence"] = event_conf  # Store as float
         enriched["event_corrections"] = event_corrections
         
         # Store full reasoning for audit trail
