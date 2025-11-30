@@ -154,11 +154,28 @@ Respond in JSON format:
         if isinstance(result, dict) and 'response' in result:
             response_str = result['response']
             try:
+                # First try: direct JSON parse
                 parsed = json.loads(response_str)
                 logger.debug(f"Parsed Phi response: {parsed}")
                 return parsed
-            except json.JSONDecodeError:
-                logger.warning(f"Failed to parse Phi response JSON: {response_str[:200]}")
+            except json.JSONDecodeError as e:
+                # Phi sometimes returns mixed content like "{ ...text... }"
+                # Try to extract JSON object/array from the response
+                logger.warning(f"Failed to parse Phi response JSON (attempt 1): {response_str[:100]}...")
+                
+                # Try to find JSON object boundaries
+                try:
+                    # Look for first { and last }
+                    if '{' in response_str and '}' in response_str:
+                        start = response_str.index('{')
+                        end = response_str.rindex('}') + 1
+                        json_str = response_str[start:end]
+                        parsed = json.loads(json_str)
+                        logger.info(f"Recovered JSON from mixed content")
+                        return parsed
+                except (json.JSONDecodeError, ValueError) as e2:
+                    logger.warning(f"Could not recover JSON from response, using defaults")
+                    return {}
                 return {}
         elif isinstance(result, str):
             # Fallback: try to parse as JSON string directly
