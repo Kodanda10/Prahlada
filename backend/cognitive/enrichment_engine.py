@@ -227,9 +227,9 @@ Respond in JSON format:
         # Location corrections (if Phi has high-confidence hints)
         location_corrections = {}
         for loc, conf in reasoning.location_hints.items():
-            # Ensure confidence is a float
+            # Ensure confidence is a float, handle None
             try:
-                confidence_float = float(conf) if conf else 0.0
+                confidence_float = float(conf) if (conf is not None) else 0.0
             except (ValueError, TypeError):
                 confidence_float = 0.0
             
@@ -242,10 +242,10 @@ Respond in JSON format:
         
         # Event corrections (if Phi has nuanced classification)
         event_corrections = {}
-        if reasoning.event_confidence > 0.7:
-            # Ensure confidence is a float
+        # First check if event_confidence exists and is not None
+        if reasoning.event_confidence is not None:
             try:
-                event_conf = float(reasoning.event_confidence) if reasoning.event_confidence else 0.0
+                event_conf = float(reasoning.event_confidence)
             except (ValueError, TypeError):
                 event_conf = 0.0
                 
