@@ -12,12 +12,11 @@ Key Principles:
 """
 
 import json
+import logging
 from typing import Dict, Any, List, Optional
-from ..core.logging import get_logger
-from ..core.exceptions import ExternalServiceError
 from .ollama_client import OllamaClient
 
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PhiSuggestions:
@@ -537,13 +536,18 @@ _phi_adapter = None
 def get_phi_adapter() -> PhiAdapter:
     """
     Get or create the global Phi adapter instance.
-
+    
     Uses lazy initialization to avoid blocking startup.
+    Reads PHI_ENABLED environment variable (defaults to False for safety).
     """
+    import os
     global _phi_adapter
     if _phi_adapter is None:
-        # Will be configured from environment in production
-        _phi_adapter = PhiAdapter(enabled=False)  # Disabled by default for safety
+        # Read from environment - defaults to disabled for safety
+        enabled = os.getenv("PHI_ENABLED", "false").lower() in ("true", "1", "yes")
+        _phi_adapter = PhiAdapter(enabled=enabled)
+        if enabled:
+            logger.info("Phi 3.5 enabled via PHI_ENABLED environment variable")
     return _phi_adapter
 
 def set_phi_adapter_config(
