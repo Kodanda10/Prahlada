@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx';
+// import ExcelJS from 'exceljs';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { ParsedEvent } from '../types';
@@ -10,7 +10,9 @@ declare module 'jspdf' {
     }
 }
 
-export const exportToExcel = (data: any[], filename: string) => {
+export const exportToExcel = async (data: any[], filename: string) => {
+    console.log("Export to Excel disabled for debugging");
+    /*
     if (!data || data.length === 0) return;
 
     let formattedData = data;
@@ -27,10 +29,31 @@ export const exportToExcel = (data: any[], filename: string) => {
         }));
     }
 
-    const worksheet = XLSX.utils.json_to_sheet(formattedData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-    XLSX.writeFile(workbook, `${filename}.xlsx`);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Data');
+
+    // Generate columns from the first item keys
+    if (formattedData.length > 0) {
+        const columns = Object.keys(formattedData[0]).map(key => ({ header: key, key: key, width: 20 }));
+        worksheet.columns = columns;
+    }
+
+    // Add rows
+    worksheet.addRows(formattedData);
+
+    // Style header
+    worksheet.getRow(1).font = { bold: true };
+
+    // Write buffer and trigger download
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = `${filename}.xlsx`;
+    anchor.click();
+    window.URL.revokeObjectURL(url);
+    */
 };
 
 export const exportToPDF = (data: any[], filename: string) => {

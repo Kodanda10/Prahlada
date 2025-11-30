@@ -54,7 +54,6 @@ describe('Z-Index & Overlay Tests', () => {
                 { label: 'Tab 2', path: '/tab2', icon: Home },
               ]}
               activePath="/tab1"
-              onTabChange={() => {}}
               isAuthenticated={true}
             />
             <div className="dropdown-menu" data-testid="dropdown">
@@ -179,7 +178,6 @@ describe('Z-Index & Overlay Tests', () => {
               <AnimatedNavTabs
                 tabs={[{ label: 'Tab', path: '/tab', icon: Home }]}
                 activePath="/tab"
-                onTabChange={() => {}}
                 isAuthenticated={true}
               />
             </header>

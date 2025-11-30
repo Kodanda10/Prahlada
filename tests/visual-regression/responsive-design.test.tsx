@@ -1,14 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import AnimatedGlassCard from '../../components/AnimatedGlassCard';
 import CustomBarChart from '../../components/charts/CustomBarChart';
+import { getTweetStats } from '../../utils/testDataLoader';
 
 describe('Responsive Design Visual Regression', () => {
-  const mockChartData = [
-    { name: 'Jan', value: 400 },
-    { name: 'Feb', value: 300 },
-    { name: 'Mar', value: 600 },
-  ];
+  const realData = getTweetStats().slice(0, 3);
+  const chartData = realData.length > 0 ? realData : [{ name: 'No Data', value: 0 }];
 
   describe('Mobile Viewport (< 768px)', () => {
     beforeEach(() => {
@@ -37,7 +35,9 @@ describe('Responsive Design Visual Regression', () => {
     it('charts scale appropriately on mobile', () => {
       const { container } = render(
         <CustomBarChart
-          data={mockChartData}
+          data={chartData}
+          xKey="name"
+          dataKey="value"
           width={300}
           height={200}
         />
@@ -66,7 +66,9 @@ describe('Responsive Design Visual Regression', () => {
             <div>Tablet content</div>
           </AnimatedGlassCard>
           <CustomBarChart
-            data={mockChartData}
+            data={chartData}
+            xKey="name"
+            dataKey="value"
             width={500}
             height={300}
           />
@@ -98,7 +100,9 @@ describe('Responsive Design Visual Regression', () => {
             <div>Desktop content with more space</div>
           </AnimatedGlassCard>
           <CustomBarChart
-            data={mockChartData}
+            data={chartData}
+            xKey="name"
+            dataKey="value"
             width={800}
             height={400}
           />
@@ -142,7 +146,9 @@ describe('Responsive Design Visual Regression', () => {
     it('charts maintain readability across breakpoints', () => {
       const { container, rerender } = render(
         <CustomBarChart
-          data={mockChartData}
+          data={chartData}
+          xKey="name"
+          dataKey="value"
           width={1000}
           height={400}
         />
@@ -153,7 +159,9 @@ describe('Responsive Design Visual Regression', () => {
 
       rerender(
         <CustomBarChart
-          data={mockChartData}
+          data={chartData}
+          xKey="name"
+          dataKey="value"
           width={400}
           height={300}
         />

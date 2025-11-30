@@ -3,6 +3,7 @@ import { vi } from 'vitest';
 import React from 'react';
 
 // Minimal setup - only essential global mocks for performance
+console.log('Running tests/setup.ts');
 vi.stubGlobal('matchMedia', vi.fn().mockImplementation(query => ({
   matches: false,
   media: query,
@@ -26,9 +27,9 @@ vi.mock('recharts', () => {
           React.cloneElement(child, { width: width || 800, height: height || 800 })
         )
       ),
-    PieChart: ({ children, width, height }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'pie-chart' }, children),
+    PieChart: ({ children, width, height, data }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'pie-chart', 'data-item-count': data ? data.length : 0 }, children),
     Pie: () => React.createElement('g', null, 'Pie Chart'),
-    BarChart: ({ children, width, height }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'bar-chart' }, children),
+    BarChart: ({ children, width, height, data }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'bar-chart', 'data-item-count': data ? data.length : 0 }, children),
     Bar: () => React.createElement('g', null, 'Bar Chart'),
     XAxis: () => React.createElement('g', null, 'XAxis'),
     YAxis: () => React.createElement('g', null, 'YAxis'),
@@ -36,9 +37,9 @@ vi.mock('recharts', () => {
     Legend: () => React.createElement('div', null, 'Legend'),
     Cell: () => React.createElement('g', null, 'Cell'),
     CartesianGrid: () => React.createElement('g', null, 'CartesianGrid'),
-    AreaChart: ({ children, width, height }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'area-chart' }, children),
+    AreaChart: ({ children, width, height, data }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'area-chart', 'data-item-count': data ? data.length : 0 }, children),
     Area: () => React.createElement('g', null, 'Area Chart'),
-    LineChart: ({ children, width, height }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'line-chart' }, children),
+    LineChart: ({ children, width, height, data }: any) => React.createElement('svg', { width: width || 800, height: height || 400, 'data-testid': 'line-chart', 'data-item-count': data ? data.length : 0 }, children),
     Line: () => React.createElement('g', null, 'Line Chart'),
   };
 });
@@ -50,17 +51,21 @@ global.ResizeObserver = class {
   disconnect() { }
 };
 
-global.IntersectionObserver = class {
+global.IntersectionObserver = class implements IntersectionObserver {
+  root: Element | Document | null = null;
+  rootMargin: string = '';
+  thresholds: ReadonlyArray<number> = [];
   constructor() { }
   observe() { }
   disconnect() { }
   unobserve() { }
+  takeRecords(): IntersectionObserverEntry[] { return []; }
 };
 
 // Mock SVG methods for D3 interactions in jsdom
 if (typeof SVGElement !== 'undefined') {
-  if (!SVGElement.prototype.getScreenCTM) {
-    SVGElement.prototype.getScreenCTM = () => {
+  if (!(SVGElement.prototype as any).getScreenCTM) {
+    (SVGElement.prototype as any).getScreenCTM = () => {
       return {
         a: 1, b: 0, c: 0, d: 1, e: 0, f: 0,
         multiply: () => ({ a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }),
@@ -71,27 +76,29 @@ if (typeof SVGElement !== 'undefined') {
       } as DOMMatrix;
     };
   }
-  
+
   // Some D3 versions check ownerSVGElement or similar
   Object.defineProperty(SVGElement.prototype, 'ownerSVGElement', {
-    get: function() { return this.closest('svg'); }
+    get: function () { return this.closest('svg'); }
   });
-  
-  // Mock viewBox for D3 zoom on SVGElement too, as backup
+
+  // Mock viewBox for D3 zoom on SVGElement
   Object.defineProperty(SVGElement.prototype, 'viewBox', {
-    get: function() {
+    get: function () {
+      const width = parseInt(this.getAttribute('width') || '0');
+      const height = parseInt(this.getAttribute('height') || '0');
       return {
         baseVal: {
           x: 0,
           y: 0,
-          width: parseInt(this.getAttribute('width') || '0'),
-          height: parseInt(this.getAttribute('height') || '0'),
+          width: width,
+          height: height,
         },
         animVal: {
           x: 0,
           y: 0,
-          width: parseInt(this.getAttribute('width') || '0'),
-          height: parseInt(this.getAttribute('height') || '0'),
+          width: width,
+          height: height,
         },
       };
     },
@@ -101,35 +108,39 @@ if (typeof SVGElement !== 'undefined') {
 
 if (typeof SVGSVGElement !== 'undefined') {
   if (!SVGSVGElement.prototype.createSVGPoint) {
-    SVGSVGElement.prototype.createSVGPoint = function() {
+    SVGSVGElement.prototype.createSVGPoint = function () {
       return {
         x: 0, y: 0,
-        matrixTransform: function(matrix: DOMMatrix) {
+        matrixTransform: function (matrix: DOMMatrix) {
           return { x: this.x, y: this.y };
         }
       } as DOMPoint;
     };
   }
-  // Mock viewBox for D3 zoom
-  Object.defineProperty(SVGSVGElement.prototype, 'viewBox', {
-    get: function() {
-      return {
-        baseVal: {
-          x: 0,
-          y: 0,
-          width: parseInt(this.getAttribute('width') || '0'),
-          height: parseInt(this.getAttribute('height') || '0'),
-        },
-        animVal: {
-          x: 0,
-          y: 0,
-          width: parseInt(this.getAttribute('width') || '0'),
-          height: parseInt(this.getAttribute('height') || '0'),
-        },
-      };
-    },
-    configurable: true,
-  });
+  // Ensure SVGSVGElement also has viewBox if it wasn't inherited or needs override
+  if (!Object.getOwnPropertyDescriptor(SVGSVGElement.prototype, 'viewBox')) {
+    Object.defineProperty(SVGSVGElement.prototype, 'viewBox', {
+      get: function () {
+        const width = parseInt(this.getAttribute('width') || '0');
+        const height = parseInt(this.getAttribute('height') || '0');
+        return {
+          baseVal: {
+            x: 0,
+            y: 0,
+            width: width,
+            height: height,
+          },
+          animVal: {
+            x: 0,
+            y: 0,
+            width: width,
+            height: height,
+          },
+        };
+      },
+      configurable: true,
+    });
+  }
 }
 
 // Strip motion-only props so React DOM warnings don't fire in tests
@@ -190,22 +201,22 @@ vi.mock('framer-motion', () => ({
 }));
 
 // Mock localStorage
-const localStorageMock = (function() {
+const localStorageMock = (function () {
   let store: Record<string, string> = {};
   return {
-    getItem: function(key: string) {
+    getItem: function (key: string) {
       return store[key] || null;
     },
-    setItem: function(key: string, value: string) {
+    setItem: function (key: string, value: string) {
       store[key] = value.toString();
     },
-    removeItem: function(key: string) {
+    removeItem: function (key: string) {
       delete store[key];
     },
-    clear: function() {
+    clear: function () {
       store = {};
     },
-    key: function(index: number) {
+    key: function (index: number) {
       return Object.keys(store)[index] || null;
     },
     get length() {
@@ -240,7 +251,22 @@ vi.mock('react-map-gl', () => {
       }
     }, [onLoad]);
 
-    return React.createElement('div', { 'data-testid': 'mock-map', ...rest }, children);
+    return React.createElement('div', {
+      'data-testid': 'mock-map',
+      onMouseEnter: (e: any) => {
+        // Mapbox events have features directly on the event object
+        // When testing, we might pass them on the event or nativeEvent
+        if (e.features) {
+          // already present
+        } else if (e.nativeEvent && (e.nativeEvent as any).features) {
+          e.features = (e.nativeEvent as any).features;
+        }
+        if (onMouseEnter) onMouseEnter(e);
+      },
+      onMouseLeave,
+      onClick: props.onClick,
+      ...rest
+    }, children);
   };
   const Marker = ({ children, ...props }: any) =>
     React.createElement('div', { 'data-testid': 'mock-map-marker', ...props }, children);
@@ -271,7 +297,7 @@ vi.mock('react-map-gl', () => {
 
 // Mock lucide-react icons
 vi.mock('lucide-react', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('lucide-react')>();
+  const actual = await importOriginal() as typeof import('lucide-react');
   const mocks = Object.keys(actual).reduce((acc, key) => {
     acc[key] = (props: any) => {
       const React = require('react');

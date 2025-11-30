@@ -1,0 +1,123 @@
+
+> project-dhruv@1.0.0 build
+> tsc && vite build
+
+components/analytics/MapBoxVisual.tsx(311,18): error TS2322: Type '{ id: string; type: "heatmap"; source: string; maxzoom: number; paint: { 'heatmap-weight': (string | number | string[])[]; 'heatmap-intensity': (string | number | string[])[]; 'heatmap-color': (string | number | string[])[]; 'heatmap-radius': (string | ... 1 more ... | string[])[]; 'heatmap-opacity': (string | ... 1...' is not assignable to type 'IntrinsicAttributes & LayerProps'.
+  Type '{ id: string; type: "heatmap"; source: string; maxzoom: number; paint: { 'heatmap-weight': (string | number | string[])[]; 'heatmap-intensity': (string | number | string[])[]; 'heatmap-color': (string | number | string[])[]; 'heatmap-radius': (string | ... 1 more ... | string[])[]; 'heatmap-opacity': (string | ... 1...' is not assignable to type 'Omit<Omit<HeatmapLayerSpecification, "id"> & { id?: string; }, "source">'.
+    The types of '"paint"["heatmap-radius"]' are incompatible between these types.
+      Type '(string | number | string[])[]' is not assignable to type 'DataDrivenPropertyValueSpecification<number>'.
+        Type '(string | number | string[])[]' is not assignable to type 'ExpressionSpecification'.
+          Source provides no match for required element at position 0 in target.
+components/analytics/MapBoxVisual.tsx(312,18): error TS2322: Type '{ id: string; type: "circle"; source: string; filter: string[]; paint: { 'circle-color': (string | number | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-opacity': number; 'circle-stroke-width': number; 'circle-stroke-color': string; }; }' is not assignable to type 'IntrinsicAttributes & LayerProps'.
+  Type '{ id: string; type: "circle"; source: string; filter: string[]; paint: { 'circle-color': (string | number | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-opacity': number; 'circle-stroke-width': number; 'circle-stroke-color': string; }; }' is not assignable to type 'Omit<Omit<CircleLayerSpecification, "id"> & { id?: string; }, "source">'.
+    The types of '"paint"["circle-radius"]' are incompatible between these types.
+      Type '(string | number | string[])[]' is not assignable to type 'DataDrivenPropertyValueSpecification<number>'.
+        Type '(string | number | string[])[]' is not assignable to type 'ExpressionSpecification'.
+          Source provides no match for required element at position 0 in target.
+components/analytics/MapBoxVisual.tsx(316,14): error TS2322: Type '{ id: string; type: "circle"; source: string; filter: (string | string[])[]; paint: { 'circle-color': (string | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-stroke-width': number; 'circle-stroke-color': string; 'circle-opacity': number; }; }' is not assignable to type 'IntrinsicAttributes & LayerProps'.
+  Type '{ id: string; type: "circle"; source: string; filter: (string | string[])[]; paint: { 'circle-color': (string | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-stroke-width': number; 'circle-stroke-color': string; 'circle-opacity': number; }; }' is not assignable to type 'Omit<Omit<CircleLayerSpecification, "id"> & { id?: string; }, "source">'.
+    The types of '"paint"["circle-radius"]' are incompatible between these types.
+      Type '(string | number | string[])[]' is not assignable to type 'DataDrivenPropertyValueSpecification<number>'.
+        Type '(string | number | string[])[]' is not assignable to type 'ExpressionSpecification'.
+          Source provides no match for required element at position 0 in target.
+contexts/ConfigContext.tsx(33,17): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'SetStateAction<UIConfig>'.
+hooks/useAsyncData.ts(28,49): error TS2304: Cannot find name 'loadData'.
+Jules_Code Review/tests/pages/Analytics.test.tsx(3,32): error TS2307: Cannot find module '../../pages/Analytics' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/component-snapshots.test.tsx(5,42): error TS2307: Cannot find module '../../components/AnimatedNavTabs' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/component-snapshots.test.tsx(6,26): error TS2307: Cannot find module '../../components/NumberTicker' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/layout-stability.test.tsx(3,31): error TS2307: Cannot find module '../../components/AnimatedGlassCard' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/layout-stability.test.tsx(4,23): error TS2307: Cannot find module '../../components/GlassCard' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/page-layouts.test.tsx(5,18): error TS2307: Cannot find module '../../pages/Home' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/page-layouts.test.tsx(6,23): error TS2307: Cannot find module '../../pages/Analytics' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/page-layouts.test.tsx(7,20): error TS2307: Cannot find module '../../pages/Review' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/snapshot-regression.test.tsx(4,18): error TS2307: Cannot find module '../../pages/Home' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/snapshot-regression.test.tsx(5,23): error TS2307: Cannot find module '../../pages/Analytics' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/snapshot-regression.test.tsx(6,20): error TS2307: Cannot find module '../../pages/Review' or its corresponding type declarations.
+Jules_Code Review/tests/visual-regression/snapshot-regression.test.tsx(7,25): error TS2307: Cannot find module '../../pages/CommandView' or its corresponding type declarations.
+KnowledgeBank/source_code/gazetteer.ts(3,43): error TS2307: Cannot find module './types' or its corresponding type declarations.
+KnowledgeBank/source_code/milvus/search.ts(2,27): error TS2307: Cannot find module '@/labs/locations/types' or its corresponding type declarations.
+KnowledgeBank/source_code/normalize.ts(2,27): error TS2307: Cannot find module './types' or its corresponding type declarations.
+KnowledgeBank/source_code/resolver.ts(1,18): error TS2307: Cannot find module '@/lib/db' or its corresponding type declarations.
+pages/Events.tsx(46,30): error TS2339: Property 'event_type' does not exist on type 'ParsedEvent'.
+pages/Events.tsx(58,91): error TS2339: Property 'clean_text' does not exist on type 'ParsedEvent'.
+pages/Events.tsx(62,28): error TS2339: Property 'location_text' does not exist on type 'ParsedEvent'.
+pages/Events.tsx(64,27): error TS2339: Property 'scheme_tags' does not exist on type 'ParsedEvent'.
+pages/Events.tsx(67,32): error TS2339: Property 'scheme_tags' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(36,38): error TS2551: Property 'parsing_status' does not exist on type 'ParsedEvent'. Did you mean 'processing_status'?
+pages/Ingestion.tsx(53,22): error TS2339: Property 'event_type' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(53,42): error TS2339: Property 'event_type' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(53,72): error TS2339: Property 'event_type' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(61,22): error TS2339: Property 'scheme_tags' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(61,43): error TS2339: Property 'scheme_tags' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(61,74): error TS2339: Property 'scheme_tags' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(74,24): error TS2339: Property 'location_text' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(76,20): error TS2339: Property 'location_canonical' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(78,35): error TS2339: Property 'location_canonical' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(91,20): error TS2339: Property 'logs' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(91,34): error TS2339: Property 'logs' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(94,22): error TS2339: Property 'logs' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(94,36): error TS2339: Property 'logs' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(224,30): error TS2339: Property 'clean_text' does not exist on type 'ParsedEvent'.
+pages/Ingestion.tsx(227,50): error TS2551: Property 'parsing_status' does not exist on type 'ParsedEvent'. Did you mean 'processing_status'?
+pages/Mindmap.tsx(16,18): error TS2741: Property 'data' is missing in type '{ height: number; }' but required in type 'HierarchyMindMapProps'.
+scripts/archive/ingest_tweets.ts(12,29): error TS2307: Cannot find module '../types.js' or its corresponding type declarations.
+services/GeocodingService.ts(108,18): error TS2339: Property 'state' does not exist on type 'ParsedLocation'.
+services/GeocodingService.ts(108,45): error TS2339: Property 'state' does not exist on type 'ParsedLocation'.
+services/search.ts(29,24): error TS2339: Property 'map' does not exist on type 'unknown'.
+services/search.ts(52,17): error TS2339: Property 'forEach' does not exist on type 'unknown'.
+tests/accessibility/wcag-compliance.test.tsx(69,22): error TS2339: Property 'focus' does not exist on type 'Element'.
+tests/animation/60fps-performance.test.tsx(88,13): error TS2322: Type '{ tabs: { id: string; label: string; path: string; }[]; activePath: string; onTabChange: () => void; isAuthenticated: true; }' is not assignable to type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+  Property 'onTabChange' does not exist on type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+tests/animation/60fps-performance.test.tsx(103,13): error TS2322: Type '{ tabs: { id: string; label: string; path: string; }[]; activePath: string; onTabChange: () => void; isAuthenticated: true; }' is not assignable to type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+  Property 'onTabChange' does not exist on type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+tests/animation/60fps-performance.test.tsx(124,13): error TS2322: Type '{ tabs: { id: string; label: string; path: string; }[]; activePath: string; onTabChange: () => void; isAuthenticated: true; }' is not assignable to type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+  Property 'onTabChange' does not exist on type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+tests/animation/60fps-performance.test.tsx(138,15): error TS2322: Type '{ tabs: { id: string; label: string; path: string; }[]; activePath: string; onTabChange: () => void; isAuthenticated: true; }' is not assignable to type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+  Property 'onTabChange' does not exist on type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+tests/animation/60fps-performance.test.tsx(176,24): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'TabItem'.
+tests/charts/chart-visualization.test.tsx(30,10): error TS2739: Type '{ data: { name: string; value: number; }[]; width: number; height: number; }' is missing the following properties from type 'CustomBarChartProps': xKey, dataKey
+tests/charts/chart-visualization.test.tsx(41,10): error TS2739: Type '{ data: { name: string; value: number; }[]; width: number; height: number; }' is missing the following properties from type 'CustomBarChartProps': xKey, dataKey
+tests/charts/chart-visualization.test.tsx(58,10): error TS2739: Type '{ data: { name: string; value: number; }[]; width: number; height: number; }' is missing the following properties from type 'CustomLineChartProps': xKey, dataKey
+tests/charts/chart-visualization.test.tsx(68,10): error TS2739: Type '{ data: { name: string; value: number; }[]; width: number; height: number; }' is missing the following properties from type 'CustomLineChartProps': xKey, dataKey
+tests/charts/chart-visualization.test.tsx(112,10): error TS2739: Type '{ data: { name: string; value: number; }[]; width: number; height: number; }' is missing the following properties from type 'CustomBarChartProps': xKey, dataKey
+tests/charts/chart-visualization.test.tsx(119,10): error TS2739: Type '{ data: { name: string; value: number; }[]; width: number; height: number; }' is missing the following properties from type 'CustomBarChartProps': xKey, dataKey
+tests/components/charts/CustomBarChart.test.tsx(14,13): error TS2739: Type '{ data: { name: string; value: number; }[]; }' is missing the following properties from type 'CustomBarChartProps': xKey, dataKey
+tests/components/charts/CustomBarChart.test.tsx(20,13): error TS2739: Type '{ data: undefined[]; }' is missing the following properties from type 'CustomBarChartProps': xKey, dataKey
+tests/components/charts/CustomBarChart.test.tsx(29,13): error TS2739: Type '{ data: { name: string; value: number; }[]; }' is missing the following properties from type 'CustomBarChartProps': xKey, dataKey
+tests/components/charts/CustomLineChart.test.tsx(14,13): error TS2739: Type '{ data: { name: string; value: number; }[]; }' is missing the following properties from type 'CustomLineChartProps': xKey, dataKey
+tests/components/charts/CustomLineChart.test.tsx(19,13): error TS2739: Type '{ data: undefined[]; }' is missing the following properties from type 'CustomLineChartProps': xKey, dataKey
+tests/components/HierarchyMindMapRendering.test.tsx(8,35): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/components/HierarchyMindMapRendering.test.tsx(13,13): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/components/HierarchyMindMapRendering.test.tsx(19,13): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/components/HierarchyMindMapRendering.test.tsx(26,13): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/components/HierarchyMindMapRendering.test.tsx(32,13): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/components/HierarchyMindMapRendering.test.tsx(41,35): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/components/HierarchyMindMapStress.test.tsx(15,13): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/components/HierarchyMindMapStress.test.tsx(25,36): error TS2741: Property 'data' is missing in type '{}' but required in type 'HierarchyMindMapProps'.
+tests/integration/frontend-backend-integration.test.tsx(62,21): error TS2339: Property 'data' does not exist on type 'unknown'.
+tests/integration/frontend-backend-integration.test.tsx(63,21): error TS2339: Property 'data' does not exist on type 'unknown'.
+tests/integration/frontend-backend-integration.test.tsx(64,21): error TS2339: Property 'data' does not exist on type 'unknown'.
+tests/integration/frontend-backend-integration.test.tsx(65,21): error TS2339: Property 'total' does not exist on type 'unknown'.
+tests/integration/frontend-backend-integration.test.tsx(203,21): error TS2339: Property 'queued' does not exist on type 'unknown'.
+tests/integration/frontend-backend-integration.test.tsx(242,23): error TS2339: Property 'synced' does not exist on type 'unknown'.
+tests/integration/HierarchyConsistency.test.tsx(45,83): error TS2339: Property 'HierarchyNode' does not exist on type 'Promise<ESModuleExports>'.
+tests/integration/SemanticSearchHindiMapping.test.tsx(10,25): error TS2503: Cannot find namespace 'vi'.
+tests/offline/caching-offline.test.tsx(83,17): error TS2540: Cannot assign to 'onLine' because it is a read-only property.
+tests/security/RouteGuard.test.tsx(20,34): error TS2503: Cannot find namespace 'vi'.
+tests/setup.ts(54,1): error TS2322: Type 'typeof IntersectionObserver' is not assignable to type '{ new (callback: IntersectionObserverCallback, options?: IntersectionObserverInit): IntersectionObserver; prototype: IntersectionObserver; }'.
+  Types of property 'prototype' are incompatible.
+    Type 'IntersectionObserver' is missing the following properties from type 'IntersectionObserver': root, rootMargin, thresholds, takeRecords
+tests/setup.ts(63,29): error TS2339: Property 'getScreenCTM' does not exist on type 'SVGElement'.
+tests/setup.ts(64,26): error TS2339: Property 'getScreenCTM' does not exist on type 'SVGElement'.
+tests/telemetry/ReviewActionEvents.test.tsx(2,10): error TS2300: Duplicate identifier 'describe'.
+tests/telemetry/ReviewActionEvents.test.tsx(2,20): error TS2300: Duplicate identifier 'it'.
+tests/telemetry/ReviewActionEvents.test.tsx(2,24): error TS2300: Duplicate identifier 'expect'.
+tests/telemetry/ReviewActionEvents.test.tsx(3,10): error TS2300: Duplicate identifier 'describe'.
+tests/telemetry/ReviewActionEvents.test.tsx(3,20): error TS2300: Duplicate identifier 'it'.
+tests/telemetry/ReviewActionEvents.test.tsx(3,24): error TS2300: Duplicate identifier 'expect'.
+tests/visual-regression/z-index-overlays.test.tsx(57,15): error TS2322: Type '{ tabs: { label: string; path: string; icon: LucideIcon; }[]; activePath: string; onTabChange: () => void; isAuthenticated: true; }' is not assignable to type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+  Property 'onTabChange' does not exist on type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+tests/visual-regression/z-index-overlays.test.tsx(182,17): error TS2322: Type '{ tabs: { label: string; path: string; icon: LucideIcon; }[]; activePath: string; onTabChange: () => void; isAuthenticated: true; }' is not assignable to type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+  Property 'onTabChange' does not exist on type 'IntrinsicAttributes & AnimatedNavTabsProps'.
+utils/security.ts(81,7): error TS2862: Type 'T' is generic and can only be indexed for reading.
+utils/testDataLoader.ts(186,9): error TS2322: Type '0' is not assignable to type '1 | 4 | 5 | 2 | 3'.

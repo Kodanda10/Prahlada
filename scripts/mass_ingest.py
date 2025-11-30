@@ -134,10 +134,14 @@ class MassIngestionPipeline:
         tweet: Dict,
         parser: GeminiParserV2,
         knowledge_store: KnowledgeStore,
+        db_session,
         delay_ms: int = 500
     ) -> bool:
         """
-        Process a single tweet with rate limiting.
+        Process a single tweet with isolated transaction (savepoint).
+        
+        Uses nested transactions (savepoints) to ensure one failed tweet
+        doesn't abort the entire batch transaction.
         
         Args:
             delay_ms: Delay in milliseconds between LLM calls (default 500ms)
@@ -145,35 +149,38 @@ class MassIngestionPipeline:
         Returns:
             True if successful, False otherwise
         """
+        tweet_id = str(tweet.get('tweet_id') or tweet.get('id'))
+        
         try:
-            tweet_id = str(tweet.get('tweet_id') or tweet.get('id'))
-            text = tweet.get('raw_text') or tweet.get('text', '')
-            
-            if not text:
-                logger.warning(f"Empty text for tweet {tweet_id}, skipping")
-                return False
-            
-            # Parse with LLM
-            parsed = parser.parse_tweet({
-                'tweet_id': tweet_id,
-                'text': text,
-                'created_at': tweet.get('created_at')
-            })
-            
-            # Save to knowledge store
-            await knowledge_store.save_parsed_tweet(parsed)
-            
-            # Update stats
-            self.stats['processed'] += 1
-            if parsed.get('quality_flags', {}).get('phi_enhanced'):
-                self.stats['llm_enhanced'] += 1
-            
-            # Update running average confidence
-            conf = parsed.get('confidence', 0.0)
-            n = self.stats['processed']
-            self.stats['avg_confidence'] = (
-                (self.stats['avg_confidence'] * (n - 1) + conf) / n
-            )
+            # Create a savepoint for this tweet (nested transaction)
+            async with db_session.begin_nested():
+                text = tweet.get('raw_text') or tweet.get('text', '')
+                
+                if not text:
+                    logger.warning(f"Empty text for tweet {tweet_id}, skipping")
+                    return False
+                
+                # Parse with LLM
+                parsed = parser.parse_tweet({
+                    'tweet_id': tweet_id,
+                    'text': text,
+                    'created_at': tweet.get('created_at')
+                })
+                
+                # Save to knowledge store
+                await knowledge_store.save_parsed_tweet(parsed)
+                
+                # Update stats
+                self.stats['processed'] += 1
+                if parsed.get('quality_flags', {}).get('phi_enhanced'):
+                    self.stats['llm_enhanced'] += 1
+                
+                # Update running average confidence
+                conf = parsed.get('confidence', 0.0)
+                n = self.stats['processed']
+                self.stats['avg_confidence'] = (
+                    (self.stats['avg_confidence'] * (n - 1) + conf) / n
+                )
             
             # Rate limiting: delay between LLM calls
             if delay_ms > 0:
@@ -182,8 +189,9 @@ class MassIngestionPipeline:
             return True
             
         except Exception as e:
-            logger.error(f"Failed to process tweet {tweet.get('tweet_id')}: {e}")
+            logger.error(f"Failed to process tweet {tweet_id}: {e}")
             self.stats['failed'] += 1
+            # Savepoint automatically rolled back, batch transaction continues
             return False
     
     async def process_batch(
@@ -195,19 +203,17 @@ class MassIngestionPipeline:
     ) -> int:
         """
         Process a batch of tweets with rate limiting.
-        
-        Args:
-            delay_ms: Delay between LLM calls in milliseconds
-        
-        Returns:
-            Number of successfully processed tweets
         """
+        print("DEBUG: Initializing KnowledgeStore...")
         knowledge_store = KnowledgeStore(db_session)
+        print("DEBUG: KnowledgeStore initialized.")
         
         # Process sequentially to respect rate limits (not parallel)
         success_count = 0
         for tweet in batch:
-            result = await self.process_tweet(tweet, parser, knowledge_store, delay_ms)
+            print(f"DEBUG: Processing tweet {tweet.get('tweet_id')}...")
+            result = await self.process_tweet(tweet, parser, knowledge_store, db_session, delay_ms)
+            print(f"DEBUG: Tweet processed. Result: {result}")
             if result:
                 success_count += 1
         
@@ -259,13 +265,21 @@ class MassIngestionPipeline:
             parser = GeminiParserV2(enable_semantic=False)
             parser.enable_cognitive = True
         
+        # Test DB connection
+        logger.info("DEBUG: Testing DB connection...")
+        async with AsyncSessionLocal() as session:
+            logger.info("DEBUG: DB connection successful.")
+
         # Process in batches with progress bar
         with tqdm(total=len(remaining), desc="Ingesting", unit="tweet") as pbar:
             for i in range(0, len(remaining), self.batch_size):
                 batch = remaining[i:i + self.batch_size]
                 
+                logger.info(f"DEBUG: Processing batch {i}...")
                 async with AsyncSessionLocal() as db_session:
+                    logger.info("DEBUG: DB Session created.")
                     success_count = await self.process_batch(batch, parser, db_session, delay_ms)
+                    logger.info(f"DEBUG: Batch processed. Success: {success_count}")
                 
                 # Update checkpoint
                 batch_ids = {str(t.get('tweet_id') or t.get('id')) for t in batch}

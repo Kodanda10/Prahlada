@@ -1,0 +1,22 @@
+
+> project-dhruv@1.0.0 build
+> tsc -p tsconfig.build.json && vite build
+
+components/analytics/MapBoxVisual.tsx(311,18): error TS2322: Type '{ id: string; type: "heatmap"; source: string; maxzoom: number; paint: { 'heatmap-weight': (string | number | string[])[]; 'heatmap-intensity': (string | number | string[])[]; 'heatmap-color': (string | number | string[])[]; 'heatmap-radius': (string | ... 1 more ... | string[])[]; 'heatmap-opacity': (string | ... 1...' is not assignable to type 'IntrinsicAttributes & LayerProps'.
+  Type '{ id: string; type: "heatmap"; source: string; maxzoom: number; paint: { 'heatmap-weight': (string | number | string[])[]; 'heatmap-intensity': (string | number | string[])[]; 'heatmap-color': (string | number | string[])[]; 'heatmap-radius': (string | ... 1 more ... | string[])[]; 'heatmap-opacity': (string | ... 1...' is not assignable to type 'Omit<Omit<HeatmapLayerSpecification, "id"> & { id?: string; }, "source">'.
+    The types of '"paint"["heatmap-radius"]' are incompatible between these types.
+      Type '(string | number | string[])[]' is not assignable to type 'DataDrivenPropertyValueSpecification<number>'.
+        Type '(string | number | string[])[]' is not assignable to type 'ExpressionSpecification'.
+          Source provides no match for required element at position 0 in target.
+components/analytics/MapBoxVisual.tsx(312,18): error TS2322: Type '{ id: string; type: "circle"; source: string; filter: string[]; paint: { 'circle-color': (string | number | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-opacity': number; 'circle-stroke-width': number; 'circle-stroke-color': string; }; }' is not assignable to type 'IntrinsicAttributes & LayerProps'.
+  Type '{ id: string; type: "circle"; source: string; filter: string[]; paint: { 'circle-color': (string | number | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-opacity': number; 'circle-stroke-width': number; 'circle-stroke-color': string; }; }' is not assignable to type 'Omit<Omit<CircleLayerSpecification, "id"> & { id?: string; }, "source">'.
+    The types of '"paint"["circle-radius"]' are incompatible between these types.
+      Type '(string | number | string[])[]' is not assignable to type 'DataDrivenPropertyValueSpecification<number>'.
+        Type '(string | number | string[])[]' is not assignable to type 'ExpressionSpecification'.
+          Source provides no match for required element at position 0 in target.
+components/analytics/MapBoxVisual.tsx(316,14): error TS2322: Type '{ id: string; type: "circle"; source: string; filter: (string | string[])[]; paint: { 'circle-color': (string | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-stroke-width': number; 'circle-stroke-color': string; 'circle-opacity': number; }; }' is not assignable to type 'IntrinsicAttributes & LayerProps'.
+  Type '{ id: string; type: "circle"; source: string; filter: (string | string[])[]; paint: { 'circle-color': (string | string[])[]; 'circle-radius': (string | number | string[])[]; 'circle-stroke-width': number; 'circle-stroke-color': string; 'circle-opacity': number; }; }' is not assignable to type 'Omit<Omit<CircleLayerSpecification, "id"> & { id?: string; }, "source">'.
+    The types of '"paint"["circle-radius"]' are incompatible between these types.
+      Type '(string | number | string[])[]' is not assignable to type 'DataDrivenPropertyValueSpecification<number>'.
+        Type '(string | number | string[])[]' is not assignable to type 'ExpressionSpecification'.
+          Source provides no match for required element at position 0 in target.

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/abhijita/Documents/Project-Prahlada/scripts/ingest_knowledge.py", line 5, in <module>
+    import pandas as pd
+  File "/Users/abhijita/Documents/Project-Prahlada/venv/lib/python3.14/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+    ...<62 lines>...
+    )
+  File "/Users/abhijita/Documents/Project-Prahlada/venv/lib/python3.14/site-packages/pandas/core/api.py", line 9, in <module>
+    from pandas.core.dtypes.dtypes import (
+    ...<5 lines>...
+    )
+ModuleNotFoundError: No module named 'pandas.core.dtypes.dtypes'

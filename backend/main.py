@@ -26,6 +26,113 @@ print("DEBUG: Imported vector_store")
 from .auth import authenticate_user, create_access_token, get_current_user, ensure_default_admin
 print("DEBUG: Imported auth")
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+SEED_DATASET_PATH = PROJECT_ROOT / "data" / "parsed_tweets_v8.jsonl"
+
+def get_allowed_origins() -> list[str]:
+  """
+  Restrict CORS in production while keeping localhost friendly during development.
+  Uses ALLOWED_ORIGINS (comma-separated) when present; otherwise defaults to localhost.
+  """
+  env_origins = os.getenv("ALLOWED_ORIGINS")
+  if env_origins:
+      return [origin.strip() for origin in env_origins.split(",") if origin.strip()]
+  return ["http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:5173", "http://127.0.0.1:3000", "http://127.0.0.1:3001"]
+
+ALLOWED_ORIGINS = get_allowed_origins()
+
+async def seed_events_if_empty():
+    """
+    Populate the database with parsed tweets from the dataset when empty.
+    Ensures the frontend has 2,611 records to render on Home/Review.
+    """
+    try:
+        async with AsyncSessionLocal() as session:
+            existing_count = await session.execute(select(func.count(models.ParsedEvent.tweet_id)))
+            current = existing_count.scalar_one() or 0
+            if current > 0:
+                print(f"Seed skipped: {current} parsed events already present.")
+                return
+
+            if not SEED_DATASET_PATH.exists():
+                print(f"Seed dataset not found at {SEED_DATASET_PATH}")
+                return
+
+            print(f"Seeding parsed events from {SEED_DATASET_PATH} ...")
+            to_add = 0
+            with SEED_DATASET_PATH.open("r", encoding="utf-8") as f:
+                for line in f:
+                    if not line.strip():
+                        continue
+                    record = json.loads(line)
+                    tweet_id = str(record.get("tweet_id"))
+                    created_at_str = record.get("created_at")
+                    try:
+                        created_at = datetime.datetime.fromisoformat(created_at_str.replace("Z", "+00:00")) if created_at_str else datetime.datetime.utcnow()
+                    except Exception:
+                        created_at = datetime.datetime.utcnow()
+
+                    raw_text = record.get("raw_text") or record.get("text") or ""
+                    parsed_v8 = record.get("parsed_data_v8") or {}
+                    metadata_v8 = record.get("metadata_v8") or {}
+
+                    location_obj = parsed_v8.get("location") or {}
+                    location_canonical = (
+                        location_obj.get("canonical")
+                        or location_obj.get("district")
+                        or location_obj.get("village")
+                        or location_obj.get("ulb")
+                    )
+
+                    people = parsed_v8.get("people_canonical") or parsed_v8.get("people_mentioned") or []
+                    organizations = parsed_v8.get("organizations") or []
+                    schemes = parsed_v8.get("schemes_mentioned") or []
+                    word_buckets = parsed_v8.get("word_buckets") or []
+                    event_type = parsed_v8.get("event_type")
+
+                    raw_tweet = models.RawTweet(
+                        tweet_id=tweet_id,
+                        text=raw_text,
+                        created_at=created_at,
+                        processing_status="processed",
+                        processed_at=created_at,
+                    )
+
+                    parsed_event = models.ParsedEvent(
+                        id=tweet_id,
+                        tweet_id=tweet_id,
+                        categories={
+                            "event": [event_type] if event_type else [],
+                            "locations": [location_canonical] if location_canonical else [],
+                            "people": people,
+                            "organizations": organizations,
+                            "schemes": schemes,
+                            "word_buckets": word_buckets,
+                            "raw_text": raw_text,
+                            "clean_text": parsed_v8.get("clean_text") or raw_text,
+                            "parsed_data_v8": parsed_v8,
+                        },
+                        gemini_metadata=metadata_v8,
+                        event_type=event_type,
+                        locations=[location_canonical] if location_canonical else None,
+                        people_mentioned=people or None,
+                        schemes_mentioned=schemes or None,
+                        word_buckets=word_buckets or None,
+                        organizations=organizations or None,
+                        overall_confidence=parsed_v8.get("confidence") or 0.0,
+                        review_status="pending",
+                        parsed_at=created_at,
+                    )
+
+                    session.add(raw_tweet)
+                    session.add(parsed_event)
+                    to_add += 1
+
+            await session.commit()
+            print(f"Seed complete: added {to_add} parsed tweets.")
+    except Exception as e:
+        print(f"Seed failed: {e}")
+
 # --- FastAPI Lifespan Management ---
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -38,11 +145,8 @@ async def lifespan(app: FastAPI):
     print("DEBUG: Connecting to database...")
     try:
         async with engine.begin() as conn:
-            # print("DEBUG: Database connected. Creating tables...")
-            # await conn.run_sync(models.Base.metadata.drop_all) # Use for development reset
-            # await conn.run_sync(models.Base.metadata.create_all)
-            # print("DEBUG: Tables created.")
-            pass
+            await conn.run_sync(models.Base.metadata.create_all)
+        await seed_events_if_empty()
     except Exception as e:
         print(f"DEBUG: Database connection failed: {e}")
         raise e
@@ -123,11 +227,9 @@ app = FastAPI(
 )
 
 # --- CORS Middleware Setup ---
-origins = ["*"]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -499,9 +601,29 @@ async def get_analytics_data(
     """
     Provides aggregated data for analytics charts.
     """
+    backend_name = engine.url.get_backend_name()
+
+    # SQLite-friendly aggregation (loads categories and aggregates in Python)
+    async def aggregate_from_categories(field: str):
+        result = await db.execute(select(models.ParsedEvent.categories))
+        rows = result.scalars().all()
+        counts: dict[str, int] = {}
+        for cats in rows:
+            if not isinstance(cats, dict):
+                continue
+            values = cats.get(field) or []
+            if isinstance(values, str):
+                values = [values]
+            if isinstance(values, list):
+                for item in values:
+                    if item:
+                        counts[item] = counts.get(item, 0) + 1
+        sorted_items = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:10]
+        return [{"name": name, "value": value} for name, value in sorted_items]
+
     if chart_type == "event-types":
-        # Note: This is an example of a raw SQL query for aggregation.
-        # A more robust solution might use SQLAlchemy's aggregation functions.
+        if backend_name == "sqlite":
+            return await aggregate_from_categories("event")
         query = text("""
             SELECT 
                 (jsonb_array_elements_text(categories->'event')) as name, 
@@ -516,6 +638,8 @@ async def get_analytics_data(
         return result.mappings().all()
         
     if chart_type == "districts":
+        if backend_name == "sqlite":
+            return await aggregate_from_categories("locations")
         query = text("""
             SELECT 
                 (jsonb_array_elements_text(categories->'locations')) as name, 
@@ -938,5 +1062,3 @@ async def get_overlay_health(
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
-

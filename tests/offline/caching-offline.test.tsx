@@ -80,7 +80,10 @@ describe('Offline & Caching', () => {
       expect(navigator.onLine).toBe(true);
 
       // Mock offline status
-      navigator.onLine = false;
+      Object.defineProperty(navigator, 'onLine', {
+        value: false,
+        writable: true,
+      });
       expect(navigator.onLine).toBe(false);
     });
 

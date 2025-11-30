@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
+
 const rootElement = document.getElementById('root');
+console.log("Mounting React App...");
+
 if (!rootElement) {
   throw new Error("Could not find root element to mount to");
 }

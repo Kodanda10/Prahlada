@@ -78,7 +78,7 @@ export const redactSensitiveLogData = <T extends Record<string, unknown>>(data: 
   const clone = { ...data };
   Object.keys(clone).forEach((key) => {
     if (key.toLowerCase().includes('token') || key.toLowerCase().includes('password') || key.toLowerCase().includes('apikey')) {
-      clone[key] = '***';
+      (clone as any)[key] = '***';
     }
   });
   return clone;
@@ -87,7 +87,7 @@ export const redactSensitiveLogData = <T extends Record<string, unknown>>(data: 
 export class MemoryRateLimiter {
   private calls: Map<string, { count: number; resetTime: number }> = new Map();
 
-  constructor(private readonly limit = 100, private readonly windowMs = 60_000) {}
+  constructor(private readonly limit = 100, private readonly windowMs = 60_000) { }
 
   public canExecute(key: string): boolean {
     const now = Date.now();

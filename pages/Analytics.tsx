@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+/**
+ * CRITICAL COMPONENT - DO NOT EDIT WITHOUT APPROVAL
+ * 
+ * This component renders the main Analytics Dashboard.
+ * 
+ * Dependencies:
+ * - MapBoxVisual: For geographic visualization
+ * - HierarchyMindMap: For hierarchical view
+ * - CustomPieChart/CustomBarChart: For data visualization
+ * - staticAnalyticsData: For data loading (loadRealTweets, getHierarchyData)
+ * 
+ * Data Flow:
+ * - Loads real tweets from static file (or API)
+ * - Processes data for charts and map
+ * - Passes processed data to child components
+ */
+import React, { useState, useEffect, useMemo } from 'react';
 import { Download, Map, Users, Target, Lightbulb, Building, Share2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
 import CustomPieChart from '../components/charts/CustomPieChart';
 import CustomBarChart from '../components/charts/CustomBarChart';
 import MapBoxVisual from '../components/analytics/MapBoxVisual';
-import HierarchyMindMap from '../components/analytics/HierarchyMindMap';
+import HierarchyMindMap, { HierarchyNode } from '../components/analytics/HierarchyMindMap';
 import NumberTicker from '../components/NumberTicker';
 import { exportToExcel, exportToPDF } from '../utils/export';
+import { fetchEvents } from '../services/api';
 
-import { fetchAnalyticsData } from '../services/api';
+import { getTweetStats, getAnalyticsSummary, getHierarchyData, getTweetTimeStats, loadRealTweets } from '../utils/staticAnalyticsData';
+import SectionWrapper from '../components/SectionWrapper';
 
 // Initial empty data or loading state
 const initialEventTypeData = [
@@ -37,29 +55,60 @@ const AnalyticsDashboard = () => {
   const [eventTypeData, setEventTypeData] = useState(initialEventTypeData);
   const [developmentData, setDevelopmentData] = useState<any[]>([]);
   const [schemeData, setSchemeData] = useState<any[]>([]);
+  const [hierarchyData, setHierarchyData] = useState<HierarchyNode | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [raigarhStats, setRaigarhStats] = useState<any>(null);
 
-  React.useEffect(() => {
+  // --- Raigarh Specific Data Processing ---
+  const [tweets, setTweets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
     const loadData = async () => {
       try {
-        const events = await fetchAnalyticsData('event-types');
-        if (events && events.length > 0) {
-          // Map API data to chart format
-          const mappedEvents = events.map((e: any, idx: number) => ({
-            name: e.name,
-            value: e.value,
-            fill: ['#8BF5E6', '#3b82f6', '#a855f7', '#ec4899', '#64748b'][idx % 5]
-          }));
-          setEventTypeData(mappedEvents);
-        }
+        // Load real tweets from static data (or API if available)
+        const realTweets = loadRealTweets();
+        setTweets(realTweets);
 
-        const districts = await fetchAnalyticsData('districts');
-        // Use districts data or other endpoints as needed
+        // Process Event Types
+        const stats = getTweetStats(realTweets);
+        setEventTypeData(stats.map((s, idx) => ({
+          ...s,
+          fill: ['#8BF5E6', '#3b82f6', '#a855f7', '#ec4899', '#64748b'][idx % 5]
+        })));
+
+        // Process Hierarchy Data
+        const hData = getHierarchyData(realTweets);
+        setHierarchyData(hData);
+
+        // Process Summary Stats
+        const summary = getAnalyticsSummary(realTweets);
+        setRaigarhStats(summary);
+
+        setLoading(false);
       } catch (err) {
         console.error("Failed to load analytics data", err);
+        setLoading(false);
       }
     };
     loadData();
   }, []);
+
+  const raigarhLocations = useMemo(() => {
+    return tweets
+      .filter(t => t.parsed_data_v8?.location?.lat && t.parsed_data_v8?.location?.lng)
+      .map(t => ({
+        id: t.tweet_id,
+        lat: t.parsed_data_v8.location.lat,
+        lng: t.parsed_data_v8.location.lng,
+        label: t.parsed_data_v8.location.canonical || 'Unknown',
+        type: (t.parsed_data_v8.location.location_type === 'urban' ? 'urban' : 'rural') as 'urban' | 'rural' | 'unknown',
+        hierarchy_path: t.parsed_data_v8.location.hierarchy_path || [],
+        visit_count: 1,
+        event_type: t.parsed_data_v8.event_type,
+        date: t.parsed_data_v8.event_date
+      }));
+  }, [tweets]);
 
   const handleDownloadExcel = () => {
     // Combine all data for export
@@ -168,7 +217,16 @@ const AnalyticsDashboard = () => {
           <div className="flex flex-col gap-4 h-full">
             {/* Visualization Container with responsive height */}
             <div className="flex-1 min-h-[350px] w-full rounded-xl overflow-hidden relative bg-[#0f172a]">
-              {geoViewMode === 'map' ? <MapBoxVisual /> : <HierarchyMindMap />}
+              {geoViewMode === 'map' ? (
+                <MapBoxVisual
+                  locations={raigarhLocations}
+                  apiKey={import.meta.env.VITE_NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+                  selectedRegion={selectedRegion}
+                  onSelect={setSelectedRegion}
+                />
+              ) : (
+                hierarchyData && <HierarchyMindMap data={hierarchyData} />
+              )}
             </div>
 
             {/* Quick Stats Grid inside Geo Card - Pushed to bottom */}

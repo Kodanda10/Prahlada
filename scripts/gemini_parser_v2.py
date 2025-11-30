@@ -980,19 +980,29 @@ class GeminiParserV2:
         return self._vector_store
 
     def parse_tweet(self, record: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Main parsing entry point.
+        """
+        print(f"DEBUG: GeminiParserV2.parse_tweet called for {record.get('tweet_id')}")
+        # start_time = time.time() # This variable is not defined in the original context, commenting out.
+        
+        tweet_id = record.get("tweet_id", "unknown") # This variable is not used in the original context, commenting out.
         text = record.get("raw_text") or record.get("text") or ""
         created_at = record.get("created_at")
         
         # 1. Entity Extraction
+        print("DEBUG: Extracting entities...")
         people = self.entity_extractor.extract_people(text)
         schemes = self.entity_extractor.extract_schemes(text)
         other_entities = self.entity_extractor.extract_others(text)
         word_buckets = self.entity_extractor.extract_word_buckets(text)
         
         # 2. Event Classification
+        print("DEBUG: Classifying event...")
         event_type, event_scores = self.event_classifier.classify(text, schemes)
         
         # 3. Location Resolution
+        print("DEBUG: Resolving location...")
         # Pass extracted people/handles to resolver for inference
         location, loc_conf, loc_source = self.location_resolver.resolve(text, entities=people)
         
@@ -1032,16 +1042,25 @@ class GeminiParserV2:
         # 6. Word Buckets (Thematic Classification)
         # ---------------------------------------------------------
         # V4: Use Semantic Word Bucket Extractor
+        print("DEBUG: Extracting word buckets...")
         # We pass the partial parsed data to help the extractor
         partial_metadata = {
             "event_type": event_type,
             "location": location
         }
-        semantic_buckets = self.bucket_extractor.process_tweet(
-            record.get("tweet_id", "unknown"),
-            text,
-            partial_metadata
-        )
+        
+        # TEMPORARY FIX: Disable semantic extraction to prevent hangs
+        # semantic_buckets = self.bucket_extractor.process_tweet(
+        #     record.get("tweet_id", "unknown"),
+        #     text,
+        #     partial_metadata
+        # )
+        
+        # Fallback to basic candidates
+        candidates = self.bucket_extractor.extract_candidates(text)
+        semantic_buckets = [{'word': w, 'cluster': -1} for w in candidates]
+        
+        print("DEBUG: Word buckets extracted (Basic Mode).")
         
         # Extract simple list for backward compatibility/Phi context
         word_buckets = [b['word'] for b in semantic_buckets]
@@ -1068,23 +1087,33 @@ class GeminiParserV2:
             
             # V5.2: Feedback Loop - Retrieve Context
             context_examples = []
-            if self.vector_store:
-                try:
-                    # Search for similar tweets
-                    search_results = self.vector_store.search(text, k=3)
-                    for res in search_results:
-                        meta = res.get('metadata', {})
-                        # Only use high-quality matches
-                        if res.get('distance', 1.0) < 0.6: 
-                            context_examples.append({
-                                "text": meta.get('text', ''),
-                                "event_type": meta.get('event_type', ''),
-                                "themes": meta.get('themes', '')
-                            })
-                except Exception as e:
-                    print(f"Vector search failed during parsing: {e}")
+            
+            # TEMPORARY FIX: Disable vector search to prevent SentenceTransformer hang
+            # if self.vector_store:
+            #     try:
+            #         print("DEBUG: Searching vector store for context...")
+            #         # Ensure model is loaded (if not already handled by VectorStore wrapper)
+            #         if hasattr(self.vector_store, '_ensure_model_loaded'):
+            #             self.vector_store._ensure_model_loaded()
+            #             
+            #         # Search for similar tweets
+            #         search_results = self.vector_store.search(text, k=3)
+            #         print(f"DEBUG: Vector search complete. Found {len(search_results)} results.")
+            #         
+            #         for res in search_results:
+            #             meta = res.get('metadata', {})
+            #             # Only use high-quality matches
+            #             if res.get('distance', 1.0) < 0.6: 
+            #                 context_examples.append({
+            #                     "text": meta.get('text', ''),
+            #                     "event_type": meta.get('event_type', ''),
+            #                     "themes": meta.get('themes', '')
+            #                 })
+            #     except Exception as e:
+            #         print(f"Vector search failed during parsing: {e}")
 
             # Get suggestions
+            print("DEBUG: Calling PhiAdapter.get_suggestions...")
             suggestions = self.phi_adapter.get_suggestions(
                 record.get("tweet_id", "unknown"),
                 text,

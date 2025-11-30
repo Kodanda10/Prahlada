@@ -1,4 +1,20 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+/**
+ * CRITICAL COMPONENT - DO NOT EDIT WITHOUT APPROVAL
+ * 
+ * This component renders the interactive Mapbox visualization.
+ * 
+ * Dependencies:
+ * - react-map-gl: For Mapbox integration
+ * - mapbox-gl: Core Mapbox library
+ * - supercluster: For clustering markers
+ * 
+ * Props:
+ * - locations: Array of location data (lat, lng, type, etc.)
+ * - apiKey: Mapbox API key
+ * - selectedRegion: Currently selected region ID
+ * - onSelect: Callback for region selection
+ */
+import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import Map, { Marker, Popup, NavigationControl, ScaleControl, FullscreenControl, Layer, Source } from 'react-map-gl';
 import type { MapRef, ViewState } from 'react-map-gl';
 import { MapPin, Navigation2, Layers, Loader2, Zap, Maximize2, Minimize2 } from 'lucide-react';
@@ -20,6 +36,8 @@ interface LocationData {
 interface MapBoxVisualProps {
   locations?: LocationData[];
   apiKey?: string;
+  selectedRegion?: string | null;
+  onSelect?: (region: string | null) => void;
 }
 
 const MAPBOX_TOKEN = import.meta.env.VITE_NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || import.meta.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1IjoicGluYWsxMCIsImEiOiJjbWhuN3FscHEwMDFnMmpzaHNhanNnZ29iIn0.2_5cTwOMzj_bS_OQ8Oj47w';
@@ -33,7 +51,12 @@ const INITIAL_VIEW_STATE: Partial<ViewState> = {
   bearing: 0,
 };
 
-const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MAPBOX_TOKEN }) => {
+const MapBoxVisual: React.FC<MapBoxVisualProps> = ({
+  locations = [],
+  apiKey,
+  selectedRegion,
+  onSelect
+}) => {
   const mapRef = useRef<MapRef>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
@@ -82,8 +105,8 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
         '#a855f7',
         50,
         '#ec4899',
-      ],
-      'circle-radius': ['step', ['get', 'point_count'], 20, 10, 30, 30, 40, 50, 50],
+      ] as any,
+      'circle-radius': ['step', ['get', 'point_count'], 20, 10, 30, 30, 40, 50, 50] as any,
       'circle-opacity': 0.8,
       'circle-stroke-width': 2,
       'circle-stroke-color': '#ffffff',
@@ -119,7 +142,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
         'rural',
         '#8BF5E6',
         '#64748b',
-      ],
+      ] as any,
       'circle-radius': [
         'interpolate',
         ['linear'],
@@ -130,7 +153,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
         16,
         50,
         24,
-      ],
+      ] as any,
       'circle-stroke-width': 2,
       'circle-stroke-color': '#ffffff',
       'circle-opacity': 0.9,
@@ -144,8 +167,8 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
     source: 'locations',
     maxzoom: 15,
     paint: {
-      'heatmap-weight': ['interpolate', ['linear'], ['get', 'visit_count'], 0, 0, 50, 1],
-      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 15, 3],
+      'heatmap-weight': ['interpolate', ['linear'], ['get', 'visit_count'], 0, 0, 50, 1] as any,
+      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 15, 3] as any,
       'heatmap-color': [
         'interpolate',
         ['linear'],
@@ -160,9 +183,9 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
         'rgb(168, 85, 247)',
         0.8,
         'rgb(236, 72, 153)',
-      ],
-      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 15, 20],
-      'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.7, 15, 0],
+      ] as any,
+      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 15, 20] as any,
+      'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.7, 15, 0] as any,
     },
   };
 
@@ -191,7 +214,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
 
   const toggleFullscreen = () => {
     if (!containerRef.current) return;
-    
+
     if (!document.fullscreenElement) {
       containerRef.current.requestFullscreen().catch(err => {
         console.error(`Error attempting to enable fullscreen: ${err.message}`);
@@ -220,8 +243,9 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
+      data-testid="mapbox"
       className={`relative w-full h-full min-h-[500px] rounded-xl overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[100] rounded-none border-0' : ''}`}
     >
       {/* Loading Overlay */}
@@ -263,12 +287,20 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
         ref={mapRef}
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
-        onLoad={() => setMapLoaded(true)}
+        onLoad={() => {
+          setMapLoaded(true);
+          setIsLoading(false);
+        }}
         mapboxAccessToken={apiKey}
         mapStyle={mapStyles[mapStyle]}
         style={{ width: '100%', height: '100%' }}
         interactiveLayerIds={showClusters ? ['clusters', 'unclustered-point'] : ['unclustered-point']}
         onClick={(e) => {
+          // If we clicked on the map background (not a feature), clear selection
+          // Note: react-map-gl onClick event has `features` property if features were clicked
+          if (!e.features || e.features.length === 0) {
+            onSelect?.(null);
+          }
           const feature = e.features?.[0];
           if (feature?.layer.id === 'clusters') {
             handleClusterClick(e);
@@ -341,8 +373,8 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
                   />
                   <div
                     className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white ${location.type === 'urban'
-                        ? 'bg-purple-600 text-white'
-                        : 'bg-[#8BF5E6] text-black'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-[#8BF5E6] text-black'
                       }`}
                   >
                     <MapPin size={16} fill="currentColor" />
@@ -429,13 +461,13 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
         <ScaleControl position="bottom-right" />
         {/* Custom Fullscreen Control */}
         <div className="mapboxgl-ctrl-top-right" style={{ marginTop: '100px', marginRight: '10px' }}>
-           <button 
-             onClick={toggleFullscreen}
-             className="mapboxgl-ctrl-icon bg-white text-black p-1 rounded shadow hover:bg-gray-100 transition-colors"
-             title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-           >
-             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-           </button>
+          <button
+            onClick={toggleFullscreen}
+            className="mapboxgl-ctrl-icon bg-white text-black p-1 rounded shadow hover:bg-gray-100 transition-colors"
+            title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          >
+            {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+          </button>
         </div>
 
         {/* Custom Control Panel */}

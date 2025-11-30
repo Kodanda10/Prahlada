@@ -1,0 +1,24 @@
+
+> project-dhruv@1.0.0 build
+> tsc -p tsconfig.build.json && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 9 modules transformed.
+x Build failed in 133ms
+error during build:
+[vite:build-import-analysis] [plugin vite:build-import-analysis] pages/Events.js (77:96): Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.
+file: /Users/abhijita/Documents/Project-Prahlada/pages/Events.js:77:96
+
+75:     return (<div className="space-y-6 pb-10">
+76:       <div className="flex justify-between items-center">
+77:          <h2 className="text-2xl font-bold text-white font-hindi">इवेंट एक्सप्लोरर (Events)</h2>
+                                                                                                    ^
+78:          <div className="text-sm text-slate-400 font-hindi">DB से {events.length} हालिया ईवेंट दिखाए जा रहे हैं</div>
+79:       </div>
+
+    at getRollupError (file:///Users/abhijita/Documents/Project-Prahlada/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///Users/abhijita/Documents/Project-Prahlada/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Object.error (file:///Users/abhijita/Documents/Project-Prahlada/node_modules/rollup/dist/es/shared/node-entry.js:22129:20)
+    at Object.error (file:///Users/abhijita/Documents/Project-Prahlada/node_modules/rollup/dist/es/shared/node-entry.js:21186:42)
+    at Object.transform (file:///Users/abhijita/Documents/Project-Prahlada/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64913:14)

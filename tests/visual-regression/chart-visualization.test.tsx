@@ -3,33 +3,25 @@ import { render } from '@testing-library/react';
 import CustomBarChart from '../../components/charts/CustomBarChart';
 import CustomLineChart from '../../components/charts/CustomLineChart';
 import CustomPieChart from '../../components/charts/CustomPieChart';
+import { getTweetStats, getTweetTimeStats } from '../../utils/testDataLoader';
 
 describe('Chart Visualization Visual Regression', () => {
-  const mockBarData = [
-    { name: 'Jan', value: 400 },
-    { name: 'Feb', value: 300 },
-    { name: 'Mar', value: 600 },
-    { name: 'Apr', value: 800 },
-  ];
+  // Use real data
+  const barData = getTweetStats().slice(0, 5);
+  const lineData = getTweetTimeStats();
+  const pieData = getTweetStats().slice(0, 4).map((item, index) => ({
+      ...item,
+      color: ['#8884d8', '#82ca9d', '#ffc658', '#ff8042'][index % 4]
+  }));
 
-  const mockLineData = [
-    { name: 'Week 1', value: 100 },
-    { name: 'Week 2', value: 200 },
-    { name: 'Week 3', value: 150 },
-    { name: 'Week 4', value: 300 },
-  ];
-
-  const mockPieData = [
-    { name: 'Category A', value: 400, color: '#8884d8' },
-    { name: 'Category B', value: 300, color: '#82ca9d' },
-    { name: 'Category C', value: 200, color: '#ffc658' },
-  ];
+  // Fallback if no real data (shouldn't happen if loader works)
+  if (barData.length === 0) console.warn("No real bar data loaded");
 
   describe('CustomBarChart Component', () => {
     it('renders bars with consistent dimensions', () => {
       const { container } = render(
         <CustomBarChart
-          data={mockBarData}
+          data={barData}
           xKey="name"
           dataKey="value"
           width={400}
@@ -63,7 +55,7 @@ describe('Chart Visualization Visual Regression', () => {
     it('maintains aspect ratio', () => {
       const { container } = render(
         <CustomBarChart
-          data={mockBarData}
+          data={barData}
           xKey="name"
           dataKey="value"
           width={600}
@@ -82,7 +74,7 @@ describe('Chart Visualization Visual Regression', () => {
     it('renders line chart with data points', () => {
       const { container } = render(
         <CustomLineChart
-          data={mockLineData}
+          data={lineData}
           xKey="name"
           dataKey="value"
           width={400}
@@ -100,7 +92,7 @@ describe('Chart Visualization Visual Regression', () => {
     it('displays trend line correctly', () => {
       const { container } = render(
         <CustomLineChart
-          data={mockLineData}
+          data={lineData}
           xKey="name"
           dataKey="value"
           width={500}
@@ -121,7 +113,7 @@ describe('Chart Visualization Visual Regression', () => {
     it('renders pie segments with colors', () => {
       const { container } = render(
         <CustomPieChart
-          data={mockPieData}
+          data={pieData}
           width={400}
           height={400}
         />
@@ -137,7 +129,7 @@ describe('Chart Visualization Visual Regression', () => {
     it('maintains circular proportions', () => {
       const { container } = render(
         <CustomPieChart
-          data={mockPieData}
+          data={pieData}
           width={300}
           height={300}
         />
@@ -159,7 +151,7 @@ describe('Chart Visualization Visual Regression', () => {
       const { container, rerender } = render(
         <div style={{ width: '400px' }}>
           <CustomBarChart
-            data={mockBarData}
+            data={barData}
             xKey="name"
             dataKey="value"
             width={400}
@@ -174,7 +166,7 @@ describe('Chart Visualization Visual Regression', () => {
       rerender(
         <div style={{ width: '600px' }}>
           <CustomBarChart
-            data={mockBarData}
+            data={barData}
             xKey="name"
             dataKey="value"
             width={600}

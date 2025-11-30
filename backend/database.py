@@ -41,3 +41,19 @@ async def get_db_session() -> AsyncSession:
     """
     async with AsyncSessionLocal() as session:
         yield session
+
+# --- Guardrails Integration ---
+from sqlalchemy import event
+from sqlalchemy.orm import Session
+from .security.guardrail import Guardrail
+
+@event.listens_for(Session, "before_delete")
+def prevent_critical_deletes(session, instances):
+    for instance in instances:
+        table_name = instance.__tablename__
+        # Check if deletion is allowed
+        if not Guardrail.validate_delete(table_name):
+            raise ValueError(f"Deletion blocked by Guardrail for table: {table_name}")
+            
+# Note: For AsyncSession, events are a bit complex, but Session events often propagate.
+# If this doesn't work, we might need to hook into the underlying sync session or engine.

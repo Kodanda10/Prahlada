@@ -1,14 +1,29 @@
+# --- Core FastAPI Backend ---
 fastapi
 uvicorn
+pydantic
+
+# --- Database ---
 sqlalchemy
 asyncpg
-pydantic
-python-dotenv
 psycopg2-binary
-sentence-transformers
-faiss-cpu
-numpy
-requests
+
+# --- Authentication ---
 passlib[bcrypt]
 bcrypt==4.0.1
 python-jose[cryptography]
+
+# --- ML/Vector Search ---
+sentence-transformers
+faiss-cpu
+numpy
+
+# --- Utilities ---
+python-dotenv
+requests
+
+# --- Testing Dependencies ---
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.24.0
+aiosqlite>=0.19.0

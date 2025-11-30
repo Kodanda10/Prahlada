@@ -64,33 +64,36 @@ class KnowledgeStore:
                 # We need to flush to get the ID, but we can just commit at the end
                 # For now, let's just track that we processed it.
             
-        # 2. Update/Create ParsedEvent
-        stmt = select(ParsedEvent).where(ParsedEvent.tweet_id == tweet_id)
-        result = await self.db.execute(stmt)
-        existing_event = result.scalar_one_or_none()
+        # 2. Save Parsed Tweet
+        # Check if exists (UPDATE) or create (INSERT)
+        result = await self.db.execute(
+            select(ParsedEvent).where(ParsedEvent.tweet_id == tweet_id)
+        )
+        existing = result.scalars().first()
 
-        if existing_event:
-            # Update
-            existing_event.cognitive_view = tweet_data.get("cognitive_view")
-            existing_event.quality_flags = tweet_data.get("quality_flags")
-            existing_event.word_buckets = unique_buckets
-            # Fix: Ensure locations is properly formatted
-            location_data = tweet_data.get("location")
-            if location_data:
-                # Store as array with canonical name
-                existing_event.locations = [location_data.get("canonical", "")]
-            else:
-                existing_event.locations = []
+        if existing:
+            # Update existing record
+            existing.event_type = tweet_data.get("event_type")
+            existing.locations = tweet_data.get("locations", [])
+            existing.people_mentioned = tweet_data.get("people", [])
+            existing.schemes_mentioned = tweet_data.get("schemes", [])
+            existing.word_buckets = unique_buckets
+            existing.organizations = tweet_data.get("organizations", [])
+            existing.gemini_metadata = tweet_data.get("gemini_metadata", {})
+            existing.cognitive_view = tweet_data.get("cognitive_view") or {}
+            existing.quality_flags = tweet_data.get("quality_flags") or {}
+            existing.overall_confidence = tweet_data.get("confidence", 0.0)
+            
         else:
-            # Create new event
+            # Create new record - use tweet_id as primary key
             location_data = tweet_data.get("location")
             locations_array = [location_data.get("canonical", "")] if location_data else []
             
-            new_event = ParsedEvent(
-                id=tweet_id,
+            event = ParsedEvent(
+                id=tweet_id,  # Use tweet_id as primary key (string)
                 tweet_id=tweet_id,
                 event_type=tweet_data.get("event_type"),
-                locations=locations_array,  # ← FIX: Save as array
+                locations=locations_array,
                 people_mentioned=tweet_data.get("entities", {}).get("people", []),
                 schemes_mentioned=tweet_data.get("entities", {}).get("schemes", []),
                 word_buckets=unique_buckets,

@@ -48,16 +48,21 @@ class OllamaClient:
             data = json.dumps(payload).encode('utf-8')
             req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
             
-            with urllib.request.urlopen(req) as response:
-                result = json.loads(response.read().decode('utf-8'))
+            # Set timeout to prevent hanging (120 seconds)
+            with urllib.request.urlopen(req, timeout=120) as response:
+                response_data = response.read().decode('utf-8')
                 
-            duration = time.time() - start_time
-            
-            return {
-                "response": result.get("response", ""),
-                "duration_s": duration,
-                "model": model
-            }
+            if response.status == 200:
+                result = json.loads(response_data)
+                duration = time.time() - start_time
+                # Extract actual response text
+                return {
+                    "response": result.get("response", ""),
+                    "duration_s": duration,
+                    "model": model
+                }
+            else:
+                return {"error": f"HTTP Error {response.status}: {response_data}"}
         except urllib.error.URLError as e:
             return {"error": str(e)}
         except Exception as e:

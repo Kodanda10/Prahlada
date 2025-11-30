@@ -6,30 +6,44 @@ import React from 'react';
 describe('HierarchyMindMap Rendering', () => {
   it('renders the container correctly', () => {
     const { container } = render(<HierarchyMindMap />);
-    expect(container.firstChild).toHaveClass('relative', 'w-full', 'h-full');
+    // When empty, shows placeholder; when populated, shows relative container
+    expect(container.firstChild).toHaveClass('w-full', 'h-full');
   });
 
+  const mockData: any = {
+    id: 'root',
+    label: 'रायगढ़ (142)',
+    level: 1,
+    visits: 100,
+    children: [
+      { id: 'c1', label: 'खरसिया', level: 2, visits: 10, children: [] },
+      { id: 'c2', label: 'रायगढ़ शहर', level: 2, visits: 10, children: [] },
+      { id: 'c3', label: 'ग्राम जोबी', level: 4, visits: 5, children: [] },
+      { id: 'c4', label: 'वार्ड 04', level: 4, visits: 5, children: [] }
+    ]
+  };
+
   it('renders the root node (District)', () => {
-    render(<HierarchyMindMap />);
+    render(<HierarchyMindMap data={mockData} />);
     // Regex to match "रायगढ़ (142)" or similar
     expect(screen.getAllByText(/रायगढ़/).length).toBeGreaterThan(0);
   });
 
   it('renders secondary nodes (Assembly)', () => {
-    render(<HierarchyMindMap />);
+    render(<HierarchyMindMap data={mockData} />);
     // Use getAllByText because some text might appear in labels and tooltips/legend
     expect(screen.getAllByText(/खरसिया/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/रायगढ़ शहर/).length).toBeGreaterThan(0);
   });
 
   it('renders leaf nodes (Villages/Wards)', () => {
-    render(<HierarchyMindMap />);
+    render(<HierarchyMindMap data={mockData} />);
     expect(screen.getByText(/ग्राम जोबी/)).toBeInTheDocument();
     expect(screen.getByText(/वार्ड 04/)).toBeInTheDocument();
   });
 
   it('displays the legend with correct Hindi labels', () => {
-    render(<HierarchyMindMap />);
+    render(<HierarchyMindMap data={mockData} />);
     expect(screen.getByText('जिला')).toBeInTheDocument();
     expect(screen.getByText('विधानसभा')).toBeInTheDocument();
     expect(screen.getByText('विकासखंड')).toBeInTheDocument();
@@ -38,7 +52,7 @@ describe('HierarchyMindMap Rendering', () => {
   });
 
   it('renders connections between nodes', () => {
-    const { container } = render(<HierarchyMindMap />);
+    const { container } = render(<HierarchyMindMap data={mockData} />);
     const paths = container.querySelectorAll('line'); // D3 uses 'line' for links in this component
     expect(paths.length).toBeGreaterThan(0);
   });

@@ -1,0 +1,21 @@
+{
+    "extends": "./tsconfig.json",
+    "exclude": [
+        "node_modules",
+        "dist",
+        "tests",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "utils/testDataLoader.ts",
+        "KnowledgeBank",
+        "scripts"
+    ],
+    "compilerOptions": {
+        "types": [
+            "node",
+            "@testing-library/jest-dom"
+        ]
+    }
+}

@@ -23,6 +23,7 @@ export interface ParsedLocation {
   visit_count?: number;
   lat?: number;
   lng?: number;
+  state?: string;
 }
 
 export interface ParsedDataV8 {

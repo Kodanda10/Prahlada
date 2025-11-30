@@ -11,12 +11,12 @@ describe('CustomLineChart', () => {
       { name: '??? 3', value: 30 }
     ];
 
-    render(<CustomLineChart data={mockData} />);
+    render(<CustomLineChart data={mockData} xKey="name" dataKey="value" />);
     expect(screen.getByText('Line Chart')).toBeInTheDocument();
   });
 
   it('renders with empty data', () => {
-    render(<CustomLineChart data={[]} />);
+    render(<CustomLineChart data={[]} xKey="name" dataKey="value" />);
     expect(screen.getByText('Line Chart')).toBeInTheDocument();
   });
 });

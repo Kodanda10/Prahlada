@@ -226,11 +226,13 @@ class PhiAdapter:
         try:
             prompt = self._build_geo_prompt(raw_tweet, location_candidates)
 
+            print("DEBUG: Calling OllamaClient.generate...")
             response = self.client.generate(
                 prompt=prompt,
                 system_prompt=self._get_geo_system_prompt(),
                 json_mode=True
             )
+            print(f"DEBUG: Ollama response received: {str(response)[:100]}...")
 
             if "error" in response:
                 logger.warning("Phi 3.5 geo disambiguation failed", extra={
@@ -325,6 +327,7 @@ class PhiAdapter:
         """
         Build prompt for Cognitive Knowledge Engine (V5.0).
         """
+        print("DEBUG: PhiAdapter._build_correction_prompt called") # Added debug print
         context_section = ""
         if context_examples:
             context_section = "\n\nRelevant Past Knowledge (Use these as reference):\n"
@@ -537,13 +540,18 @@ _phi_adapter = None
 def get_phi_adapter() -> PhiAdapter:
     """
     Get or create the global Phi adapter instance.
-
+    
     Uses lazy initialization to avoid blocking startup.
+    Reads PHI_ENABLED environment variable (defaults to False for safety).
     """
+    import os
     global _phi_adapter
     if _phi_adapter is None:
-        # Will be configured from environment in production
-        _phi_adapter = PhiAdapter(enabled=False)  # Disabled by default for safety
+        # Read from environment - defaults to disabled for safety
+        enabled = os.getenv("PHI_ENABLED", "false").lower() in ("true", "1", "yes")
+        _phi_adapter = PhiAdapter(enabled=enabled)
+        if enabled:
+            logger.info("Phi 3.5 enabled via PHI_ENABLED environment variable")
     return _phi_adapter
 
 def set_phi_adapter_config(
