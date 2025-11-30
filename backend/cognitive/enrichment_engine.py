@@ -149,15 +149,30 @@ Respond in JSON format:
             )
         )
         
-        # Parse JSON if it's a string
-        if isinstance(result, str):
+        # Phi returns: {'response': '{json...}', 'model': '...', ...}
+        # We need to extract and parse the 'response' field
+        if isinstance(result, dict) and 'response' in result:
+            response_str = result['response']
             try:
-                result = json.loads(result)
+                parsed = json.loads(response_str)
+                logger.debug(f"Parsed Phi response: {parsed}")
+                return parsed
             except json.JSONDecodeError:
-                logger.warning("Failed to parse Phi response as JSON, using defaults")
-                result = {}
-        
-        return result
+                logger.warning(f"Failed to parse Phi response JSON: {response_str[:200]}")
+                return {}
+        elif isinstance(result, str):
+            # Fallback: try to parse as JSON string directly
+            try:
+                return json.loads(result)
+            except json.JSONDecodeError:
+                logger.warning("Failed to parse Phi response as JSON string")
+                return {}
+        elif isinstance(result, dict):
+            # Already a dict (shouldn't happen with current Ollama client)
+            return result
+        else:
+            logger.warning(f"Unexpected Phi response type: {type(result)}")
+            return {}
     
     def _parse_phi_reasoning(self, response: dict, tweet_text: str) -> TweetReasoning:
         """
