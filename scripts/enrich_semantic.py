@@ -84,28 +84,45 @@ class SemanticEnrichmentPipeline:
                 
                 if result.success:
                     if not self.dry_run:
-                        # Add semantic word buckets (our primary enrichment)
+                        # Add semantic word buckets (PRIMARY enrichment goal)
                         tweet.word_buckets = result.semantic_word_buckets or []
                         
-                        # Store full Phi reasoning in cognitive_view
+                        # Store full Phi reasoning in cognitive_view for transparency
                         tweet.cognitive_view = result.reasoning.to_dict() if result.reasoning else {}
                         
-                        # Store corrections in cognitive_view ONLY (not in main fields to avoid JSONB conflicts)
-                        # The parser owns locations/event_type fields, enrichment only advises
-                        if result.reasoning:
-                            tweet.cognitive_view['location_corrections'] = result.location_corrections
-                            tweet.cognitive_view['event_corrections'] = result.event_corrections
+                        # Apply Phi corrections to improve parser output
+                        # (locations is ARRAY type, event_type is VARCHAR - both compatible)
+                        
+                        # Apply location corrections (high confidence >75%)
+                        if result.location_corrections:
+                            corrected_locations = []
+                            for loc, correction in result.location_corrections.items():
+                                # Convert confidence to float (Phi may return string)
+                                conf = float(correction.get('confidence', 0))
+                                if conf > 0.75:
+                                    corrected_locations.append(loc)
+                            if corrected_locations:
+                                tweet.locations = corrected_locations  # Direct assignment (list format)
+                                logger.info(f"  📍 Location corrected: {corrected_locations}")
+                        
+                        # Apply event type corrections (high confidence >70%)
+                        if result.event_corrections:
+                            # Convert confidence to float (Phi may return string)
+                            conf = float(result.event_corrections.get('confidence', 0))
+                            if conf > 0.7:
+                                tweet.event_type = result.event_corrections['nuance']  # Direct assignment (str)
+                                logger.info(f"  🎯 Event corrected: {tweet.event_type}")
                         
                         # Update quality tracking
                         tweet.quality_flags = {
                             "phi_enriched": True, 
                             "enrichment_confidence": result.reasoning.confidence if result.reasoning else 0.0,
-                            "has_location_suggestions": bool(result.location_corrections),
-                            "has_event_suggestions": bool(result.event_corrections)
+                            "locations_corrected": bool(result.location_corrections),
+                            "event_corrected": bool(result.event_corrections)
                         }
                         tweet.overall_confidence = result.reasoning.confidence if result.reasoning else tweet.overall_confidence
                         
-                        # Commit all changes
+                        # Commit all changes atomically
                         await session.commit()
                         logger.info(f"✅ Enriched {tweet.tweet_id} - buckets: {result.semantic_word_buckets}")
                     else:
