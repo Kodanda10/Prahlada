@@ -2,13 +2,9 @@ from sqlalchemy import (
     Column, String, DateTime, Text, JSON, Boolean, Float
 )
 from sqlalchemy.dialects.postgresql import JSONB, ARRAY
-from .database import Base, DATABASE_URL
+from .database import Base
 import datetime
 import uuid
-
-IS_SQLITE = DATABASE_URL.startswith("sqlite")
-JSONType = JSON if IS_SQLITE else JSONB
-ArrayType = JSON if IS_SQLITE else ARRAY(String)
 
 # --- ORM Models for Project Dhruv ---
 # These classes define the structure of our database tables.
@@ -40,22 +36,17 @@ class ParsedEvent(Base):
     tweet_id = Column(String, index=True, unique=True)
     
     # Categories extracted by the AI
-    categories = Column(JSONType, nullable=True)
+    categories = Column(JSONB, nullable=True)
     
     # Metadata from the parsing process
-    gemini_metadata = Column(JSONType, nullable=True)
+    gemini_metadata = Column(JSONB, nullable=True)
 
     # Simplified top-level fields for quick querying
     event_type = Column(String, nullable=True)
-    locations = Column(ArrayType, nullable=True)
-    people_mentioned = Column(ArrayType, nullable=True)
-    schemes_mentioned = Column(ArrayType, nullable=True)
-    word_buckets = Column(ArrayType, nullable=True)
-    organizations = Column(ArrayType, nullable=True)
-
-    # V5: Cognitive Knowledge Engine Fields
-    cognitive_view = Column(JSONType, nullable=True)
-    quality_flags = Column(JSONType, nullable=True)
+    locations = Column(ARRAY(String), nullable=True)
+    people_mentioned = Column(ARRAY(String), nullable=True)
+    schemes_mentioned = Column(ARRAY(String), nullable=True)
+    word_buckets = Column(ARRAY(String), nullable=True)
 
     # Review and confidence
     overall_confidence = Column(Float, default=0.0)
@@ -66,21 +57,6 @@ class ParsedEvent(Base):
     parsed_at = Column(DateTime, default=datetime.datetime.utcnow)
     reviewed_at = Column(DateTime, nullable=True)
     reviewed_by = Column(String, nullable=True)
-
-
-class WordBucket(Base):
-    """
-    Model for the word_buckets table, storing high-signal terms and their clusters.
-    """
-    __tablename__ = "word_buckets"
-
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    term = Column(String, unique=True, index=True, nullable=False)
-    type = Column(String, nullable=False) # sector, event, actor, etc.
-    cluster_id = Column(String, index=True)
-    language = Column(String, default="hi")
-    is_approved = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
 
 class AdminUser(Base):

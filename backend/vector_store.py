@@ -1,8 +1,8 @@
 import numpy as np
 import faiss
+from sentence_transformers import SentenceTransformer
 import os
 import pickle
-from typing import Optional, Any
 
 # --- FAISS Vector Store for Semantic Search ---
 
@@ -11,18 +11,22 @@ class VectorStore:
     A wrapper for FAISS to handle document embedding and searching.
     This is designed as a singleton to avoid reloading the model and index.
     """
-    
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(VectorStore, cls).__new__(cls)
+        return cls._instance
+
     def __init__(self, model_name='all-MiniLM-L6-v2', index_path='data/faiss_index.bin', metadata_path='data/faiss_metadata.pkl'):
-        # Ensure __init__ is only run once per instance
+        # Ensure __init__ is only run once
         if hasattr(self, 'initialized') and self.initialized:
             return
             
-        print(f"Initializing Vector Store at {index_path}...")
+        print("Initializing Vector Store...")
         self.model_name = model_name
         self.index_path = index_path
         self.metadata_path = metadata_path
-        self.model = None  # Lazy load
-        self.dimension = None
         
         # Ensure data directory exists
         try:
@@ -31,24 +35,12 @@ class VectorStore:
         except Exception as e:
             print(f"Warning: Could not create data directory: {e}")
 
-    def _ensure_model_loaded(self):
-        """Lazy load the model"""
-        if self.model is not None:
-            return
-
-        print(f"Loading SentenceTransformer model: {self.model_name}...")
+        # Load the sentence transformer model
+        print(f"Loading SentenceTransformer model: {model_name}...")
         try:
-            from sentence_transformers import SentenceTransformer
             self.model = SentenceTransformer(self.model_name)
             self.dimension = self.model.get_sentence_embedding_dimension()
             print(f"Model loaded successfully. Dimension: {self.dimension}")
-        except Exception as e:
-            import traceback
-            print(f"ERROR: Failed to load SentenceTransformer model:")
-            print(f"Exception type: {type(e).__name__}")
-            print(f"Exception message: {str(e)}")
-            print("Full traceback:")
-            traceback.print_exc()
         except Exception as e:
             import traceback
             print(f"ERROR: Failed to load SentenceTransformer model:")
@@ -74,13 +66,11 @@ class VectorStore:
         if not documents:
             return
 
-        self._ensure_model_loaded()
         texts = [doc['text'] for doc in documents]
         embeddings = self.model.encode(texts, convert_to_tensor=False)
         
         if self.index is None:
             # Create a new index if one doesn't exist
-            # Use IndexIDMap to support add_with_ids
             self.index = faiss.IndexFlatL2(self.dimension)
             self.index = faiss.IndexIDMap(self.index)
         
@@ -98,23 +88,14 @@ class VectorStore:
         """
         if self.index is None or self.index.ntotal == 0:
             return []
-        
-        self._ensure_model_loaded()
-        try:
-            query_embedding = self.model.encode([query]).astype('float32')
-        except Exception as e:
-            print(f"Vector search skipped: failed to encode query ({e})")
-            return []
-
+            
+        query_embedding = self.model.encode([query]).astype('float32')
         distances, indices = self.index.search(query_embedding, k)
-
+        
         results = []
         for i in range(len(indices[0])):
             idx = indices[0][i]
             if idx != -1: # FAISS returns -1 for no result
-                if idx >= len(self.metadata):
-                    # Metadata may be missing if index was saved without it; skip inconsistent rows
-                    continue
                 results.append({
                     "metadata": self.metadata[idx],
                     "distance": float(distances[0][i])
@@ -156,28 +137,26 @@ class VectorStore:
         else:
             print("No existing FAISS index found. A new one will be created on save.")
 
-# Global instances map
-_vector_store_instances = {}
+# Global instance to be used by the app
+# Initialize lazily to avoid blocking during import
+_vector_store_instance = None
 
-def get_vector_store(index_path: str = None) -> VectorStore:
-    """Get or create a vector store instance for the given path."""
-    global _vector_store_instances
-    
-    # Default path from env if not provided
-    if index_path is None:
+def get_vector_store() -> VectorStore:
+    """Get or create the global vector store instance."""
+    global _vector_store_instance
+    if _vector_store_instance is None:
+        # Read paths from environment variables
         index_path = os.getenv('FAISS_INDEX_PATH', 'data/faiss_index.bin')
-        
-    if index_path not in _vector_store_instances:
         # Derive metadata path from index path
         metadata_path = index_path.replace('.bin', '_metadata.pkl')
         model_name = os.getenv('FAISS_EMBEDDING_MODEL', 'all-MiniLM-L6-v2')
         
-        _vector_store_instances[index_path] = VectorStore(
+        _vector_store_instance = VectorStore(
             model_name=model_name,
             index_path=index_path,
             metadata_path=metadata_path
         )
-    return _vector_store_instances[index_path]
+    return _vector_store_instance
 
 # For backward compatibility, but initialization happens lazily
 vector_store = None  # Will be initialized on first access via get_vector_store()

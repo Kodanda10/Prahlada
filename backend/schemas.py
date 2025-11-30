@@ -119,32 +119,3 @@ class TelemetryRequest(BaseModel):
     timestamp: Optional[int] = None
 
 
-
-
-class EventUpdateRequest(BaseModel):
-    parsed_data: Dict[str, Any]
-
-class CorrectedValue(BaseModel):
-    value: Any
-
-class AddOverlayRequest(BaseModel):
-    tweet_id: str
-    field: str
-    corrected_value: CorrectedValue
-    reviewer_id: str
-    reviewer_name: str
-    notes: Optional[str] = None
-
-class ApplyOverlayRequest(BaseModel):
-    tweet_id: str
-
-class ApplyOverlayResponse(BaseModel):
-    status: str
-    applied_count: int
-    details: Optional[Dict[str, Any]] = None
-
-class OverlayHealthResponse(BaseModel):
-    status: str
-    storage_type: str
-    record_count: int
-    last_sync: datetime

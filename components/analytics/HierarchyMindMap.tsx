@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ZoomIn, ZoomOut, Maximize2, Minimize2, RefreshCw } from 'lucide-react';
 
-export interface HierarchyNode { // Exported for use in other files
+interface HierarchyNode {
   id: string;
   label: string;
   level: 1 | 2 | 3 | 4 | 5; // District, Assembly, Block, GP, Village
@@ -27,10 +27,9 @@ interface D3Link extends d3.SimulationLinkDatum<D3Node> {
 }
 
 interface HierarchyMindMapProps {
-  data: HierarchyNode | null; // Now explicitly expects data, can be null
+  data?: HierarchyNode;
   width?: number;
   height?: number;
-  onNodeSelect?: (nodeId: string | null) => void;
 }
 
 const LEVEL_COLORS = {
@@ -53,7 +52,6 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
   data,
   width = 800,
   height = 600,
-  onNodeSelect,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -70,9 +68,9 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
     const traverse = (node: HierarchyNode, level: number, parentId?: string) => {
       const d3Node: D3Node = {
         id: node.id,
-        label: `${node.label} (${(node.visits || 0).toString().padStart(2, '0')})`,
+        label: `${node.label} (${node.visits.toString().padStart(2, '0')})`,
         level,
-        visits: node.visits || 0,
+        visits: node.visits,
         color: LEVEL_COLORS[level as keyof typeof LEVEL_COLORS] || '#64748b',
         radius: Math.max(8, Math.min(20, 8 + node.visits / 5)),
       };
@@ -92,15 +90,71 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
     return { nodes, links };
   }, []);
 
-  if (!data) {
-    return (
-      <div className="flex items-center justify-center w-full h-full text-slate-500 font-hindi">
-        कोई पदानुक्रम डेटा उपलब्ध नहीं है।
-      </div>
-    );
-  }
+  // Default demo data
+  const defaultData: HierarchyNode = {
+    id: 'd1',
+    label: 'रायगढ़',
+    level: 1,
+    visits: 142,
+    children: [
+      {
+        id: 'a1',
+        label: 'खरसिया',
+        level: 2,
+        visits: 78,
+        children: [
+          {
+            id: 'b1',
+            label: 'खरसिया ब्लॉक',
+            level: 3,
+            visits: 45,
+            children: [
+              {
+                id: 'g1',
+                label: 'जोबी',
+                level: 4,
+                visits: 12,
+                children: [
+                  { id: 'v1', label: 'ग्राम जोबी', level: 5, visits: 5 },
+                  { id: 'v2', label: 'बानीपाथर', level: 5, visits: 7 },
+                ],
+              },
+              { id: 'g2', label: 'सोनबरसा', level: 4, visits: 8 },
+            ],
+          },
+          { id: 'b2', label: 'तमनार', level: 3, visits: 33 },
+        ],
+      },
+      {
+        id: 'a2',
+        label: 'रायगढ़ शहर',
+        level: 2,
+        visits: 64,
+        children: [
+          {
+            id: 'b3',
+            label: 'नगर निगम',
+            level: 3,
+            visits: 64,
+            children: [
+              {
+                id: 'g3',
+                label: 'गांधी नगर',
+                level: 4,
+                visits: 20,
+                children: [
+                  { id: 'v3', label: 'वार्ड 04', level: 5, visits: 10 },
+                  { id: 'v4', label: 'वार्ड 06', level: 5, visits: 10 },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
 
-  const { nodes, links } = convertToD3Data(data);
+  const { nodes, links } = data ? convertToD3Data(data) : convertToD3Data(defaultData);
 
   useEffect(() => {
     if (!svgRef.current || nodes.length === 0) return;
@@ -178,7 +232,6 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
       .on('click', (event, d) => {
         event.stopPropagation();
         setSelectedNode(d);
-        onNodeSelect?.(d.id);
       })
       .on('mouseenter', (event, d) => setHoveredNode(d))
       .on('mouseleave', () => setHoveredNode(null));
@@ -257,7 +310,7 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
 
   const toggleFullscreen = () => {
     if (!containerRef.current) return;
-
+    
     if (!document.fullscreenElement) {
       containerRef.current.requestFullscreen().catch(err => {
         console.error(`Error attempting to enable fullscreen: ${err.message}`);
@@ -305,7 +358,7 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
   };
 
   return (
-    <div
+    <div 
       ref={containerRef}
       className={`relative w-full h-full min-h-[500px] bg-[#0f172a] rounded-xl overflow-hidden border border-white/10 shadow-2xl transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[100] rounded-none border-0' : ''}`}
     >
@@ -392,10 +445,7 @@ const HierarchyMindMap: React.FC<HierarchyMindMapProps> = ({
                 {selectedNode.label}
               </div>
               <button
-                onClick={() => {
-                  setSelectedNode(null);
-                  onNodeSelect?.(null);
-                }}
+                onClick={() => setSelectedNode(null)}
                 className="text-slate-400 hover:text-white transition-colors"
               >
                 ✕

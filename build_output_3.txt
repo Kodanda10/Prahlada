@@ -1,7 +1,0 @@
-
-> project-dhruv@1.0.0 build
-> tsc && vite build
-
-error TS2688: Cannot find type definition file for 'vitest'.
-  The file is in the program because:
-    Entry point of type library 'vitest' specified in compilerOptions

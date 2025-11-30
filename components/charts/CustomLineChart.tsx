@@ -20,39 +20,39 @@ const CustomLineChart: React.FC<CustomLineChartProps> = ({
   lineColor = "#22d3ee"
 }) => {
   return (
-    <div className="custom-line-chart" style={{ height, width }}>
+    <div style={{ height, width }}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
-          <XAxis
-            dataKey={xKey}
-            stroke="#94a3b8"
-            tick={{ fill: '#94a3b8', fontFamily: 'Noto Sans Devanagari, sans-serif' }}
-            axisLine={false}
-            tickLine={false}
+          <XAxis 
+            dataKey={xKey} 
+            stroke="#94a3b8" 
+            tick={{ fill: '#94a3b8', fontFamily: 'Noto Sans Devanagari, sans-serif' }} 
+            axisLine={false} 
+            tickLine={false} 
           />
-          <YAxis
-            stroke="#94a3b8"
-            tick={{ fill: '#94a3b8' }}
-            axisLine={false}
-            tickLine={false}
+          <YAxis 
+            stroke="#94a3b8" 
+            tick={{ fill: '#94a3b8' }} 
+            axisLine={false} 
+            tickLine={false} 
           />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'rgba(15, 23, 42, 0.9)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '8px',
+          <Tooltip 
+            contentStyle={{ 
+              backgroundColor: 'rgba(15, 23, 42, 0.9)', 
+              border: '1px solid rgba(255,255,255,0.1)', 
+              borderRadius: '8px', 
               color: '#fff',
               backdropFilter: 'blur(4px)',
               fontFamily: 'Noto Sans Devanagari, sans-serif'
             }}
           />
-          <Line
-            type="monotone"
-            dataKey={dataKey}
-            stroke={lineColor}
-            strokeWidth={3}
-            dot={{ r: 4, fill: '#0f172a', stroke: lineColor, strokeWidth: 2 }}
+          <Line 
+            type="monotone" 
+            dataKey={dataKey} 
+            stroke={lineColor} 
+            strokeWidth={3} 
+            dot={{ r: 4, fill: '#0f172a', stroke: lineColor, strokeWidth: 2 }} 
             activeDot={{ r: 6, fill: lineColor }}
           />
         </LineChart>

@@ -14,10 +14,13 @@ from pathlib import Path
 import numpy as np
 import logging
 
-# Lazy loading for ML libraries
-ML_AVAILABLE = True # Assume available, will check on load
-SentenceTransformer = None
-faiss = None
+# Try importing ML libraries (graceful degradation if missing)
+try:
+    from sentence_transformers import SentenceTransformer
+    import faiss
+    ML_AVAILABLE = True
+except ImportError:
+    ML_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -74,41 +77,21 @@ class WordBucketExtractor:
     
     def __init__(self, model_name: str = "paraphrase-multilingual-MiniLM-L12-v2", use_faiss: bool = True):
         self.normalizer = TextNormalizer()
-        self.use_faiss = use_faiss
-        self.model_name = model_name
+        self.use_faiss = use_faiss and ML_AVAILABLE
         self.model = None
         self.index = None
         self.buckets_cache = {} # id -> {term, embedding, cluster_id}
-        self.dimension = 384 # MiniLM dimension
-
-    def _ensure_ml_loaded(self):
-        """Lazy load ML components"""
-        if not self.use_faiss or self.model is not None:
-            return
-
-        global SentenceTransformer, faiss, ML_AVAILABLE
         
-        if SentenceTransformer is None:
+        if self.use_faiss:
             try:
-                from sentence_transformers import SentenceTransformer as ST
-                import faiss as F
-                SentenceTransformer = ST
-                faiss = F
-                ML_AVAILABLE = True
-            except ImportError:
-                logger.error("ML libraries not found. Disabling semantic features.")
-                ML_AVAILABLE = False
+                logger.info(f"Loading SentenceTransformer: {model_name}")
+                self.model = SentenceTransformer(model_name)
+                self.dimension = 384 # MiniLM dimension
+                self.index = faiss.IndexFlatIP(self.dimension)
+                logger.info("WordBucketExtractor initialized with FAISS")
+            except Exception as e:
+                logger.error(f"Failed to initialize ML components: {e}")
                 self.use_faiss = False
-                return
-
-        try:
-            logger.info(f"Loading SentenceTransformer: {self.model_name}")
-            self.model = SentenceTransformer(self.model_name)
-            self.index = faiss.IndexFlatIP(self.dimension)
-            logger.info("WordBucketExtractor initialized with FAISS")
-        except Exception as e:
-            logger.error(f"Failed to initialize ML components: {e}")
-            self.use_faiss = False
 
     def extract_candidates(self, text: str) -> List[str]:
         """
@@ -136,9 +119,6 @@ class WordBucketExtractor:
         """
         Process a tweet to extract and cluster word buckets.
         """
-        # Ensure ML is loaded
-        self._ensure_ml_loaded()
-
         # 1. Extract Candidates
         candidates = self.extract_candidates(text)
         

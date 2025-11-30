@@ -162,39 +162,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ event, onApprove, onEdit, onSav
           <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold font-hindi">
             <MapPin size={12} className="text-[#8BF5E6]" /> अनुमानित स्थान पदानुक्रम
           </div>
-          {isEditing && editedData.location ? (
-            <div className="grid grid-cols-2 gap-2 bg-black/30 p-3 rounded-xl border border-white/10">
-              <input
-                placeholder="District"
-                className="bg-black/40 border border-white/20 rounded px-2 py-1 text-xs text-white font-hindi"
-                value={editedData.location.district || ''}
-                onChange={(e) => setEditedData({
-                  ...editedData,
-                  location: { ...editedData.location, district: e.target.value }
-                })}
-              />
-              <input
-                placeholder="Block/ULB"
-                className="bg-black/40 border border-white/20 rounded px-2 py-1 text-xs text-white font-hindi"
-                value={editedData.location.ulb || editedData.location.block || ''}
-                onChange={(e) => setEditedData({
-                  ...editedData,
-                  location: { ...editedData.location, ulb: e.target.value, block: e.target.value }
-                })}
-              />
-              <input
-                placeholder="Village/Ward"
-                className="bg-black/40 border border-white/20 rounded px-2 py-1 text-xs text-white font-hindi"
-                value={editedData.location.village || editedData.location.ward || ''}
-                onChange={(e) => setEditedData({
-                  ...editedData,
-                  location: { ...editedData.location, village: e.target.value, ward: e.target.value }
-                })}
-              />
-            </div>
-          ) : (
-            <LocationBreadcrumbs location={event.parsed_data_v8.location} />
-          )}
+          <LocationBreadcrumbs location={event.parsed_data_v8.location} />
         </div>
 
         {/* Expanded Metadata Fields */}
@@ -293,19 +261,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ event, onApprove, onEdit, onSav
                 </div>
               </div>
             ) : null}
-            {/* Word Buckets (Keywords) */}
-            {event.parsed_data_v8.word_buckets && event.parsed_data_v8.word_buckets.length > 0 && (
-              <div className="flex items-start gap-2">
-                <BrainCircuit size={12} className="text-yellow-400 mt-1 shrink-0" />
-                <div className="flex flex-wrap gap-1.5">
-                  {event.parsed_data_v8.word_buckets.map((bucket, i) => (
-                    <span key={`bucket-${i}`} className="px-2 py-0.5 bg-yellow-500/10 text-yellow-300 text-[10px] rounded border border-yellow-500/20 font-hindi">
-                      {bucket}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
