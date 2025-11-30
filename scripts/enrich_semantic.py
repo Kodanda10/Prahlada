@@ -84,33 +84,24 @@ class SemanticEnrichmentPipeline:
                 
                 if result.success:
                     if not self.dry_run:
-                        # Add semantic word buckets
+                        # Add semantic word buckets (our primary enrichment)
                         tweet.word_buckets = result.semantic_word_buckets or []
                         
-                        # Store full Phi reasoning
+                        # Store full Phi reasoning in cognitive_view
                         tweet.cognitive_view = result.reasoning.to_dict() if result.reasoning else {}
                         
-                        # Apply location corrections (high confidence only)
-                        if result.location_corrections:
-                            corrected_locations = []
-                            for loc, correction in result.location_corrections.items():
-                                if correction['confidence'] > 0.75:  # High confidence threshold
-                                    corrected_locations.append(loc)
-                            if corrected_locations:
-                                tweet.locations = corrected_locations
-                                logger.info(f"  📍 Location corrected: {tweet.locations}")
-                        
-                        # Apply event corrections (high confidence only)
-                        if result.event_corrections and result.event_corrections.get('confidence', 0) > 0.7:
-                            tweet.event_type = result.event_corrections['nuance']
-                            logger.info(f"  🎯 Event corrected: {tweet.event_type}")
+                        # Store corrections in cognitive_view ONLY (not in main fields to avoid JSONB conflicts)
+                        # The parser owns locations/event_type fields, enrichment only advises
+                        if result.reasoning:
+                            tweet.cognitive_view['location_corrections'] = result.location_corrections
+                            tweet.cognitive_view['event_corrections'] = result.event_corrections
                         
                         # Update quality tracking
                         tweet.quality_flags = {
                             "phi_enriched": True, 
                             "enrichment_confidence": result.reasoning.confidence if result.reasoning else 0.0,
-                            "locations_corrected": bool(result.location_corrections),
-                            "event_corrected": bool(result.event_corrections)
+                            "has_location_suggestions": bool(result.location_corrections),
+                            "has_event_suggestions": bool(result.event_corrections)
                         }
                         tweet.overall_confidence = result.reasoning.confidence if result.reasoning else tweet.overall_confidence
                         
