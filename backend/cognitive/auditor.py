@@ -1,6 +1,6 @@
 import json
 import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from .ollama_client import OllamaClient
 
 from .prompts import get_auditor_system_prompt, get_auditor_user_prompt

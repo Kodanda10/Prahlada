@@ -1,10 +1,38 @@
 from sqlalchemy import (
     Column, String, DateTime, Text, JSON, Boolean, Float
 )
-from sqlalchemy.dialects.postgresql import JSONB, ARRAY
+from sqlalchemy.types import TypeDecorator
 from .database import Base
 import datetime
 import uuid
+
+# --- Compatibility Types for SQLite/Postgres ---
+
+class JSONBType(TypeDecorator):
+    """
+    Uses JSONB for PostgreSQL and JSON for other dialects (like SQLite).
+    """
+    impl = JSON
+    cache_ok = True
+
+    def load_dialect_impl(self, dialect):
+        if dialect.name == 'postgresql':
+            from sqlalchemy.dialects.postgresql import JSONB
+            return dialect.type_descriptor(JSONB())
+        return dialect.type_descriptor(JSON())
+
+class ArrayType(TypeDecorator):
+    """
+    Uses ARRAY for PostgreSQL and JSON for other dialects (like SQLite).
+    """
+    impl = JSON
+    cache_ok = True
+
+    def load_dialect_impl(self, dialect):
+        if dialect.name == 'postgresql':
+            from sqlalchemy.dialects.postgresql import ARRAY
+            return dialect.type_descriptor(ARRAY(String))
+        return dialect.type_descriptor(JSON())
 
 # --- ORM Models for Project Dhruv ---
 # These classes define the structure of our database tables.
@@ -36,17 +64,17 @@ class ParsedEvent(Base):
     tweet_id = Column(String, index=True, unique=True)
     
     # Categories extracted by the AI
-    categories = Column(JSONB, nullable=True)
+    categories = Column(JSONBType, nullable=True)
     
     # Metadata from the parsing process
-    gemini_metadata = Column(JSONB, nullable=True)
+    gemini_metadata = Column(JSONBType, nullable=True)
 
     # Simplified top-level fields for quick querying
     event_type = Column(String, nullable=True)
-    locations = Column(ARRAY(String), nullable=True)
-    people_mentioned = Column(ARRAY(String), nullable=True)
-    schemes_mentioned = Column(ARRAY(String), nullable=True)
-    word_buckets = Column(ARRAY(String), nullable=True)
+    locations = Column(ArrayType, nullable=True)
+    people_mentioned = Column(ArrayType, nullable=True)
+    schemes_mentioned = Column(ArrayType, nullable=True)
+    word_buckets = Column(ArrayType, nullable=True)
 
     # Review and confidence
     overall_confidence = Column(Float, default=0.0)
