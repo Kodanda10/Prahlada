@@ -95,7 +95,8 @@ class VectorStore:
         results = []
         for i in range(len(indices[0])):
             idx = indices[0][i]
-            if idx != -1: # FAISS returns -1 for no result
+            # Check for valid index and within metadata bounds
+            if idx != -1 and idx < len(self.metadata):
                 results.append({
                     "metadata": self.metadata[idx],
                     "distance": float(distances[0][i])

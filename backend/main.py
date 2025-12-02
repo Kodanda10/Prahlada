@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI):
         async with engine.begin() as conn:
             # print("DEBUG: Database connected. Creating tables...")
             # await conn.run_sync(models.Base.metadata.drop_all) # Use for development reset
-            # await conn.run_sync(models.Base.metadata.create_all)
+            await conn.run_sync(models.Base.metadata.create_all)
             # print("DEBUG: Tables created.")
             pass
     except Exception as e:

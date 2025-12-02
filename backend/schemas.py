@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 from datetime import datetime
+from enum import Enum
 
 # --- Pydantic Schemas for API Validation ---
 # These models define the expected data shapes for API requests and responses.
@@ -118,4 +119,34 @@ class TelemetryRequest(BaseModel):
     url: Optional[str] = None
     timestamp: Optional[int] = None
 
+# --- Missing Schemas Added for Consistency ---
 
+class EventUpdateRequest(BaseModel):
+    parsed_data: Dict[str, Any]
+
+class CorrectedValue(BaseModel):
+    value: Any
+
+class AddOverlayRequest(BaseModel):
+    tweet_id: str
+    field: str
+    corrected_value: CorrectedValue
+    reviewer_id: str
+    reviewer_name: str
+    notes: Optional[str] = None
+
+class ApplyOverlayRequest(BaseModel):
+    parsed_data: Dict[str, Any]
+    tweet_id: str
+
+class ApplyOverlayResponse(BaseModel):
+    status: str
+    corrected_data: Dict[str, Any]
+    applied_overlays: int
+
+class OverlayHealthResponse(BaseModel):
+    status: str
+    query_performance_ms: float
+    total_overlays: int
+    tweets_with_overlays: int
+    service_ready: bool
