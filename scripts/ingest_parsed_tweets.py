@@ -3,9 +3,9 @@
 Database Ingestion Script - Parser V2.1
 Ingests parsed data into parsed_events table
 
-Actual Schema:
-- id, tweet_id, event_type, locations, people_mentioned, 
-- schemes_mentioned, organizations, overall_confidence,
+Actual Schema (current DB):
+- id (use tweet_id as primary key), tweet_id, event_type, locations,
+- people_mentioned, schemes_mentioned, overall_confidence,
 - needs_review, review_status, parsed_at
 """
 import json
@@ -15,7 +15,6 @@ from datetime import datetime
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-import uuid
 
 # Load environment variables
 load_dotenv()
@@ -49,7 +48,7 @@ def backup_existing_data(conn):
     if count > 0:
         cur.execute("""
             SELECT id, tweet_id, event_type, locations, people_mentioned, 
-                   schemes_mentioned, organizations
+                   schemes_mentioned
             FROM parsed_events
         """)
         
@@ -61,8 +60,7 @@ def backup_existing_data(conn):
                 "event_type": row[2],
                 "locations": row[3],
                 "people_mentioned": row[4],
-                "schemes_mentioned": row[5],
-                "organizations": row[6]
+                "schemes_mentioned": row[5]
             })
         
         with open(BACKUP_FILE, 'w', encoding='utf-8') as f:
@@ -90,7 +88,7 @@ def delete_old_data(conn):
     return deleted
 
 def ingest_new_data(conn):
-    """Ingest Parser V2.1 data"""
+    """Ingest Parser V9 data"""
     log_message(f"Loading from {PARSED_FILE}...")
     
     # Load parsed tweets
@@ -116,56 +114,72 @@ def ingest_new_data(conn):
             continue
         
         try:
-            # Extract fields
-            event_type = parsed_data.get("event_type")
-            location = parsed_data.get("location", {})
-            locations = []
-            if location:
-                ulb = location.get("ulb_name")
-                district = location.get("district")
-                if ulb:
-                    locations.append(ulb)
-                elif district:
-                    locations.append(district)
+            # 1. Insert Raw Tweet first
+            # Note: v9 file uses 'text' instead of 'raw_text' in the root object
+            raw_text = tweet.get("text") or tweet.get("raw_text", "")
+            created_at = tweet.get("created_at")
             
-            people = parsed_data.get("people_mentioned", [])
-            schemes = parsed_data.get("schemes_mentioned", [])
-            orgs = parsed_data.get("organizations", [])
+            cur.execute("""
+                INSERT INTO raw_tweets (tweet_id, text, created_at, processing_status, fetched_at, processed_at)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                ON CONFLICT (tweet_id) DO NOTHING
+            """, (
+                tweet_id, raw_text, created_at, 'processed', datetime.utcnow(), datetime.utcnow()
+            ))
+
+            # 2. Extract fields for Parsed Event
+            event_type = parsed_data.get("event_type")
+            location = parsed_data.get("location") # This is a dict or null
+            
+            # For JSONB locations column, we store the whole object
+            locations_json = Json(location) if location else None
+        
+            people = parsed_data.get("people_mentioned", []) or []
+            schemes = parsed_data.get("schemes_mentioned", []) or []
+            # v9 might not have word_buckets explicitly, but let's check
+            word_buckets = parsed_data.get("word_buckets", []) or []
             confidence = parsed_data.get("confidence", 0.0)
             
-            # Insert (let DB auto-generate id)
-            try:
-                cur.execute("""
-                    INSERT INTO parsed_events (
-                        tweet_id, event_type, locations, people_mentioned,
-                        schemes_mentioned, organizations, overall_confidence,
-                        needs_review, review_status, parsed_at
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (tweet_id) DO UPDATE SET
-                        event_type = EXCLUDED.event_type,
-                        locations = EXCLUDED.locations,
-                        people_mentioned = EXCLUDED.people_mentioned,
-                        schemes_mentioned = EXCLUDED.schemes_mentioned,
-                        organizations = EXCLUDED.organizations,
-                        overall_confidence = EXCLUDED.overall_confidence,
-                        parsed_at = EXCLUDED.parsed_at
-                """, (
-                    tweet_id, event_type, Json(locations), people,
-                    schemes, orgs, confidence, confidence < 0.8, 'pending',
-                    datetime.utcnow()
-                ))
-                conn.commit()  # Commit after each successful insert
-                inserted += 1
-                
-            except Exception as e:
-                conn.rollback()  # Rollback failed transaction
-                log_message(f"Error: {tweet_id}: {e}")
-                skipped += 1
-                continue
+            # v9 might not have needs_review/review_status, so default them
+            needs_review = parsed_data.get("needs_review", True) # Default to True for review
+            review_status = parsed_data.get("review_status", "pending")
+
+            categories_json = parsed_data
+            metadata_json = tweet.get("metadata_v9", {})
+        
+            # Insert (use tweet_id as primary key for id)
+            cur.execute("""
+                INSERT INTO parsed_events (
+                    id, tweet_id, event_type, locations, people_mentioned,
+                    schemes_mentioned, word_buckets, overall_confidence,
+                    needs_review, review_status, parsed_at,
+                    categories, gemini_metadata
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (tweet_id) DO UPDATE SET
+                    event_type = EXCLUDED.event_type,
+                    locations = EXCLUDED.locations,
+                    people_mentioned = EXCLUDED.people_mentioned,
+                    schemes_mentioned = EXCLUDED.schemes_mentioned,
+                    word_buckets = EXCLUDED.word_buckets,
+                    overall_confidence = EXCLUDED.overall_confidence,
+                    needs_review = EXCLUDED.needs_review,
+                    review_status = EXCLUDED.review_status,
+                    parsed_at = EXCLUDED.parsed_at,
+                    categories = EXCLUDED.categories,
+                    gemini_metadata = EXCLUDED.gemini_metadata
+            """, (
+                tweet_id, tweet_id, event_type, locations_json, people,
+                schemes, word_buckets, confidence, needs_review, review_status,
+                datetime.utcnow(), Json(categories_json), Json(metadata_json)
+            ))
+            conn.commit()  # Commit after each successful insert
+            inserted += 1
             
         except Exception as e:
-            log_message(f"Parse error: {tweet_id}: {e}")
+            conn.rollback()  # Rollback failed transaction
+            log_message(f"Error: {tweet_id}: {e}")
             skipped += 1
+            continue
     
     cur.close()
     

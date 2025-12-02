@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+IMPORTANT: Ensure the database has a `word_buckets` text[] column on `parsed_events`
+before running this script; missing the column causes an asyncpg UndefinedColumnError
+and the enrichment runner stops immediately. Fix by applying the column (e.g.,
+`ALTER TABLE parsed_events ADD COLUMN word_buckets text[];`) or running the matching
+migration, then re-run with --resume.
+
 Phase 2: Semantic Enrichment Post-Processing Script
 
 Enriches all ingested tweets with Phi 3.5 reasoning for semantic understanding.
@@ -15,12 +21,24 @@ import logging
 from pathlib import Path
 from datetime import datetime
 import sys
+import os
+import time
 sys.path.insert(0, str(Path(__file__).parent.parent))
+
+# Force logs to IST
+os.environ["TZ"] = "Asia/Kolkata"
+try:
+    time.tzset()
+except AttributeError:
+    pass  # tzset not available on all platforms
 
 from sqlalchemy import select
 from backend.database import AsyncSessionLocal
 from backend.models import ParsedEvent, RawTweet
 from backend.cognitive.enrichment_engine import PhiEnrichmentEngine
+import inspect
+print(f"DEBUG: PhiEnrichmentEngine loaded from: {inspect.getfile(PhiEnrichmentEngine)}")
+print(f"DEBUG: Has _build_reasoning_prompt? {hasattr(PhiEnrichmentEngine, '_build_reasoning_prompt')}")
 
 logging.basicConfig(
     level=logging.INFO,
@@ -36,17 +54,20 @@ CHECKPOINT_FILE = Path("data/enrichment_checkpoint.json")
 
 
 class SemanticEnrichmentPipeline:
-    def __init__(self, batch_size: int = 10, timeout: int = 60, dry_run: bool = False):
+    def __init__(self, batch_size: int = 10, timeout: int = 60, dry_run: bool = False, force: bool = False):
         self.batch_size = batch_size
         self.timeout = timeout
         self.dry_run = dry_run
+        self.force = force
         self.engine = PhiEnrichmentEngine(timeout=timeout)
         self.stats = {'total': 0, 'processed': 0, 'enriched': 0, 'failed': 0, 'skipped': 0, 'start_time': datetime.now()}
     
-    async def load_tweets(self, session, limit=None, resume_from=None):
+    async def load_tweets(self, session, limit=None, resume_from=None, id_filter=None):
         query = select(ParsedEvent).order_by(ParsedEvent.parsed_at.asc())
         if resume_from:
             query = query.where(ParsedEvent.tweet_id > resume_from)
+        if id_filter:
+            query = query.where(ParsedEvent.tweet_id.in_(id_filter))
         if limit:
             query = query.limit(limit)
         result = await session.execute(query)
@@ -58,7 +79,7 @@ class SemanticEnrichmentPipeline:
         batch_stats = {'enriched': 0, 'failed': 0, 'skipped': 0}
         for tweet in tweets:
             try:
-                if tweet.word_buckets and len(tweet.word_buckets) > 0:
+                if not self.force and tweet.word_buckets and len(tweet.word_buckets) > 0:
                     logger.info(f"Skipping {tweet.tweet_id} - already enriched")
                     batch_stats['skipped'] += 1
                     continue
@@ -71,16 +92,41 @@ class SemanticEnrichmentPipeline:
                     batch_stats['skipped'] += 1
                     continue
                 
+                categories = tweet.categories or {}
+                metadata = tweet.gemini_metadata or {}
+                loc_detail = {}
+                if isinstance(categories, dict):
+                    loc_detail = categories.get("location") or {}
+                    # Some parsers store hierarchy separately
+                    if not loc_detail:
+                        loc_detail = categories.get("geo_hierarchy") or {}
                 original_data = {
                     "tweet_id": tweet.tweet_id,
                     "event_type": tweet.event_type,
                     "locations": tweet.locations,
                     "people": tweet.people_mentioned,
-                    "schemes": tweet.schemes_mentioned
+                    "schemes": tweet.schemes_mentioned or categories.get("schemes") if isinstance(categories, dict) else [],
+                    "organizations": categories.get("organizations") if isinstance(categories, dict) else [],
+                    "communities": categories.get("communities") if isinstance(categories, dict) else [],
+                    "location_detail": loc_detail,
+                    "hierarchy_path": loc_detail.get("hierarchy_path") if isinstance(loc_detail, dict) else [],
+                    "categories": categories,
+                    "metadata": metadata
                 }
+
+                if loc_detail:
+                    logger.info(
+                        f"[LOC] {tweet.tweet_id} hierarchy={loc_detail.get('hierarchy_path')} "
+                        f"district={loc_detail.get('district')} ulb={loc_detail.get('ulb')} village={loc_detail.get('village')}"
+                    )
                 
                 logger.info(f"Enriching tweet {tweet.tweet_id}...")
-                result = await self.engine.enrich_tweet(tweet.tweet_id, tweet_text, original_data)
+                try:
+                    result = await self.engine.enrich_tweet(tweet.tweet_id, tweet_text, original_data)
+                except Exception as e:
+                    logger.error(f"Failed to enrich {tweet.tweet_id}: {str(e)}")
+                    batch_stats['failed'] += 1
+                    continue
                 
                 if result.success:
                     if not self.dry_run:
@@ -141,7 +187,7 @@ class SemanticEnrichmentPipeline:
                 await session.rollback()
         return batch_stats
     
-    async def run(self, limit=None, resume=False):
+    async def run(self, limit=None, resume=False, id_filter=None):
         logger.info(f"🚀 Starting Phase 2: Semantic Enrichment Pipeline")
         logger.info(f"Mode: {'DRY-RUN' if self.dry_run else 'PRODUCTION'}")
         
@@ -151,7 +197,7 @@ class SemanticEnrichmentPipeline:
                 resume_from = json.load(f).get('last_tweet_id')
         
         async with AsyncSessionLocal() as session:
-            tweets = await self.load_tweets(session, limit, resume_from)
+            tweets = await self.load_tweets(session, limit, resume_from, id_filter)
             self.stats['total'] = len(tweets)
             if not tweets:
                 return
@@ -179,10 +225,22 @@ async def main():
     parser.add_argument('--limit', type=int, help="Limit number of tweets")
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--force', action='store_true', help="Force re-enrichment of all tweets, even if already enriched")
+    parser.add_argument('--id-file', type=str, help="Path to file containing tweet IDs (one per line) to process")
     args = parser.parse_args()
+
+    id_filter = None
+    if args.id_file:
+        from pathlib import Path
+        id_path = Path(args.id_file)
+        if not id_path.exists():
+            logger.error(f"ID file not found: {id_path}")
+            sys.exit(1)
+        with open(id_path) as f:
+            id_filter = [line.strip() for line in f if line.strip()]
     
-    pipeline = SemanticEnrichmentPipeline(batch_size=args.batch_size, timeout=args.timeout, dry_run=args.dry_run)
-    await pipeline.run(limit=args.limit, resume=args.resume)
+    pipeline = SemanticEnrichmentPipeline(batch_size=args.batch_size, timeout=args.timeout, dry_run=args.dry_run, force=args.force)
+    await pipeline.run(limit=args.limit, resume=args.resume, id_filter=id_filter)
 
 
 if __name__ == "__main__":

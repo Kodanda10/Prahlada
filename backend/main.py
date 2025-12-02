@@ -21,8 +21,8 @@ from . import models, schemas
 print("DEBUG: Imported models, schemas")
 from .database import engine, get_db_session, AsyncSessionLocal
 print("DEBUG: Imported database")
-from .vector_store import get_vector_store
-print("DEBUG: Imported vector_store")
+# from .vector_store import get_vector_store  # TEMPORARILY DISABLED - hangs on SentenceTransformer load
+# print("DEBUG: Imported vector_store")
 from .auth import authenticate_user, create_access_token, get_current_user, ensure_default_admin
 print("DEBUG: Imported auth")
 
@@ -48,17 +48,22 @@ async def lifespan(app: FastAPI):
         raise e
 
     print("DEBUG: Database initialization complete.")
+    # Initialize default admin
+    print("DEBUG: Ensuring default admin...")
     admin_username = os.getenv("ADMIN_USERNAME")
     admin_password = os.getenv("ADMIN_PASSWORD")
     if admin_username and admin_password:
-        async with AsyncSessionLocal() as session:
-            await ensure_default_admin(session, admin_username, admin_password)
+        async with AsyncSessionLocal() as db:
+            await ensure_default_admin(db, admin_username, admin_password)
+        print("DEBUG: Default admin ensured.")
     else:
         print("WARNING: ADMIN_USERNAME/ADMIN_PASSWORD not set. No default admin user provisioned.")
     
-    # Initialize vector store during startup (lazy initialization)
-    print("Initializing vector store...")
+    # Initialize vector store on startup (lazy import)
+    print("DEBUG: Initializing vector store ...")
+    vector_store = None # Initialize to None
     try:
+        from .vector_store import get_vector_store
         vector_store = get_vector_store()
         print("Vector store is ready.")
     except Exception as e:
@@ -74,12 +79,24 @@ async def lifespan(app: FastAPI):
     # Initialize Cognitive Engine
     print("Initializing Cognitive Engine...")
     try:
-        from .cognitive.engine import CognitiveEngine
-        app.state.cognitive_engine = CognitiveEngine()
-        print("Cognitive Engine is ready.")
+        from .cognitive.interface import CognitiveInterface
+        cognitive_interface = CognitiveInterface()
+        app.state.cognitive_interface = cognitive_interface
+        print("DEBUG: Cognitive Interface initialized.")
+
+        # Run initial vector indexing if the store is empty
+        if vector_store and (vector_store.index is None or vector_store.index.ntotal == 0):
+            print("DEBUG: Vector store is empty. Running initial indexing...")
+            # vector_store already imported above
+            # vector_store = get_vector_store()  # No need to call again
+            await cognitive_interface.trigger_vector_indexing(vector_store)
+            print("DEBUG: Initial vector indexing complete.")
+        else:
+            print("DEBUG: Vector store already contains data or is not initialized. Skipping initial indexing.")
+
     except Exception as e:
-        print(f"WARNING: Cognitive Engine initialization failed: {e}")
-        app.state.cognitive_engine = None
+        print(f"WARNING: Cognitive Interface initialization failed: {e}")
+        app.state.cognitive_interface = None
 
     # Initialize Phi 3.5 Cognitive Interface
     print("Initializing Phi 3.5 Cognitive Interface...")
@@ -473,6 +490,36 @@ async def get_events(
         if raw_tweet and raw_tweet.processing_status:
             log_entries.append(f"processing_status={raw_tweet.processing_status}")
 
+        # MERGE LOGIC: Prefer LLM-enriched top-level columns over V2 parser categories
+        # We construct the enriched_data dictionary BEFORE appending to the response list
+        enriched_data = (parsed_event.categories or {}).copy()
+        
+        # 1. Event Type
+        if parsed_event.event_type:
+            enriched_data["event_type"] = parsed_event.event_type
+        
+        # 2. People
+        if parsed_event.people_mentioned:
+            enriched_data["people_canonical"] = parsed_event.people_mentioned
+        
+        # 3. Schemes
+        if parsed_event.schemes_mentioned:
+            enriched_data["schemes_mentioned"] = parsed_event.schemes_mentioned
+        
+        # 4. Word Buckets
+        if parsed_event.word_buckets:
+            enriched_data["word_buckets"] = parsed_event.word_buckets
+            # Preserve parser-provided communities; expose LLM buckets separately to avoid overwriting parser hierarchy/analytics
+            enriched_data.setdefault("communities", categories.get("communities") if categories else [])
+            enriched_data["llm_communities"] = parsed_event.word_buckets
+
+        # 5. Locations
+        if parsed_event.locations:
+            enriched_data["enriched_locations"] = parsed_event.locations
+
+        # 6. Organizations (No top-level column, keep V2 data or use word_buckets if appropriate)
+        # enriched_data["organizations"] = ... (Left as V2 for now)
+
         response.append({
             "tweet_id": parsed_event.tweet_id,
             "created_at": raw_tweet.created_at if raw_tweet and raw_tweet.created_at else parsed_event.parsed_at,
@@ -482,14 +529,243 @@ async def get_events(
             "location_text": location_text,
             "scheme_tags": scheme_tags,
             "people_mentioned": people,
-            "word_buckets": word_buckets,
+            "word_buckets": parsed_event.word_buckets or word_buckets,
             "parsing_status": map_status(raw_tweet.processing_status if raw_tweet else None),
-            "logs": log_entries or ["Loaded from parsed_events"]
+            "logs": log_entries or ["Loaded from parsed_events"],
+            "review_status": parsed_event.review_status,
+            "needs_review": parsed_event.needs_review,
+            # Pass through richer parsed data for review UI/NLQ
+            "parsed_data_v8": enriched_data,
+            "metadata_v8": parsed_event.gemini_metadata or {}
         })
 
     return response
 
 
+# ============================================================================
+# Review Arbitration Endpoints (Parser vs LLM)
+# ============================================================================
+
+@app.get("/api/review/compare", response_model=schemas.ComparisonResponse)
+async def get_review_comparison(
+    tweet_id: str,
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Get Parser vs LLM comparison for a specific tweet.
+    Returns structured comparison showing conflicts and confidence scores.
+    """
+    # Fetch parsed event
+    query = select(models.ParsedEvent).where(models.ParsedEvent.tweet_id == tweet_id)
+    result = await db.execute(query)
+    event = result.scalar_one_or_none()
+    
+    if not event:
+        raise HTTPException(status_code=404, detail=f"Tweet {tweet_id} not found")
+    
+    # Fetch raw tweet for text
+    raw_query = select(models.RawTweet).where(models.RawTweet.tweet_id == tweet_id)
+    raw_result = await db.execute(raw_query)
+    raw_tweet = raw_result.scalar_one_or_none()
+    raw_text = raw_tweet.text if raw_tweet else ""
+    
+    # Build comparison object
+    comparison = {}
+    categories = event.categories or {}
+    
+    # Helper to create comparison
+    def make_comparison(parser_val, llm_val, parser_conf=1.0, llm_conf=0.85):
+        return schemas.FieldComparison(
+            parser=schemas.EngineOutput(
+                value=parser_val,
+                confidence=parser_conf,
+                source="parser_v2"
+            ),
+            llm=schemas.EngineOutput(
+                value=llm_val,
+                confidence=llm_conf,
+                source="llm_enrichment"
+            ),
+            conflict=(parser_val != llm_val)
+        )
+    
+    # EVENT TYPE
+    parser_event = categories.get('event_type') or (categories.get('event', [None])[0] if isinstance(categories.get('event'), list) else categories.get('event'))
+    comparison['event_type'] = make_comparison(
+        parser_event,
+        event.event_type,
+        parser_conf=0.9,
+        llm_conf=event.overall_confidence or 0.85
+    )
+    
+    # PEOPLE
+    parser_people = categories.get('people', [])
+    if not isinstance(parser_people, list):
+        parser_people = [parser_people] if parser_people else []
+    comparison['people'] = make_comparison(
+        parser_people,
+        event.people_mentioned or [],
+        parser_conf=0.8,
+        llm_conf=0.9
+    )
+    
+    # SCHEMES
+    parser_schemes = categories.get('schemes', [])
+    if not isinstance(parser_schemes, list):
+        parser_schemes = [parser_schemes] if parser_schemes else []
+    comparison['schemes'] = make_comparison(
+        parser_schemes,
+        event.schemes_mentioned or []
+    )
+    
+    # COMMUNITIES
+    parser_communities = categories.get('communities', [])
+    if not isinstance(parser_communities, list):
+        parser_communities = [parser_communities] if parser_communities else []
+    llm_communities = categories.get('llm_communities', []) or event.word_buckets or []
+    comparison['communities'] = make_comparison(
+        parser_communities,
+        llm_communities
+    )
+    
+    # LOCATION (simplified)
+    parser_loc = categories.get('location', {}) if isinstance(categories.get('location'), dict) else {}
+    llm_locs = event.locations or []
+    comparison['location'] = make_comparison(
+        parser_loc,
+        llm_locs
+    )
+    
+    return schemas.ComparisonResponse(
+        tweet_id=tweet_id,
+        raw_text=raw_text,
+        comparison=comparison
+    )
+
+
+@app.post("/api/review/ask-ai", response_model=schemas.AskAIResponse)
+async def ask_ai(
+    payload: schemas.AskAIRequest,
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Ask AI about cognitive reasoning for a tweet.
+    Uses cognitive_view from LLM enrichment process.
+    """
+    # Fetch parsed event with cognitive_view
+    query = select(models.ParsedEvent).where(models.ParsedEvent.tweet_id == payload.tweet_id)
+    result = await db.execute(query)
+    event = result.scalar_one_or_none()
+    
+    if not event:
+        raise HTTPException(status_code=404, detail=f"Tweet {payload.tweet_id} not found")
+    
+    # Extract cognitive data
+    cognitive_view = event.cognitive_view or {}
+    word_buckets = event.word_buckets or []
+    
+    # Build answer from cognitive_view
+    reasoning = cognitive_view.get('reasoning', 'No detailed reasoning available.')
+    corrections = cognitive_view.get('corrections', {})
+    confidence = cognitive_view.get('confidence', event.overall_confidence or 0.0)
+    
+    # Construct answer based on question
+    question_lower = payload.question.lower()
+    answer = ""
+    
+    if 'why' in question_lower or 'reasoning' in question_lower:
+        answer = f"Cognitive Analysis: {reasoning}"
+        if corrections:
+            answer += f"\n\nCorrections applied: {json.dumps(corrections, indent=2)}"
+    elif 'confidence' in question_lower:
+        answer = f"The LLM has {confidence*100:.1f}% confidence in this analysis. Reasoning: {reasoning}"
+    elif 'people' in question_lower or 'person' in question_lower:
+        if 'people' in corrections:
+            answer = f"People extraction: {corrections['people']}"
+        else:
+            answer = f"People mentioned: {event.people_mentioned}. {reasoning}"
+    elif 'scheme' in question_lower:
+        if 'schemes' in corrections:
+            answer = f"Scheme identification: {corrections['schemes']}"
+        else:
+            answer = f"Schemes identified: {event.schemes_mentioned}. {reasoning}"
+    else:
+        # Generic answer
+        answer = f"{reasoning}\n\nWord Buckets: {', '.join(word_buckets) if word_buckets else 'None'}"
+    
+    return schemas.AskAIResponse(
+        answer=answer,
+        sources=[
+            {"type": "cognitive_view", "data": cognitive_view},
+            {"type": "word_buckets", "data": word_buckets}
+        ],
+        confidence=confidence if isinstance(confidence, float) else 0.85
+    )
+
+
+@app.post("/api/events/approve")
+async def approve_event_with_feedback(
+    payload: schemas.ApprovalRequest,
+    db: AsyncSession = Depends(get_db_session),
+    user: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Approve a tweet with arbitration feedback (Parser vs LLM choices).
+    Saves final_data (golden record) and feedback_log.
+    """
+    # Fetch event
+    query = select(models.ParsedEvent).where(models.ParsedEvent.tweet_id == payload.tweet_id)
+    result = await db.execute(query)
+    event = result.scalar_one_or_none()
+    
+    if not event:
+        raise HTTPException(status_code=404, detail=f"Tweet {payload.tweet_id} not found")
+    
+    # Update event with final approved data
+    event.final_data = payload.final_data
+    event.feedback_log = {k: v.dict() for k, v in payload.feedback.items()}
+    
+    if payload.exclude_from_analytics:
+        event.review_status = "rejected"
+    else:
+        event.review_status = "approved"
+
+    event.reviewed_at = datetime.datetime.utcnow()
+    event.reviewed_by = user.username
+    event.needs_review = False
+    
+    await db.commit()
+    
+    return {"status": event.review_status, "tweet_id": payload.tweet_id}
+
+
+@app.post("/api/events/skip")
+async def skip_event(
+    payload: schemas.SkipRequest,
+    db: AsyncSession = Depends(get_db_session),
+    user: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Skip a tweet review.
+    """
+    query = select(models.ParsedEvent).where(models.ParsedEvent.tweet_id == payload.tweet_id)
+    result = await db.execute(query)
+    event = result.scalar_one_or_none()
+    
+    if not event:
+        raise HTTPException(status_code=404, detail=f"Tweet {payload.tweet_id} not found")
+        
+    event.review_status = "skipped"
+    event.reviewed_at = datetime.datetime.utcnow()
+    event.reviewed_by = user.username
+    event.needs_review = False
+    
+    await db.commit()
+    return {"status": "skipped", "tweet_id": payload.tweet_id}
+
+# ============================================================================
 @app.get("/api/analytics/{chart_type}", response_model=list[schemas.AnalyticsDataPoint])
 async def get_analytics_data(
     chart_type: str,
@@ -594,6 +870,9 @@ async def trigger_vector_indexing(
     """
     Triggers FAISS vector indexing for a batch of tweets.
     """
+    # Lazy import
+    from .vector_store import get_vector_store
+    
     tweet_ids = payload.tweetIds
     if not tweet_ids:
         return {"status": "skipped", "message": "No tweet IDs provided."}
@@ -744,6 +1023,9 @@ async def search_tweets(
     """
     Performs a semantic search on indexed tweets.
     """
+    # Lazy import to avoid blocking backend startup
+    from .vector_store import get_vector_store
+    
     vector_store = get_vector_store()
     if not vector_store.index or vector_store.index.ntotal == 0:
         # Fallback or empty return if index isn't ready
@@ -938,5 +1220,3 @@ async def get_overlay_health(
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
-

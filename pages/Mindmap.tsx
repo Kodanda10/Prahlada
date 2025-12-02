@@ -13,7 +13,7 @@ const Mindmap = () => {
             </div>
 
             <AnimatedGlassCard className="min-h-[80vh]">
-                <HierarchyMindMap height={800} data={null} />
+                <HierarchyMindMap height={800} />
             </AnimatedGlassCard>
         </div>
     );

@@ -5,7 +5,7 @@ import urllib.error
 from typing import Dict, Any, Optional
 
 class OllamaClient:
-    def __init__(self, base_url: str = "http://localhost:11434", model: str = "phi3.5", backup_model: str = "gemma2:2b"):
+    def __init__(self, base_url: str = "http://localhost:11434", model: str = "gemma2:9b", backup_model: str = "phi3.5"):
         self.base_url = base_url
         self.model = model
         self.backup_model = backup_model

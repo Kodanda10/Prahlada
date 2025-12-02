@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Filter, Download } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
 import { PulseButton } from '../components/interactions/RiveLikeIcons';
 // import ingestedTweets from '../data/ingested_tweets.json'; // REMOVED
@@ -13,49 +11,39 @@ import { exportToExcel, exportToPDF } from '../utils/export';
 import ReviewStatusControl from '../components/controlhub/ReviewStatusControl';
 import { useReviewStatus } from '../utils/reviewStatusStore';
 import { fetchEvents } from '../services/api';
-import SectionWrapper from '../components/SectionWrapper';
 
 const Home = () => {
   // Global Review Status Store
   const { showApproved, showPending, showSkipped } = useReviewStatus();
-  const { logout } = useAuth();
-  const navigate = useNavigate();
 
   // State
   const [tweets, setTweets] = useState<ParsedEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  // Filter States
-  const [locationFilter, setLocationFilter] = useState('');
   const [hoverState, setHoverState] = useState<{ isOpen: boolean, tweetId: string, text: string, x: number, y: number }>({
     isOpen: false, tweetId: '', text: '', x: 0, y: 0
   });
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
 
 
   // Fetch Data
   useEffect(() => {
-    const loadData = async () => {
+    const loadTweets = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
-        const data = await fetchEvents(locationFilter);
+        const data = await fetchEvents();
         setTweets(data);
       } catch (error) {
-        console.error('Failed to load tweets:', error);
-        setError(error instanceof Error ? error.message : 'Unknown error');
-        if (error instanceof Error && error.message.includes('401')) {
-          // Redirect to login if unauthorized
-          window.location.hash = '#/login';
-        }
+        console.error("Error fetching tweets:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadData();
-  }, [locationFilter, refreshTrigger]);
+    loadTweets();
+  }, []);
 
   // Filter States
+  const [locationFilter, setLocationFilter] = useState('');
   const [tagFilter, setTagFilter] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -66,22 +54,13 @@ const Home = () => {
 
   const handleRefresh = async () => {
     setIsLoading(true);
-    setError(null); // Clear previous errors
     try {
       const data = await fetchEvents();
       setTweets(data);
-    } catch (err: any) {
-      console.error('Error fetching events:', err);
-      // Only logout if it's strictly an auth error (401)
-      if (err.message && err.message.includes('401')) {
-        logout();
-        navigate('/login');
-      } else {
-        // For other errors (e.g. network), just show error state, don't logout
-        setError(err.message || 'Failed to load tweets');
-      }
+    } catch (err) {
+      console.error(err);
     } finally {
-      setIsLoading(false); // Changed setLoading to setIsLoading
+      setIsLoading(false);
     }
   };
 
@@ -116,7 +95,7 @@ const Home = () => {
       // So effectively:
       // Approved = approved_by_human === true
       // Pending = approved_by_human === false
-
+      // Skipped = ??? (Maybe we need to mock this or assume it's a separate list, but user said "no mock data")
       // If we look at `Review.tsx`, it filters `!t.approved_by_human` as pending.
       // Let's assume for now "Skipped" might not have data backing it yet in `ingested_tweets.json`, 
       // but the filter logic should be ready. 
@@ -197,95 +176,84 @@ const Home = () => {
       <AnimatedGlassCard className="p-0 overflow-hidden min-h-[600px]">
 
         {/* Header & Filters Section */}
-        {error && (
-          <div className="bg-red-500/10 border-b border-red-500/20 p-4 text-red-200 text-center font-hindi">
-            त्रुटि: {error}
-          </div>
-        )}
         <div className="p-5 border-b border-white/10 bg-white/5">
           <div className="flex flex-col gap-6">
 
             {/* Top Row: Title, Bulk Toggle, Refresh, Download */}
-            <SectionWrapper id="home_header">
-              <div className="flex flex-col xl:flex-row justify-between items-center gap-4">
-                {/* Title */}
-                <div className="flex items-center gap-4 w-full xl:w-auto">
-                  <div className="p-3 bg-[#8BF5E6]/10 rounded-xl border border-[#8BF5E6]/20">
-                    <Filter size={24} className="text-[#8BF5E6]" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-white font-hindi">ट्वीट डेटाबेस</h2>
-                    <p className="text-sm text-slate-400 font-hindi">कुल {tweets.length} रिकॉर्ड्स</p>
-                  </div>
+            <div className="flex flex-col xl:flex-row justify-between items-center gap-4">
+              {/* Title */}
+              <div className="flex items-center gap-4 w-full xl:w-auto">
+                <div className="p-3 bg-[#8BF5E6]/10 rounded-xl border border-[#8BF5E6]/20">
+                  <Filter size={24} className="text-[#8BF5E6]" />
                 </div>
-
-                {/* Controls */}
-                <div className="flex flex-wrap gap-3 w-full xl:w-auto justify-end items-center">
-
-                  {/* Download Buttons */}
-                  <div className="flex gap-2 mr-2">
-                    <button
-                      onClick={handleDownloadExcel}
-                      className="flex items-center gap-2 px-3 py-2 bg-green-600/10 text-green-400 border border-green-500/20 rounded-lg hover:bg-green-600/20 transition-colors text-xs font-medium font-hindi"
-                    >
-                      <Download size={14} /> एक्सेल
-                    </button>
-                    <button
-                      onClick={handleDownloadPDF}
-                      className="flex items-center gap-2 px-3 py-2 bg-red-600/10 text-red-400 border border-red-500/20 rounded-lg hover:bg-red-600/20 transition-colors text-xs font-medium font-hindi"
-                    >
-                      <Download size={14} /> पीडीएफ
-                    </button>
-                  </div>
-
-                  <div className="h-8 w-[1px] bg-white/10 hidden xl:block mx-2"></div>
-
-                  {/* Review Status Control */}
-                  <ReviewStatusControl
-                    totalCount={counts.total}
-                    approvedCount={counts.approved}
-                    pendingCount={counts.pending}
-                    skippedCount={counts.skipped}
-                  />
-
-                  <div className="ml-2">
-                    <PulseButton onClick={handleRefresh} isLoading={isLoading} label="" className="w-10 h-10 justify-center px-0" />
-                  </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white font-hindi">ट्वीट डेटाबेस</h2>
+                  <p className="text-sm text-slate-400 font-hindi">कुल {tweets.length} रिकॉर्ड्स</p>
                 </div>
               </div>
-            </SectionWrapper>
+
+              {/* Controls */}
+              <div className="flex flex-wrap gap-3 w-full xl:w-auto justify-end items-center">
+
+                {/* Download Buttons */}
+                <div className="flex gap-2 mr-2">
+                  <button
+                    onClick={handleDownloadExcel}
+                    className="flex items-center gap-2 px-3 py-2 bg-green-600/10 text-green-400 border border-green-500/20 rounded-lg hover:bg-green-600/20 transition-colors text-xs font-medium font-hindi"
+                  >
+                    <Download size={14} /> एक्सेल
+                  </button>
+                  <button
+                    onClick={handleDownloadPDF}
+                    className="flex items-center gap-2 px-3 py-2 bg-red-600/10 text-red-400 border border-red-500/20 rounded-lg hover:bg-red-600/20 transition-colors text-xs font-medium font-hindi"
+                  >
+                    <Download size={14} /> पीडीएफ
+                  </button>
+                </div>
+
+                <div className="h-8 w-[1px] bg-white/10 hidden xl:block mx-2"></div>
+
+                {/* Review Status Control */}
+                <ReviewStatusControl
+                  totalCount={counts.total}
+                  approvedCount={counts.approved}
+                  pendingCount={counts.pending}
+                  skippedCount={counts.skipped}
+                />
+
+                <div className="ml-2">
+                  <PulseButton onClick={handleRefresh} isLoading={isLoading} label="" className="w-10 h-10 justify-center px-0" />
+                </div>
+              </div>
+            </div>
 
             {/* Filters Row */}
-            <SectionWrapper id="home_filters">
-              <TweetFilters
-                locationFilter={locationFilter}
-                setLocationFilter={setLocationFilter}
-                tagFilter={tagFilter}
-                setTagFilter={setTagFilter}
-                dateFrom={dateFrom}
-                setDateFrom={setDateFrom}
-                dateTo={dateTo}
-                setDateTo={setDateTo}
-                totalCount={tweets.length}
-                filteredCount={filteredTweets.length}
-                onClearFilters={handleClearFilters}
-              />
-            </SectionWrapper>
+            <TweetFilters
+              locationFilter={locationFilter}
+              setLocationFilter={setLocationFilter}
+              tagFilter={tagFilter}
+              setTagFilter={setTagFilter}
+              dateFrom={dateFrom}
+              setDateFrom={setDateFrom}
+              dateTo={dateTo}
+              setDateTo={setDateTo}
+              totalCount={tweets.length}
+              filteredCount={filteredTweets.length}
+              onClearFilters={handleClearFilters}
+            />
 
           </div>
         </div>
 
         {/* Table Area */}
-        <SectionWrapper id="home_table">
-          <TweetTable
-            tweets={paginatedTweets}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          />
-        </SectionWrapper>
+        <TweetTable
+          tweets={paginatedTweets}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        />
 
       </AnimatedGlassCard>
 

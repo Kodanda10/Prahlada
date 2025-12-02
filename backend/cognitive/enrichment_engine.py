@@ -15,6 +15,47 @@ from .enrichment_schemas import TweetReasoning, EnrichmentResult
 
 logger = logging.getLogger(__name__)
 
+# Expanded semantic theme space (English -> Hindi)
+ALLOWED_THEMES = [
+    "Politics", "Governance", "Development", "Infrastructure",
+    "Employment", "Economy", "Industry", "Welfare", "Security",
+    "Culture", "Health", "Education", "Agriculture",
+    "Environment", "Disaster", "Sports", "Tourism",
+    "Technology", "SocialJustice", "WomenChild", "Finance",
+    "Transport", "Housing", "Water", "Sanitation", "Climate", "Innovation", "Schemes"
+]
+
+THEME_MAP = {
+    'Politics': 'राजनीति',
+    'Governance': 'शासन',
+    'Development': 'विकास',
+    'Infrastructure': 'बुनियादी ढांचा',
+    'Employment': 'रोजगार',
+    'Economy': 'अर्थव्यवस्था',
+    'Industry': 'उद्योग',
+    'Welfare': 'कल्याण',
+    'Security': 'सुरक्षा',
+    'Culture': 'संस्कृति',
+    'Health': 'स्वास्थ्य',
+    'Education': 'शिक्षा',
+    'Agriculture': 'कृषि',
+    'Environment': 'पर्यावरण',
+    'Disaster': 'आपदा',
+    'Sports': 'खेल',
+    'Tourism': 'पर्यटन',
+    'Technology': 'प्रौद्योगिकी',
+    'SocialJustice': 'सामाजिक न्याय',
+    'WomenChild': 'महिला एवं बाल',
+    'Finance': 'वित्त',
+    'Transport': 'परिवहन',
+    'Housing': 'आवास',
+    'Water': 'पानी',
+    'Sanitation': 'स्वच्छता',
+    'Climate': 'जलवायु',
+    'Innovation': 'नवाचार',
+    'Schemes': 'योजनाएं'
+}
+
 
 class PhiEnrichmentEngine:
     """
@@ -85,136 +126,258 @@ class PhiEnrichmentEngine:
             return None
     
     def _build_reasoning_prompt(self, tweet_text: str) -> str:
-        """
-        Build comprehensive prompt for Phi to generate reasoning.
-        
-        Prompts Phi to:
-        1. Understand tweet context
-        2. Identify themes
-        3. Validate location
-        4. Classify event
-        """
-        return f"""You are analyzing a Hindi government tweet from Chhattisgarh. Read the tweet carefully and provide comprehensive reasoning.
-
+        theme_options = ", ".join(ALLOWED_THEMES)
+        return f"""Analyze this Hindi tweet and return concise reasoning.
 Tweet: "{tweet_text}"
 
-Provide the following analysis:
+Output MUST be in Hindi terms for all lists and follow the 7-layer model:
+1) Domain: up to 4 from [{theme_options}] (use Hindi equivalents in output)
+2) Occasion/Ritual
+3) Action Type
+4) Relationship work
+5) Strategic function
+6) Emotional tone
+7) Target audience
+Also list: People, Organizations/Parties, Locations, Schemes, Event (short label), Confidence (0-1).
 
-1. CONTEXTUAL SUMMARY (in English):
-   - What is this tweet about in simple terms?
-   - What is the main message or announcement?
-
-2. IMPLIED THEMES (semantic buckets):
-   - List key themes/topics (e.g., कृषि, स्वास्थ्य, शिक्षा, बुनियादी_ढांचा, etc.)
-   - Focus on semantic meaning, not just keywords
-
-3. LOCATION ANALYSIS:
-   - What location(s) are mentioned or implied?
-   - Confidence level (0-1) for each location
-   - Reasoning for location identification
-
-4. EVENT CLASSIFICATION:
-   - What type of event is this? (e.g., बैठक, उद्घाटन, दौरा, etc.)
-   - Any nuance or sub-type?
-   - Confidence level (0-1)
-
-5. OVERALL CONFIDENCE:
-   - How confident are you in this analysis? (0-1)
-
-Respond in JSON format:
-{{
-  "contextual_summary": "...",
-  "implied_themes": ["theme1", "theme2"],
-  "location_hints": {{"location": confidence}},
-  "location_reasoning": "...",
-  "event_nuance": "...",
-  "event_confidence": 0.0,
-  "confidence": 0.0,
-  "reasoning_trace": "..."
-}}"""
+Response Format (plain text):
+Summary: <text>
+Domain: <item1>; <item2>
+Occasion: <item1>; <item2>
+Action: <item1>; <item2>
+Relationship: <item1>; <item2>
+Strategy: <item1>; <item2>
+Emotion: <item1>; <item2>
+Audience: <item1>; <item2>
+People: <name1>; <name2>
+Organizations: <org1>; <org2>
+Locations: <loc1>; <loc2>
+Schemes: <scheme1>; <scheme2>
+Event: <label>
+Confidence: <0-1>
+"""
     
     async def _call_phi_async(self, prompt: str) -> dict:
         """
         Call Phi adapter asynchronously.
-        
-        Wraps synchronous Phi call in async executor for timeout support.
         """
         loop = asyncio.get_event_loop()
         result = await loop.run_in_executor(
             None,
             lambda: self.phi_adapter.client.generate(
                 prompt=prompt,
-                system_prompt="You are an expert analyst of Hindi government tweets. Provide thoughtful, accurate analysis.",
-                json_mode=True
+                system_prompt="You are an expert analyst of Hindi government tweets.",
+                json_mode=False
             )
         )
         
-        # Phi returns: {'response': '{json...}', 'model': '...', ...}
-        # We need to extract and parse the 'response' field
+        # Handle response
         if isinstance(result, dict) and 'response' in result:
-            response_str = result['response']
-            try:
-                # First try: direct JSON parse
-                parsed = json.loads(response_str)
-                logger.debug(f"Parsed Phi response: {parsed}")
-                return parsed
-            except json.JSONDecodeError as e:
-                # Phi sometimes returns mixed content like "{ ...text... }"
-                # Try to extract JSON object/array from the response
-                logger.warning(f"Failed to parse Phi response JSON (attempt 1): {response_str[:100]}...")
-                
-                # Try to find JSON object boundaries
-                try:
-                    # Look for first { and last }
-                    if '{' in response_str and '}' in response_str:
-                        start = response_str.index('{')
-                        end = response_str.rindex('}') + 1
-                        json_str = response_str[start:end]
-                        parsed = json.loads(json_str)
-                        logger.info(f"Recovered JSON from mixed content")
-                        return parsed
-                except (json.JSONDecodeError, ValueError) as e2:
-                    logger.warning(f"Could not recover JSON from response, using defaults")
-                    return {}
-                return {}
+            return {'text': result['response']}
         elif isinstance(result, str):
-            # Fallback: try to parse as JSON string directly
-            try:
-                return json.loads(result)
-            except json.JSONDecodeError:
-                logger.warning("Failed to parse Phi response as JSON string")
-                return {}
-        elif isinstance(result, dict):
-            # Already a dict (shouldn't happen with current Ollama client)
-            return result
-        else:
-            logger.warning(f"Unexpected Phi response type: {type(result)}")
-            return {}
+            return {'text': result}
+        return {'text': ''}
     
     def _parse_phi_reasoning(self, response: dict, tweet_text: str) -> TweetReasoning:
         """
-        Parse Phi's JSON response into TweetReasoning object.
-        
-        Handles missing fields with defaults.
+        Parse Phi's text response using regex.
         """
+        text = response.get('text', '')
+        logger.info(f"Raw Phi Output: {text}")
+        
+        summary = ""
+        themes = []
+        locations = []
+        people = []
+        orgs = []
+        event_label = ""
+        schemes = []
+        domain = []
+        occasion = []
+        action = []
+        relationship = []
+        strategy = []
+        emotion = []
+        audience = []
+        
+        # Extract Summary
+        import re
+        summary_match = re.search(r'Summary:\s*(.+)', text, re.IGNORECASE)
+        if summary_match:
+            summary = summary_match.group(1).strip()
+            
+        def _split_list(val: str) -> List[str]:
+            return [v.strip() for v in re.split(r'[;,]', val) if v and v.strip()]
+
+        # Extract Domain themes
+        domain_match = re.search(r'Domain:\s*(.+)', text, re.IGNORECASE)
+        if domain_match:
+            domain = _split_list(domain_match.group(1))
+
+        # Extract layers
+        occ_match = re.search(r'Occasion:\s*(.+)', text, re.IGNORECASE)
+        if occ_match:
+            occasion = _split_list(occ_match.group(1))
+
+        act_match = re.search(r'Action:\s*(.+)', text, re.IGNORECASE)
+        if act_match:
+            action = _split_list(act_match.group(1))
+
+        rel_match = re.search(r'Relationship:\s*(.+)', text, re.IGNORECASE)
+        if rel_match:
+            relationship = _split_list(rel_match.group(1))
+
+        strat_match = re.search(r'Strategy:\s*(.+)', text, re.IGNORECASE)
+        if strat_match:
+            strategy = _split_list(strat_match.group(1))
+
+        emo_match = re.search(r'Emotion:\s*(.+)', text, re.IGNORECASE)
+        if emo_match:
+            emotion = _split_list(emo_match.group(1))
+
+        aud_match = re.search(r'Audience:\s*(.+)', text, re.IGNORECASE)
+        if aud_match:
+            audience = _split_list(aud_match.group(1))
+
+        # Extract locations/people/event where available
+        loc_match = re.search(r'Locations?:\s*(.+)', text, re.IGNORECASE)
+        if loc_match:
+            locations = [loc.strip() for loc in re.split(r'[;,]', loc_match.group(1)) if loc.strip()]
+
+        people_match = re.search(r'People?:\s*(.+)', text, re.IGNORECASE)
+        if people_match:
+            people = [p.strip() for p in re.split(r'[;,]', people_match.group(1)) if p.strip()]
+
+        org_match = re.search(r'Organizations?:\s*(.+)', text, re.IGNORECASE)
+        if org_match:
+            orgs = [o.strip() for o in re.split(r'[;,]', org_match.group(1)) if o.strip()]
+
+        scheme_match = re.search(r'Schemes?:\s*(.+)', text, re.IGNORECASE)
+        if scheme_match:
+            schemes = [s.strip() for s in re.split(r'[;,]', scheme_match.group(1)) if s.strip()]
+
+        event_match = re.search(r'Event:\s*(.+)', text, re.IGNORECASE)
+        if event_match:
+            event_label = event_match.group(1).strip()
+            
+        # Normalize themes: allow Hindi or English, map to Hindi
+        def _normalize_theme_list(values: List[str]) -> List[str]:
+            out = []
+            for v in values:
+                if not v:
+                    continue
+                # Direct mapping for English keys
+                if v in THEME_MAP:
+                    out.append(THEME_MAP[v])
+                else:
+                    # If value already Hindi or unrecognized, keep as-is
+                    out.append(v)
+            return self._dedup(out)
+
+        themes_hindi = _normalize_theme_list(domain)
+
         return TweetReasoning(
-            contextual_summary=response.get("contextual_summary", ""),
-            implied_themes=response.get("implied_themes", []),
-            location_hints=response.get("location_hints", {}),
-            location_reasoning=response.get("location_reasoning", ""),
-            event_nuance=response.get("event_nuance", ""),
-            event_confidence=float(response.get("event_confidence", 0.5)),
-            confidence=float(response.get("confidence", 0.5)),
-            reasoning_trace=response.get("reasoning_trace", "")
+            contextual_summary=summary,
+            implied_themes=themes_hindi,
+            location_hints={},
+            location_reasoning="",
+            event_nuance=event_label,
+            event_confidence=0.5,
+            confidence=0.8 if themes else 0.5,
+            reasoning_trace=text,
+            people_entities=people,
+            org_entities=orgs,
+            location_entities=locations,
+            scheme_entities=schemes,
+            occasion_tags=self._dedup(occasion),
+            action_tags=self._dedup(action),
+            relationship_signals=self._dedup(relationship),
+            strategy_signals=self._dedup(strategy),
+            emotion_tags=self._dedup(emotion),
+            audience_targets=self._dedup(audience)
         )
     
     def extract_semantic_buckets(self, reasoning: TweetReasoning) -> List[str]:
         """
-        Extract semantic word buckets from Phi's reasoning.
+        Extract semantic word buckets from Phi's reasoning and translate to Hindi.
         
         Uses Phi's implied_themes as semantic buckets.
         """
-        return reasoning.implied_themes
+        return self._dedup(reasoning.implied_themes)
+
+    @staticmethod
+    def _dedup(seq: List[str]) -> List[str]:
+        seen = set()
+        out = []
+        for item in seq:
+            if not item:
+                continue
+            if item not in seen:
+                seen.add(item)
+                out.append(item)
+        return out
+
+    def merge_word_buckets(self, semantic_buckets: List[str], original_data: dict, reasoning: Optional[TweetReasoning] = None) -> List[str]:
+        """
+        Combine semantic themes with tweet-specific entities (event, locations, people).
+        """
+        combined = list(semantic_buckets)
+
+        event_type = original_data.get("event_type")
+        if event_type:
+            combined.append(str(event_type).strip())
+
+        locations = original_data.get("locations") or []
+        combined.extend([loc.strip() for loc in locations if isinstance(loc, str)])
+
+        people = original_data.get("people") or original_data.get("people_mentioned") or []
+        combined.extend([p.strip() for p in people if isinstance(p, str)])
+
+        orgs = original_data.get("organizations") or []
+        combined.extend([o.strip() for o in orgs if isinstance(o, str)])
+
+        communities = original_data.get("communities") or []
+        combined.extend([c.strip() for c in communities if isinstance(c, str)])
+
+        schemes = original_data.get("schemes") or []
+        combined.extend([s.strip() for s in schemes if isinstance(s, str)])
+
+        if reasoning:
+            combined.extend(self._dedup(reasoning.people_entities))
+            combined.extend(self._dedup(reasoning.org_entities))
+            combined.extend(self._dedup(reasoning.location_entities))
+            combined.extend(self._dedup(reasoning.scheme_entities))
+            combined.extend(self._dedup(reasoning.occasion_tags))
+            combined.extend(self._dedup(reasoning.action_tags))
+            combined.extend(self._dedup(reasoning.relationship_signals))
+            combined.extend(self._dedup(reasoning.strategy_signals))
+            combined.extend(self._dedup(reasoning.emotion_tags))
+            combined.extend(self._dedup(reasoning.audience_targets))
+
+        # Include geo hierarchy with Hindi labels if available
+        loc_detail = original_data.get("location_detail") or {}
+        def add_loc(label_key: str, value_key: str):
+            val = loc_detail.get(value_key)
+            if val:
+                combined.append(f"{label_key}: {val}")
+
+        add_loc("जिला", "district")
+        add_loc("विधानसभा", "assembly")
+        add_loc("संसदीय", "parliamentary")
+        add_loc("ब्लॉक", "block")
+        add_loc("ग्राम पंचायत", "gp")
+        add_loc("गाँव", "village")
+        add_loc("नगर", "ulb")
+        add_loc("वार्ड", "ward")
+        add_loc("ज़ोन", "zone")
+        add_loc("स्थान", "canonical")
+
+        hierarchy_path = original_data.get("hierarchy_path") or loc_detail.get("hierarchy_path") or []
+        for node in hierarchy_path:
+            if node:
+                combined.append(f"पदानुक्रम: {node}")
+
+        return self._dedup(combined)
     
     def enrich_from_reasoning(
         self, 
@@ -239,7 +402,12 @@ Respond in JSON format:
         enriched = original_data.copy()
         
         # Add semantic word buckets
-        enriched["semantic_word_buckets"] = self.extract_semantic_buckets(reasoning)
+        semantic_buckets = self.extract_semantic_buckets(reasoning)
+        enriched["semantic_word_buckets"] = self.merge_word_buckets(
+            semantic_buckets,
+            original_data,
+            reasoning
+        )
         
         # Location corrections (if Phi has high-confidence hints)
         location_corrections = {}
@@ -312,6 +480,15 @@ Respond in JSON format:
             
             # Step 2: Enrich from reasoning
             enriched = self.enrich_from_reasoning(original_data, reasoning)
+            
+            # Detailed log for audit (themes/entities)
+            logger.info(
+                f"[ENRICH] {tweet_id} themes={reasoning.implied_themes} "
+                f"people={getattr(reasoning, 'people_entities', [])} "
+                f"orgs={getattr(reasoning, 'org_entities', [])} "
+                f"locs={getattr(reasoning, 'location_entities', [])} "
+                f"schemes={getattr(reasoning, 'scheme_entities', [])}"
+            )
             
             return EnrichmentResult(
                 tweet_id=tweet_id,

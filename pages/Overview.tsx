@@ -58,7 +58,7 @@ const Overview = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-
+        // Using mock stats for robust demo, replace with real API later
         setTimeout(() => {
           setStats({
               total_tweets: 12450,

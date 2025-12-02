@@ -1,0 +1,21 @@
+# Agent Bootstrap — Ironclad v2.2
+
+## Mandatory Preflight
+- Read `/security/SECURITY-IRONCLAD.md` and `/policy/ci-security-gates.yaml`.
+- Verify compile-time build configuration: no sourcemaps, debug flags, or mixed concerns.
+- Validate modular folder structure (components/, stores/, utils/, api/).
+- Honor OWASP ASVS 5.0 Level 2+, NIST SSDF 1.1, and Ironclad DevOps Rulebook v2.2.
+
+## Guardrails
+- **Secrets:** Load via env vars only.
+- **Type Safety:** All modules must pass type-check CI.
+- **Accessibility:** Default a11y tests (axe/pa11y) required for UI changes.
+- **Compile-Time Assurance:** Builds must fail on sourcemaps in prod.
+- **Rollback Ready:** Every deploy reversible within 10 min.
+
+## Operational Checklist
+1. Validate environment variables.
+2. Lint + Typecheck + Test (red→green→refactor).
+3. Audit folder integrity and modularity.
+4. Verify build for Apple-grade compile-time guarantees.
+5. Document outcomes in GEMINI.md and changelog.

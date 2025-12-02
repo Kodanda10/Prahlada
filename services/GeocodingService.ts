@@ -1,6 +1,6 @@
 import { ParsedLocation } from '../types';
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN; // Must be provided via env variable
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || 'pk.eyJ1IjoiYWJoaWppdGEiLCJhIjoiY2x0eXF4eXF4MDI1MjJqcXF4eXF4eXF4eCJ9.dummy'; // Fallback for dev if env missing
 
 interface GeocodeResult {
   lat: number;

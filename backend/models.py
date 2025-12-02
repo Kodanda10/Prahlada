@@ -43,10 +43,15 @@ class ParsedEvent(Base):
 
     # Simplified top-level fields for quick querying
     event_type = Column(String, nullable=True)
-    locations = Column(ARRAY(String), nullable=True)
+    locations = Column(JSONB, nullable=True)
     people_mentioned = Column(ARRAY(String), nullable=True)
     schemes_mentioned = Column(ARRAY(String), nullable=True)
     word_buckets = Column(ARRAY(String), nullable=True)
+
+    # Arbitration & Review (New for Parser vs LLM UI)
+    final_data = Column(JSONB, nullable=True)  # Human-approved golden record (SSOT)
+    feedback_log = Column(JSONB, nullable=True)  # Track parser_win/llm_win per field
+    cognitive_view = Column(JSONB, nullable=True)  # LLM reasoning for Ask AI
 
     # Review and confidence
     overall_confidence = Column(Float, default=0.0)
@@ -57,6 +62,60 @@ class ParsedEvent(Base):
     parsed_at = Column(DateTime, default=datetime.datetime.utcnow)
     reviewed_at = Column(DateTime, nullable=True)
     reviewed_by = Column(String, nullable=True)
+
+
+class EnrichedItem(Base):
+    """
+    Model for enriched_items, storing the deep analysis from Gemma 3.
+    """
+    __tablename__ = "enriched_items"
+
+    tweet_id = Column(String, primary_key=True, index=True)
+    
+    # Core Enrichment Fields
+    themes = Column(JSONB, nullable=True) # List of strings: ["विकास", "राष्ट्रवाद"]
+    event_type = Column(String, nullable=True) # "रैली", "जनसभा"
+    sentiment = Column(String, nullable=True) # "Positive", "Negative", "Neutral"
+    
+    # Detailed Extraction
+    location_candidates = Column(JSONB, nullable=True) # Structured location info
+    schemes = Column(ARRAY(String), nullable=True)
+    communities = Column(ARRAY(String), nullable=True)
+    people = Column(ARRAY(String), nullable=True)
+    organizations = Column(ARRAY(String), nullable=True)
+    
+    # The 7-Layer Cognitive Model
+    layers = Column(JSONB, nullable=True) # Stores Domain, Occasion, Action, Relationship, Strategy, Emotion, Audience
+    
+    # Narrative & Notes
+    notes = Column(Text, nullable=True) # Hindi summary/notes
+    confidence_score = Column(Float, default=0.0)
+    
+    # Metadata
+    model_version = Column(String, nullable=True) # e.g., "gemma-3-qat-12b"
+    enriched_at = Column(DateTime, default=datetime.datetime.utcnow)
+
+
+class GeoLocation(Base):
+    """
+    Canonical catalogue of locations for normalization and mapping.
+    """
+    __tablename__ = "geo_locations"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    
+    # Hierarchy
+    name = Column(String, nullable=False, index=True) # Canonical name (English/Hindi)
+    type = Column(String, nullable=False, index=True) # State, District, AC, Block, GP
+    parent_id = Column(String, nullable=True, index=True)
+    
+    # Search Helpers
+    aliases = Column(ARRAY(String), nullable=True) # ["Raipur", "रायपुर"]
+    vector_embedding = Column(ARRAY(Float), nullable=True) # For vector search
+    
+    # Metadata
+    metadata_info = Column(JSONB, nullable=True) # Population, demographics, etc.
+
 
 
 class AdminUser(Base):

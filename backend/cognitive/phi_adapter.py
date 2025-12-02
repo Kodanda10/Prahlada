@@ -118,27 +118,28 @@ class PhiAdapter:
     def __init__(
         self,
         base_url: str = "http://localhost:11434",
-        model: str = "phi3.5",
-        backup_model: str = "gemma2:2b",
+        model: str = "gemma2:9b",
+        backup_model: str = "phi3.5",
         enabled: bool = True
     ):
         """
-        Initialize Phi 3.5 adapter.
+        Initialize LLM adapter (currently using Gemma 2:9b).
 
         Args:
             base_url: Ollama server URL
-            model: Primary model name (phi3.5)
+            model: Primary model name (gemma2:9b)
             backup_model: Fallback model
-            enabled: Whether to use Phi 3.5 (can be disabled for testing)
+            enabled: Whether to use LLM enrichment (can be disabled for testing)
         """
         self.enabled = enabled
+        self.model_name = model
         self.client = OllamaClient(
             base_url=base_url,
             model=model,
             backup_model=backup_model
         ) if enabled else None
 
-        logger.info("Phi 3.5 adapter initialized", extra={
+        logger.info(f"LLM adapter initialized with {model}", extra={
             "enabled": enabled,
             "model": model,
             "backup_model": backup_model
@@ -533,9 +534,9 @@ Rank event types based on semantic fit and cultural/political context."""
 # Global instance for application use
 _phi_adapter = None
 
-def get_phi_adapter() -> PhiAdapter:
+def get_phi_adapter(**kwargs) -> Optional[PhiAdapter]:
     """
-    Get or create the global Phi adapter instance.
+    Get the global Phi adapter instance.
     
     Uses lazy initialization to avoid blocking startup.
     Reads PHI_ENABLED environment variable (defaults to False for safety).
@@ -544,16 +545,17 @@ def get_phi_adapter() -> PhiAdapter:
     global _phi_adapter
     if _phi_adapter is None:
         # Read from environment - defaults to disabled for safety
-        enabled = os.getenv("PHI_ENABLED", "false").lower() in ("true", "1", "yes")
-        _phi_adapter = PhiAdapter(enabled=enabled)
-        if enabled:
-            logger.info("Phi 3.5 enabled via PHI_ENABLED environment variable")
+        phi_enabled = os.getenv("PHI_ENABLED", "").lower() == "true"
+        model_name = kwargs.get("model", "gemma2:9b")
+        _phi_adapter = PhiAdapter(enabled=phi_enabled, model=model_name)
+        if phi_enabled:
+            logger.info(f"LLM enrichment enabled via PHI_ENABLED environment variable (using {model_name})")
     return _phi_adapter
 
 def set_phi_adapter_config(
     enabled: bool = True,
     base_url: str = "http://localhost:11434",
-    model: str = "phi3.5"
+    model: str = "gemma2:9b"
 ) -> None:
     """
     Configure the global Phi adapter.

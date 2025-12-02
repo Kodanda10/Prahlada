@@ -19,15 +19,24 @@ const resolveApiBase = () => {
   }
 
   if (typeof window !== 'undefined' && window.location?.origin) {
-    const hostname = window.location.hostname;
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      return '';
+    try {
+      const url = new URL(window.location.origin);
+      const defaultPort = url.hostname === 'localhost' || url.hostname === '127.0.0.1' ? '8000' : '';
+      if (defaultPort) {
+        url.port = defaultPort;
+      }
+      return url.toString().replace(/\/+$/, '');
+    } catch (e) {
+      // Fallback if URL parsing fails
+      const origin = window.location.origin;
+      const defaultPort = origin.includes('localhost') ? '8000' : '';
+      // Ensure we strip any existing port before adding the new one
+      const base = defaultPort ? `${origin.replace(/:\d+$/, '')}:${defaultPort}` : origin;
+      return base.replace(/\/+$/, '');
     }
-    // For non-localhost, keep existing logic or default to origin
-    return window.location.origin.replace(/\/+$/, '');
   }
 
-  return '';
+  return 'http://localhost:8000';
 };
 
 const API_BASE = resolveApiBase();
@@ -127,70 +136,17 @@ export async function fetchStats(): Promise<Stats> {
 export async function fetchEvents(filter: AllowedEventFilter | string = 'all'): Promise<ParsedEvent[]> {
   try {
     const safeFilter = normalizeEventFilter(filter);
-    const url = new URL(`${API_BASE}/api/events`, window.location.origin);
+    const url = new URL(`${API_BASE}/api/events`);
     if (safeFilter === 'failed') {
       url.searchParams.append('status', 'FAILED');
     }
     const res = await fetch(url.toString(), withAuth());
-    if (!res.ok) throw new Error(`Failed to fetch events: ${res.status} ${res.statusText}`);
-    const rawData = await res.json();
-
-    // Map backend EventResponse to frontend ParsedEvent
-    return rawData.map((item: any) => ({
-      tweet_id: item.tweet_id,
-      author_handle: 'unknown', // Not in EventResponse
-      raw_text: item.raw_text,
-      text: item.raw_text,
-      created_at: item.created_at,
-      processing_status: item.parsing_status,
-      fetched_at: item.created_at,
-      processed_at: item.created_at,
-      is_parsed: true,
-      parsed_event_id: item.tweet_id,
-      review_status: 'pending', // Default
-      export_timestamp: new Date().toISOString(),
-      export_version: 'v8',
-      is_clean: true,
-      metadata_v8: {
-        model: 'gemini-1.5-flash',
-        processing_time_ms: 0,
-        version: 'v8'
-      },
-      parsed_data_v8: {
-        event_type: item.event_type?.[0] || 'Unknown',
-        event_type_secondary: item.event_type?.slice(1) || [],
-        event_date: item.created_at,
-        location: {
-          canonical: item.location_text,
-          district: null,
-          location_type: '',
-        },
-        people_mentioned: item.people_mentioned || [],
-        people_canonical: item.people_mentioned || [],
-        schemes_mentioned: item.scheme_tags || [],
-        word_buckets: item.word_buckets || [],
-        target_groups: [],
-        communities: [],
-        organizations: [],
-        hierarchy_path: [],
-        visit_count: 0,
-        vector_embedding_id: null,
-        confidence: 0.8,
-        review_status: 'pending',
-        needs_review: true,
-        content_mode: 'original',
-        is_other_original: false,
-        is_rescued_other: false,
-        rescue_tag: null,
-        rescue_confidence_bonus: 0,
-        semantic_location_used: false,
-        location_type: ''
-      },
-      approved_by_human: false
-    }));
+    if (!res.ok) throw new Error('Failed to fetch events');
+    const data = await res.json();
+    return data;
   } catch (error) {
     logApiError('events', error);
-    throw error;
+    return [];
   }
 }
 
@@ -271,26 +227,8 @@ export const apiService = {
       logApiError(`approve-${tweetId}`, error);
       throw error;
     }
-  },
-
-  async updateEvent(tweetId: string, parsedData: any) {
-    try {
-      const res = await fetch(`${API_BASE}/api/events/${tweetId}`, withAuth({
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ parsed_data: parsedData }),
-      }));
-      return await parseJson(res, `PUT /api/events/${tweetId}`);
-    } catch (error) {
-      logApiError(`update-${tweetId}`, error);
-      throw error;
-    }
-  },
+  }
 };
-
-
 
 const normalizeAuthResponse = (payload: unknown): AuthResponse => {
   if (!payload || typeof payload !== 'object') {

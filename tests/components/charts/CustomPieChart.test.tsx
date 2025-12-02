@@ -2,16 +2,17 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import CustomPieChart from '../../../components/charts/CustomPieChart';
 import React from 'react';
-import { getTweetStats } from '../../../utils/testDataLoader';
 
 describe('CustomPieChart', () => {
   it('renders the chart container', () => {
-    // Use real stats from tweets
-    const realData = getTweetStats();
-    // Take top 5 for chart
-    const chartData = realData.slice(0, 5);
+    // Mock props for the chart
+    const mockData = [
+      { name: '??????', value: 30, fill: '#8884d8' },
+      { name: '???????', value: 25, fill: '#82ca9d' },
+      { name: '??????', value: 45, fill: '#ffc658' }
+    ];
 
-    render(<CustomPieChart data={chartData} />);
+    render(<CustomPieChart data={mockData} />);
     // Since we mocked recharts in setup.ts, it renders 'Pie Chart'
     expect(screen.getByText('Pie Chart')).toBeInTheDocument();
   });
@@ -22,9 +23,7 @@ describe('CustomPieChart', () => {
   });
 
   it('renders with sparse data', () => {
-    const realData = getTweetStats();
-    // Use just one item if available
-    const sparseData = realData.length > 0 ? [realData[0]] : [];
+    const sparseData = [{ name: '??', value: 1, fill: '#8884d8' }];
     render(<CustomPieChart data={sparseData} />);
     expect(screen.getByText('Pie Chart')).toBeInTheDocument();
   });

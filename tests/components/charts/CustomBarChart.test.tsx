@@ -11,13 +11,13 @@ describe('CustomBarChart', () => {
       { name: '?????', value: 30 }
     ];
 
-    render(<CustomBarChart data={mockData} xKey="name" dataKey="value" />);
+    render(<CustomBarChart data={mockData} />);
     // Mocked recharts renders 'Bar Chart'
     expect(screen.getByText('Bar Chart')).toBeInTheDocument();
   });
 
   it('renders with empty data', () => {
-    render(<CustomBarChart data={[]} xKey="name" dataKey="value" />);
+    render(<CustomBarChart data={[]} />);
     expect(screen.getByText('Bar Chart')).toBeInTheDocument();
   });
 

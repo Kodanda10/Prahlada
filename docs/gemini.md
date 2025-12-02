@@ -12,19 +12,17 @@ Execute comprehensive test suite remediation and feature implementation with **N
     - **Auth:** JWT implemented and tested.
     - **Search:** Semantic search with Vector Store implemented and tested.
     - **Telemetry:** Telemetry service and endpoint implemented and tested.
-- **Phase 3 (Data Integrity):** ✅ Completed. Mocks purged and real data integrated into key tests.
-- **Current Test Count:** 381 passing tests (0 failures).
+- **Phase 3 (Data Integrity):** 🚧 In Progress. Purging mocks and loading real data.
 
 ## Phase 3: Data Integrity - No Mock Policy
 - **Goal:** Use real production data for all tests.
 - **Actions:**
-    - [x] Purge `dummy_tweets` fixtures.
-    - [x] Purge `mock_geo` fixtures.
-    - [x] Remove placeholder data (e.g., "Lorem Ipsum" and dummy API keys).
-    - [x] Load `parsed_tweets_gemini_parser_v2.jsonl`.
-    - [x] Load `chhattisgarh_urban.ndjson` (coordinates polyfilled for testing).
-    - [x] Validate against `gold_standard_tweets.csv`. (Loader available, not fully integrated in all tests yet, but core data mocks removed)
-
+    - [ ] Purge `dummy_tweets` fixtures.
+    - [ ] Purge `mock_geo` fixtures.
+    - [ ] Remove placeholder data (e.g., "Lorem Ipsum").
+    - [ ] Load `parsed_tweets_gemini_parser_v2.jsonl`.
+    - [ ] Load `chhattisgarh_urban.ndjson`.
+    - [ ] Validate against `gold_standard_tweets.csv`.
 
 ## Phase 4: Authorized Skips
 - Only 26 files (library internals/aspirational) allowed to be skipped.

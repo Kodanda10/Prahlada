@@ -42,23 +42,23 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-[#2e1065] bg-gradient-to-br from-[#1e1b4b] via-[#2e1065] to-[#4c1d95] text-white overflow-hidden font-sans selection:bg-[#8BF5E6] selection:text-[#2e1065] flex items-center justify-center px-4 relative">
-
+      
       {/* Ambient Background Effects - Aurora Style */}
-      <motion.div
-        animate={{
+      <motion.div 
+        animate={{ 
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="fixed top-[-20%] left-[-10%] w-[800px] h-[800px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none z-0"
+        className="fixed top-[-20%] left-[-10%] w-[800px] h-[800px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none z-0" 
       />
-      <motion.div
-        animate={{
+      <motion.div 
+        animate={{ 
           scale: [1, 1.1, 1],
           opacity: [0.2, 0.4, 0.2],
         }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="fixed bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none z-0"
+        className="fixed bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none z-0" 
       />
 
       {/* Login Card */}
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
         className="w-full max-w-md relative z-10"
       >
         <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 md:p-10 shadow-[0_8px_32px_0_rgba(139,245,230,0.1)] relative overflow-hidden">
-
+          
           {/* Animated Border Glow */}
           <motion.div
             animate={{
@@ -89,7 +89,7 @@ const Login: React.FC = () => {
             >
               <Sparkles className="text-[#0f172a]" size={32} strokeWidth={2.5} />
             </motion.div>
-
+            
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ const Login: React.FC = () => {
             >
               सोशल मीडिया एनालिटिक्स डैशबोर्ड
             </motion.h1>
-
+            
             <motion.div
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: "120px", opacity: 1 }}
@@ -132,6 +132,7 @@ const Login: React.FC = () => {
                   name="username"
                   type="text"
                   autoComplete="username"
+                  placeholder="admin"
                   className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-[#8BF5E6] focus:bg-black/40 focus:shadow-[0_0_20px_rgba(139,245,230,0.1)] transition-all placeholder:text-slate-600"
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
@@ -158,6 +159,7 @@ const Login: React.FC = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
+                  placeholder="••••••••"
                   className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-[#8BF5E6] focus:bg-black/40 focus:shadow-[0_0_20px_rgba(139,245,230,0.1)] transition-all placeholder:text-slate-600"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
@@ -202,7 +204,7 @@ const Login: React.FC = () => {
               <span className="relative z-10">लॉगिन करें</span>
             </motion.button>
           </motion.form>
-
+          
           {/* Footer Hint */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -211,7 +213,7 @@ const Login: React.FC = () => {
             className="mt-6 text-center relative z-10"
           >
             <p className="text-[10px] text-slate-500 font-hindi">
-              सुरक्षित लॉगिन
+              डिफ़ॉल्ट क्रेडेंशियल्स: admin / admin123
             </p>
           </motion.div>
         </div>

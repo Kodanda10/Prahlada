@@ -32,6 +32,19 @@ class TweetReasoning:
     # Overall Quality
     confidence: float  # Overall reasoning confidence (0-1)
     reasoning_trace: str  # Phi's thought process  
+
+    # Extracted entities (optional)
+    people_entities: List[str] = field(default_factory=list)
+    org_entities: List[str] = field(default_factory=list)
+    location_entities: List[str] = field(default_factory=list)
+    scheme_entities: List[str] = field(default_factory=list)
+    # Cognitive layers
+    occasion_tags: List[str] = field(default_factory=list)
+    action_tags: List[str] = field(default_factory=list)
+    relationship_signals: List[str] = field(default_factory=list)
+    strategy_signals: List[str] = field(default_factory=list)
+    emotion_tags: List[str] = field(default_factory=list)
+    audience_targets: List[str] = field(default_factory=list)
     
     # Metadata
     generated_at: datetime = field(default_factory=datetime.utcnow)
@@ -48,6 +61,16 @@ class TweetReasoning:
             "event_confidence": self.event_confidence,
             "confidence": self.confidence,
             "reasoning_trace": self.reasoning_trace,
+            "people_entities": self.people_entities,
+            "org_entities": self.org_entities,
+            "location_entities": self.location_entities,
+            "scheme_entities": self.scheme_entities,
+            "occasion_tags": self.occasion_tags,
+            "action_tags": self.action_tags,
+            "relationship_signals": self.relationship_signals,
+            "strategy_signals": self.strategy_signals,
+            "emotion_tags": self.emotion_tags,
+            "audience_targets": self.audience_targets,
             "generated_at": self.generated_at.isoformat(),
             "phi_model": self.phi_model
         }
@@ -58,6 +81,17 @@ class TweetReasoning:
         data = data.copy()
         if 'generated_at' in data and isinstance(data['generated_at'], str):
             data['generated_at'] = datetime.fromisoformat(data['generated_at'])
+        # Backward compatibility defaults
+        data.setdefault("people_entities", [])
+        data.setdefault("org_entities", [])
+        data.setdefault("location_entities", [])
+        data.setdefault("scheme_entities", [])
+        data.setdefault("occasion_tags", [])
+        data.setdefault("action_tags", [])
+        data.setdefault("relationship_signals", [])
+        data.setdefault("strategy_signals", [])
+        data.setdefault("emotion_tags", [])
+        data.setdefault("audience_targets", [])
         return cls(**data)
 
 
