@@ -70,7 +70,7 @@ export interface ParsedEvent {
   processed_at: string | null;
   is_parsed: boolean;
   parsed_event_id: string | null;
-  review_status: 'pending' | 'approved' | 'rejected' | 'edited' | null;
+  review_status: 'pending' | 'approved' | 'rejected' | 'edited' | 'skipped' | null;
   export_timestamp: string;
   export_version: string;
   is_clean: boolean;
@@ -78,6 +78,8 @@ export interface ParsedEvent {
   metadata_v8: MetadataV8;
   // Human-in-the-loop fields
   approved_by_human?: boolean;
+  reviewed_at?: string;
+  reviewed_by?: string;
   corrected_fields?: Record<string, any>;
   feedback_log?: {
     original_value: any;

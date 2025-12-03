@@ -208,6 +208,9 @@ const Layout: React.FC = () => {
   );
 };
 
+import QuantumNexusDemo from './pages/QuantumNexusDemo';
+import DhruvGeoMonolith from './components/geo/DhruvGeoMonolith';
+
 const App = () => {
   return (
     <ErrorBoundary>
@@ -259,6 +262,11 @@ const App = () => {
                 />
               </Route>
               <Route path="/login" element={<Login />} />
+
+              {/* Standalone Demos */}
+              <Route path="/demo/quantum-nexus" element={<QuantumNexusDemo />} />
+              <Route path="/monolith" element={<DhruvGeoMonolith />} />
+
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </HashRouter>

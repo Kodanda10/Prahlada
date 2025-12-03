@@ -112,3 +112,6 @@ body {
             rgba(15, 23, 42, 0.8) 100%);
     background-size: 1000px 100%;
 }
+.text-shadow-glow {
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+}

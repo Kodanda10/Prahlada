@@ -72,13 +72,14 @@ class VectorStore:
         if self.index is None:
             # Create a new index if one doesn't exist
             self.index = faiss.IndexFlatL2(self.dimension)
-            self.index = faiss.IndexIDMap(self.index)
+            # self.index = faiss.IndexIDMap(self.index) # Removed IDMap to simplify
         
         # Generate new IDs starting from the current size of the metadata
-        start_id = len(self.metadata)
-        ids = np.arange(start_id, start_id + len(documents))
+        # start_id = len(self.metadata)
+        # ids = np.arange(start_id, start_id + len(documents))
 
-        self.index.add_with_ids(embeddings.astype('float32'), ids)
+        # self.index.add_with_ids(embeddings.astype('float32'), ids)
+        self.index.add(embeddings.astype('float32')) # Use simple add
         self.metadata.extend(documents)
         print(f"Added {len(documents)} documents to FAISS index. Total size: {self.index.ntotal}")
 

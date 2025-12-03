@@ -1,6 +1,8 @@
 import React from 'react';
 import { MapPin, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ParsedEvent } from '../../types';
+import { translateToHindi } from '../../utils/textUtils';
+import Chip from '../Chip';
 
 interface TweetTableProps {
     tweets: ParsedEvent[];
@@ -125,23 +127,28 @@ const TweetTable: React.FC<TweetTableProps> = ({
                                     <div className="flex items-center justify-center gap-2">
                                         <div className="p-1.5 bg-white/5 rounded-full"><MapPin size={12} className="text-[#8BF5E6]" /></div>
                                         <span className="font-hindi">
-                                            {tweet.parsed_data_v8.location?.ulb || tweet.parsed_data_v8.location?.village || tweet.parsed_data_v8.location?.district || "अज्ञात"}
+                                            {translateToHindi(tweet.parsed_data_v8.location?.ulb || tweet.parsed_data_v8.location?.village || tweet.parsed_data_v8.location?.district || "अज्ञात")}
                                         </span>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-center">
-                                    <span className={`px-3 py-1 rounded-full text-xs font-medium border font-hindi ${tweet.parsed_data_v8.event_type === 'बैठक' ? 'bg-blue-500/10 border-blue-500/20 text-blue-300' :
-                                        tweet.parsed_data_v8.event_type === 'दौरा' ? 'bg-pink-500/10 border-pink-500/20 text-pink-300' :
-                                            tweet.parsed_data_v8.event_type === 'जनसम्पर्क' ? 'bg-green-500/10 border-green-500/20 text-green-300' :
-                                                'bg-slate-500/10 border-slate-500/20 text-slate-300'
-                                        }`}>
-                                        {tweet.parsed_data_v8.event_type}
-                                    </span>
+                                    <div className="flex justify-center">
+                                        <Chip
+                                            label={tweet.parsed_data_v8.event_type}
+                                            color={
+                                                tweet.parsed_data_v8.event_type === 'बैठक' ? 'blue' :
+                                                    tweet.parsed_data_v8.event_type === 'दौरा' ? 'purple' : // Pink mapped to purple
+                                                        tweet.parsed_data_v8.event_type === 'जनसम्पर्क' ? 'emerald' : // Green mapped to emerald
+                                                            'slate'
+                                            }
+                                            readOnly={true}
+                                        />
+                                    </div>
                                 </td>
                                 <td className="px-6 py-4 text-center">
                                     <div className="flex gap-1.5 flex-wrap justify-center">
                                         {tweet.parsed_data_v8.people_canonical?.length > 0 ? tweet.parsed_data_v8.people_canonical.slice(0, 2).map(tag => (
-                                            <span key={tag} className="text-[10px] px-2 py-1 bg-white/5 rounded-md text-slate-400 border border-white/5 font-hindi">{tag}</span>
+                                            <Chip key={tag} label={tag} color="slate" readOnly={true} className="text-[10px] px-2 py-0.5" />
                                         )) : <span className="text-slate-600">-</span>}
                                     </div>
                                 </td>

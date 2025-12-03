@@ -29,8 +29,8 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const refreshConfig = async () => {
     try {
-      const data = await apiService.get('/config');
-      setConfig(data);
+      const data = await apiService.get('/api/config');
+      setConfig(data as UIConfig);
     } catch (error) {
       console.error("Failed to load config", error);
     }
@@ -38,7 +38,7 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const updateConfig = async (section: string, key: string, value: any) => {
     try {
-      await apiService.post('/config', { section, key, value });
+      await apiService.post('/api/config', { section, key, value });
       await refreshConfig();
     } catch (error) {
       console.error("Failed to update config", error);

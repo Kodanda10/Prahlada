@@ -19,11 +19,11 @@ interface ComparisonGridProps {
 }
 
 const FIELD_ORDER = [
-    { key: 'event_type', label: 'घटना प्रकार (Event Type)' },
-    { key: 'people', label: 'उल्लिखित व्यक्ति (People)' },
-    { key: 'schemes', label: 'योजनाएं (Schemes)' },
-    { key: 'communities', label: 'समुदाय (Communities)' },
-    { key: 'location', label: 'स्थान (Location)' }
+    { key: 'event_type', label: 'घटना प्रकार' },
+    { key: 'people', label: 'उल्लिखित व्यक्ति' },
+    { key: 'schemes', label: 'योजनाएं' },
+    { key: 'communities', label: 'समुदाय' },
+    { key: 'location', label: 'स्थान' }
 ];
 
 const ComparisonGrid: React.FC<ComparisonGridProps> = ({
@@ -38,15 +38,15 @@ const ComparisonGrid: React.FC<ComparisonGridProps> = ({
         <div className="space-y-3">
             {/* Header Row (Desktop/Tablet only) */}
             {!isMobile && (
-                <div className="grid grid-cols-2 gap-3 mb-2">
-                    <div data-column="parser" className="text-center pb-3 border-b border-indigo-500/10">
-                        <span className="text-sm font-bold text-indigo-200/80 uppercase tracking-wider font-hindi flex items-center justify-center gap-2">
-                            <span className="p-1 bg-indigo-500/10 rounded-md"><BrainCircuit size={14} /></span> पार्सर (Parser V2)
+                <div className="grid grid-cols-2 gap-4 mb-4 px-1">
+                    <div data-column="parser" className="pb-2 border-b border-cyan-500/20">
+                        <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest font-hindi flex items-center gap-2">
+                            <BrainCircuit size={14} /> पार्सर इंजन
                         </span>
                     </div>
-                    <div data-column="llm" className="text-center pb-3 border-b border-pink-500/10">
-                        <span className="text-sm font-bold text-pink-200/80 uppercase tracking-wider font-hindi flex items-center justify-center gap-2">
-                            <span className="p-1 bg-pink-500/10 rounded-md"><Sparkles size={14} /></span> बौद्धिक इंजन (LLM)
+                    <div data-column="llm" className="pb-2 border-b border-violet-500/20">
+                        <span className="text-xs font-bold text-violet-400 uppercase tracking-widest font-hindi flex items-center gap-2">
+                            <Sparkles size={14} /> एआई इंजन
                         </span>
                     </div>
                 </div>

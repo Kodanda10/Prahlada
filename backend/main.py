@@ -3,7 +3,7 @@ print("DEBUG: Imported os")
 import json
 from pathlib import Path
 from typing import Any
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, BackgroundTasks
 print("DEBUG: Imported fastapi")
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -306,6 +306,133 @@ def get_analytics_health():
         }
     }
 
+@app.get("/api/analytics/event-types")
+async def get_analytics_event_types(
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Returns event type distribution for analytics.
+    """
+    """
+    Returns event type distribution for analytics.
+    Aggregates from approved events' final_data.
+    """
+    # Query for approved events
+    query = (
+        select(
+            models.ParsedEvent.final_data['event_type'].astext.label('name'),
+            func.count(models.ParsedEvent.id).label('value')
+        )
+        .where(models.ParsedEvent.review_status == 'approved')
+        .group_by(text("1"))
+        .order_by(text("2 DESC"))
+    )
+    
+    result = await db.execute(query)
+    rows = result.all()
+    
+    if not rows:
+        # Fallback to pending events if no approved data yet (for demo purposes)
+        query = (
+            select(
+                models.ParsedEvent.event_type.label('name'),
+                func.count(models.ParsedEvent.id).label('value')
+            )
+            .group_by(models.ParsedEvent.event_type)
+            .order_by(text("2 DESC"))
+        )
+        result = await db.execute(query)
+        rows = result.all()
+
+    return [{"name": row.name or "Unknown", "value": row.value} for row in rows]
+
+@app.get("/api/analytics/districts")
+async def get_analytics_districts(
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Returns district-wise data for analytics.
+    """
+    """
+    Returns district-wise data for analytics.
+    Aggregates from approved events' final_data.
+    """
+    # Query for approved events
+    query = (
+        select(
+            models.ParsedEvent.final_data['location']['district'].astext.label('name'),
+            func.count(models.ParsedEvent.id).label('value')
+        )
+        .where(models.ParsedEvent.review_status == 'approved')
+        .group_by(text("1"))
+        .order_by(text("2 DESC"))
+    )
+    
+    result = await db.execute(query)
+    rows = result.all()
+    
+    if not rows:
+        # Fallback to pending events (using locations column)
+        # Note: locations is JSONB, structure might vary, assuming simple extraction for now
+        # Or just return empty to encourage approval
+        return []
+
+    return [{"name": row.name or "Unknown", "value": row.value} for row in rows]
+
+
+@app.get("/api/geo/children")
+async def get_geo_children(
+    parentId: str | None = None,
+    level: str = "state", # state, district, block
+    db: AsyncSession = Depends(get_db_session),
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Returns child geographic entities for a given parent.
+    """
+    # Load hierarchy data
+    geo_file = Path(__file__).parent / "geo_hierarchy.json"
+    data = {}
+    if geo_file.exists():
+        try:
+            with open(geo_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception as e:
+            print(f"Error loading geo hierarchy: {e}")
+            
+    children = []
+    
+    if level == "state":
+        # Return all districts
+        # In a real app, we'd filter by state if we had multiple
+        districts = data.get("districts", {}).keys()
+        children = [{"id": d, "name": d, "type": "DISTRICT"} for d in districts]
+        
+    elif level == "district":
+        # Return blocks for the district
+        if parentId:
+             # Handle case sensitivity or mapping if needed. For now direct lookup.
+             # The frontend sends "Raigarh", "Bilaspur" etc.
+             district_data = data.get("districts", {}).get(parentId)
+             if district_data:
+                 blocks = district_data.get("blocks", [])
+                 children = [{"id": b, "name": b, "type": "BLOCK"} for b in blocks]
+                 
+    elif level == "block":
+        # Return villages for the block
+        if parentId:
+            villages = data.get("blocks", {}).get(parentId, [])
+            # If no specific villages found, generate some generic ones or return empty
+            if not villages:
+                 # Fallback to generic if not in mock data
+                 children = []
+            else:
+                 children = [{"id": v, "name": v, "type": "VILLAGE"} for v in villages]
+
+    return children
+
 
 @app.post("/api/auth/login", response_model=schemas.AuthResponse)
 async def login(payload: schemas.AuthRequest, db: AsyncSession = Depends(get_db_session)):
@@ -360,6 +487,7 @@ async def get_stats(
 @app.get("/api/events", response_model=list[schemas.EventResponse])
 async def get_events(
     status: str | None = None,
+    enriched_only: bool = True, # Default to True for Review UX focus
     db: AsyncSession = Depends(get_db_session),
     _: models.AdminUser = Depends(get_current_user),
 ):
@@ -380,13 +508,17 @@ async def get_events(
     status_filter = status_map.get(normalized_status) if normalized_status else None
 
     query = (
-        select(models.ParsedEvent, models.RawTweet)
+        select(models.ParsedEvent, models.RawTweet, models.EnrichedItem)
         .join(models.RawTweet, models.RawTweet.tweet_id == models.ParsedEvent.tweet_id, isouter=True)
+        .join(models.EnrichedItem, models.EnrichedItem.tweet_id == models.ParsedEvent.tweet_id, isouter=True)
         .order_by(models.ParsedEvent.parsed_at.desc())
         .limit(3000)
     )
     if status_filter:
         query = query.where(models.RawTweet.processing_status == status_filter)
+        
+    if enriched_only:
+        query = query.where(models.EnrichedItem.tweet_id != None)
 
     results = await db.execute(query)
     rows = results.all()
@@ -456,7 +588,7 @@ async def get_events(
         return buckets
 
     response: list[dict] = []
-    for parsed_event, raw_tweet in rows:
+    for parsed_event, raw_tweet, enriched_item in rows:
         categories = parsed_event.categories if isinstance(parsed_event.categories, dict) else {}
         event_types = as_list(categories.get("event") or parsed_event.event_type)
         scheme_tags = as_list(categories.get("schemes") or parsed_event.schemes_mentioned)
@@ -517,8 +649,78 @@ async def get_events(
         if parsed_event.locations:
             enriched_data["enriched_locations"] = parsed_event.locations
 
+        # --- GEMMA 3 ENRICHMENT OVERRIDE ---
+        if enriched_item:
+            log_entries.append("enriched_by_gemma3")
+            if enriched_item.event_type:
+                enriched_data["event_type"] = enriched_item.event_type
+                event_types = [enriched_item.event_type] # Update display list too
+            
+            if enriched_item.people:
+                enriched_data["people_canonical"] = enriched_item.people
+                people = enriched_item.people # Update display list
+                
+            if enriched_item.schemes:
+                enriched_data["schemes_mentioned"] = enriched_item.schemes
+                scheme_tags = enriched_item.schemes # Update display list
+                
+            if enriched_item.themes:
+                enriched_data["word_buckets"] = enriched_item.themes
+                enriched_data["llm_communities"] = enriched_item.themes
+                word_buckets = enriched_item.themes # Update display list
+                
+            if enriched_item.location_candidates:
+                enriched_data["enriched_locations"] = enriched_item.location_candidates
+                # Update location_text if resolved location exists
+                if isinstance(enriched_item.location_candidates, dict):
+                    resolved = enriched_item.location_candidates.get("resolved")
+                    if resolved and isinstance(resolved, dict):
+                        loc_name = resolved.get("canonical") or resolved.get("name")
+                        if loc_name:
+                            location_text = loc_name
+        
         # 6. Organizations (No top-level column, keep V2 data or use word_buckets if appropriate)
         # enriched_data["organizations"] = ... (Left as V2 for now)
+
+        # --- FINAL DATA OVERRIDE (HUMAN REVIEW) ---
+        if parsed_event.review_status == 'approved' and parsed_event.final_data:
+            log_entries.append("final_data_override")
+            final = parsed_event.final_data
+            
+            # Override all fields present in final_data
+            if final.get("event_type"):
+                enriched_data["event_type"] = final["event_type"]
+                event_types = as_list(final["event_type"])
+            
+            if final.get("people"):
+                enriched_data["people_canonical"] = final["people"]
+                people = as_list(final["people"])
+                
+            if final.get("schemes"):
+                enriched_data["schemes_mentioned"] = final["schemes"]
+                scheme_tags = as_list(final["schemes"])
+                
+            if final.get("communities"):
+                enriched_data["communities"] = final["communities"]
+                # Also update word buckets if communities are treated as such
+                enriched_data["llm_communities"] = final["communities"]
+                word_buckets = as_list(final["communities"])
+                
+            if final.get("location"):
+                enriched_data["enriched_locations"] = final["location"]
+                # Update location text
+                loc = final["location"]
+                if isinstance(loc, dict):
+                    # Construct readable location string from hierarchy
+                    parts = [
+                        loc.get("ulb"), 
+                        loc.get("village"), 
+                        loc.get("district"),
+                        loc.get("state")
+                    ]
+                    location_text = ", ".join([p for p in parts if p]) or location_text
+                elif isinstance(loc, list):
+                     location_text = ", ".join([str(l) for l in loc])
 
         response.append({
             "tweet_id": parsed_event.tweet_id,
@@ -564,6 +766,11 @@ async def get_review_comparison(
     if not event:
         raise HTTPException(status_code=404, detail=f"Tweet {tweet_id} not found")
     
+    # Fetch EnrichedItem (Gemma 3)
+    enriched_query = select(models.EnrichedItem).where(models.EnrichedItem.tweet_id == tweet_id)
+    enriched_result = await db.execute(enriched_query)
+    enriched_item = enriched_result.scalar_one_or_none()
+
     # Fetch raw tweet for text
     raw_query = select(models.RawTweet).where(models.RawTweet.tweet_id == tweet_id)
     raw_result = await db.execute(raw_query)
@@ -585,27 +792,29 @@ async def get_review_comparison(
             llm=schemas.EngineOutput(
                 value=llm_val,
                 confidence=llm_conf,
-                source="llm_enrichment"
+                source="gemma_3_enrichment" if enriched_item else "legacy_llm"
             ),
             conflict=(parser_val != llm_val)
         )
     
     # EVENT TYPE
     parser_event = categories.get('event_type') or (categories.get('event', [None])[0] if isinstance(categories.get('event'), list) else categories.get('event'))
+    llm_event = enriched_item.event_type if enriched_item else event.event_type
     comparison['event_type'] = make_comparison(
         parser_event,
-        event.event_type,
+        llm_event,
         parser_conf=0.9,
-        llm_conf=event.overall_confidence or 0.85
+        llm_conf=enriched_item.confidence_score if enriched_item else (event.overall_confidence or 0.85)
     )
     
     # PEOPLE
     parser_people = categories.get('people', [])
     if not isinstance(parser_people, list):
         parser_people = [parser_people] if parser_people else []
+    llm_people = enriched_item.people if enriched_item else (event.people_mentioned or [])
     comparison['people'] = make_comparison(
         parser_people,
-        event.people_mentioned or [],
+        llm_people,
         parser_conf=0.8,
         llm_conf=0.9
     )
@@ -614,16 +823,17 @@ async def get_review_comparison(
     parser_schemes = categories.get('schemes', [])
     if not isinstance(parser_schemes, list):
         parser_schemes = [parser_schemes] if parser_schemes else []
+    llm_schemes = enriched_item.schemes if enriched_item else (event.schemes_mentioned or [])
     comparison['schemes'] = make_comparison(
         parser_schemes,
-        event.schemes_mentioned or []
+        llm_schemes
     )
     
     # COMMUNITIES
     parser_communities = categories.get('communities', [])
     if not isinstance(parser_communities, list):
         parser_communities = [parser_communities] if parser_communities else []
-    llm_communities = categories.get('llm_communities', []) or event.word_buckets or []
+    llm_communities = enriched_item.themes if enriched_item else (event.word_buckets or [])
     comparison['communities'] = make_comparison(
         parser_communities,
         llm_communities
@@ -631,7 +841,7 @@ async def get_review_comparison(
     
     # LOCATION (simplified)
     parser_loc = categories.get('location', {}) if isinstance(categories.get('location'), dict) else {}
-    llm_locs = event.locations or []
+    llm_locs = enriched_item.location_candidates if enriched_item else (event.locations or [])
     comparison['location'] = make_comparison(
         parser_loc,
         llm_locs
@@ -662,35 +872,47 @@ async def ask_ai(
     if not event:
         raise HTTPException(status_code=404, detail=f"Tweet {payload.tweet_id} not found")
     
+    # Fetch EnrichedItem (Gemma 3)
+    enriched_query = select(models.EnrichedItem).where(models.EnrichedItem.tweet_id == payload.tweet_id)
+    enriched_result = await db.execute(enriched_query)
+    enriched_item = enriched_result.scalar_one_or_none()
+    
     # Extract cognitive data
     cognitive_view = event.cognitive_view or {}
     word_buckets = event.word_buckets or []
     
-    # Build answer from cognitive_view
-    reasoning = cognitive_view.get('reasoning', 'No detailed reasoning available.')
-    corrections = cognitive_view.get('corrections', {})
-    confidence = cognitive_view.get('confidence', event.overall_confidence or 0.0)
+    # Override with Gemma 3 data if available
+    if enriched_item:
+        # EnrichedItem doesn't have a direct "cognitive_view" JSON, but has "layers" and "notes"
+        # We can construct a synthetic cognitive view or just use notes.
+        reasoning = enriched_item.notes or "Gemma 3 Analysis Available"
+        confidence = enriched_item.confidence_score
+        word_buckets = enriched_item.themes or []
+        
+        # Add layers to cognitive view for frontend inspection
+        if enriched_item.layers:
+            cognitive_view = enriched_item.layers
+            cognitive_view['reasoning'] = reasoning # Ensure reasoning key exists
+    else:
+        reasoning = cognitive_view.get('reasoning', 'No detailed reasoning available.')
+        confidence = cognitive_view.get('confidence', event.overall_confidence or 0.0)
     
     # Construct answer based on question
     question_lower = payload.question.lower()
     answer = ""
     
     if 'why' in question_lower or 'reasoning' in question_lower:
-        answer = f"Cognitive Analysis: {reasoning}"
-        if corrections:
-            answer += f"\n\nCorrections applied: {json.dumps(corrections, indent=2)}"
+        answer = f"Cognitive Analysis (Gemma 3): {reasoning}"
+        if enriched_item and enriched_item.layers:
+             answer += f"\n\nLayers: {json.dumps(enriched_item.layers, indent=2, ensure_ascii=False)}"
     elif 'confidence' in question_lower:
         answer = f"The LLM has {confidence*100:.1f}% confidence in this analysis. Reasoning: {reasoning}"
     elif 'people' in question_lower or 'person' in question_lower:
-        if 'people' in corrections:
-            answer = f"People extraction: {corrections['people']}"
-        else:
-            answer = f"People mentioned: {event.people_mentioned}. {reasoning}"
+        people = enriched_item.people if enriched_item else event.people_mentioned
+        answer = f"People mentioned: {people}. {reasoning}"
     elif 'scheme' in question_lower:
-        if 'schemes' in corrections:
-            answer = f"Scheme identification: {corrections['schemes']}"
-        else:
-            answer = f"Schemes identified: {event.schemes_mentioned}. {reasoning}"
+        schemes = enriched_item.schemes if enriched_item else event.schemes_mentioned
+        answer = f"Schemes identified: {schemes}. {reasoning}"
     else:
         # Generic answer
         answer = f"{reasoning}\n\nWord Buckets: {', '.join(word_buckets) if word_buckets else 'None'}"
@@ -708,12 +930,14 @@ async def ask_ai(
 @app.post("/api/events/approve")
 async def approve_event_with_feedback(
     payload: schemas.ApprovalRequest,
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db_session),
     user: models.AdminUser = Depends(get_current_user),
 ):
     """
     Approve a tweet with arbitration feedback (Parser vs LLM choices).
     Saves final_data (golden record) and feedback_log.
+    Triggers Cognitive Engine for manual corrections.
     """
     # Fetch event
     query = select(models.ParsedEvent).where(models.ParsedEvent.tweet_id == payload.tweet_id)
@@ -736,8 +960,47 @@ async def approve_event_with_feedback(
     event.reviewed_by = user.username
     event.needs_review = False
     
+    # ALSO Update EnrichedItem if it exists
+    # Note: EnrichedItem does not have review status fields, so we only update if we decide to add them later.
+    # For now, ParsedEvent is the SSOT for review status.
+    # query_enriched = select(models.EnrichedItem).where(models.EnrichedItem.tweet_id == payload.tweet_id)
+    # result_enriched = await db.execute(query_enriched)
+    # enriched_item = result_enriched.scalar_one_or_none()
+    
+    # if enriched_item:
+    #     pass 
+          # enriched_item.review_status = event.review_status
+          # enriched_item.reviewed_at = event.reviewed_at
+          # enriched_item.reviewed_by = event.reviewed_by
+          # enriched_item.final_data = payload.final_data
+    
     await db.commit()
     
+    # Trigger Cognitive Engine for Manual Corrections
+    engine = getattr(app.state, "cognitive_interface", None)
+    if engine:
+        for field, feedback in payload.feedback.items():
+            if feedback.choice == 'manual':
+                # Construct correction payload
+                old_val = event.categories.get(field) if event.categories else None
+                new_val = payload.final_data.get(field)
+                
+                correction_data = {
+                    "field": field,
+                    "old_value": old_val,
+                    "new_value": new_val,
+                    "source": "human_review"
+                }
+                
+                # Run in background
+                background_tasks.add_task(
+                    engine.process_correction,
+                    tweet_id=payload.tweet_id,
+                    tweet_text=event.raw_text,
+                    old_data=event.categories or {},
+                    correction=correction_data
+                )
+
     return {"status": event.review_status, "tweet_id": payload.tweet_id}
 
 
@@ -776,14 +1039,22 @@ async def get_analytics_data(
     Provides aggregated data for analytics charts.
     """
     if chart_type == "event-types":
-        # Note: This is an example of a raw SQL query for aggregation.
-        # A more robust solution might use SQLAlchemy's aggregation functions.
+        # Use final_data (Golden Record) for approved tweets
         query = text("""
             SELECT 
-                (jsonb_array_elements_text(categories->'event')) as name, 
+                jsonb_array_elements_text(
+                    CASE 
+                        WHEN final_data IS NOT NULL AND final_data->'event_type' IS NOT NULL THEN 
+                            CASE 
+                                WHEN jsonb_typeof(final_data->'event_type') = 'array' THEN final_data->'event_type'
+                                ELSE jsonb_build_array(final_data->'event_type')
+                            END
+                        ELSE categories->'event'
+                    END
+                ) as name, 
                 COUNT(*) as value 
             FROM parsed_events 
-            WHERE categories->'event' IS NOT NULL
+            WHERE review_status = 'approved'
             GROUP BY name
             ORDER BY value DESC
             LIMIT 10;
@@ -794,10 +1065,16 @@ async def get_analytics_data(
     if chart_type == "districts":
         query = text("""
             SELECT 
-                (jsonb_array_elements_text(categories->'locations')) as name, 
+                jsonb_array_elements_text(
+                    CASE 
+                        WHEN final_data IS NOT NULL AND (final_data->'enriched_locations' IS NOT NULL OR final_data->'locations' IS NOT NULL) THEN 
+                            COALESCE(final_data->'enriched_locations', final_data->'locations')
+                        ELSE categories->'locations'
+                    END
+                ) as name, 
                 COUNT(*) as value 
             FROM parsed_events 
-            WHERE categories->'locations' IS NOT NULL
+            WHERE review_status = 'approved'
             GROUP BY name
             ORDER BY value DESC
             LIMIT 10;
@@ -1216,6 +1493,161 @@ async def get_overlay_health(
         service_ready=True
     )
 
+
+
+# ============================================================================
+# NLQ Endpoint - PRODUCTION FAST VERSION
+# 3-Tier System: Cache → Event Object → RAG+LLM
+# ============================================================================
+
+class NLQRequest(BaseModel):
+    query: str
+    mode: str = "auto"  # auto | fast | detailed
+    force_refresh: bool = False
+
+@app.post("/api/nlq/ask")
+async def ask_nlq_fast(
+    payload: NLQRequest,
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Fast NLQ with 3-tier response system:
+    1. Cache Hit: ~10-50ms (instant)
+    2. Event Object Template: ~500ms-1s (structured data)
+    3. RAG + LLM: ~50s+ (comprehensive, optional)
+    
+    Modes:
+    - auto: Smart fallback (cache → event → LLM if needed)
+    - fast: Only cache + event objects (no LLM)
+    - detailed: Always use LLM for comprehensive analysis
+    """
+    from backend.services.fast_nlq_service import get_fast_nlq_service
+    
+    try:
+        service = get_fast_nlq_service()
+        
+        # Determine whether to use LLM
+        use_llm = (
+            payload.mode == "detailed" or
+            (payload.mode == "auto" and "पूरी जानकारी" in payload.query.lower())
+        )
+        
+        response = await service.answer_query(
+            query=payload.query,
+            use_llm_polish=use_llm,
+            force_refresh=payload.force_refresh
+        )
+        
+        return response.dict()
+        
+    except Exception as e:
+        print(f"NLQ Error: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Legacy endpoint (for backwards compatibility)
+@app.post("/api/nlq/ask/legacy")
+async def ask_nlq_legacy(
+    payload: NLQRequest,
+    _: models.AdminUser = Depends(get_current_user),
+):
+    """
+    Legacy NLQ endpoint (old behavior).
+    Always uses RAG + LLM.
+    """
+    import time
+    import re
+    from backend.cognitive.nlq_engine import get_nlq_engine
+    
+    start_time = time.time()
+    
+    try:
+        engine = get_nlq_engine()
+        result = engine.answer_query(payload.query)
+        
+        # Calculate quality score
+        answer = result.get('answer', '')
+        quality_score = 0
+        missing_fields = []
+        
+        # Check for explicit dates
+        if re.search(r'\d{4}|\d{1,2}\s+(जनवरी|फरवरी|मार्च|अप्रैल|मई|जून)', answer):
+            quality_score += 1
+        else:
+            missing_fields.append('explicit_date')
+        
+        # Check for location
+        if re.search(r'(रायपुर|बिलासपुर|नवा रायपुर)', answer, re.IGNORECASE):
+            quality_score += 1
+        else:
+            missing_fields.append('location')
+        
+        # Check for person names
+        if re.search(r'(मुख्यमंत्री|CM|ओपी चौधरी)', answer, re.IGNORECASE):
+            quality_score += 1
+        else:
+            missing_fields.append('person_name')
+        
+        # Check for amounts/numbers
+        if any(keyword in payload.query.lower() for keyword in ['कितनी राशि', 'amount', 'भर्ती']):
+            if re.search(r'₹|करोड़|लाख|\d+\s*भर्तियाँ', answer):
+                quality_score += 1
+            else:
+                missing_fields.append('amount_or_number')
+        else:
+            quality_score += 1
+        
+        # Add metadata
+        result['quality_score'] = quality_score
+        result['missing_fields'] = missing_fields
+        result['response_time_seconds'] = round(time.time() - start_time, 2)
+        result['response_mode'] = 'rag_llm_legacy'
+        
+        print(f"Legacy NLQ: {payload.query[:50]}... | Quality: {quality_score}/4 | Time: {result['response_time_seconds']}s")
+        
+        return result
+        
+    except Exception as e:
+        print(f"NLQ Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.on_event("startup")
+async def startup_event():
+    """
+    Warmup the NLQ Engine (Load Gemma 3) on startup for faster first response.
+    """
+    print("🔥 Warming up NLQ Engine (Background Load)...")
+    import asyncio
+    from backend.cognitive.nlq_engine import get_nlq_engine
+    
+    # Run in a separate thread/task to not block startup
+    # But for MLX, we might want to trigger the load.
+    # We'll just initialize the engine, which triggers lazy load ONLY when used?
+    # No, MLXEngine.load_model() is explicit.
+    # NLQEngine init doesn't load model.
+    # We need to explicitly call load_model.
+    
+    try:
+        engine = get_nlq_engine()
+        # Trigger model load in background
+        asyncio.create_task(warmup_model(engine))
+    except Exception as e:
+        print(f"⚠️ Warmup failed: {e}")
+
+async def warmup_model(nlq_engine):
+    print("⏳ Loading Gemma 3 Model into Memory...")
+    try:
+        # This is a blocking call on the thread, so we should be careful.
+        # But in asyncio, we can't easily offload CPU bound work without blocking loop unless using run_in_executor.
+        # However, MLX load is fast-ish (IO bound).
+        # Let's just call it.
+        nlq_engine.llm_engine.load_model()
+        print("✅ Gemma 3 Model Loaded & Ready!")
+    except Exception as e:
+        print(f"❌ Model load failed: {e}")
 
 if __name__ == "__main__":
     import uvicorn

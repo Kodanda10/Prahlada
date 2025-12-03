@@ -256,6 +256,7 @@ const normalizeAuthResponse = (payload: unknown): AuthResponse => {
 
 export const AuthAPI = {
   async login(username: string, password: string): Promise<AuthResponse> {
+    console.log('DEBUG: Logging in with:', username, password);
     const response = await fetch(`${API_BASE}/api/auth/login`, withAuth({
       method: 'POST',
       headers: {
@@ -266,5 +267,10 @@ export const AuthAPI = {
 
     const payload = await parseJson<AuthResponse>(response, 'POST /api/auth/login');
     return normalizeAuthResponse(payload);
+  },
+
+  async verify(): Promise<AuthUser> {
+    const response = await fetch(`${API_BASE}/api/auth/verify`, withAuth());
+    return await parseJson<AuthUser>(response, 'GET /api/auth/verify');
   },
 };

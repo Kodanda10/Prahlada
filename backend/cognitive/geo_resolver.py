@@ -431,28 +431,26 @@ class HybridLocationResolver:
         """
         self.trace_log = []
         
-        # 1. Landmark Oracle (Static + File)
+        # 1. Dictionary / Hierarchy Lookup (Explicit Candidates) - PRIORITY 1
+        candidates = self._extract_location_candidates(text)
+        for cand in candidates:
+            resolved = self.geo_resolver.resolve_hierarchy(cand, text)
+            if resolved:
+                self.trace_log.append(f"Hierarchy match: {cand}")
+                return resolved, DICTIONARY_HIGH_CONFIDENCE, "hierarchy_resolver"
+
+        # 2. Landmark Oracle (Static + File)
         landmark_loc = self._landmark_lookup(text)
         if landmark_loc:
             self.trace_log.append(f"Landmark found: {landmark_loc['canonical']}")
             return landmark_loc, LANDMARK_CONFIDENCE, "landmark_oracle"
             
-        # 2. Entity Inference (e.g. @RaigarhPolice)
+        # 3. Entity Inference (e.g. @RaigarhPolice)
         if entities:
             entity_loc = self._infer_from_entities(entities, text)
             if entity_loc:
                 self.trace_log.append(f"Entity inference: {entity_loc['canonical']}")
                 return entity_loc, 0.85, "entity_inference"
-            
-        # 3. Dictionary / Hierarchy Lookup
-        candidates = self._extract_location_candidates(text)
-        # print(f"DEBUG: Candidates: {candidates}")
-        for cand in candidates:
-            resolved = self.geo_resolver.resolve_hierarchy(cand, text)
-            # print(f"DEBUG: resolve_hierarchy('{cand}') -> {resolved}")
-            if resolved:
-                self.trace_log.append(f"Hierarchy match: {cand}")
-                return resolved, DICTIONARY_HIGH_CONFIDENCE, "hierarchy_resolver"
         
         # 4. Semantic Search (if enabled and available)
         if self.enable_semantic:

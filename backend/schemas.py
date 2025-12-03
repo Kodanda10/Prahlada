@@ -65,40 +65,6 @@ class EventResponse(BaseModel):
     class Config:
         from_attributes = True # Replaces orm_mode = True
 
-class EnrichedItemResponse(BaseModel):
-    """
-    Response model for enriched items.
-    """
-    tweet_id: str
-    themes: Optional[List[str]] = []
-    event_type: Optional[str] = None
-    sentiment: Optional[str] = None
-    location_candidates: Optional[Dict[str, Any]] = None
-    schemes: Optional[List[str]] = []
-    communities: Optional[List[str]] = []
-    notes: Optional[str] = None
-    confidence_score: float = 0.0
-    model_version: Optional[str] = None
-    enriched_at: datetime
-
-    class Config:
-        from_attributes = True
-
-class GeoLocationResponse(BaseModel):
-    """
-    Response model for geo locations.
-    """
-    id: str
-    name: str
-    type: str
-    parent_id: Optional[str] = None
-    aliases: Optional[List[str]] = []
-    metadata_info: Optional[Dict[str, Any]] = None
-
-    class Config:
-        from_attributes = True
-
-
 class AnalyticsDataPoint(BaseModel):
     name: str
     value: int
@@ -229,9 +195,4 @@ class ApprovalRequest(BaseModel):
     feedback: Dict[str, FieldFeedback]  # Per-field feedback
     session_id: Optional[str] = None
     review_time_sec: Optional[int] = None
-    exclude_from_analytics: Optional[bool] = False
-
-class SkipRequest(BaseModel):
-    tweet_id: str
-    reason: Optional[str] = None
 

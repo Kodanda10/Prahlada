@@ -226,6 +226,49 @@ class CognitiveInterface:
         }
 
 
+    async def process_correction(
+        self,
+        tweet_id: str,
+        tweet_text: str,
+        old_data: Dict[str, Any],
+        correction: Dict[str, Any]
+    ) -> None:
+        """
+        Process human correction feedback.
+        Saves the correction to a dataset for future learning (fine-tuning/RAG).
+        """
+        import json
+        import datetime
+        from pathlib import Path
+
+        logger.info("Processing human correction", extra={
+            "tweet_id": tweet_id,
+            "field": correction.get("field")
+        })
+        
+        entry = {
+            "tweet_id": tweet_id,
+            "text": tweet_text,
+            "old_data": old_data,
+            "correction": correction,
+            "timestamp": datetime.datetime.utcnow().isoformat()
+        }
+        
+        # Save to JSONL file
+        try:
+            # Assuming backend/cognitive/interface.py -> backend/cognitive -> backend -> Project-Prahlada
+            data_dir = Path(__file__).parent.parent.parent / "data"
+            data_dir.mkdir(exist_ok=True)
+            feedback_file = data_dir / "feedback_dataset.jsonl"
+            
+            with open(feedback_file, "a", encoding="utf-8") as f:
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+                
+            logger.info("Correction saved to dataset")
+        except Exception as e:
+            logger.error(f"Failed to save correction: {e}")
+
+
 # Global instance
 _cognitive_interface = None
 

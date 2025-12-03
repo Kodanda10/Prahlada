@@ -45,7 +45,7 @@ const AskAISidebar: React.FC<AskAISidebarProps> = ({ tweetId }) => {
     };
 
     return (
-        <div className="ask-ai-sidebar visible bg-black/30 rounded-xl border border-white/10 p-4 h-full flex flex-col">
+        <div className="ask-ai-sidebar visible bg-[#1e1b4b]/50 rounded-xl border border-white/10 p-4 h-full flex flex-col">
             <div className="mb-3">
                 <h3 className="text-sm font-bold text-yellow-400 flex items-center gap-2 font-hindi">
                     <span className="text-lg">💬</span> Ask AI
@@ -64,15 +64,38 @@ const AskAISidebar: React.FC<AskAISidebarProps> = ({ tweetId }) => {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                            className={`p-2 rounded-lg text-xs ${msg.role === 'user'
-                                ? 'bg-indigo-600/20 text-indigo-200 ml-4'
-                                : 'bg-pink-600/20 text-pink-200 mr-4'
+                            className={`p-3 rounded-lg text-xs ${msg.role === 'user'
+                                ? 'bg-slate-700/50 text-slate-200 ml-4 border border-slate-600/50'
+                                : 'bg-violet-500/20 text-violet-200 mr-4 border border-violet-500/30'
                                 }`}
                         >
                             <div className="font-bold mb-1 text-[10px] opacity-70">
                                 {msg.role === 'user' ? '👤 You' : '🤖 AI'}
                             </div>
-                            {msg.text}
+                            <div className="whitespace-pre-wrap font-hindi leading-relaxed">
+                                {msg.role === 'ai' ? (
+                                    // Simple formatting: remove JSON/debug noise if present
+                                    msg.text.split('\n').map((line, i) => {
+                                        // Hide lines that look like raw JSON or debug keys unless explicitly asked
+                                        if (line.trim().startsWith('{') || line.includes('"explicit":') || line.includes('Layers:')) {
+                                            return null;
+                                        }
+                                        // Highlight key terms
+                                        const parts = line.split(/(:)/);
+                                        return (
+                                            <div key={i} className="mb-1">
+                                                {parts.map((part, pIdx) => (
+                                                    <span key={pIdx} className={part.endsWith(':') ? 'font-bold text-violet-300' : ''}>
+                                                        {part}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    msg.text
+                                )}
+                            </div>
                         </motion.div>
                     ))}
                 </AnimatePresence>

@@ -44,7 +44,7 @@ class MLXEngine:
             print(f"CRITICAL ERROR: Failed to load MLX model: {e}")
             raise e
 
-    def generate_response(self, prompt: str, max_tokens: int = 1024) -> str:
+    def generate_response(self, prompt: str, max_tokens: int = 1024, **kwargs) -> str:
         """
         Generates a response for the given prompt.
         """

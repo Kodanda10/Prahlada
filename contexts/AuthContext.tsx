@@ -31,6 +31,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setToken(session.token);
         setUser(session.user);
         setApiAuthToken(session.token);
+
+        // Verify token validity
+        AuthAPI.verify().catch(() => {
+          console.warn('Stored token invalid, logging out');
+          setToken(null);
+          setUser(null);
+          setApiAuthToken(null);
+          localStorage.removeItem(STORAGE_KEY);
+        });
       }
     } catch (storageError) {
       console.warn('Failed to hydrate auth session', storageError);

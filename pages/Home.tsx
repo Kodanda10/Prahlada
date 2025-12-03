@@ -11,6 +11,7 @@ import { exportToExcel, exportToPDF } from '../utils/export';
 import ReviewStatusControl from '../components/controlhub/ReviewStatusControl';
 import { useReviewStatus } from '../utils/reviewStatusStore';
 import { fetchEvents } from '../services/api';
+import { matchesSearch } from '../utils/textUtils';
 
 const Home = () => {
   // Global Review Status Store
@@ -106,14 +107,25 @@ const Home = () => {
       // Location Filter
       if (locationFilter) {
         const loc = tweet.parsed_data_v8.location;
-        const locString = `${loc?.ulb || ''} ${loc?.village || ''} ${loc?.district || ''}`.toLowerCase();
-        if (!locString.includes(locationFilter.toLowerCase())) return false;
+        // Construct a searchable string from all location parts
+        const locString = [
+          loc?.ulb,
+          loc?.village,
+          loc?.district,
+          loc?.state,
+          loc?.assembly,
+          loc?.block
+        ].filter(Boolean).join(' ');
+
+        if (!matchesSearch(locString, locationFilter)) return false;
       }
 
       // Tag Filter
       if (tagFilter) {
-        const tags = tweet.parsed_data_v8.people_canonical?.join(' ').toLowerCase() || '';
-        if (!tags.includes(tagFilter.toLowerCase())) return false;
+        const tags = tweet.parsed_data_v8.people_canonical || [];
+        // Check if any tag matches the search query
+        const hasMatch = tags.some(tag => matchesSearch(tag, tagFilter));
+        if (!hasMatch) return false;
       }
 
       // Date Range Filter

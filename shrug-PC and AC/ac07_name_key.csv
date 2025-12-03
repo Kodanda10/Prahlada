@@ -1,0 +1,4150 @@
+ac07_id,ac07_name,pc01_state_id,pc01_district_id,pc01_state_name,pc01_district_name,tr_ac_name
+2007-01-015,pattan,01,,jammu kashmir,,pattan
+2007-01-076,suchetgarh,01,,jammu kashmir,,suchetgarh
+2007-01-041,devsar,01,,jammu kashmir,,devsar
+2007-01-050,zanskar,01,,jammu kashmir,,zanskar
+2007-01-059,gool arnas,01,,jammu kashmir,,gool arnas
+2007-01-032,pampore,01,,jammu kashmir,,pampore
+2007-01-052,inderwal,01,,jammu kashmir,,inderwal
+2007-01-071,gandhinagar,01,,jammu kashmir,,gandhinagar
+2007-01-082,darhal,01,,jammu kashmir,,darhal
+2007-01-042,doru,01,,jammu kashmir,,doru
+2007-01-080,chhamb,01,,jammu kashmir,,chhamb
+2007-01-007,rafiabad,01,,jammu kashmir,,rafiabad
+2007-01-069,bijeypur,01,,jammu kashmir,,bijeypur
+2007-01-009,gurez,01,,jammu kashmir,,gurez
+2007-01-028,beerwah,01,,jammu kashmir,,beerwah
+2007-01-014,gulmarg,01,,jammu kashmir,,gulmarg
+2007-01-016,kangan,01,,jammu kashmir,,kangan
+2007-01-039,homeshalibugh,01,,jammu kashmir,,homeshalibugh
+2007-01-025,batamaloo,01,,jammu kashmir,,batamaloo
+2007-01-026,chadoora,01,,jammu kashmir,,chadoora
+2007-01-020,idgah,01,,jammu kashmir,,idgah
+2007-01-038,kulgam,01,,jammu kashmir,,kulgam
+2007-01-084,kalakote,01,,jammu kashmir,,kalakote
+2007-01-017,ganderbal,01,,jammu kashmir,,ganderbal
+2007-01-005,langate,01,,jammu kashmir,,langate
+2007-01-065,kathua,01,,jammu kashmir,,kathua
+2007-01-022,habbakadal,01,,jammu kashmir,,habbakadal
+2007-01-083,rajouri,01,,jammu kashmir,,rajouri
+2007-01-002,kupwara,01,,jammu kashmir,,kupwara
+2007-01-029,khansahib,01,,jammu kashmir,,khansahib
+2007-01-021,khanyar,01,,jammu kashmir,,khanyar
+2007-01-086,mendhar,01,,jammu kashmir,,mendhar
+2007-01-054,bhaderwah,01,,jammu kashmir,,bhaderwah
+2007-01-063,bani,01,,jammu kashmir,,bani
+2007-01-046,pahalgam,01,,jammu kashmir,,pahalgam
+2007-01-033,pulwama,01,,jammu kashmir,,pulwama
+2007-01-013,baramulla,01,,jammu kashmir,,baramulla
+2007-01-019,zadibal,01,,jammu kashmir,,zadibal
+2007-01-024,sonawar,01,,jammu kashmir,,sonawar
+2007-01-043,kokernag,01,,jammu kashmir,,kokernag
+2007-01-079,akhnoor,01,,jammu kashmir,,akhnoor
+2007-01-008,sopore,01,,jammu kashmir,,sopore
+2007-01-072,jammu east,01,,jammu kashmir,,jammu east
+2007-01-004,handwara,01,,jammu kashmir,,handwara
+2007-01-010,bandipora,01,,jammu kashmir,,bandipora
+2007-01-035,wachi,01,,jammu kashmir,,wachi
+2007-01-070,nagrota,01,,jammu kashmir,,nagrota
+2007-01-078,raipur domana,01,,jammu kashmir,,raipur domana
+2007-01-048,leh,01,,jammu kashmir,,leh
+2007-01-057,gulabgarh,01,,jammu kashmir,,gulabgarh
+2007-01-001,karnah,01,,jammu kashmir,,karnah
+2007-01-055,ramban,01,,jammu kashmir,,ramban
+2007-01-045,bijbehara,01,,jammu kashmir,,bijbehera
+2007-01-036,shopian,01,,jammu kashmir,,shopian
+2007-01-060,udhampur,01,,jammu kashmir,,udhampur
+2007-01-066,billawar,01,,jammu kashmir,,billawar
+2007-01-064,basohli,01,,jammu kashmir,,basohli
+2007-01-081,nowshera,01,,jammu kashmir,,nowshera
+2007-01-075,r s pura,01,,jammu kashmir,,r s pura
+2007-01-040,anantnag,01,,jammu kashmir,,anantnag
+2007-01-011,sonawari,01,,jammu kashmir,,sonawari
+2007-01-049,kargil,01,,jammu kashmir,,kargil
+2007-01-062,ramnagar,01,,jammu kashmir,,ramnagar
+2007-01-023,amirakadal,01,,jammu kashmir,,amirakadal
+2007-01-027,badgam,01,,jammu kashmir,,badgam
+2007-01-012,sangrama,01,,jammu kashmir,,sangrama
+2007-01-056,banihal,01,,jammu kashmir,,banihal
+2007-01-077,marh,01,,jammu kashmir,,marh
+2007-01-051,kishtwar,01,,jammu kashmir,,kishtwar
+2007-01-068,samba,01,,jammu kashmir,,samba
+2007-01-034,rajpora,01,,jammu kashmir,,rajpora
+2007-01-074,bishnah,01,,jammu kashmir,,bishnah
+2007-01-067,hiranagar,01,,jammu kashmir,,hiranagar
+2007-01-047,nobra,01,,jammu kashmir,,nobra
+2007-01-073,jammu west,01,,jammu kashmir,,jammu west
+2007-01-006,uri,01,,jammu kashmir,,uri
+2007-01-087,poonch haveli,01,,jammu kashmir,,poonch haveli
+2007-01-058,reasi,01,,jammu kashmir,,reasi
+2007-01-044,shangus,01,,jammu kashmir,,shangus
+2007-01-085,surankote,01,,jammu kashmir,,surankote
+2007-01-003,lolab,01,,jammu kashmir,,lolab
+2007-01-061,chanani,01,,jammu kashmir,,chanani
+2007-01-030,chrari sharief,01,,jammu kashmir,,chrari sharief
+2007-01-053,doda,01,,jammu kashmir,,doda
+2007-01-037,noorabad,01,,jammu kashmir,,noorabad
+2007-01-018,hazratbal,01,,jammu kashmir,,hazratbal
+2007-01-031,tral,01,,jammu kashmir,,tral
+2007-02-048,dharamsala,02,,himachal pradesh,,dharamsala
+2007-02-058,ani,02,,himachal pradesh,,ani
+2007-02-014,solan,02,,himachal pradesh,,solanudivada
+2007-02-001,kinnaur,02,,himachal pradesh,,kinnaur
+2007-02-057,banjar,02,,himachal pradesh,,banjar
+2007-02-067,darang,02,,himachal pradesh,,darang
+2007-02-065,dharampur,02,,himachal pradesh,,dharampur
+2007-02-040,jawalamukhi,02,,himachal pradesh,,jawalamukhi
+2007-02-019,nahan,02,,himachal pradesh,,nahan
+2007-02-061,nachan,02,,himachal pradesh,,nachan
+2007-02-010,arki,02,,himachal pradesh,,arki
+2007-02-062,sundernagar,02,,himachal pradesh,,sundernagar
+2007-02-009,kasumpti,02,,himachal pradesh,,kasumpti
+2007-02-007,theog,02,,himachal pradesh,,theog
+2007-02-034,nurpur,02,,himachal pradesh,,nurpur
+2007-02-046,nagrota,02,,himachal pradesh,,nagrota
+2007-02-021,bilaspur,02,,himachal pradesh,,bilaspur
+2007-02-022,ghumarwin,02,,himachal pradesh,,ghumarwin
+2007-02-038,jaswan,02,,himachal pradesh,,jaswan
+2007-02-033,kutlehar,02,,himachal pradesh,,kutlehar
+2007-02-026,bamsan,02,,himachal pradesh,,bamsan
+2007-02-031,santokgarh,02,,himachal pradesh,,santokgarh
+2007-02-028,nadaunta,02,,himachal pradesh,,nadaunta
+2007-02-024,nadaun,02,,himachal pradesh,,nadaun
+2007-02-012,nalagarh,02,,himachal pradesh,,nalagarh
+2007-02-052,rajnagar,02,,himachal pradesh,,rajnagar
+2007-02-005,chopal,02,,himachal pradesh,,chopal
+2007-02-025,hamirpur,02,,himachal pradesh,,hamirpur
+2007-02-023,geharwin,02,,himachal pradesh,,geharwin
+2007-02-053,chamba,02,,himachal pradesh,,chamba
+2007-02-030,chintpurni,02,,himachal pradesh,,chintpurni
+2007-02-004,jubbal kotkhai,02,,himachal pradesh,,jubbal kotkhai
+2007-02-064,gopalpur,02,,himachal pradesh,,gopalpur
+2007-02-006,kumarsain,02,,himachal pradesh,,kumarsain
+2007-02-059,karsog,02,,himachal pradesh,,karsog
+2007-02-002,rampur,02,,himachal pradesh,,rampur
+2007-02-035,gangath,02,,himachal pradesh,,gangath
+2007-02-060,chachiot,02,,himachal pradesh,,chachiot
+2007-02-066,joginder nagar,02,,himachal pradesh,,joginder nagar
+2007-02-018,paonta doon,02,,himachal pradesh,,paonta doon
+2007-02-039,pragpur,02,,himachal pradesh,,pragpur sc
+2007-02-047,shahpur,02,,himachal pradesh,,shahpur
+2007-02-050,bhattiyat,02,,himachal pradesh,,bhattiyat
+2007-02-027,mewa,02,,himachal pradesh,,mewa
+2007-02-051,banikhet,02,,himachal pradesh,,banikhet
+2007-02-044,palampur,02,,himachal pradesh,,palampur
+2007-02-043,baijnath,02,,himachal pradesh,,baijnath
+2007-02-016,rainka,02,,himachal pradesh,,rainka
+2007-02-063,balh,02,,himachal pradesh,,balh
+2007-02-036,jawali,02,,himachal pradesh,,jawali
+2007-02-041,thural,02,,himachal pradesh,,thural
+2007-02-056,kulu,02,,himachal pradesh,,kulu
+2007-02-011,doon,02,,himachal pradesh,,doon
+2007-02-054,bharmour,02,,himachal pradesh,,bharmour
+2007-02-045,sulah,02,,himachal pradesh,,sulah
+2007-02-042,rajgir,02,,himachal pradesh,,rajgir
+2007-02-029,gagret,02,,himachal pradesh,,gagret
+2007-02-003,rohru,02,,himachal pradesh,,rohru
+2007-02-037,guler,02,,himachal pradesh,,guler
+2007-02-032,una,02,,himachal pradesh,,una
+2007-02-068,mandi,02,,himachal pradesh,,mandi
+2007-02-049,kangra,02,,himachal pradesh,,kangra
+2007-02-013,kasauli,02,,himachal pradesh,,kasauli
+2007-02-055,lahaul and spiti,02,,himachal pradesh,,lahaul and spiti
+2007-02-015,pachhad,02,,himachal pradesh,,pachhad
+2007-02-008,simla,02,,himachal pradesh,,simla
+2007-02-017,shillai,02,,himachal pradesh,,shillai
+2007-02-020,kotkehloor,02,,himachal pradesh,,kotkehloor
+2007-03-070,banur,03,,punjab,,banur
+2007-03-098,dharamkot,03,,punjab,,dharamkot
+2007-03-018,amritsar central,03,,punjab,,amritsar central
+2007-03-115,mansa,03,,punjab,,mansa
+2007-03-085,dhanaula,03,,punjab,,dhanaula
+2007-03-079,sirhind,03,,punjab,,sirhind
+2007-03-113,rampura phul,03,,punjab,,rampura phul
+2007-03-027,valtoha,03,,punjab,,valtoha
+2007-03-068,morinda,03,,punjab,,morinda
+2007-03-095,firozepur,03,,punjab,,firozepur
+2007-03-005,kahnuwan,03,,punjab,,kahnuwan
+2007-03-023,tarn taran,03,,punjab,,tarn taran
+2007-03-073,dakala,03,,punjab,,dakala
+2007-03-102,panjgrain,03,,punjab,,panjgrain
+2007-03-019,amritsar south,03,,punjab,,amritsar south
+2007-03-080,dhuri,03,,punjab,,dhuri
+2007-03-010,pathankot,03,,punjab,,pathankot
+2007-03-014,verka,03,,punjab,,verka
+2007-03-024,khadoor sahib,03,,punjab,,khadoor sahib
+2007-03-076,patiala town,03,,punjab,,patiala town
+2007-03-009,narot mehra,03,,punjab,,narot mehra
+2007-03-051,dasuya,03,,punjab,,dasuya
+2007-03-054,raikot,03,,punjab,,raikot
+2007-03-082,sherpur,03,,punjab,,sherpur
+2007-03-086,sangrur,03,,punjab,,sangrur
+2007-03-117,sardulgarh,03,,punjab,,sardulgarh
+2007-03-066,anandpur sahib ropar,03,,punjab,,anandpur sahib ropar
+2007-03-116,budhlada,03,,punjab,,budhlada
+2007-03-081,malerkotla,03,,punjab,,malerkotla
+2007-03-037,banga,03,,punjab,,banga
+2007-03-101,nihal singh wala,03,,punjab,,nihal singh wala
+2007-03-048,sham chaurasi,03,,punjab,,sham chaurasi
+2007-03-050,garhdiwala,03,,punjab,,garhdiwala
+2007-03-055,dakha,03,,punjab,,dakha
+2007-03-049,tanda,03,,punjab,,tanda
+2007-03-012,beas,03,,punjab,,beas
+2007-03-092,fazilka,03,,punjab,,fazilka
+2007-03-097,zira,03,,punjab,,zira
+2007-03-056,qila raipur,03,,punjab,,qila raipur
+2007-03-108,lambi,03,,punjab,,lambi
+2007-03-088,sunam,03,,punjab,,sunam
+2007-03-094,guru har sahai,03,,punjab,,guru har sahai
+2007-03-003,qadian,03,,punjab,,qadian
+2007-03-015,jandiala,03,,punjab,,jandiala
+2007-03-042,sultanpur,03,,punjab,,sultanpur
+2007-03-061,payal,03,,punjab,,payal
+2007-03-016,amritsar north,03,,punjab,,amritsar north
+2007-03-044,balachaur,03,,punjab,,balachaur
+2007-03-077,nabha,03,,punjab,,nabha
+2007-03-033,kartarpur,03,,punjab,,kartarpur
+2007-03-087,dirbha,03,,punjab,,dirbha
+2007-03-109,talwandi sabo,03,,punjab,,talwandi sabo
+2007-03-001,fatehgarh,03,,punjab,,fatehgarh
+2007-03-007,gurdaspur,03,,punjab,,gurdaspur
+2007-03-059,ludhiana east,03,,punjab,,ludhiana east
+2007-03-020,ajnala,03,,punjab,,ajnala
+2007-03-063,samrala,03,,punjab,,samrala
+2007-03-043,phagwara,03,,punjab,,phagwara
+2007-03-071,rajpura,03,,punjab,,rajpura
+2007-03-004,srihargobindpur,03,,punjab,,srihargobindpur
+2007-03-046,mahilpur,03,,punjab,,mahilpur
+2007-03-041,kapurthala,03,,punjab,,kapurthala
+2007-03-069,kharar,03,,punjab,,kharar
+2007-03-111,bhatinda,03,,punjab,,bhatinda
+2007-03-038,nawan shahr,03,,punjab,,nawanshahr
+2007-03-022,attari,03,,punjab,,attari
+2007-03-072,ghanaur,03,,punjab,,ghanaur
+2007-03-052,mukerian,03,,punjab,,mukerian
+2007-03-064,khanna,03,,punjab,,khanna
+2007-03-035,nakodar,03,,punjab,,nakodar
+2007-03-011,sujanpur,03,,punjab,,sujanpur
+2007-03-089,lehra,03,,punjab,,lehra
+2007-03-031,jullundur central,03,,punjab,,jullundur central
+2007-03-112,nathana,03,,punjab,,nathana
+2007-03-040,bholath,03,,punjab,,bholath
+2007-03-045,garhshankar,03,,punjab,,garhshankar
+2007-03-084,bhadaur,03,,punjab,,bhadaur
+2007-03-030,jullundur north,03,,punjab,,jullundur north
+2007-03-025,naushahra panwan,03,,punjab,,naushahra panwan
+2007-03-075,samana,03,,punjab,,samana
+2007-03-067,chamkaur sahib,03,,punjab,,chamkaur sahib
+2007-03-096,firozepur cantonment,03,,punjab,,firozepur cantonment
+2007-03-032,jullundur south,03,,punjab,,jullundur south
+2007-03-036,nur mahal,03,,punjab,,nur mahal
+2007-03-103,kot kapura,03,,punjab,,kot kapura
+2007-03-026,patti,03,,punjab,,patti
+2007-03-091,abohar,03,,punjab,,abohar
+2007-03-078,amloh,03,,punjab,,amloh
+2007-03-083,barnala,03,,punjab,,barnala
+2007-03-002,batala,03,,punjab,,batala
+2007-03-017,amritsar west,03,,punjab,,amritsar west
+2007-03-106,giddar baha,03,,punjab,,gidderbaha
+2007-03-053,jagraon,03,,punjab,,jagraon
+2007-03-060,ludhiana rural,03,,punjab,,ludhiana rural
+2007-03-093,jalalabad,03,,punjab,,jalalabad
+2007-03-006,dhariwal,03,,punjab,,dhariwal
+2007-03-099,moga,03,,punjab,,moga
+2007-03-104,faridkot,03,,punjab,,faridkot
+2007-03-057,ludhiana north,03,,punjab,,ludhiana north
+2007-03-058,ludhiana west,03,,punjab,,ludhiana west
+2007-03-074,shutrana,03,,punjab,,shutrana
+2007-03-047,hoshiarpur,03,,punjab,,hoshiarpur
+2007-03-065,nangal,03,,punjab,,nangal
+2007-03-013,majitha,03,,punjab,,majitha
+2007-03-062,kum kalan,03,,punjab,,kum kalan
+2007-03-100,bagha purana,03,,punjab,,bagha purana
+2007-03-029,jullundur cantonment,03,,punjab,,jullundur cantonment
+2007-03-110,pakka kalan,03,,punjab,,pakka kalan
+2007-03-008,dina nagar,03,,punjab,,dina nagar
+2007-03-107,malout,03,,punjab,,malout
+2007-03-105,muktsar,03,,punjab,,muktsar
+2007-03-034,lohian,03,,punjab,,lohian
+2007-03-021,raja sansi,03,,punjab,,raja sansi
+2007-03-039,phillaur,03,,punjab,,phillaur
+2007-03-028,adampur,03,,punjab,,adampur
+2007-03-114,joga,03,,punjab,,joga
+2007-03-090,balluana,03,,punjab,,balluana
+2007-05-045,dwarahat,05,,uttarakhand,,dwarahat
+2007-05-002,gangotri,05,,uttarakhand,,gangotri
+2007-05-009,dhanolti,05,,uttarakhand,,dhanolti
+2007-05-036,rudraprayag,05,,uttarakhand,,rudraprayag
+2007-05-013,laxman chowk,05,,uttarakhand,,laxman chowk
+2007-05-019,bhagwanpur,05,,uttarakhand,,bhagwanpur
+2007-05-017,rishikesh,05,,uttarakhand,,rishikesh
+2007-05-066,pithoragarh,05,,uttarakhand,,pithoragarh
+2007-05-058,kashipur,05,,uttarakhand,,kashipur
+2007-05-062,sitarganj,05,,uttarakhand,,sitarganj
+2007-05-006,ghansali,05,,uttarakhand,,ghansali
+2007-05-040,karanprayag,05,,uttarakhand,,karanprayag
+2007-05-012,sahaspur,05,,uttarakhand,,sahaspur
+2007-05-046,bhikiasain,05,,uttarakhand,,bhikiasain
+2007-05-011,vikasnagar,05,,uttarakhand,,vikasnagar
+2007-05-054,haldwani,05,,uttarakhand,,haldwani
+2007-05-043,kanda,05,,uttarakhand,,kanda
+2007-05-029,kotdwar,05,,uttarakhand,,kotdwar
+2007-05-021,iqbalpur,05,,uttarakhand,,iqbalpur
+2007-05-061,rudrapur kichha,05,,uttarakhand,,rudrapur kichha
+2007-05-050,almora,05,,uttarakhand,,almora
+2007-05-015,rajpur,05,,uttarakhand,,rajpur
+2007-05-027,laldhang,05,,uttarakhand,,laldhang
+2007-05-034,srinagar,05,,uttarakhand,,srinagar
+2007-05-038,badrinath,05,,uttarakhand,,badrinath
+2007-05-016,mussoorie,05,,uttarakhand,,mussoorie
+2007-05-047,salt,05,,uttarakhand,,salt
+2007-05-070,dharchula,05,,uttarakhand,,dharchula
+2007-05-030,dhumakot,05,,uttarakhand,,dhumakot
+2007-05-041,pindar,05,,uttarakhand,,pindar
+2007-05-056,ramnagar,05,,uttarakhand,,ramnagar
+2007-05-042,kapkot,05,,uttarakhand,,kapkot
+2007-05-069,kanalichhina,05,,uttarakhand,,kanalichhina
+2007-05-065,lohaghat,05,,uttarakhand,,lohaghat
+2007-05-022,manglor,05,,uttarakhand,,manglor
+2007-05-008,narendranagar,05,,uttarakhand,,narendranagar
+2007-05-068,didihat,05,,uttarakhand,,didihat
+2007-05-003,yamunotri,05,,uttarakhand,,yamunotri
+2007-05-001,purola,05,,uttarakhand,,purola
+2007-05-024,laksar,05,,uttarakhand,,laksar
+2007-05-025,bahadrabad,05,,uttarakhand,,bahadrabad
+2007-05-044,bageshwar,05,,uttarakhand,,bageshwar
+2007-05-053,dhari,05,,uttarakhand,,dhari
+2007-05-051,jageshwar,05,,uttarakhand,,jageshwar
+2007-05-033,pauri,05,,uttarakhand,,pauri
+2007-05-067,gangolihat,05,,uttarakhand,,gangolihat
+2007-05-052,mukteshwar,05,,uttarakhand,,mukteshwar
+2007-05-037,kedarnath,05,,uttarakhand,,kedarnath
+2007-05-026,hardwar,05,,uttarakhand,,hardwar
+2007-05-031,bironkhal,05,,uttarakhand,,bironkhal
+2007-05-035,thalisain,05,,uttarakhand,,thalisain
+2007-05-005,tehri,05,,uttarakhand,,dwarahat
+2007-05-064,champawat,05,,uttarakhand,,champawat
+2007-05-060,pantnagar gadarpur,05,,uttarakhand,,pantnagar gadarpur
+2007-05-055,nainital,05,,uttarakhand,,nainital
+2007-05-007,deoprayag,05,,uttarakhand,,deoprayag
+2007-05-063,khatima,05,,uttarakhand,,khatima
+2007-05-048,ranikhet,05,,uttarakhand,,ranikhet
+2007-05-020,roorkee,05,,uttarakhand,,roorkee
+2007-05-049,someshwar,05,,uttarakhand,,someshwar
+2007-05-039,nandprayag,05,,uttarakhand,,nandprayag
+2007-05-028,yamakeshwar,05,,uttarakhand,,yamakeshwar
+2007-05-004,pratapnagar,05,,uttarakhand,,pratapnagar
+2007-05-023,landhaura,05,,uttarakhand,,landhaura
+2007-05-014,dehradun,05,,uttarakhand,,dehradun
+2007-05-010,chakrata,05,,uttarakhand,,chakrata
+2007-05-018,doiwala,05,,uttarakhand,,doiwala
+2007-05-032,lansdowne,05,,uttarakhand,,lansdowne
+2007-05-057,jaspur,05,,uttarakhand,,jaspur
+2007-06-009,ambala city,06,,haryana,,ambala city
+2007-06-029,kiloi,06,,haryana,,kiloi
+2007-06-046,uchana kalan,06,,haryana,,uchana kalan
+2007-06-087,jatusana,06,,haryana,,jatusana
+2007-06-075,ghirai,06,,haryana,,ghirai
+2007-06-071,narnaund,06,,haryana,,narnaund
+2007-06-063,badhra,06,,haryana,,badhra
+2007-06-065,mundhal khurd,06,,haryana,,mundhal khurd
+2007-06-010,naggal,06,,haryana,,naggal
+2007-06-089,ateli,06,,haryana,,ateli
+2007-06-035,jhajjar,06,,haryana,,jhajjar
+2007-06-007,mullana,06,,haryana,,mullana
+2007-06-052,mewla maharajpur,06,,haryana,,mewla maharajpur
+2007-06-068,loharu,06,,haryana,,loharu
+2007-06-016,assandh,06,,haryana,,assandh
+2007-06-030,rohtak,06,,haryana,,rohtak
+2007-06-076,tohana,06,,haryana,,tohana
+2007-06-074,hissar,06,,haryana,,hissar
+2007-06-064,dadri,06,,haryana,,dadri
+2007-06-053,ballabgarh,06,,haryana,,ballabgarh
+2007-06-069,bawani khera,06,,haryana,,bawani khera
+2007-06-079,adampur,06,,haryana,,adampur
+2007-06-090,narnaul,06,,haryana,,narnaul
+2007-06-055,hassanpur,06,,haryana,,hassanpur
+2007-06-070,barwala,06,,haryana,,barwala
+2007-06-020,shahabad,06,,haryana,,shahabad
+2007-06-059,taoru,06,,haryana,,taoru
+2007-06-022,thanesar,06,,haryana,,thanesar
+2007-06-003,sadhaura,06,,haryana,,sadhaura
+2007-06-032,kalanaur,06,,haryana,,kalanaur
+2007-06-080,darba kalan,06,,haryana,,darba kalan
+2007-06-036,badli,06,,haryana,,badli
+2007-06-072,hansi,06,,haryana,,hansi
+2007-06-004,chhachhrauli,06,,haryana,,chhachhrauli
+2007-06-013,karnal,06,,haryana,,karnal
+2007-06-054,palwal,06,,haryana,,palwal
+2007-06-018,sambhalka,06,,haryana,,sambhalka
+2007-06-037,bahadurgarh,06,,haryana,,bahadurgarh
+2007-06-008,ambala cantonment,06,,haryana,,ambala cantonment
+2007-06-001,kalka,06,,haryana,,kalka
+2007-06-028,hassangarh,06,,haryana,,hassangarh
+2007-06-006,jagadhri,06,,haryana,,jagadhri
+2007-06-015,gharaunda,06,,haryana,,gharaunda
+2007-06-002,naraingarh,06,,haryana,,naraingarh
+2007-06-033,beri,06,,haryana,,beri
+2007-06-019,naultha,06,,haryana,,naultha
+2007-06-073,bhattu kalan,06,,haryana,,bhattu kalan
+2007-06-034,salhawas,06,,haryana,,salhawas
+2007-06-024,guhla,06,,haryana,,guhla
+2007-06-066,bhiwani,06,,haryana,,bhiwani
+2007-06-043,rohat,06,,haryana,,rohat
+2007-06-011,indri,06,,haryana,,indri
+2007-06-050,safidon,06,,haryana,,safidon
+2007-06-026,pundri,06,,haryana,,pundri
+2007-06-082,sirsa,06,,haryana,,sirsa
+2007-06-031,meham,06,,haryana,,meham
+2007-06-021,radaur,06,,haryana,,radaur
+2007-06-012,nilokheri,06,,haryana,,nilokheri
+2007-06-083,rori,06,,haryana,,rori
+2007-06-041,sonepat,06,,haryana,,sonepat
+2007-06-086,rewari,06,,haryana,,rewari
+2007-06-049,julana,06,,haryana,,julana
+2007-06-017,panipat,06,,haryana,,panipat
+2007-06-078,fatehabad,06,,haryana,,fatehabad
+2007-06-045,narwana,06,,haryana,,narwana
+2007-06-060,sohna,06,,haryana,,sohna
+2007-06-061,gurgaon,06,,haryana,,gurgaon
+2007-06-067,tosham,06,,haryana,,tosham
+2007-06-025,kaithal,06,,haryana,,kaithal
+2007-06-058,nuh,06,,haryana,,nuh
+2007-06-023,pehowa,06,,haryana,,pehowa
+2007-06-044,kalayat,06,,haryana,,kalayat
+2007-06-085,bawal,06,,haryana,,bawal
+2007-06-084,dabwali,06,,haryana,,dabwali
+2007-06-056,hathin,06,,haryana,,hathin
+2007-06-081,ellenabad,06,,haryana,,ellenabad
+2007-06-062,pataudi,06,,haryana,,pataudi
+2007-06-040,kailana,06,,haryana,,kailana
+2007-06-047,rajond,06,,haryana,,rajond
+2007-06-048,jind,06,,haryana,,jind
+2007-06-042,rai,06,,haryana,,rai
+2007-06-077,ratia,06,,haryana,,ratia
+2007-06-051,faridabad,06,,haryana,,faridabad
+2007-06-027,pai,06,,haryana,,pai
+2007-06-005,yamunanagar,06,,haryana,,yamunanagar
+2007-06-039,gohana,06,,haryana,,gohana
+2007-06-014,jundla,06,,haryana,,jundla
+2007-06-057,ferozepur jhirka,06,,haryana,,ferozepur jhirka
+2007-06-038,baroda,06,,haryana,,baroda
+2007-06-088,mahendragarh,06,,haryana,,mahendragarh
+2007-07-027,hastsal,07,,delhi,,hastsal
+2007-07-007,kalkaji,07,,delhi,,kalkaji
+2007-07-059,balli maran,07,,delhi,,balli maran
+2007-07-039,mandawali,07,,delhi,,mandawali
+2007-07-063,kamla nagar,07,,delhi,,kamla nagar
+2007-07-050,ghonda,07,,delhi,,ghonda
+2007-07-045,seemapuri,07,,delhi,,seemapuri
+2007-07-055,bhalswa jahangirpur,07,,delhi,,bhalswa jahangirpur
+2007-07-010,r k puram,07,,delhi,,r k puram
+2007-07-064,sadar bazar,07,,delhi,,sadar bazar
+2007-07-012,janak puri,07,,delhi,,janak puri
+2007-07-065,moti nagar,07,,delhi,,moti nagar
+2007-07-019,shalimar bagh,07,,delhi,,shalimar bagh
+2007-07-022,bawana,07,,delhi,,bawana
+2007-07-031,mahipalpur,07,,delhi,,mahipalpur
+2007-07-030,palam,07,,delhi,,palam
+2007-07-034,dr ambedkar nagar,07,,delhi,,dr ambedkar nagar
+2007-07-005,jangpura,07,,delhi,,jangpura
+2007-07-014,tilak nagar,07,,delhi,,tilak nagar
+2007-07-062,model town,07,,delhi,,model town
+2007-07-069,ram nagar,07,,delhi,,ram nagar
+2007-07-021,sahibabad daulatpur,07,,delhi,,sahibabad daulatpur
+2007-07-003,minto road,07,,delhi,,minto road
+2007-07-018,shakurbasti,07,,delhi,,shakurbasti
+2007-07-044,shahdara,07,,delhi,,shahdara
+2007-07-023,sultanpur majra,07,,delhi,,sultanpur majra
+2007-07-024,mangolpuri,07,,delhi,,mangolpuri
+2007-07-004,kasturba nagar,07,,delhi,,kasturba nagar
+2007-07-029,nasirpur,07,,delhi,,nasirpur
+2007-07-043,vishwash nagar,07,,delhi,,vishwash nagar
+2007-07-011,delhi cantonment,07,,delhi,,delhi cantonment
+2007-07-016,madipur,07,,delhi,,madipur
+2007-07-008,malviya nagar,07,,delhi,,malviya nagar
+2007-07-006,okhla,07,,delhi,,okhla
+2007-07-035,tuglakabad,07,,delhi,,tughlakabad
+2007-07-015,rajouri garden,07,,delhi,,rajouri garden
+2007-07-051,yamuna vihar,07,,delhi,,yamuna vihar
+2007-07-066,patel nagar,07,,delhi,,patel nagar
+2007-07-048,babarpur,07,,delhi,,babarpur
+2007-07-049,seelampur,07,,delhi,,seelampur
+2007-07-054,narela,07,,delhi,,narela
+2007-07-056,adarsh nagar,07,,delhi,,adarsh nagar
+2007-07-070,baljit nagar,07,,delhi,,baljit nagar
+2007-07-060,chandni chowk,07,,delhi,,chandni chowk
+2007-07-053,wazirpur,07,,delhi,,wazirpur
+2007-07-001,sarojininagar,07,,delhi,,sarojininagar
+2007-07-046,nand nagari,07,,delhi,,nand nagari
+2007-07-068,karol bagh,07,,delhi,,karol bagh
+2007-07-058,matia mahal,07,,delhi,,matia mahal
+2007-07-020,badli,07,,delhi,,badli
+2007-07-052,qarawal nagar,07,,delhi,,qarawal nagar
+2007-07-032,mehrauli,07,,delhi,,mehrauli
+2007-07-061,timarpur,07,,delhi,,timarpur
+2007-07-036,badarpur,07,,delhi,,badarpur
+2007-07-047,rohtas nagar,07,,delhi,,rohtas nagar
+2007-07-067,rajinder nagar,07,,delhi,,rajinder nagar
+2007-07-033,saket,07,,delhi,,saket
+2007-07-009,hauz khas,07,,delhi,,hauz khas
+2007-07-040,geeta colony,07,,delhi,,geeta colony
+2007-07-002,gole market,07,,delhi,,gole market
+2007-07-025,nangloi jat,07,,delhi,,nangloi jat
+2007-07-041,gandhi nagar,07,,delhi,,gandhi nagar
+2007-07-057,pahar ganj,07,,delhi,,pahar ganj
+2007-07-017,tri nagar,07,,delhi,,tri nagar
+2007-07-037,trilokpuri,07,,delhi,,trilok puri
+2007-07-013,hari nagar,07,,delhi,,hari nagar
+2007-07-026,vishnu garden,07,,delhi,,vishnu garden
+2007-07-028,najafgarh,07,,delhi,,najafgarh
+2007-07-042,krishna nagar,07,,delhi,,krishna nagar
+2007-07-038,patpar ganj,07,,delhi,,patpar ganj
+2007-08-080,karauli,08,,rajasthan,,karauli
+2007-08-009,raisinghnagar,08,,rajasthan,,raisinghnagar
+2007-08-010,pilibanga,08,,rajasthan,,pilibanga
+2007-08-183,jodhpur,08,,rajasthan,,jodhpur
+2007-08-099,beawar,08,,rajasthan,,beawar
+2007-08-177,barmer,08,,rajasthan,,barmer
+2007-08-165,sumerpur,08,,rajasthan,,sumerpur
+2007-08-123,kapasin,08,,rajasthan,,kapasin
+2007-08-024,surajgarh,08,,rajasthan,,surajgarh
+2007-08-044,bani park,08,,rajasthan,,bani park
+2007-08-096,ajmer west,08,,rajasthan,,ajmer west
+2007-08-051,bandikui,08,,rajasthan,,bandikui
+2007-08-137,lasadia,08,,rajasthan,,lasadia
+2007-08-097,pushkar,08,,rajasthan,,pushkar
+2007-08-012,lunkaransar,08,,rajasthan,,lunkaransar
+2007-08-115,ramganjmandi,08,,rajasthan,,ramganjmandi
+2007-08-066,066-lachhmangarh,08,,rajasthan,,lachhmangarh
+2007-08-073,rupbas,08,,rajasthan,,rupbas
+2007-08-179,chohtan,08,,rajasthan,,chohtan
+2007-08-074,nadbai,08,,rajasthan,,nadbai
+2007-08-197,parbatsar,08,,rajasthan,,parbatsar
+2007-08-039,amber,08,,rajasthan,,amber
+2007-08-016,dungargarh,08,,rajasthan,,dungargarh
+2007-08-102,kekri,08,,rajasthan,,kekri
+2007-08-112,kishanganj,08,,rajasthan,,kishanganj
+2007-08-045,phulera,08,,rajasthan,,phulera
+2007-08-013,bikaner,08,,rajasthan,,bikaner
+2007-08-070,deeg,08,,rajasthan,,deeg
+2007-08-077,rajakhera,08,,rajasthan,,rajakhera
+2007-08-162,kharchi,08,,rajasthan,,kharchi
+2007-08-113,atru,08,,rajasthan,,atru
+2007-08-101,bhinai,08,,rajasthan,,bhinai
+2007-08-149,kumbhalgarh,08,,rajasthan,,kumbhalgarh
+2007-08-144,salumber,08,,rajasthan,,salumber
+2007-08-158,asind,08,,rajasthan,,asind
+2007-08-040,jaipur rural,08,,rajasthan,,jaipur rural
+2007-08-033,dhod,08,,rajasthan,,dhod
+2007-08-175,siwana,08,,rajasthan,,siwana
+2007-08-189,osian,08,,rajasthan,,osian
+2007-08-060,tizara,08,,rajasthan,,tizara
+2007-08-093,malpura,08,,rajasthan,,malpura
+2007-08-061,khairthal,08,,rajasthan,,khairthal
+2007-08-001,bhadra,08,,rajasthan,,bhadra
+2007-08-042,johribazar,08,,rajasthan,,johribazar
+2007-08-086,hindaun,08,,rajasthan,,hindaun
+2007-08-023,pilani,08,,rajasthan,,pilani
+2007-08-011,suratgarh,08,,rajasthan,,suratgarh
+2007-08-078,dholpur,08,,rajasthan,,dholpur
+2007-08-187,bilara,08,,rajasthan,,bilara
+2007-08-050,sikrai,08,,rajasthan,,sikrai
+2007-08-068,kaman,08,,rajasthan,,kaman
+2007-08-007,kesrisinghpur,08,,rajasthan,,kesrisinghpur
+2007-08-062,ramgarh,08,,rajasthan,,ramgarh
+2007-08-049,lalsot,08,,rajasthan,,lalsot
+2007-08-043,kishanpole,08,,rajasthan,,kishanpole
+2007-08-166,bali,08,,rajasthan,,bali
+2007-08-109,digod,08,,rajasthan,,digod
+2007-08-092,todaraisingh,08,,rajasthan,,todaraisingh
+2007-08-046,dudu,08,,rajasthan,,dudu
+2007-08-063,alwar,08,,rajasthan,,alwar
+2007-08-126,badi sadri,08,,rajasthan,,badi sadri
+2007-08-159,jaitaran,08,,rajasthan,,jaitaran
+2007-08-098,nasirabad,08,,rajasthan,,nasirabad
+2007-08-026,gudha,08,,rajasthan,,gudha
+2007-08-120,dag,08,,rajasthan,,dag
+2007-08-139,mavli,08,,rajasthan,,mavli
+2007-08-008,karanpur,08,,rajasthan,,karanpur
+2007-08-064,thanagazi,08,,rajasthan,,thanagazi
+2007-08-138,vallabhnagar,08,,rajasthan,,vallabhnagar
+2007-08-110,pipalda,08,,rajasthan,,pipalda
+2007-08-028,jhunjhunu,08,,rajasthan,,jhunjhunu
+2007-08-130,ghatol,08,,rajasthan,,ghatol
+2007-08-174,ahore,08,,rajasthan,,ahore
+2007-08-005,sangaria,08,,rajasthan,,sangaria
+2007-08-072,bharatpur,08,,rajasthan,,bharatpur
+2007-08-152,sahada,08,,rajasthan,,sahada
+2007-08-095,ajmer east,08,,rajasthan,,ajmer east
+2007-08-195,nawan,08,,rajasthan,,nawan
+2007-08-006,ganganagar,08,,rajasthan,,ganganagar
+2007-08-048,phagi,08,,rajasthan,,phagi
+2007-08-003,tibi,08,,rajasthan,,tibi
+2007-08-083,sawai madhopur,08,,rajasthan,,sawai madhopur
+2007-08-148,gongunda,08,,rajasthan,,gongunda
+2007-08-124,chittorgarh,08,,rajasthan,,chittorgarh
+2007-08-135,dungarpur,08,,rajasthan,,dungarpur
+2007-08-059,mandawar,08,,rajasthan,,mandawar
+2007-08-164,pali,08,,rajasthan,,pali
+2007-08-172,bhinmal,08,,rajasthan,,bhinmal
+2007-08-181,jaisalmer,08,,rajasthan,,jaisalmer
+2007-08-134,chorasi,08,,rajasthan,,chorasi
+2007-08-118,jhalrapatan,08,,rajasthan,,jhalrapatan
+2007-08-037,neem ka thana,08,,rajasthan,,neem ka thana
+2007-08-094,kishangarh,08,,rajasthan,,kishangarh
+2007-08-150,bhim,08,,rajasthan,,bhim
+2007-08-082,khandar,08,,rajasthan,,khandar
+2007-08-067,kathumar,08,,rajasthan,,kathumar
+2007-08-176,pachpadra,08,,rajasthan,,pachpadra
+2007-08-117,manohar thana,08,,rajasthan,,manohar thana
+2007-08-019,sardarshahar,08,,rajasthan,,sardarshahar
+2007-08-104,nainwa,08,,rajasthan,,nainwa
+2007-08-125,nimbahera,08,,rajasthan,,nimbahera
+2007-08-143,udaipur rural,08,,rajasthan,,udaipur rural
+2007-08-145,sarada,08,,rajasthan,,sarada
+2007-08-194,deedwana,08,,rajasthan,,deedwana
+2007-08-173,jalore,08,,rajasthan,,jalore
+2007-08-079,bari,08,,rajasthan,,bari
+2007-08-198,degana,08,,rajasthan,,degana
+2007-08-014,kolayat,08,,rajasthan,,kolayat
+2007-08-088,toda bhim,08,,rajasthan,,toda bhim
+2007-08-075,weir,08,,rajasthan,,weir
+2007-08-055,bairath,08,,rajasthan,,bairath
+2007-08-090,tonk,08,,rajasthan,,tonk
+2007-08-017,sujangarh,08,,rajasthan,,sujangarh
+2007-08-069,nagar,08,,rajasthan,,nagar
+2007-08-163,desuri,08,,rajasthan,,desuri
+2007-08-151,mandal,08,,rajasthan,,mandal
+2007-08-193,ladnu,08,,rajasthan,,ladnu
+2007-08-132,bagidora,08,,rajasthan,,bagidora
+2007-08-131,banswara,08,,rajasthan,,banswara
+2007-08-170,sanchore,08,,rajasthan,,sanchore
+2007-08-035,srimadhopur,08,,rajasthan,,srimadhopur
+2007-08-106,bundi,08,,rajasthan,,bundi
+2007-08-185,sursagar,08,,rajasthan,,sursagar
+2007-08-108,ladpura,08,,rajasthan,,ladpura
+2007-08-188,bhopalgarh,08,,rajasthan,,bhopalgarh
+2007-08-056,kotputli,08,,rajasthan,,kotputli
+2007-08-154,mandalgarh,08,,rajasthan,,mandalgarh
+2007-08-155,jahazpur,08,,rajasthan,,jahazpur
+2007-08-119,pirawa,08,,rajasthan,,pirawa
+2007-08-141,nathdwara,08,,rajasthan,,nathdwara
+2007-08-100,masuda,08,,rajasthan,,masuda
+2007-08-161,sojat,08,,rajasthan,,sojat
+2007-08-084,bamanwas,08,,rajasthan,,bamanwas st
+2007-08-168,pindwara abu,08,,rajasthan,,pindwara abu
+2007-08-054,jamwa ramgarh,08,,rajasthan,,jamwa ramgarh
+2007-08-015,nokha,08,,rajasthan,,nokha
+2007-08-160,raipur,08,,rajasthan,,raipur
+2007-08-127,pratapgarh,08,,rajasthan,,pratapgarh
+2007-08-191,nagaur,08,,rajasthan,,nagaur
+2007-08-190,phalodi,08,,rajasthan,,phalodi
+2007-08-018,ratangarh,08,,rajasthan,,ratangarh
+2007-08-027,nawalgarh,08,,rajasthan,,nawalgarh
+2007-08-047,sanganer,08,,rajasthan,,sanganer
+2007-08-107,kota,08,,rajasthan,,kota
+2007-08-057,bansur,08,,rajasthan,,bansur
+2007-08-025,khetri,08,,rajasthan,,khetri
+2007-08-022,sadulpur,08,,rajasthan,,sadulpur
+2007-08-171,raniwara,08,,rajasthan,,raniwara
+2007-08-058,behror,08,,rajasthan,,behror
+2007-08-029,mandawa,08,,rajasthan,,mandawa
+2007-08-089,niwai,08,,rajasthan,,niwai
+2007-08-186,luni,08,,rajasthan,,luni
+2007-08-136,aspur,08,,rajasthan,,aspur st
+2007-08-147,phalasia,08,,rajasthan,,phalasia
+2007-08-167,sirohi,08,,rajasthan,,sirohi
+2007-08-199,merta,08,,rajasthan,,merta
+2007-08-071,kumher,08,,rajasthan,,kumher
+2007-08-103,hindoli,08,,rajasthan,,hindoli
+2007-08-020,churu,08,,rajasthan,,churu
+2007-08-129,danpur,08,,rajasthan,,danpur
+2007-08-032,sikar,08,,rajasthan,,sikar
+2007-08-169,reodar,08,,rajasthan,,reodar
+2007-08-004,hanumangarh,08,,rajasthan,,hanumangarh
+2007-08-142,udaipur,08,,rajasthan,,udaipur
+2007-08-036,khandela,08,,rajasthan,,khandela
+2007-08-085,gangapur,08,,rajasthan,,gangapur
+2007-08-038,chomu,08,,rajasthan,,chomu
+2007-08-034,danta ramgarh,08,,rajasthan,,danta ramgarh
+2007-08-021,taranagar,08,,rajasthan,,taranagar
+2007-08-031,031-lachhmangarh,08,,rajasthan,,lachhmangarh
+2007-08-196,makrana,08,,rajasthan,,makrana
+2007-08-192,jayal,08,,rajasthan,,jayal
+2007-08-111,baran,08,,rajasthan,,baran
+2007-08-156,shahpura,08,,rajasthan,,shahpura
+2007-08-053,bassi,08,,rajasthan,,bassi
+2007-08-182,shergarh,08,,rajasthan,,shergarh
+2007-08-116,khanpur,08,,rajasthan,,khanpur
+2007-08-180,sheo,08,,rajasthan,,sheo
+2007-08-178,gudamalani,08,,rajasthan,,gudamalani
+2007-08-121,begun,08,,rajasthan,,begun
+2007-08-041,hawamahal,08,,rajasthan,,hawamahal
+2007-08-153,bhilwara,08,,rajasthan,,bhilwara
+2007-08-140,rajsamand,08,,rajasthan,,rajsamand
+2007-08-128,kushalgarh,08,,rajasthan,,kushalgarh
+2007-08-200,mundwa,08,,rajasthan,,mundwa
+2007-08-105,patan,08,,rajasthan,,patan
+2007-08-052,dausa,08,,rajasthan,,dausa
+2007-08-114,chhabra,08,,rajasthan,,chhabra
+2007-08-087,mahuwa,08,,rajasthan,,mahuwa
+2007-08-146,kherwara,08,,rajasthan,,kherwara
+2007-08-076,bayana,08,,rajasthan,,bayana
+2007-08-122,gangrar,08,,rajasthan,,gangrar
+2007-08-091,uniara,08,,rajasthan,,uniara
+2007-08-081,sapotra,08,,rajasthan,,sapotra
+2007-08-133,sagwara,08,,rajasthan,,sagwara
+2007-08-065,rajgarh,08,,rajasthan,,rajgarh
+2007-08-030,fatehpur,08,,rajasthan,,fatehpur
+2007-08-002,nohar,08,,rajasthan,,nohar
+2007-08-157,banera,08,,rajasthan,,banera
+2007-08-184,sardarpura,08,,rajasthan,,sardarpura
+2007-09-261,allahabad west,09,,uttar pradesh,,allahabadwest
+2007-09-303,banda,09,,uttar pradesh,,banda
+2007-09-198,phulpur,09,,uttar pradesh,,phulpur
+2007-09-360,barauli,09,,uttar pradesh,,barauli
+2007-09-046,nigohi,09,,uttar pradesh,,nigohi
+2007-09-006,bijnor,09,,uttar pradesh,,bijnor
+2007-09-003,afzalgarh,09,,uttar pradesh,,afzalgarh
+2007-09-053,paila,09,,uttar pradesh,,paila
+2007-09-134,charda,09,,uttar pradesh,,charda
+2007-09-074,bilgram,09,,uttar pradesh,,bilgram
+2007-09-083,malihabad,09,,uttar pradesh,,malihabad
+2007-09-045,powayan,09,,uttar pradesh,,powayan
+2007-09-312,jhansi,09,,uttar pradesh,,jhansi
+2007-09-193,sagri,09,,uttar pradesh,,sagri
+2007-09-044,puranpur,09,,uttar pradesh,,puranpur
+2007-09-282,chaubepur,09,,uttar pradesh,,chaubepur
+2007-09-145,gonda,09,,uttar pradesh,,gonda
+2007-09-337,fatehabad,09,,uttar pradesh,,fatehabad
+2007-09-139,tulsipur,09,,uttar pradesh,,tulsipur
+2007-09-126,masauli,09,,uttar pradesh,,masauli
+2007-09-164,dhuriapar,09,,uttar pradesh,,dhuriapar
+2007-09-113,katehari,09,,uttar pradesh,,katehari
+2007-09-358,koil,09,,uttar pradesh,,koil
+2007-09-321,kishni,09,,uttar pradesh,,kishni
+2007-09-098,kunda,09,,uttar pradesh,,kunda
+2007-09-386,barnawa,09,,uttar pradesh,,barnawa
+2007-09-216,zamania,09,,uttar pradesh,,zamania
+2007-09-251,meja,09,,uttar pradesh,,meja
+2007-09-397,nakur,09,,uttar pradesh,,nakur
+2007-09-009,amroha,09,,uttar pradesh,,amroha
+2007-09-158,bansi,09,,uttar pradesh,,bansi
+2007-09-352,hathras,09,,uttar pradesh,,hathras
+2007-09-116,jahangirganj,09,,uttar pradesh,,jahangirganj
+2007-09-088,lucknow cantonment,09,,uttar pradesh,,lucknow cantonment
+2007-09-273,generalganj,09,,uttar pradesh,,generalganj
+2007-09-090,mohanlalganj,09,,uttar pradesh,,mohanlalganj
+2007-09-335,firozabad,09,,uttar pradesh,,firozabad
+2007-09-203,mohammadabad gohna,09,,uttar pradesh,,mohammadabad gohna
+2007-09-068,sandila,09,,uttar pradesh,,sandila
+2007-09-315,garoutha,09,,uttar pradesh,,garoutha
+2007-09-230,gangapur,09,,uttar pradesh,,gangapur
+2007-09-278,ghatampur,09,,uttar pradesh,,ghatampur
+2007-09-023,023-shahabad,09,,uttar pradesh,,shahabad
+2007-09-237,beyalsi,09,,uttar pradesh,,beyalsi
+2007-09-322,karhal,09,,uttar pradesh,,karhal
+2007-09-069,ahirori,09,,uttar pradesh,,ahirori
+2007-09-071,bawan,09,,uttar pradesh,,bawan
+2007-09-042,barkhera,09,,uttar pradesh,,barkhera
+2007-09-231,aurai,09,,uttar pradesh,,aurai
+2007-09-102,pratapgarh,09,,uttar pradesh,,pratapgarh
+2007-09-236,kerakat,09,,uttar pradesh,,kerakat
+2007-09-307,rath,09,,uttar pradesh,,rath
+2007-09-240,shahganj,09,,uttar pradesh,,shahganj
+2007-09-348,chhata,09,,uttar pradesh,,chhata
+2007-09-268,268-fatehpur,09,,uttar pradesh,,fatehpur
+2007-09-072,pihani,09,,uttar pradesh,,pihani
+2007-09-076,bangarmau,09,,uttar pradesh,,bangarmau
+2007-09-378,hastinapur,09,,uttar pradesh,,hastinapur
+2007-09-125,haidergarh,09,,uttar pradesh,,haidergarh
+2007-09-368,bulandshahr,09,,uttar pradesh,,bulandshahr
+2007-09-388,kandhla,09,,uttar pradesh,,kandhla
+2007-09-120,milkipur,09,,uttar pradesh,,milkipur
+2007-09-138,gainsari,09,,uttar pradesh,,gainsari
+2007-09-350,gokul,09,,uttar pradesh,,gokul
+2007-09-136,bahraich,09,,uttar pradesh,,bahraich
+2007-09-024,bisauli,09,,uttar pradesh,,bisauli
+2007-09-191,natthupur,09,,uttar pradesh,,natthupur
+2007-09-361,khair,09,,uttar pradesh,,khair
+2007-09-353,sasni,09,,uttar pradesh,,sasni
+2007-09-128,128-fatehpur,09,,uttar pradesh,,fatehpur
+2007-09-223,chakia,09,,uttar pradesh,,chakia
+2007-09-101,gadwara,09,,uttar pradesh,,gadwara
+2007-09-177,shyam deurwa,09,,uttar pradesh,,shyam deurwa
+2007-09-108,issauli,09,,uttar pradesh,,issauli
+2007-09-165,chillupar,09,,uttar pradesh,,chillupar
+2007-09-254,jhusi,09,,uttar pradesh,,jhusi
+2007-09-274,kanpur cantonment,09,,uttar pradesh,,kanpur cantonment
+2007-09-232,gyanpur,09,,uttar pradesh,,gyanpur
+2007-09-062,laharpur,09,,uttar pradesh,,laharpur
+2007-09-154,domariaganj,09,,uttar pradesh,,domariyaganj
+2007-09-017,moradabad,09,,uttar pradesh,,moradabad
+2007-09-179,ramkola,09,,uttar pradesh,,ramkola
+2007-09-141,utraula,09,,uttar pradesh,,utraula
+2007-09-286,ajitmal,09,,uttar pradesh,,ajitmal
+2007-09-252,karchana,09,,uttar pradesh,,karchana
+2007-09-155,itwa,09,,uttar pradesh,,itwa
+2007-09-031,dataganj,09,,uttar pradesh,,dataganj
+2007-09-284,derapur,09,,uttar pradesh,,derapur
+2007-09-262,chail,09,,uttar pradesh,,chail
+2007-09-279,bhognipur,09,,uttar pradesh,,bhognipur
+2007-09-063,sitapur,09,,uttar pradesh,,sitapur
+2007-09-105,amethi,09,,uttar pradesh,,amethi
+2007-09-163,bansgaon,09,,uttar pradesh,,bansgaon
+2007-09-131,fakharpur,09,,uttar pradesh,,fakharpur
+2007-09-181,padrauna,09,,uttar pradesh,,padaruna
+2007-09-097,salon,09,,uttar pradesh,,salon
+2007-09-119,bikapur,09,,uttar pradesh,,bikapur
+2007-09-264,sirathu,09,,uttar pradesh,,sirathu
+2007-09-077,safipur,09,,uttar pradesh,,safipur
+2007-09-288,etawah,09,,uttar pradesh,,etawah
+2007-09-283,bilhaur,09,,uttar pradesh,,bilhaur
+2007-09-371,dadri,09,,uttar pradesh,,dadri
+2007-09-293,umardha,09,,uttar pradesh,,umardha
+2007-09-318,kalpi,09,,uttar pradesh,,kalpi
+2007-09-150,captainganj,09,,uttar pradesh,,captainganj
+2007-09-370,sikandrabad,09,,uttar pradesh,,sikandrabad
+2007-09-201,lalganj,09,,uttar pradesh,,lalganj
+2007-09-331,kasganj,09,,uttar pradesh,,kasganj
+2007-09-281,sarvankhera,09,,uttar pradesh,,sarvankhera
+2007-09-270,bindki,09,,uttar pradesh,,bindki
+2007-09-357,aligarh,09,,uttar pradesh,,aligarh
+2007-09-176,maharajganj,09,,uttar pradesh,,maharajganj
+2007-09-367,agota,09,,uttar pradesh,,agota
+2007-09-280,rajpur,09,,uttar pradesh,,rajpur
+2007-09-339,etmadpur,09,,uttar pradesh,,naagal
+2007-09-172,paniara,09,,uttar pradesh,,paniara
+2007-09-275,govindnagar,09,,uttar pradesh,,govindnagar
+2007-09-190,barhaj,09,,uttar pradesh,,barhaj
+2007-09-319,madhogarh,09,,uttar pradesh,,madhogarh
+2007-09-091,bachhrawan,09,,uttar pradesh,,bachhrawan
+2007-09-180,hata,09,,uttar pradesh,,hata
+2007-09-026,sahaswan,09,,uttar pradesh,,sahaswan
+2007-09-316,konch,09,,uttar pradesh,,konch
+2007-09-079,hadha,09,,uttar pradesh,,hadha
+2007-09-040,baheri,09,,uttar pradesh,,baheri
+2007-09-215,dildarnagar,09,,uttar pradesh,,dildarnagar
+2007-09-025,gunnaur,09,,uttar pradesh,,gunnaur
+2007-09-212,kopachit,09,,uttar pradesh,,kopachit
+2007-09-070,hardoi,09,,uttar pradesh,,hardoi
+2007-09-169,gorakhpur,09,,uttar pradesh,,gorakhpur
+2007-09-242,garwara,09,,uttar pradesh,,garwara
+2007-09-140,balrampur,09,,uttar pradesh,,balrampur
+2007-09-057,dhaurehra,09,,uttar pradesh,,dhaurehra
+2007-09-379,sardhana,09,,uttar pradesh,,sardhana
+2007-09-258,nawabganj,09,,uttar pradesh,,nawabganj
+2007-09-308,charkhari,09,,uttar pradesh,,charkhari
+2007-09-375,hapur,09,,uttar pradesh,,hapur
+2007-09-174,lakshmipur,09,,uttar pradesh,,lakshmipur
+2007-09-022,bilaspur,09,,uttar pradesh,,bilaspur
+2007-09-249,mirzapur,09,,uttar pradesh,,mirzapur
+2007-09-305,hamirpur,09,,uttar pradesh,,hamirpur
+2007-09-130,kaiserganj,09,,uttar pradesh,,kaiserganj
+2007-09-301,baberu,09,,uttar pradesh,,baberu
+2007-09-160,menhdawal,09,,uttar pradesh,,menhdawal
+2007-09-110,jaisinghpur,09,,uttar pradesh,,jaisinghpur
+2007-09-359,iglas,09,,uttar pradesh,,iglas
+2007-09-124,siddhaur,09,,uttar pradesh,,siddhaur
+2007-09-196,nizamabad,09,,uttar pradesh,,nizamabad
+2007-09-050,shahjahanpur,09,,uttar pradesh,,shahjahanpur
+2007-09-243,machhlishahr,09,,uttar pradesh,,machhlishahr
+2007-09-326,mainpuri,09,,uttar pradesh,,mainpuri
+2007-09-265,khaga,09,,uttar pradesh,,khaga
+2007-09-302,tindwari,09,,uttar pradesh,,tindwari
+2007-09-204,mau,09,,uttar pradesh,,mau
+2007-09-075,mallawan,09,,uttar pradesh,,mallawan
+2007-09-233,bhadohi,09,,uttar pradesh,,bhadohi
+2007-09-059,biswan,09,,uttar pradesh,,biswan
+2007-09-291,bidhuna,09,,uttar pradesh,,bidhuna
+2007-09-259,allahabad north,09,,uttar pradesh,,allahabad north
+2007-09-186,rudrapur,09,,uttar pradesh,,rudrapur
+2007-09-183,fazilnagar,09,,uttar pradesh,,fazilnagar
+2007-09-226,varanasi south,09,,uttar pradesh,,varanasi south
+2007-09-235,mariahu,09,,uttar pradesh,,mariahu
+2007-09-146,katra bazar,09,,uttar pradesh,,katra bazar
+2007-09-241,khutahan,09,,uttar pradesh,,khutahan
+2007-09-356,atrauli,09,,uttar pradesh,,atrauli
+2007-09-247,chunar,09,,uttar pradesh,,chunar
+2007-09-299,manikpur,09,,uttar pradesh,,manikpur
+2007-09-081,purwa,09,,uttar pradesh,,purwa
+2007-09-005,nazibabad,09,,uttar pradesh,,nazibabad
+2007-09-036,bareilly city,09,,uttar pradesh,,bareilly city
+2007-09-189,salempur,09,,uttar pradesh,,salempur
+2007-09-210,doaba,09,,uttar pradesh,,doaba
+2007-09-060,mahmudabad,09,,uttar pradesh,,mahmudabad
+2007-09-398,sarsawa,09,,uttar pradesh,,sarsawa
+2007-09-289,jaswantnagar,09,,uttar pradesh,,jaswantnagar
+2007-09-055,srinagar,09,,uttar pradesh,,srinagar
+2007-09-100,rampur khas,09,,uttar pradesh,,rampur khas
+2007-09-304,naraini,09,,uttar pradesh,,naraini
+2007-09-048,jalalabad,09,,uttar pradesh,,jalalabad
+2007-09-221,dhanapur,09,,uttar pradesh,,dhanapur
+2007-09-144,mujehna,09,,uttar pradesh,,mujehna
+2007-09-364,debai,09,,uttar pradesh,,debai
+2007-09-188,bhatpar rani,09,,uttar pradesh,,bhatpar rani
+2007-09-390,jansath,09,,uttar pradesh,,jansath
+2007-09-394,baghra,09,,uttar pradesh,,baghra
+2007-09-219,sadat,09,,uttar pradesh,,sadat
+2007-09-332,etah,09,,uttar pradesh,,etah
+2007-09-016,moradabad west,09,,uttar pradesh,,moradabad west
+2007-09-314,mauranipur,09,,uttar pradesh,,mauranipur
+2007-09-269,jahanabad,09,,uttar pradesh,,jahanabad
+2007-09-094,sataon,09,,uttar pradesh,,sataon
+2007-09-336,bah,09,,uttar pradesh,,bah
+2007-09-208,sikandarpur,09,,uttar pradesh,,sikandarpur
+2007-09-028,budaun,09,,uttar pradesh,,budaun
+2007-09-162,hainsarbazar,09,,uttar pradesh,,hainsarbazar
+2007-09-200,mehnagar,09,,uttar pradesh,,mehnagar
+2007-09-365,anupshahr,09,,uttar pradesh,,anupshahr
+2007-09-211,ballia,09,,uttar pradesh,,ballia
+2007-09-391,morna,09,,uttar pradesh,,morna
+2007-09-342,agra east,09,,uttar pradesh,,agra east
+2007-09-306,maudaha,09,,uttar pradesh,,maudaha
+2007-09-085,lucknow east,09,,uttar pradesh,,lucknow east
+2007-09-104,patti,09,,uttar pradesh,,patti
+2007-09-402,saharanpur,09,,uttar pradesh,,saharanpur
+2007-09-387,chaprauli,09,,uttar pradesh,,chaprauli
+2007-09-206,siar,09,,uttar pradesh,,siar
+2007-09-343,agra west,09,,uttar pradesh,,agra west
+2007-09-330,soron,09,,uttar pradesh,,soron
+2007-09-341,agra cantonment,09,,uttar pradesh,,agra cantonment
+2007-09-297,kaimganj,09,,uttar pradesh,,kaimganj
+2007-09-067,beniganj,09,,uttar pradesh,,beniganj
+2007-09-099,bihar,09,,uttar pradesh,,bihar
+2007-09-008,kanth,09,,uttar pradesh,,kanth
+2007-09-109,sultanpur,09,,uttar pradesh,,sultanpur
+2007-09-340,dayalbagh,09,,uttar pradesh,,dayalbagh
+2007-09-290,bharthana,09,,uttar pradesh,,bharthana
+2007-09-295,kamalganj,09,,uttar pradesh,,kamalganj
+2007-09-061,sidhauli,09,,uttar pradesh,,sidhauli
+2007-09-392,muzaffarnagar,09,,uttar pradesh,,muzaffarnagar
+2007-09-239,rari,09,,uttar pradesh,,rari
+2007-09-103,birapur,09,,uttar pradesh,,birapur
+2007-09-292,kannauj,09,,uttar pradesh,,kannauj
+2007-09-244,dudhi,09,,uttar pradesh,,dudhi
+2007-09-011,gangeshwari,09,,uttar pradesh,,gangeshwari
+2007-09-213,zahoorabad,09,,uttar pradesh,,zahoorabad
+2007-09-185,gauri bazar,09,,uttar pradesh,,gauri bazar
+2007-09-187,deoria,09,,uttar pradesh,,deoria
+2007-09-222,chandauli,09,,uttar pradesh,,chandauli
+2007-09-018,moradabad rural,09,,uttar pradesh,,moradabad rural
+2007-09-168,pipraich,09,,uttar pradesh,,pipraich
+2007-09-323,shikohabad,09,,uttar pradesh,,shikohabad
+2007-09-082,hasanganj,09,,uttar pradesh,,hasanganj
+2007-09-107,jagdishpur,09,,uttar pradesh,,jagdishpur
+2007-09-192,ghosi,09,,uttar pradesh,,ghosi
+2007-09-344,kheragarh,09,,uttar pradesh,,kheeraghad
+2007-09-374,modinagar,09,,uttar pradesh,,modinagar
+2007-09-389,khatauli,09,,uttar pradesh,,khatauli
+2007-09-263,manjhanpur,09,,uttar pradesh,,manjhanpur
+2007-09-366,siana,09,,uttar pradesh,,siana
+2007-09-043,bisalpur,09,,uttar pradesh,,bisalpur
+2007-09-296,farrukhabad,09,,uttar pradesh,,farukkhabad htm
+2007-09-272,sisamau,09,,uttar pradesh,,sisamau
+2007-09-147,colonelganj,09,,uttar pradesh,,colonelganj
+2007-09-245,robertsganj,09,,uttar pradesh,,robertsganj
+2007-09-194,gopalpur,09,,uttar pradesh,,gopalpur
+2007-09-173,pharenda,09,,uttar pradesh,,pharenda
+2007-09-267,haswa,09,,uttar pradesh,,haswa
+2007-09-152,basti,09,,uttar pradesh,,basti
+2007-09-310,mehroni,09,,uttar pradesh,,mehroni
+2007-09-111,chanda,09,,uttar pradesh,,chanda
+2007-09-260,allahabad south,09,,uttar pradesh,,allahabad south
+2007-09-015,kunderki,09,,uttar pradesh,,kunderki
+2007-09-403,muzaffarabad,09,,uttar pradesh,,muzaffarabad
+2007-09-166,kauriram,09,,uttar pradesh,,kauriram
+2007-09-287,lakhana,09,,uttar pradesh,,lakhana
+2007-09-294,chhibramau,09,,uttar pradesh,,chhibramau
+2007-09-202,mubarakpur,09,,uttar pradesh,,mubarakpur
+2007-09-325,ghiror,09,,uttar pradesh,,ghiror
+2007-09-205,rasra,09,,uttar pradesh,,rasra
+2007-09-377,kithore,09,,uttar pradesh,,kithore
+2007-09-092,tiloi,09,,uttar pradesh,,tiloi
+2007-09-115,jalalpur,09,,uttar pradesh,,jalalpur
+2007-09-383,siwalkhas,09,,uttar pradesh,,siwalkhas
+2007-09-095,sareni,09,,uttar pradesh,,sareni
+2007-09-151,nagar east,09,,uttar pradesh,,nagar east
+2007-09-064,hargaon,09,,uttar pradesh,,hargaon
+2007-09-313,babina,09,,uttar pradesh,,babina
+2007-09-257,soraon,09,,uttar pradesh,,soraon
+2007-09-143,mankapur,09,,uttar pradesh,,mankapur
+2007-09-133,nanpara,09,,uttar pradesh,,nanpara
+2007-09-250,chhanvey,09,,uttar pradesh,,chhanvey
+2007-09-142,sadullanagar,09,,uttar pradesh,,sadullanagar
+2007-09-029,usehat,09,,uttar pradesh,,usehat
+2007-09-020,suar tanda,09,,uttar pradesh,,suar tanda
+2007-09-047,tilhar,09,,uttar pradesh,,tilhar
+2007-09-229,kolasla,09,,uttar pradesh,,kolasla
+2007-09-224,mughalsarai,09,,uttar pradesh,,mughalsarai
+2007-09-345,fatehpur sikri,09,,uttar pradesh,,fatehpur sikri
+2007-09-324,jasrana,09,,uttar pradesh,,jasrana
+2007-09-058,behta,09,,uttar pradesh,,behta
+2007-09-010,hasanpur,09,,uttar pradesh,,hasanpur
+2007-09-167,mundera bazar,09,,uttar pradesh,,mundera bazar
+2007-09-032,aonla,09,,uttar pradesh,,aonla
+2007-09-041,pilibhit,09,,uttar pradesh,,pilibhit
+2007-09-363,khurja,09,,uttar pradesh,,khurja
+2007-09-327,aliganj,09,,uttar pradesh,,aliganj
+2007-09-051,mohamdi,09,,uttar pradesh,,mohamdi
+2007-09-038,bhojipura,09,,uttar pradesh,,bhojipura
+2007-09-334,jalesar,09,,uttar pradesh,,jalesar
+2007-09-080,bhagwantnagar,09,,uttar pradesh,,bhagwantnagar
+2007-09-027,bilsi,09,,uttar pradesh,,bilsi
+2007-09-014,chandausi,09,,uttar pradesh,,chandausi
+2007-09-333,nidhauli kalan,09,,uttar pradesh,,nidholi kalan
+2007-09-276,kalyanpur pramodenagar,09,,uttar pradesh,,kalyanpur pramodenagar
+2007-09-001,seohara,09,,uttar pradesh,,seohara
+2007-09-382,kharkhauda,09,,uttar pradesh,,kharkhauda
+2007-09-209,bansdih,09,,uttar pradesh,,bansdih
+2007-09-086,lucknow west,09,,uttar pradesh,,lucknow west
+2007-09-354,sikandara rao,09,,uttar pradesh,,sikandara rao
+2007-09-256,pratappur,09,,uttar pradesh,,pratappur
+2007-09-123,dariyabad,09,,uttar pradesh,,dariyabad
+2007-09-148,dixir,09,,uttar pradesh,,dixir
+2007-09-277,sarsaul,09,,uttar pradesh,,sarsaul
+2007-09-373,muradnagar,09,,uttar pradesh,,muradnagar
+2007-09-153,153-ramnagar,09,,uttar pradesh,,ramnagar
+2007-09-328,patiali,09,,uttar pradesh,,patiali
+2007-09-225,varanasi cantonment,09,,uttar pradesh,,varanasi cantonment
+2007-09-248,majhwa,09,,uttar pradesh,,majhwa
+2007-09-238,jaunpur,09,,uttar pradesh,,jaunpur
+2007-09-218,jakhania,09,,uttar pradesh,,jakhania
+2007-09-253,bara,09,,uttar pradesh,,bara
+2007-09-073,073-shahabad,09,,uttar pradesh,,shahabad
+2007-09-002,dhampur,09,,uttar pradesh,,dhampur
+2007-09-207,chilkahar,09,,uttar pradesh,,chilkahar
+2007-09-106,gauriganj,09,,uttar pradesh,,gauriganj
+2007-09-118,ayodhya,09,,uttar pradesh,,ayodhya
+2007-09-329,sakit,09,,uttar pradesh,,sakit
+2007-09-137,ikauna,09,,uttar pradesh,,ikauna
+2007-09-127,127-nawabganj,09,,uttar pradesh,,nawabganj
+2007-09-039,kawar,09,,uttar pradesh,,kawar
+2007-09-199,saraimir,09,,uttar pradesh,,saraimir
+2007-09-178,naurangia,09,,uttar pradesh,,naurangia
+2007-09-369,shikarpur,09,,uttar pradesh,,shikarpur
+2007-09-021,rampur,09,,uttar pradesh,,rampur
+2007-09-132,mahsi,09,,uttar pradesh,,mahsi
+2007-09-135,bhinga,09,,uttar pradesh,,bhinga
+2007-09-347,mathura,09,,uttar pradesh,,mathura
+2007-09-033,sunha,09,,uttar pradesh,,sunha
+2007-09-129,129-ramnagar,09,,uttar pradesh,,ramnagar
+2007-09-362,jewar,09,,uttar pradesh,,jewar
+2007-09-089,sarojininagar,09,,uttar pradesh,,sarojininagar
+2007-09-346,goverdhan,09,,uttar pradesh,,goverdhan
+2007-09-384,khekra,09,,uttar pradesh,,khekra
+2007-09-093,rae bareli,09,,uttar pradesh,,rae bareli
+2007-09-197,atraulia,09,,uttar pradesh,,atraulia
+2007-09-035,bareilly cantonment,09,,uttar pradesh,,bareilly cantonment
+2007-09-019,thakurdwara,09,,uttar pradesh,,thakurdwara
+2007-09-013,bahjoi,09,,uttar pradesh,,bahjoi
+2007-09-320,bhongaon,09,,uttar pradesh,,bhongaon
+2007-09-399,nagal,09,,uttar pradesh,,nagal
+2007-09-317,orai,09,,uttar pradesh,,orai
+2007-09-161,khalilabad,09,,uttar pradesh,,khalilabad
+2007-09-376,garhmukteshwar,09,,uttar pradesh,,garhmukteshwar
+2007-09-351,sadabad,09,,uttar pradesh,,sadabad
+2007-09-298,mohammdabad,09,,uttar pradesh,,mohammdabad
+2007-09-400,deoband,09,,uttar pradesh,,deoband
+2007-09-030,binawar,09,,uttar pradesh,,binawar
+2007-09-285,auraiya,09,,uttar pradesh,,auraiya
+2007-09-401,harora,09,,uttar pradesh,,harora
+2007-09-385,baghpat,09,,uttar pradesh,,baghpat
+2007-09-217,ghazipur,09,,uttar pradesh,,ghazipur
+2007-09-349,mat,09,,uttar pradesh,,mat
+2007-09-372,ghaziabad,09,,uttar pradesh,,ghaziabad
+2007-09-117,tanda,09,,uttar pradesh,,tanda
+2007-09-255,handia,09,,uttar pradesh,,handia
+2007-09-122,rudauli,09,,uttar pradesh,,rudauli
+2007-09-395,kairana,09,,uttar pradesh,,kairana
+2007-09-159,khesraha,09,,uttar pradesh,,khesraha
+2007-09-380,meerut cantonment,09,,uttar pradesh,,meerut cantonment
+2007-09-171,sahjanwa,09,,uttar pradesh,,sahjanwa
+2007-09-157,naugarh,09,,uttar pradesh,,naugarh
+2007-09-246,rajgarh,09,,uttar pradesh,,rajgarh
+2007-09-227,varanasi north,09,,uttar pradesh,,varanasi
+2007-09-234,barsathi,09,,uttar pradesh,,barsathi
+2007-09-084,mohana,09,,uttar pradesh,,mohana
+2007-09-195,azamgarh,09,,uttar pradesh,,azamgarh
+2007-09-066,machhrehta,09,,uttar pradesh,,machhrehta
+2007-09-309,mahoba,09,,uttar pradesh,,mahoba
+2007-09-170,maniram,09,,uttar pradesh,,maniram
+2007-09-311,lalitpur,09,,uttar pradesh,,lalitpur
+2007-09-078,unnao,09,,uttar pradesh,,unnao
+2007-09-049,dadraul,09,,uttar pradesh,,dadraul
+2007-09-300,karwi,09,,uttar pradesh,,karwi
+2007-09-114,akbarpur,09,,uttar pradesh,,akbarpur
+2007-09-065,misrikh,09,,uttar pradesh,,misrikh
+2007-09-266,kishunpur,09,,uttar pradesh,,kishunpur
+2007-09-054,lakhimpur,09,,uttar pradesh,,lakhimpur
+2007-09-355,gangiri,09,,uttar pradesh,,gangiri
+2007-09-037,037-nawabganj,09,,uttar pradesh,,nawabganj
+2007-09-156,shohratgarh,09,,uttar pradesh,,shohratgarh
+2007-09-184,kasia,09,,uttar pradesh,,kasia
+2007-09-007,chandpur,09,,uttar pradesh,,chandpur
+2007-09-052,haiderabad,09,,uttar pradesh,,haiderabad
+2007-09-056,nighasan,09,,uttar pradesh,,nighasan
+2007-09-149,harraiya,09,,uttar pradesh,,harraiya
+2007-09-271,aryanagar,09,,uttar pradesh,,aryanagar
+2007-09-096,dalmau,09,,uttar pradesh,,dalmau
+2007-09-182,seorahi,09,,uttar pradesh,,seorahi
+2007-09-004,nagina,09,,uttar pradesh,,nagina
+2007-09-012,sambhal,09,,uttar pradesh,,sambhal
+2007-09-087,lucknow central,09,,uttar pradesh,,lucknow central
+2007-09-393,charthawal,09,,uttar pradesh,,charthawal
+2007-09-338,tundla,09,,uttar pradesh,,tundla
+2007-09-121,sohawal,09,,uttar pradesh,,sohawal
+2007-09-228,chiraigaon,09,,uttar pradesh,,chiraigaon
+2007-09-396,thana bhawan,09,,uttar pradesh,,thana bhawan
+2007-09-214,mohammadabad,09,,uttar pradesh,,mohammadabad
+2007-09-381,meerut,09,,uttar pradesh,,meerut
+2007-09-034,faridpur,09,,uttar pradesh,,faridpur
+2007-09-112,kadipur,09,,uttar pradesh,,kadipur
+2007-09-220,saidpur,09,,uttar pradesh,,saidpur
+2007-09-175,siswa,09,,uttar pradesh,,siswa
+2007-10-063,minapur,10,,bihar,,minapur
+2007-10-057,kurhani,10,,bihar,,kurhani
+2007-20-013,madhupur,10,,bihar,,madhupur
+2007-10-222,obra,10,,bihar,,obra
+2007-10-223,goh,10,,bihar,,goh
+2007-10-042,garkha,10,,bihar,,garkha
+2007-20-056,chakradharpur,10,,bihar,,chakradharpur
+2007-10-064,runisaidpur,10,,bihar,,runisaidpur
+2007-10-188,patna west,10,,bihar,,patna west
+2007-10-196,sandesh,10,,bihar,,sandesh
+2007-10-106,barauni,10,,bihar,,barauni
+2007-10-147,pirpainti,10,,bihar,,pirpainti
+2007-10-220,aurangabad,10,,bihar,,aurangabad
+2007-10-061,gaighatti,10,,bihar,,gaighatti
+2007-10-051,lalganj,10,,bihar,,lalganj
+2007-20-073,manika,10,,bihar,,manika
+2007-20-010,dumka,10,,bihar,,dumka
+2007-10-155,dhuraiya,10,,bihar,,dhuraiya
+2007-10-079,pandaul,10,,bihar,,pandaul
+2007-10-128,narpatganj,10,,bihar,,narpatganj
+2007-10-197,barhara,10,,bihar,,barhara
+2007-10-204,jagdishpur,10,,bihar,,jagdishpur
+2007-10-162,kharagpur,10,,bihar,,kharagpur
+2007-10-150,bhagalpur,10,,bihar,,bhagalpur
+2007-10-154,amarpur,10,,bihar,,amarpur
+2007-10-014,dhaka,10,,bihar,,dhaka
+2007-20-003,barhait,10,,bihar,,barhait
+2007-10-098,dalsinghsarai,10,,bihar,,dalsinghsarai
+2007-20-022,barkagaon,10,,bihar,,barkagaon
+2007-10-096,sarairanjan,10,,bihar,,sarairanjan
+2007-10-240,rajauli,10,,bihar,,rajauli
+2007-10-089,darbhanga,10,,bihar,,darbhanga
+2007-10-056,kanti,10,,bihar,,kanti
+2007-20-070,simdega,10,,bihar,,simdega
+2007-20-043,baghmara,10,,bihar,,baghmara
+2007-10-087,baheri,10,,bihar,,baheri
+2007-10-115,kumarkhand,10,,bihar,,kumarkhand
+2007-10-200,brahmpur,10,,bihar,,brahmpur
+2007-10-069,majorganj,10,,bihar,,majorganj
+2007-10-237,fatehpur,10,,bihar,,fatehpur
+2007-10-215,chenari,10,,bihar,,chenari
+2007-10-035,manjhi,10,,bihar,,manjhi
+2007-20-001,rajmahal,10,,bihar,,rajmahal
+2007-10-126,banmankhi,10,,bihar,,banmankhi
+2007-20-061,silli,10,,bihar,,silli
+2007-10-059,muzaffarpur,10,,bihar,,muzaffarpur
+2007-10-017,pipra,10,,bihar,,pipra
+2007-20-015,deoghar,10,,bihar,,deoghar
+2007-10-157,belhar,10,,bihar,,belhar
+2007-10-175,asthawan,10,,bihar,,asthawan
+2007-10-097,mohiuddin nagar,10,,bihar,,mohiuddin nagar
+2007-10-113,tribeniganj,10,,bihar,,tribeniganj
+2007-20-053,majhgaon,10,,bihar,,majhgaon
+2007-20-057,kharsawan,10,,bihar,,kharasawan
+2007-10-062,aurai,10,,bihar,,aurai
+2007-10-026,baikunthpur,10,,bihar,,baikunthpur
+2007-20-033,dumri,10,,bihar,,dumri
+2007-20-034,gomia,10,,bihar,,gomia
+2007-20-021,barhi,10,,bihar,,barhi
+2007-10-116,singheshwar,10,,bihar,,singheshwar
+2007-10-164,chautham,10,,bihar,,chautham
+2007-10-007,chanpatia,10,,bihar,,chanpatia
+2007-10-232,gaya town,10,,bihar,,gaya town
+2007-10-108,cheria bariarpur,10,,bihar,,cheria bariarpur
+2007-10-046,046-raghopur,10,,bihar,,raghopur
+2007-10-071,sursand,10,,bihar,,sursand
+2007-10-065,belsand,10,,bihar,,belsand
+2007-10-043,parsa,10,,bihar,,parsa
+2007-10-208,bikramganj,10,,bihar,,bikramganj
+2007-10-088,darbhanga rural,10,,bihar,,darbhanga rural
+2007-10-031,darauli,10,,bihar,,darauli
+2007-10-145,pranpur,10,,bihar,,pranpur
+2007-10-091,jale,10,,bihar,,jale
+2007-10-093,kalyanpur pramodenagar,10,,bihar,,kalyanpur pramodenagar
+2007-10-023,mirganj,10,,bihar,,mirganj
+2007-20-024,mandu,10,,bihar,,mandu
+2007-10-165,khagaria,10,,bihar,,khagaria
+2007-10-037,masrakh,10,,bihar,,masrakh
+2007-10-191,dinapur,10,,bihar,,dinapur
+2007-10-173,sheikhpura,10,,bihar,,sheikhpura
+2007-10-049,patepur,10,,bihar,,patepur
+2007-20-042,tundi,10,,bihar,,tundi
+2007-20-081,bhawanathpur,10,,bihar,,bhawanathpur
+2007-10-130,araria,10,,bihar,,araria
+2007-10-149,nathnagar,10,,bihar,,nathnagar
+2007-10-171,sikandra,10,,bihar,,sikandra
+2007-10-107,bachwara,10,,bihar,,bachwara
+2007-10-114,chhatapur,10,,bihar,,chhatapur
+2007-10-170,jamui,10,,bihar,,jamui
+2007-10-053,paru,10,,bihar,,paru
+2007-10-137,baisi,10,,bihar,,baisi
+2007-10-139,purnea,10,,bihar,,purnea
+2007-20-032,giridih,10,,bihar,,giridih
+2007-10-072,pupri,10,,bihar,,pupri
+2007-10-019,harsidhi,10,,bihar,,harsidhi
+2007-10-138,kasba,10,,bihar,,kasba
+2007-10-180,hilsa,10,,bihar,,hilsa
+2007-10-003,ramnagar,10,,bihar,,ramnagar
+2007-20-016,poreyahat,10,,bihar,,poreyahat
+2007-10-156,banka,10,,bihar,,banka
+2007-10-099,bibhutpur,10,,bihar,,bibhutpur
+2007-20-012,jarmundi,10,,bihar,,jarmundi
+2007-20-037,chandankiyari,10,,bihar,,chandankiyari
+2007-10-203,dumraon,10,,bihar,,dumraon
+2007-10-226,makhdumpur,10,,bihar,,makhdumpur
+2007-10-082,laukaha,10,,bihar,,laukaha
+2007-10-221,rafiganj,10,,bihar,,rafiganj
+2007-20-035,bermo,10,,bihar,,bermo
+2007-20-039,nirsa,10,,bihar,,nirsa
+2007-20-038,sindri,10,,bihar,,sindri
+2007-10-230,konch,10,,bihar,,konch
+2007-20-058,tamar,10,,bihar,,tamar
+2007-10-041,chapra,10,,bihar,,chapra
+2007-10-140,korha,10,,bihar,,korha
+2007-10-236,barachatti,10,,bihar,,barachatti
+2007-10-195,paliganj,10,,bihar,,paliganj
+2007-10-158,katoria,10,,bihar,,katoria
+2007-10-233,imamganj,10,,bihar,,imamganj
+2007-10-142,katihar,10,,bihar,,katihar
+2007-10-081,phulparas,10,,bihar,,phulparas
+2007-10-186,fatwa,10,,bihar,,fatwa
+2007-10-010,raxaul,10,,bihar,,raxaul
+2007-10-045,hajipur,10,,bihar,,hajipur
+2007-10-160,jhajha,10,,bihar,,jhajha
+2007-10-094,warisnagar,10,,bihar,,warisnagar
+2007-10-187,masaurhi,10,,bihar,,masaurhi
+2007-10-050,mahua,10,,bihar,,mahua
+2007-10-172,lakhisarai,10,,bihar,,lakhisarai
+2007-10-029,siwan,10,,bihar,,siwan
+2007-10-214,sasaram,10,,bihar,,sasaram
+2007-10-052,vaishali,10,,bihar,,vaishali
+2007-10-167,monghyr,10,,bihar,,monghyr
+2007-10-111,kishunpur,10,,bihar,,kishunpur
+2007-20-011,jama,10,,bihar,,jama
+2007-20-060,khunti,10,,bihar,,khunti
+2007-10-058,sakra,10,,bihar,,sakra
+2007-10-122,122-kishanganj,10,,bihar,,kishanganj
+2007-10-209,dinara,10,,bihar,,dinara
+2007-20-018,mahagama,10,,bihar,,mahagama
+2007-20-017,godda,10,,bihar,,godda
+2007-20-049,jamshedpur west,10,,bihar,,jamshedpur west
+2007-10-218,nabinagar,10,,bihar,,nabinagar
+2007-10-090,keoti,10,,bihar,,keoti
+2007-20-005,pakaur,10,,bihar,,pakaur
+2007-20-045,ghatsila,10,,bihar,,ghatsila
+2007-10-143,kadwa,10,,bihar,,kadwa
+2007-10-148,colgong,10,,bihar,,colgong
+2007-20-030,jamua,10,,bihar,,jamua
+2007-10-021,kateya,10,,bihar,,kateya
+2007-10-027,basantpur,10,,bihar,,basantpur
+2007-10-060,bochaha,10,,bihar,,bochaha
+2007-10-151,gopalpur,10,,bihar,,gopalpur
+2007-20-027,chatra,10,,bihar,,chatra
+2007-10-202,rajpur,10,,bihar,,rajpur
+2007-10-185,bakhtiarpur,10,,bihar,,bakhtiarpur
+2007-20-080,garhwa,10,,bihar,,garhwa
+2007-10-095,samastipur,10,,bihar,,samastipur
+2007-10-109,bakhri,10,,bihar,,bakhri
+2007-10-025,barauli,10,,bihar,,barauli
+2007-20-077,bishrampur,10,,bihar,,bishrampur
+2007-10-192,maner,10,,bihar,,maner
+2007-10-104,matihani,10,,bihar,,matihani
+2007-20-059,torpa,10,,bihar,,torpa
+2007-10-078,madhubani,10,,bihar,,madhubani
+2007-10-086,ghanshyampur,10,,bihar,,ghanshyampur
+2007-10-213,chainpur,10,,bihar,,chainpur
+2007-10-123,alamnagar,10,,bihar,,alamnagar
+2007-10-028,goreakothi,10,,bihar,,goreakothi
+2007-10-144,barsoi,10,,bihar,,barsoi
+2007-10-032,ziradei,10,,bihar,,ziradei
+2007-10-018,kesariya,10,,bihar,,kesariya
+2007-20-048,jamshedpur east,10,,bihar,,jamshedpur east
+2007-10-076,khajauli,10,,bihar,,khajauli
+2007-20-020,barkatha,10,,bihar,,barkatha
+2007-10-181,chandi,10,,bihar,,chandi
+2007-10-024,gopalganj,10,,bihar,,gopalganj
+2007-10-112,supaul,10,,bihar,,supaul
+2007-20-067,sisai,10,,bihar,,sisai
+2007-10-205,piro,10,,bihar,,piro
+2007-10-228,ghosi,10,,bihar,,ghosi
+2007-10-217,dehri,10,,bihar,,dehri
+2007-10-238,atri,10,,bihar,,atri
+2007-10-234,gurua,10,,bihar,,gurua
+2007-20-007,sikaripara,10,,bihar,,sikaripara
+2007-10-129,forbesganj,10,,bihar,,forbesganj
+2007-10-016,madhuban,10,,bihar,,madhuban
+2007-10-235,bodh gaya,10,,bihar,,bodh gaya
+2007-20-031,gandey,10,,bihar,,gandey
+2007-10-002,bagha,10,,bihar,,bagha
+2007-20-041,jharia,10,,bihar,,jharia
+2007-20-029,bagodar,10,,bihar,,bagodar
+2007-20-076,daltonganj,10,,bihar,,daltonganj
+2007-10-036,baniapur,10,,bihar,,baniapur
+2007-10-210,ramgarh,10,,bihar,,ramgarh
+2007-10-166,alauli,10,,bihar,,alauli
+2007-10-119,simri bakhtiarpur,10,,bihar,,simri bakhtiarpur
+2007-20-044,baharagora,10,,bihar,,baharagora
+2007-10-120,madhepura,10,,bihar,,madhepura
+2007-10-152,bihpur,10,,bihar,,bihpur
+2007-20-066,mandar,10,,bihar,,mandar
+2007-10-038,taraiya,10,,bihar,,taraiya
+2007-20-079,hussainabad,10,,bihar,,hussainabad
+2007-10-134,thakurganj,10,,bihar,,thakurganj
+2007-20-046,potka,10,,bihar,,potka
+2007-20-047,jugsalai,10,,bihar,,jugsalai
+2007-10-229,belaganj,10,,bihar,,belaganj
+2007-10-101,singhia,10,,bihar,,singhia
+2007-10-190,patna east,10,,bihar,,patna east
+2007-10-121,121-sonbarsa,10,,bihar,,sonbarsa
+2007-10-194,bikram,10,,bihar,,bikram
+2007-10-135,135-kishanganj,10,,bihar,,kishanganj
+2007-10-127,raniganj,10,,bihar,,raniganj
+2007-10-174,barbigha,10,,bihar,,barbigha
+2007-10-054,sahebganj,10,,bihar,,sahebganj
+2007-10-159,chakai,10,,bihar,,chakai
+2007-10-212,bhabhua,10,,bihar,,bhabhua
+2007-10-080,jhanjharpur,10,,bihar,,jhanjharpur
+2007-20-064,hatia,10,,bihar,,hatia
+2007-20-062,khijri,10,,bihar,,khijri
+2007-10-184,barh,10,,bihar,,barh
+2007-10-182,harnaut,10,,bihar,,harnaut
+2007-10-004,shikarpur,10,,bihar,,shikarpur
+2007-20-054,jaganathpur,10,,bihar,,jaganathpur
+2007-10-009,nautan,10,,bihar,,nautan
+2007-10-092,hayaghat,10,,bihar,,hayaghat
+2007-20-008,nala,10,,bihar,,nala
+2007-10-161,tarapur,10,,bihar,,tarapur
+2007-20-028,dhanwar,10,,bihar,,dhanwar
+2007-10-048,jandaha,10,,bihar,,jandaha
+2007-10-231,gaya mufassil,10,,bihar,,gaya mufassil
+2007-20-063,ranchi,10,,bihar,,ranchi
+2007-10-077,babubarhi,10,,bihar,,babubarhi
+2007-10-100,rosera,10,,bihar,,rosera
+2007-20-014,sarath,10,,bihar,,sarath
+2007-10-066,sheohar,10,,bihar,,sheohar
+2007-10-189,patna central,10,,bihar,,patna central
+2007-20-025,hazaribagh,10,,bihar,,hazaribagh
+2007-10-198,arrah,10,,bihar,,arrah
+2007-20-065,kanke,10,,bihar,,kanke
+2007-20-052,chaibasa,10,,bihar,,chaibasa
+2007-20-040,dhanbad,10,,bihar,,dhanbad
+2007-10-012,motihari,10,,bihar,,motihari
+2007-20-071,kolebira,10,,bihar,,kolebira
+2007-20-075,panki,10,,bihar,,panki
+2007-20-050,ichagarh,10,,bihar,,ichagarh
+2007-10-125,dhamdaha,10,,bihar,,dhamdaha
+2007-10-085,bahera,10,,bihar,,bahera
+2007-10-067,sitamarhi,10,,bihar,,sitamarhi
+2007-10-163,parbatta,10,,bihar,,parbatta
+2007-10-207,karakat,10,,bihar,,karakat
+2007-10-243,hisua,10,,bihar,,hisua
+2007-20-068,gumla,10,,bihar,,gumla
+2007-10-224,arwal,10,,bihar,,arwal
+2007-10-047,mahnar,10,,bihar,,mahnar
+2007-10-044,sonepur,10,,bihar,,sonepur
+2007-20-019,kodarma,10,,bihar,,kodarma
+2007-10-131,sikti,10,,bihar,,sikti
+2007-10-020,gobindganj,10,,bihar,,gobindganj
+2007-10-074,bisfi,10,,bihar,,bisfi
+2007-10-193,phulwari,10,,bihar,,phulwari
+2007-10-132,jokihat,10,,bihar,,jokihat
+2007-10-239,nawada,10,,bihar,,nawada
+2007-20-002,borio,10,,bihar,,borio
+2007-10-216,nokha,10,,bihar,,nokha
+2007-10-177,rajgir,10,,bihar,,rajgir
+2007-20-036,bokaro,10,,bihar,,bokaro
+2007-10-034,raghunathpur,10,,bihar,,raghunathpur
+2007-10-075,harlakhi,10,,bihar,,harlakhi
+2007-10-179,islampur,10,,bihar,,islampur
+2007-10-105,begusarai,10,,bihar,,begusarai
+2007-20-055,manoharpur,10,,bihar,,manoharpur
+2007-10-030,mairwa,10,,bihar,,mairwa
+2007-20-074,latehar,10,,bihar,,latehar
+2007-10-241,gobindpur,10,,bihar,,gobindpur
+2007-10-183,mokameh,10,,bihar,,mokameh
+2007-10-103,balia,10,,bihar,,balia
+2007-20-069,bishunpur,10,,bihar,,bishnupur
+2007-10-227,jahanabad,10,,bihar,,jahanabad
+2007-10-136,amour,10,,bihar,,amour
+2007-10-169,surajgarha,10,,bihar,,surajgarha
+2007-10-219,deo,10,,bihar,,deo
+2007-10-178,nalanda,10,,bihar,,nalanda
+2007-10-084,manigachhi,10,,bihar,,manigachhi
+2007-10-110,110-raghopur,10,,bihar,,raghopur
+2007-10-033,maharajganj,10,,bihar,,maharajganj
+2007-10-225,kurtha,10,,bihar,,kurtha
+2007-10-008,bettiah,10,,bihar,,bettiah
+2007-10-242,warsaliganj,10,,bihar,,warsaliganj
+2007-10-133,bahadurganj,10,,bihar,,bahadurganj
+2007-20-051,seraikella,10,,bihar,,seraikella
+2007-20-072,lohardaga,10,,bihar,,lohardaga
+2007-10-073,benipatti,10,,bihar,,benipatti
+2007-20-006,maheshpur,10,,bihar,,maheshpur
+2007-10-013,adapur,10,,bihar,,adapur
+2007-10-146,manihari,10,,bihar,,manihari
+2007-10-005,sikta,10,,bihar,,sikta
+2007-10-117,saharsa,10,,bihar,,saharsa
+2007-10-141,barari,10,,bihar,,barari
+2007-10-153,sultanganj,10,,bihar,,sultanganj
+2007-10-199,shahpur,10,,bihar,,shahpur
+2007-10-070,070-sonbarsa,10,,bihar,,sonbarsa
+2007-10-039,marhaura,10,,bihar,,marhaura
+2007-10-040,jalalpur,10,,bihar,,jalalpur
+2007-10-006,lauria,10,,bihar,,lauria
+2007-20-009,jamtara,10,,bihar,,jamtara
+2007-10-068,bathnaha,10,,bihar,,bathnaha
+2007-10-211,mohania,10,,bihar,,mohania
+2007-10-201,buxar,10,,bihar,,buxar
+2007-20-004,litipara,10,,bihar,,litipara
+2007-10-124,rupauli,10,,bihar,,rupauli
+2007-10-176,bihar,10,,bihar,,bihar
+2007-10-055,baruraj,10,,bihar,,baruraj
+2007-10-118,mahishi,10,,bihar,,mahishi
+2007-10-011,sugauli,10,,bihar,,sugauli
+2007-10-015,ghorasahan,10,,bihar,,ghorasahan
+2007-10-168,jamalpur,10,,bihar,,jamalpur
+2007-10-001,dhanaha,10,,bihar,,dhanaha
+2007-20-078,chhatarpur,10,,bihar,,chhatarpur
+2007-10-083,madhepur,10,,bihar,,madhepur
+2007-10-102,hasanpur,10,,bihar,,hasanpur
+2007-10-022,bhore,10,,bihar,,bhore
+2007-10-206,sahar,10,,bihar,,sahar
+2007-20-026,simaria,10,,bihar,,simaria
+2007-11-025,kabi tingda,11,,sikkim,,kabi tingda
+2007-11-012,wak,11,,sikkim,,wak
+2007-11-023,djongu,11,,sikkim,,djongu
+2007-11-011,ralang,11,,sikkim,,ralang
+2007-11-008,soreong,11,,sikkim,,soreong
+2007-11-032,sangha,11,,sikkim,,sangha
+2007-11-026,rakdong tentek,11,,sikkim,,rakdong tentek
+2007-11-028,rumtek,11,,sikkim,,rumtek
+2007-11-002,tashiding,11,,sikkim,,tashiding
+2007-11-022,khamdong,11,,sikkim,,khamdong
+2007-11-018,rhenock,11,,sikkim,,rhenock
+2007-11-029,assam lingjey,11,,sikkim,,assam lingjey
+2007-11-007,chakung,11,,sikkim,,chakung
+2007-11-024,lachen mangshila,11,,sikkim,,lachen mangshila
+2007-11-027,martam,11,,sikkim,,martam bl
+2007-11-030,ranka,11,,sikkim,,ranka
+2007-11-014,melli,11,,sikkim,,melli
+2007-11-021,loosing pachekhani,11,,sikkim,,loosing pachekhani
+2007-11-031,gangtok,11,,sikkim,,gangtok
+2007-11-006,rinchenpong,11,,sikkim,,rinchenpong
+2007-11-016,temi tarku,11,,sikkim,,temi tarku
+2007-11-017,central pendam east pendam,11,,sikkim,,central pendam east pendam
+2007-11-013,damthang,11,,sikkim,,damthang
+2007-11-019,regu,11,,sikkim,,regu
+2007-11-005,barmiok,11,,sikkim,,barmiok
+2007-11-003,geyzing,11,,sikkim,,geyzing
+2007-11-001,yoksam,11,,sikkim,,yoksam
+2007-11-010,jorthang nayabazar,11,,sikkim,,jorthang nayabazar
+2007-11-015,rateypani west pendam,11,,sikkim,,rateypani west pendam
+2007-11-009,daramdin,11,,sikkim,,daramdin
+2007-11-004,dentam,11,,sikkim,,dentam
+2007-11-020,pathing,11,,sikkim,,pathing
+2007-12-024,daporijo,12,,arunachal pradesh,,daporijo
+2007-12-036,nari koyu,12,,arunachal pradesh,,nari koyu
+2007-12-010,seppa east,12,,arunachal pradesh,,seppa east
+2007-12-005,kalaktang,12,,arunachal pradesh,,kalaktang
+2007-12-017,ziro hapoli,12,,arunachal pradesh,,ziro hapoli
+2007-12-035,pangin,12,,arunachal pradesh,,pangin
+2007-12-053,changlang north,12,,arunachal pradesh,,changlang north
+2007-12-001,lumla,12,,arunachal pradesh,,lumla
+2007-12-048,lekang,12,,arunachal pradesh,,lekang
+2007-12-042,dambuk,12,,arunachal pradesh,,dambuk
+2007-12-018,palin,12,,arunachal pradesh,,palin
+2007-12-055,khonsa east,12,,arunachal pradesh,,khonsa east
+2007-12-050,miao,12,,arunachal pradesh,,miao
+2007-12-021,koloriang,12,,arunachal pradesh,,koloriang
+2007-12-054,namsang,12,,arunachal pradesh,,namsang
+2007-12-003,mukto,12,,arunachal pradesh,,mukto
+2007-12-011,seppa west,12,,arunachal pradesh,,seppa west
+2007-12-059,longding pumao,12,,arunachal pradesh,,longding pumao
+2007-12-041,anini,12,,arunachal pradesh,,anini
+2007-12-026,dumporijo,12,,arunachal pradesh,,dumporijo
+2007-12-052,changlang south,12,,arunachal pradesh,,changlang south
+2007-12-022,nacho,12,,arunachal pradesh,,nacho
+2007-12-029,basar,12,,arunachal pradesh,,basar st
+2007-12-049,bordumsa diyum,12,,arunachal pradesh,,bordumsa diyum
+2007-12-009,chayangtajo,12,,arunachal pradesh,,chayangtajo
+2007-12-012,pakke kasang,12,,arunachal pradesh,,pakke kasang
+2007-12-060,pongchao wakka,12,,arunachal pradesh,,pongchao wakka
+2007-12-034,tuting yingkiong,12,,arunachal pradesh,,tuting yingkiong
+2007-12-032,rumgong,12,,arunachal pradesh,,rumgong
+2007-12-039,mebo,12,,arunachal pradesh,,mebo
+2007-12-030,along west,12,,arunachal pradesh,,along west
+2007-12-038,pasighat east,12,,arunachal pradesh,,pasighat east
+2007-12-045,hauyuliang,12,,arunachal pradesh,,hauyuliang
+2007-12-028,likabali,12,,arunachal pradesh,,likabali
+2007-12-027,liromoba,12,,arunachal pradesh,,liromoba
+2007-12-051,nampong,12,,arunachal pradesh,,nampong
+2007-12-004,dirang,12,,arunachal pradesh,,dirang
+2007-12-016,yachuli,12,,arunachal pradesh,,yachuli
+2007-12-019,nyapin,12,,arunachal pradesh,,nyapin
+2007-12-046,chowkham,12,,arunachal pradesh,,chowkham
+2007-12-033,mechuka,12,,arunachal pradesh,,mechuka
+2007-12-056,khonsa west,12,,arunachal pradesh,,khonsa west
+2007-12-044,tezu,12,,arunachal pradesh,,tezu
+2007-12-013,itanagar,12,,arunachal pradesh,,itanagar
+2007-12-020,tali,12,,arunachal pradesh,,tali
+2007-12-023,taliha,12,,arunachal pradesh,,taliha
+2007-12-031,along east,12,,arunachal pradesh,,along east
+2007-12-015,sagalee,12,,arunachal pradesh,,sagalee
+2007-12-008,bameng,12,,arunachal pradesh,,bameng
+2007-12-025,raga,12,,arunachal pradesh,,raga
+2007-12-037,pasighat west,12,,arunachal pradesh,,pasighat west
+2007-12-043,roing,12,,arunachal pradesh,,roing
+2007-12-040,mariyang geku,12,,arunachal pradesh,,mariyang geku
+2007-12-007,bomdila,12,,arunachal pradesh,,bomdila
+2007-12-057,borduria bogapani,12,,arunachal pradesh,,borduria bogapani
+2007-12-014,doimukh,12,,arunachal pradesh,,doimukh
+2007-12-047,namsai,12,,arunachal pradesh,,namsai
+2007-12-006,thrizino buragaon,12,,arunachal pradesh,,thrizino buragaon
+2007-12-002,tawang,12,,arunachal pradesh,,tawang
+2007-12-058,kanubari,12,,arunachal pradesh,,kanubari
+2007-13-006,tenning,13,,nagaland,,tenning
+2007-13-007,peren,13,,nagaland,,peren
+2007-13-059,seyochung sitimi,13,,nagaland,,seyochung sitimi
+2007-13-050,longleng,13,,nagaland,,longleng
+2007-13-013,pughoboto,13,,nagaland,,pughoboto
+2007-13-049,tamlu,13,,nagaland,,tamlu
+2007-13-060,pungro kiphire,13,,nagaland,,pungro kiphire
+2007-13-043,tapi,13,01,nagaland,mon,tapi
+2007-13-046,mon town,13,01,nagaland,mon,mon town
+2007-13-044,phomching,13,01,nagaland,mon,phomching
+2007-13-055,tobu,13,01,nagaland,mon,tobu
+2007-13-048,moka,13,01,nagaland,mon,moka
+2007-13-047,aboi,13,01,nagaland,mon,aboi
+2007-13-045,tehok,13,01,nagaland,mon,tehok
+2007-13-042,wakching,13,01,nagaland,mon,wakching
+2007-13-041,tizit,13,01,nagaland,mon,tizit
+2007-13-054,tuensang sadar-2,13,02,nagaland,tuensang,tuensang sadar-2
+2007-13-056,noklak,13,02,nagaland,tuensang,noklak
+2007-13-052,longkhim chare,13,02,nagaland,tuensang,longkhim chare
+2007-13-053,tuensang sadar-1,13,02,nagaland,tuensang,tuensang sadar-1
+2007-13-057,thonoknyu,13,02,nagaland,tuensang,thonoknyu
+2007-13-051,noksen,13,02,nagaland,tuensang,noksen
+2007-13-058,shamator chessore,13,02,nagaland,tuensang,shamator chessore
+2007-13-021,tuli,13,03,nagaland,mokokchung,tuli
+2007-13-030,alongtaki,13,03,nagaland,mokokchung,alongtaki
+2007-13-024,angetyongpang,13,03,nagaland,mokokchung,angetyongpang
+2007-13-027,mokokchung town,13,03,nagaland,mokokchung,mokokchung town
+2007-13-022,arkakong,13,03,nagaland,mokokchung,arkakong
+2007-13-029,jangpetkong,13,03,nagaland,mokokchung,jangpetkong
+2007-13-028,koridang,13,03,nagaland,mokokchung,koridang
+2007-13-025,mongoya,13,03,nagaland,mokokchung,mongoya
+2007-13-026,aonglenden,13,03,nagaland,mokokchung,aonglenden
+2007-13-023,impur,13,03,nagaland,mokokchung,impur
+2007-13-035,zunheboto,13,04,nagaland,zunheboto,zunheboto
+2007-13-031,akuluto,13,04,nagaland,zunheboto,akuluto
+2007-13-036,satakha,13,04,nagaland,zunheboto,satakha
+2007-13-032,atoizu,13,04,nagaland,zunheboto,atoizu
+2007-13-034,aghunato,13,04,nagaland,zunheboto,aghunato
+2007-13-033,suruhoto,13,04,nagaland,zunheboto,suruhoto
+2007-13-039,sanis,13,05,nagaland,wokha,sanis
+2007-13-038,wokha,13,05,nagaland,wokha,wokha
+2007-13-040,bhandari,13,05,nagaland,wokha,bhandari
+2007-13-037,tyui,13,05,nagaland,wokha,tyui
+2007-13-002,dimapur-2,13,06,nagaland,dimapur,dimapur-2
+2007-13-004,ghaspani-1,13,06,nagaland,dimapur,ghaspani-1
+2007-13-001,dimapur-1,13,06,nagaland,dimapur,dimapur-1
+2007-13-005,ghaspani-2,13,06,nagaland,dimapur,ghaspani-2
+2007-13-003,dimapur-3,13,06,nagaland,dimapur,dimapur-3
+2007-13-010,northern angami-1,13,07,nagaland,kohima,northern angami-1
+2007-13-009,kohima town,13,07,nagaland,kohima,kohima town
+2007-13-015,southern angami-2,13,07,nagaland,kohima,southern angami-2
+2007-13-008,western angami,13,07,nagaland,kohima,western angami
+2007-13-014,southern angami-1,13,07,nagaland,kohima,southern angami-1
+2007-13-011,northern angami-2,13,07,nagaland,kohima,northern angami-2
+2007-13-012,tseminyu,13,07,nagaland,kohima,tseminyu
+2007-13-019,phek,13,08,nagaland,phek,phek
+2007-13-018,chazouba,13,08,nagaland,phek,chazouba
+2007-13-016,pfutsero,13,08,nagaland,phek,pfutsero
+2007-13-017,chizami,13,08,nagaland,phek,chizami
+2007-13-020,meluri,13,08,nagaland,phek,meluri
+2007-14-037,kakching,14,,manipur,,kakching
+2007-14-026,bishenpur,14,,manipur,,bishenpur
+2007-14-056,thanlon,14,,manipur,,thanlon
+2007-14-012,keishamthong,14,,manipur,,keishamthong
+2007-14-015,wangkhei,14,,manipur,,wangkhei
+2007-14-054,nungba,14,,manipur,,nungba
+2007-14-021,naoriya pakhanglakpa,14,,manipur,,naoriya pakhanglakpa
+2007-14-036,wabgai,14,,manipur,,wabgai
+2007-14-046,saikul,14,,manipur,,saikul
+2007-14-047,karong,14,,manipur,,karong
+2007-14-030,lilong,14,,manipur,,lilong
+2007-14-001,khundrakpam,14,,manipur,,khundrakpam
+2007-14-033,heirok,14,,manipur,,heirok
+2007-14-003,khurai,14,,manipur,,khurai
+2007-14-039,sugnoo,14,,manipur,,sugnoo
+2007-14-058,churachandpur,14,,manipur,,churachandpur
+2007-14-052,tamei,14,,manipur,,tamei
+2007-14-059,saikot,14,,manipur,,saikot
+2007-14-004,khetrigao,14,,manipur,,khetrigao
+2007-14-010,uripok,14,,manipur,,uripok
+2007-14-020,langthabal,14,,manipur,,langthabal
+2007-14-057,henglep,14,,manipur,,henglep
+2007-14-043,phungyar,14,,manipur,,phungyar
+2007-14-019,patsoi,14,,manipur,,patsoi
+2007-14-032,wangkhem,14,,manipur,,wangkhem
+2007-14-022,wangoi,14,,manipur,,wangoi
+2007-14-029,kumbi,14,,manipur,,kumbi
+2007-14-014,yaiskul,14,,manipur,,yaiskul
+2007-14-013,singjamei,14,,manipur,,singjamei
+2007-14-035,khangabok,14,,manipur,,khangabok
+2007-14-024,nambol,14,,manipur,,nambol
+2007-14-041,chandel,14,,manipur,,chandel
+2007-14-025,oinam,14,,manipur,,oinam
+2007-14-011,sagolband,14,,manipur,,sagolband
+2007-14-045,chingai,14,,manipur,,chingai
+2007-14-016,sekmai,14,,manipur,,sekmai
+2007-14-009,thangmeiband,14,,manipur,,thangmeiband
+2007-14-051,saitu,14,,manipur,,saitu
+2007-14-027,moirang,14,,manipur,,moirang
+2007-14-031,thoubal,14,,manipur,,thoubal
+2007-14-042,tengnoupal,14,,manipur,,tengnoupal
+2007-14-008,lamlai,14,,manipur,,lamlai
+2007-14-060,singhat,14,,manipur,,singhat
+2007-14-050,kangpokpi,14,,manipur,,kangpokpi
+2007-14-048,mao,14,,manipur,,mao
+2007-14-040,jiribam,14,,manipur,,jiribam
+2007-14-007,andro,14,,manipur,,andro
+2007-14-034,wangjing tentha,14,,manipur,,wangjing tentha
+2007-14-055,tipaimukh,14,,manipur,,tipaimukh
+2007-14-002,heingang,14,,manipur,,heingang
+2007-14-044,ukhrul,14,,manipur,,ukhrul
+2007-14-023,mayang imphal,14,,manipur,,mayang imphal
+2007-14-053,tamenglong,14,,manipur,,tamenglong
+2007-14-028,thanga,14,,manipur,,thanga
+2007-14-017,lamsang,14,,manipur,,lamsang
+2007-14-005,thongju,14,,manipur,,thongju
+2007-14-018,konthoujam,14,,manipur,,konthoujam
+2007-14-049,tadubi,14,,manipur,,tadubi
+2007-14-038,hiyanglam,14,,manipur,,hiyanglam
+2007-14-006,keirao,14,,manipur,,keirao
+2007-15-031,lungpho,15,,mizoram,,lungpho
+2007-15-020,suangpuilawn,15,,mizoram,,suangpuilawn
+2007-15-018,khawzawl,15,,mizoram,,khawzawl
+2007-15-004,lawngtlai,15,,mizoram,,lawngtlai
+2007-15-026,kawrthah,15,,mizoram,,kawrthah
+2007-15-016,khawhai,15,,mizoram,,khawhai
+2007-15-005,chawngte,15,,mizoram,,chawngte
+2007-15-030,serchhip,15,,mizoram,,serchhip
+2007-15-022,kawnpui,15,,mizoram,,kawnpui
+2007-15-039,aizawl south-1,15,,mizoram,,aizawl south-1
+2007-15-012,hnahthial,15,,mizoram,,hnahthial
+2007-15-010,tawipui,15,,mizoram,,tawipui
+2007-15-027,mamit,15,,mizoram,,mamit
+2007-15-040,aizawl south-2,15,,mizoram,,aizawl south-2
+2007-15-021,ratu,15,,mizoram,,ratu
+2007-15-009,lunglei north,15,,mizoram,,lunglei north
+2007-15-038,aizawl west-2,15,,mizoram,,aizawl west-2
+2007-15-007,buarpui,15,,mizoram,,buarpui
+2007-15-017,saitual,15,,mizoram,,saitual
+2007-15-025,lokicherra,15,,mizoram,,lokicherra
+2007-15-008,lunglei south,15,,mizoram,,lunglei south
+2007-15-003,sangau,15,,mizoram,,sangau
+2007-15-015,champhai,15,,mizoram,,champhai
+2007-15-036,aizawl east-2,15,,mizoram,,aizawl east-2
+2007-15-023,kolasib,15,,mizoram,,kolasib
+2007-15-011,vanva,15,,mizoram,,vanva
+2007-15-029,sateek,15,,mizoram,,sateek
+2007-15-001,tuipang,15,,mizoram,,tuipang
+2007-15-028,phuldungsei,15,,mizoram,,phuldungsei
+2007-15-013,north vanlaiphai,15,,mizoram,,north vanlaiphai
+2007-15-014,khawbung,15,,mizoram,,khawbung
+2007-15-035,aizawl east-1,15,,mizoram,,aizawl east-1
+2007-15-032,tlungvel,15,,mizoram,,tlungvel
+2007-15-033,aizawl north-1,15,,mizoram,,aizawl north-1
+2007-15-024,bilkhawthlir,15,,mizoram,,bilkhawthlir
+2007-15-037,aizawl west-1,15,,mizoram,,aizawl west-1
+2007-15-006,tlabung,15,,mizoram,,tlabung
+2007-15-002,saiha,15,,mizoram,,saiha
+2007-15-019,ngopa,15,,mizoram,,ngopa
+2007-15-034,aizawl north-2,15,,mizoram,,aizawl north-2
+2007-16-017,golaghati,16,01,tripura,west tripura,golaghati
+2007-16-024,ramchandraghat,16,01,tripura,west tripura,ramchandraghat
+2007-16-002,mohanpur,16,01,tripura,west tripura,mohanpur
+2007-16-012,takarjala,16,01,tripura,west tripura,takarjala
+2007-16-016,bishalgarh,16,01,tripura,west tripura,bishalgarh
+2007-16-023,dhanpur,16,01,tripura,west tripura,dhanpur
+2007-16-022,sonamura,16,01,tripura,west tripura,sonamura
+2007-16-021,nalchar,16,01,tripura,west tripura,nalchar
+2007-16-003,bamutia,16,01,tripura,west tripura,bamutia
+2007-16-019,charilam,16,01,tripura,west tripura,charilam
+2007-16-014,badharghat,16,01,tripura,west tripura,badharghat
+2007-16-028,teliamura,16,01,tripura,west tripura,teliamura
+2007-16-025,khowai,16,01,tripura,west tripura,khowai
+2007-16-010,majlishpur,16,01,tripura,west tripura,majlishpur
+2007-16-018,suryamaninagar,16,01,tripura,west tripura,suryamaninagar
+2007-16-027,kalyanpur,16,01,tripura,west tripura,kalyanpur
+2007-16-015,kamalasagar,16,01,tripura,west tripura,kamalasagar
+2007-16-004,barjala,16,01,tripura,west tripura,barjala
+2007-16-009,banamalipur,16,01,tripura,west tripura,banamalipur
+2007-16-006,agartala,16,01,tripura,west tripura,agartala
+2007-16-008,town bordowali,16,01,tripura,west tripura,town bordowali
+2007-16-005,khayerpur,16,01,tripura,west tripura,khayerpur
+2007-16-001,simna,16,01,tripura,west tripura,simna
+2007-16-020,boxanagar,16,01,tripura,west tripura,boxanagar
+2007-16-007,ramnagar,16,01,tripura,west tripura,ramnagar
+2007-16-029,krishnapur,16,01,tripura,west tripura,krishnapur
+2007-16-026,asharambari,16,01,tripura,west tripura,asharambari
+2007-16-013,pratapgarh,16,01,tripura,west tripura,pratapgarh
+2007-16-011,mandaibazar,16,01,tripura,west tripura,mandaibazar
+2007-16-035,belonia,16,02,tripura,south tripura,belonia
+2007-16-042,amarpur,16,02,tripura,south tripura,amarpur
+2007-16-033,kakraban,16,02,tripura,south tripura,kakraban
+2007-16-037,hrishyamukh,16,02,tripura,south tripura,hrishyamukh
+2007-16-034,rajnagar,16,02,tripura,south tripura,rajnagar
+2007-16-043,karbook,16,02,tripura,south tripura,karbook
+2007-16-036,santirbazar,16,02,tripura,south tripura,santirbazar
+2007-16-030,bagma,16,02,tripura,south tripura,bagma
+2007-16-031,radhakishorepur,16,02,tripura,south tripura,radhakishorepur
+2007-16-038,jolaibari,16,02,tripura,south tripura,jolaibari
+2007-16-040,sabroom,16,02,tripura,south tripura,sabroom
+2007-16-032,matarbari,16,02,tripura,south tripura,matarbari
+2007-16-041,ampinagar,16,02,tripura,south tripura,ampinagar
+2007-16-039,manu,16,02,tripura,south tripura,manu
+2007-16-044,raima valley,16,03,tripura,dhalai,raima valley
+2007-16-045,kamalpur,16,03,tripura,dhalai,kamalpur
+2007-16-048,karamchhara,16,03,tripura,dhalai,karamchhara
+2007-16-049,chhawmanu,16,03,tripura,dhalai,chhawmanu
+2007-16-046,surma,16,03,tripura,dhalai,surma
+2007-16-047,ambassa,16,03,tripura,dhalai,ambassa
+2007-16-053,kailasahar,16,04,tripura,north tripura,kailasahar
+2007-16-050,pabiachhara,16,04,tripura,north tripura,pabiachhara
+2007-16-054,kadamtala kurti,16,04,tripura,north tripura,kadamtala kurti
+2007-16-057,jubarajnagar,16,04,tripura,north tripura,jubarajnagar
+2007-16-060,kanchanpur,16,04,tripura,north tripura,kanchanpur
+2007-16-056,dharmanagar,16,04,tripura,north tripura,dharmanagar
+2007-16-059,pencharthal,16,04,tripura,north tripura,pencharthal
+2007-16-055,bagbassa,16,04,tripura,north tripura,bagbassa
+2007-16-058,panisagar,16,04,tripura,north tripura,panisagar
+2007-16-051,fatikroy,16,04,tripura,north tripura,fatikroy
+2007-16-052,chandipur,16,04,tripura,north tripura,chandipur
+2007-17-026,nongkrem,17,,meghalaya,,nongkrem
+2007-17-023,mawlai,17,,meghalaya,,mawlai
+2007-17-057,rangsakona,17,,meghalaya,,rangsakona
+2007-17-025,dienglieng,17,,meghalaya,,dienglieng
+2007-17-052,tura,17,,meghalaya,,tura
+2007-17-039,rongjeng,17,,meghalaya,,rongjeng
+2007-17-009,umroi,17,,meghalaya,,umroi
+2007-17-038,rongrenggiri,17,,meghalaya,,rongrenggiri
+2007-17-002,rymbai,17,,meghalaya,,rymbai
+2007-17-024,sohryngkham,17,,meghalaya,,sohryngkham
+2007-17-011,jirang,17,,meghalaya,,jirang
+2007-17-016,malki nongthymmai,17,,meghalaya,,malki nongthymmai
+2007-17-004,raliang,17,,meghalaya,,raliang
+2007-17-035,langrin,17,,meghalaya,,langrin
+2007-17-056,dalamgiri,17,,meghalaya,,dalamgiri
+2007-17-029,sohra,17,,meghalaya,,sohra
+2007-17-037,baghmara,17,,meghalaya,,baghmara
+2007-17-013,nongspung,17,,meghalaya,,nongspung
+2007-17-060,mahendraganj,17,,meghalaya,,mahendraganj
+2007-17-040,kharkutta,17,,meghalaya,,kharkutta
+2007-17-032,mawkyrwat,17,,meghalaya,,mawkyrwat
+2007-17-049,rajabala,17,,meghalaya,,rajabala
+2007-17-042,resubelpara,17,,meghalaya,,resubelpara
+2007-17-019,jaiaw,17,,meghalaya,,jaiaw
+2007-17-015,mylliem,17,,meghalaya,,mylliem
+2007-17-012,mairang,17,,meghalaya,,mairang st
+2007-17-055,dalu,17,,meghalaya,,dalu
+2007-17-047,rongchugiri,17,,meghalaya,,rongchugiri
+2007-17-050,selsella,17,,meghalaya,,selsella
+2007-17-006,nongbah wahiajer,17,,meghalaya,,nongbah wahiajer
+2007-17-051,rongram,17,,meghalaya,,rongram
+2007-17-001,war jaintia,17,,meghalaya,,war jaintia
+2007-17-027,lyngkyrdem,17,,meghalaya,,lyngkyrdem
+2007-17-059,salmanpura,17,,meghalaya,,salmanpura
+2007-17-033,pariong,17,,meghalaya,,pariong
+2007-17-028,nongshken,17,,meghalaya,,nongshken
+2007-17-010,nongpoh,17,,meghalaya,,nongpoh
+2007-17-020,mawkhar,17,,meghalaya,,mawkhar
+2007-17-044,bajengdoba,17,,meghalaya,,bajengdoba
+2007-17-045,tikrikilla,17,,meghalaya,,tikrikilla
+2007-17-022,laban,17,,meghalaya,,laban
+2007-17-041,mendipathar,17,,meghalaya,,mendipathar
+2007-17-008,mawhati,17,,meghalaya,,mawhati
+2007-17-030,shella,17,,meghalaya,,shella
+2007-17-034,nongstoin,17,,meghalaya,,nongstoin
+2007-17-053,chokpot,17,,meghalaya,,chokpot
+2007-17-043,songsak,17,,meghalaya,,songsak
+2007-17-031,mawsynram,17,,meghalaya,,mawsynram
+2007-17-058,ampatigiri,17,,meghalaya,,ampatigiri
+2007-17-003,sutnga shangpung,17,,meghalaya,,sutnga shangpung
+2007-17-046,dadenggiri,17,,meghalaya,,dadenggiri
+2007-17-018,pynthorumkhrah,17,,meghalaya,,pynthorumkhrah
+2007-17-021,mawprem,17,,meghalaya,,mawprem
+2007-17-014,sohiong,17,,meghalaya,,sohiong
+2007-17-007,jowai,17,,meghalaya,,jowai
+2007-17-048,phulbari,17,,meghalaya,,phulbari
+2007-17-017,laitumkharah,17,,meghalaya,,laitumkharah
+2007-17-054,kherapara,17,,meghalaya,,kherapara
+2007-17-036,mawthengkut,17,,meghalaya,,mawthengkut
+2007-17-005,nartiang,17,,meghalaya,,nartiang
+2007-18-059,nalbari,18,,assam,,nalbari
+2007-18-080,marigaon,18,,assam,,marigaon
+2007-18-091,hojai,18,,assam,,hojai
+2007-18-097,dergaon,18,,assam,,dergaon
+2007-18-030,kokrajhar east,18,,assam,,kokrajhar east
+2007-18-071,dhekiajuli,18,,assam,,dhekiajuli
+2007-18-070,majbat,18,,assam,,majbat
+2007-18-109,bihpuria,18,,assam,,bihpuria
+2007-18-062,barama,18,,assam,,barama
+2007-18-114,jonai,18,,assam,,jonai
+2007-18-085,rupohihat,18,,assam,,rupohihat
+2007-18-106,sonari,18,,assam,,sonari
+2007-18-115,moran,18,,assam,,moran
+2007-18-096,khumtai,18,,assam,,khumtai
+2007-18-042,patacharkuchi,18,,assam,,patacharkuchi
+2007-18-103,amguri,18,,assam,,amguri
+2007-18-012,udharbond,18,,assam,,udharbond
+2007-18-075,sootea,18,,assam,,sootea
+2007-18-101,mariani,18,,assam,,mariani
+2007-18-092,lumding,18,,assam,,lumding
+2007-18-088,samaguri,18,,assam,,samaguri
+2007-18-017,bokajan,18,,assam,,bokajan
+2007-18-013,lakhipur,18,,assam,,lakhipur
+2007-18-035,abhayapuri south,18,,assam,,abhayapuri south
+2007-18-118,duliajan,18,,assam,,duliajan
+2007-18-002,patharkandi,18,,assam,,patharkandi
+2007-18-082,raha,18,,assam,,raha
+2007-18-032,bongaigaon,18,,assam,,bongaigaon
+2007-18-036,dudhnai,18,,assam,,dudhnai
+2007-18-067,mangaldoi,18,,assam,,mangaldoi
+2007-18-047,chenga,18,,assam,,chenga
+2007-18-100,titabar,18,,assam,,titabar
+2007-18-051,jalukbari,18,,assam,,jalukbari
+2007-18-056,kamalpur,18,,assam,,kamalpur
+2007-18-112,dhakuakhana,18,,assam,,dhakuakhana
+2007-18-049,chaygaon,18,,assam,,chaygaon
+2007-18-095,golaghat,18,,assam,,golaghat
+2007-18-108,sibsagar,18,,assam,,sibsagar
+2007-18-021,mankachar,18,,assam,,mankachar
+2007-18-055,hajo,18,,assam,,hajo
+2007-18-057,rangiya,18,,assam,,rangiya
+2007-18-005,badarpur,18,,assam,,badarpur
+2007-18-064,panery,18,,assam,,panery
+2007-18-044,jania,18,,assam,,jania
+2007-18-020,baithalangso,18,,assam,,baithalangso
+2007-18-089,kaliabor,18,,assam,,kaliabor
+2007-18-015,katigora,18,,assam,,katigora
+2007-18-054,gauhati west,18,,assam,,gauhati west
+2007-18-065,kalaigaon,18,,assam,,kalaigaon
+2007-18-022,salmara south,18,,assam,,salmara south
+2007-18-024,gauripur,18,,assam,,gauripur
+2007-18-046,sarukhetri,18,,assam,,sarukhetri
+2007-18-063,chapaguri,18,,assam,,chapaguri
+2007-18-081,laharighat,18,,assam,,laharighat
+2007-18-083,dhing,18,,assam,,dhing
+2007-18-113,dhemaji,18,,assam,,dhemaji
+2007-18-007,katlicherra,18,,assam,,katlicherra
+2007-18-028,gossaigaon,18,,assam,,gossaigaon
+2007-18-087,barhampur,18,,assam,,barhampur
+2007-18-060,barkhetry,18,,assam,,barkhetry
+2007-18-077,behali,18,,assam,,behali
+2007-18-124,margherita,18,,assam,,margherita
+2007-18-027,bilasipara east,18,,assam,,bilasipara east
+2007-18-003,karimganj north,18,,assam,,karimganj north
+2007-18-111,lakhimpur,18,,assam,,lakhimpur
+2007-18-099,majuli,18,,assam,,majuli
+2007-18-110,naoboicha,18,,assam,,naoboicha
+2007-18-011,dholai,18,,assam,,dholai
+2007-18-123,digboi,18,,assam,,digboi
+2007-18-090,jamunamukh,18,,assam,,jamunamukh
+2007-18-116,dibrugarh,18,,assam,,dibrugarh
+2007-18-038,goalpara west,18,,assam,,goalpara west
+2007-18-039,jaleswar,18,,assam,,jaleswar
+2007-18-098,jorhat,18,,assam,,jorhat
+2007-18-120,naharkatia,18,,assam,,naharkatia
+2007-18-074,rangapara,18,,assam,,rangapara
+2007-18-041,bhabanipur,18,,assam,,bhabanipur
+2007-18-008,algapur,18,,assam,,algapur
+2007-18-016,haflong,18,,assam,,haflong
+2007-18-084,batadroba,18,,assam,,batadroba
+2007-18-019,diphu,18,,assam,,diphu
+2007-18-069,udalguri,18,,assam,,udalguri
+2007-18-031,sidli,18,,assam,,sidli
+2007-18-040,sorbhog,18,,assam,,sorbhog
+2007-18-102,teok,18,,assam,,teok
+2007-18-058,tamulpur,18,,assam,,tamulpur
+2007-18-053,gauhati east,18,,assam,,gauhati east
+2007-18-093,bokakhat,18,,assam,,bokakhat
+2007-18-010,sonai,18,,assam,,sonai
+2007-18-023,dhubri,18,,assam,,dhubri
+2007-18-026,bilasipara west,18,,assam,,bilasipara west
+2007-18-076,biswanath,18,,assam,,biswanath
+2007-18-043,barpeta,18,,assam,,barpeta
+2007-18-107,thowra,18,,assam,,thowra
+2007-18-119,tingkhong,18,,assam,,tingkhong
+2007-18-117,lahowal,18,,assam,,lahowal
+2007-18-034,abhayapuri north,18,,assam,,abhayapuri north
+2007-18-086,nowgong,18,,assam,,nowgong
+2007-18-018,howraghat,18,,assam,,howraghat
+2007-18-009,silchar,18,,assam,,silchar
+2007-18-006,hailakandi,18,,assam,,hailakandi
+2007-18-001,ratabari,18,,assam,,ratabari sc
+2007-18-068,dalgaon,18,,assam,,dalgaon
+2007-18-004,karimganj south,18,,assam,,karimganj south
+2007-18-126,sadiya,18,,assam,,sadiya
+2007-18-079,jagiroad,18,,assam,,jagiroad
+2007-18-033,bijni,18,,assam,,bijni
+2007-18-045,baghbar,18,,assam,,baghbar
+2007-18-052,dispur,18,,assam,,dispur
+2007-18-078,gohpur,18,,assam,,gohpur
+2007-18-094,sarupathar,18,,assam,,sarupathar
+2007-18-066,sipajhar,18,,assam,,sipajhar
+2007-18-072,barchalla,18,,assam,,barchalla
+2007-18-122,tinsukia,18,,assam,,tinsukia
+2007-18-121,chabua,18,,assam,,chabua
+2007-18-125,doom dooma,18,,assam,,doom dooma
+2007-18-048,boko,18,,assam,,boko
+2007-18-050,palasbari,18,,assam,,palasbari
+2007-18-014,barkhola,18,,assam,,barkhola
+2007-18-061,dharmapur,18,,assam,,dharmapur
+2007-18-073,tezpur,18,,assam,,tezpur
+2007-18-037,goalpara east,18,,assam,,goalpara east
+2007-18-025,golakganj,18,,assam,,golakganj
+2007-18-105,mahmara,18,,assam,,mahmara
+2007-18-029,kokrajhar west,18,,assam,,kokrajhar west
+2007-18-104,nazira,18,,assam,,nazira
+2007-19-277,nadanghat,19,,west bengal,,nadanghat
+2007-19-203,moyna,19,,west bengal,,moyna
+2007-19-103,joynagar,19,,west bengal,,joynagar
+2007-19-200,panskura west,19,,west bengal,,panskura west
+2007-19-031,raiganj,19,,west bengal,,raiganj
+2007-19-215,pataspur,19,,west bengal,,pataspur
+2007-19-019,kranti,19,,west bengal,,kranti
+2007-19-259,hirapur,19,,west bengal,,hirapur
+2007-19-214,mugberia,19,,west bengal,,mugberia
+2007-19-256,sonamukhi,19,,west bengal,,sonamukhi
+2007-19-096,hasnabad,19,,west bengal,,hasnabad
+2007-19-060,domkal,19,,west bengal,,domkal
+2007-19-282,ketugram,19,,west bengal,,ketugram
+2007-19-163,howrah central,19,,west bengal,,howrah central
+2007-19-032,kaliaganj,19,,west bengal,,kaliaganj
+2007-19-289,mahammad bazar,19,,west bengal,,mahammad bazar
+2007-19-202,tamluk,19,,west bengal,,tamluk
+2007-19-119,diamond harbour,19,,west bengal,,diamond harbour
+2007-19-024,kurseong,19,,west bengal,,kurseong
+2007-19-161,bally,19,,west bengal,,bally
+2007-19-262,jamuria,19,,west bengal,,jamuria
+2007-19-037,kumarganj,19,,west bengal,,kumarganj
+2007-19-038,balurghat,19,,west bengal,,balurghat
+2007-19-140,cossipur,19,,west bengal,,cossipur
+2007-19-160,belgachia west,19,,west bengal,,belgachia west
+2007-19-081,ranaghat west,19,,west bengal,,ranaghat west
+2007-19-236,arsa,19,,west bengal,,arsa
+2007-19-145,bow bazar,19,,west bengal,,bow bazar
+2007-19-167,jagatballavpur,19,,west bengal,,jagatballavpur
+2007-19-158,burtola,19,,west bengal,,burtola
+2007-19-033,kushmandi,19,,west bengal,,kushmandi
+2007-19-182,chandernagore,19,,west bengal,,chandernagore
+2007-19-008,natabari,19,,west bengal,,natabari
+2007-19-232,binpur,19,,west bengal,,binpur st
+2007-19-254,kotulpur,19,,west bengal,,kotulpur
+2007-19-150,tollygunge,19,,west bengal,,tollygunge
+2007-19-036,tapan,19,,west bengal,,tapan
+2007-19-229,nayagram,19,,west bengal,,nayagram
+2007-19-219,keshpur,19,,west bengal,,keshpur
+2007-19-226,keshiari,19,,west bengal,,keshiari
+2007-19-023,darjeeling,19,,west bengal,,darjeeling
+2007-19-086,gaighata,19,,west bengal,,gaighata
+2007-19-005,cooch behar west,19,,west bengal,,cooch behar west
+2007-19-184,haripal,19,,west bengal,,haripal
+2007-19-046,englishbazar,19,,west bengal,,englishbazar
+2007-19-105,canning west,19,,west bengal,,canning west
+2007-19-079,hanskhali,19,,west bengal,,hanskhali
+2007-19-142,jorabagan,19,,west bengal,,jorabagan
+2007-19-264,durgapur-1,19,,west bengal,,durgapur-1
+2007-19-116,budge budge,19,,west bengal,,budge budge
+2007-19-247,indpur,19,,west bengal,,indpur
+2007-19-049,kaliachak,19,,west bengal,,kaliachak
+2007-19-022,kalimpong,19,,west bengal,,kalimpong
+2007-19-220,garhbeta east,19,,west bengal,,garhbeta east
+2007-19-068,bharatpur,19,,west bengal,,bharatpur
+2007-19-047,manikchak,19,,west bengal,,manikchak
+2007-19-208,bhagabanpur,19,,west bengal,,bhagabanpur
+2007-19-088,ashokenagar,19,,west bengal,,ashokenagar
+2007-19-126,kakdwip,19,,west bengal,,kakdwip
+2007-19-147,kabitirtha,19,,west bengal,,kabitirtha
+2007-19-094,baduria,19,,west bengal,,baduria
+2007-19-135,panihati,19,,west bengal,,panihati
+2007-19-194,arambagh,19,,west bengal,,arambagh
+2007-19-021,rajganj,19,,west bengal,,rajganj
+2007-19-112,behala east,19,,west bengal,,behala east
+2007-19-166,domjur,19,,west bengal,,domjur
+2007-19-273,raina,19,,west bengal,,raina
+2007-19-290,mayureswar,19,,west bengal,,mayureswar
+2007-19-090,barasat,19,,west bengal,,barasat
+2007-19-170,uluberia north,19,,west bengal,,uluberia north
+2007-19-217,pingla,19,,west bengal,,pingla
+2007-19-044,araidanga,19,,west bengal,,araidanga
+2007-19-233,banduan,19,,west bengal,,banduan
+2007-19-293,nalhati,19,,west bengal,,nalhati
+2007-19-089,amdanga,19,,west bengal,,amdanga
+2007-19-095,basirhat,19,,west bengal,,basirhat
+2007-19-267,ausgram,19,,west bengal,,ausgram
+2007-19-261,raniganj,19,,west bengal,,raniganj
+2007-19-186,chinsurah,19,,west bengal,,chinsurah
+2007-19-159,manicktola,19,,west bengal,,manicktola
+2007-19-141,shyampukur,19,,west bengal,,shyampukur
+2007-19-132,noapara,19,,west bengal,,noapara
+2007-19-066,khargram,19,,west bengal,,khargram
+2007-19-067,barwan,19,,west bengal,,barwan
+2007-19-051,aurangabad,19,,west bengal,,aurangabad
+2007-19-223,midnapore,19,,west bengal,,midnapore
+2007-19-111,bishnupur west,19,,west bengal,,bishnupur west
+2007-19-143,jorasanko,19,,west bengal,,jorasanko
+2007-19-098,sandeshkhali,19,,west bengal,,sandeshkhali
+2007-19-050,farakka,19,,west bengal,,farakka
+2007-19-020,jalpaiguri,19,,west bengal,,jalpaiguri
+2007-19-124,kulpi,19,,west bengal,,kulpi
+2007-19-115,maheshtala,19,,west bengal,,maheshtala
+2007-19-026,phansidewa,19,,west bengal,,phansidewa
+2007-19-181,champdani,19,,west bengal,,champdani
+2007-19-278,manteswar,19,,west bengal,,manteswar
+2007-19-034,itahar,19,,west bengal,,itahar
+2007-19-205,sutahata,19,,west bengal,,sutahata
+2007-19-063,berhampore,19,,west bengal,,berhampore
+2007-19-072,kaliganj,19,,west bengal,,kaliganj
+2007-19-284,bolpur,19,,west bengal,,bolpur
+2007-19-070,palashipara,19,,west bengal,,palashipara
+2007-19-087,habra,19,,west bengal,,habra
+2007-19-138,dum dum,19,,west bengal,,dum dum
+2007-19-171,uluberia south,19,,west bengal,,uluberia south
+2007-19-192,pursurah,19,,west bengal,,pursurah
+2007-19-137,baranagar,19,,west bengal,,baranagar
+2007-19-075,krishnagar east,19,,west bengal,,krishnagar east
+2007-19-155,beliaghata,19,,west bengal,,beliaghata
+2007-19-028,islampur,19,,west bengal,,islampur
+2007-19-127,sagar,19,,west bengal,,sagar
+2007-19-216,sabang,19,,west bengal,,sabang
+2007-19-238,jaipur,19,,west bengal,,jaipur
+2007-19-015,dhupguri,19,,west bengal,,dhupguri
+2007-19-162,howrah north,19,,west bengal,,howrah north
+2007-19-249,gangajalghati,19,,west bengal,,gangajalghati
+2007-19-260,asansol,19,,west bengal,,asansol
+2007-19-189,pandua,19,,west bengal,,pandua
+2007-19-092,deganga,19,,west bengal,,deganga
+2007-19-003,mathabhanga,19,,west bengal,,mathabhanga
+2007-19-274,jamalpur,19,,west bengal,,jamalpur
+2007-19-268,bhatar,19,,west bengal,,bhatar
+2007-19-201,panskura east,19,,west bengal,,panskura east
+2007-19-025,siliguri,19,,west bengal,,siliguri
+2007-19-082,chakdaha,19,,west bengal,,chakdaha
+2007-19-056,bhagabangola,19,,west bengal,,bhagabangola
+2007-19-076,krishnagar west,19,,west bengal,,krishnagar west
+2007-19-199,nandanpur,19,,west bengal,,nandanpur
+2007-19-048,suzapur,19,,west bengal,,sujapur
+2007-19-133,titagarh,19,,west bengal,,titagarh
+2007-19-012,alipurduars,19,,west bengal,,alipurduars
+2007-19-269,galsi,19,,west bengal,,galsi
+2007-19-131,jagatdal,19,,west bengal,,jagatdal
+2007-19-042,harishchandrapur,19,,west bengal,,harishchandrapur
+2007-19-168,panchla,19,,west bengal,,panchla
+2007-19-183,singur,19,,west bengal,,singur
+2007-19-204,mahishadal,19,,west bengal,,mahishadal
+2007-19-151,dhakuria,19,,west bengal,,dhakuria
+2007-19-152,ballygunge,19,,west bengal,,ballygunge
+2007-19-083,haringhata,19,,west bengal,,haringhata
+2007-19-248,chhatna,19,,west bengal,,chhatna
+2007-19-270,burdwan north,19,,west bengal,,burdwan north
+2007-19-272,khandaghosh,19,,west bengal,,khandaghosh
+2007-19-100,gosaba,19,,west bengal,,gosaba
+2007-19-211,contai south,19,,west bengal,,contai south
+2007-19-074,krishnaganj,19,,west bengal,,krishnaganj
+2007-19-014,madarihat,19,,west bengal,,madarihat st
+2007-19-197,ghatal,19,,west bengal,,ghatal
+2007-19-153,entally,19,,west bengal,,entally
+2007-19-230,gopiballavpur,19,,west bengal,,gopiballavpur
+2007-19-123,mathurapur,19,,west bengal,,mathurapur
+2007-19-085,bongaon,19,,west bengal,,bongaon
+2007-19-241,raghunathpur,19,,west bengal,,raghunathpur
+2007-19-134,khardah,19,,west bengal,,khardah
+2007-19-040,gajol,19,,west bengal,,gajol
+2007-19-029,goalpokhar,19,,west bengal,,goal pokhar
+2007-19-062,hariharpara,19,,west bengal,,hariharpara
+2007-19-174,kalyanpur pramodenagar,19,,west bengal,,kalyanpur pramodenagar
+2007-19-004,cooch behar north,19,,west bengal,,cooch behar north
+2007-19-101,basanti,19,,west bengal,,basanti
+2007-19-210,contai north,19,,west bengal,,contai north
+2007-19-265,durgapur-2,19,,west bengal,,durgapur-2
+2007-19-234,manbazar,19,,west bengal,,manbazar
+2007-19-195,goghat,19,,west bengal,,goghat
+2007-19-057,nabagram,19,,west bengal,,nabagram
+2007-19-224,kharagpur town,19,,west bengal,,kharagpur town
+2007-19-209,khajuri,19,,west bengal,,khajuri
+2007-19-002,sitalkuchi,19,,west bengal,,sitalkuchi
+2007-19-097,haroa,19,,west bengal,,haroa
+2007-19-016,nagrakata,19,,west bengal,,nagrakata
+2007-19-242,kashipur,19,,west bengal,,kashipur
+2007-19-252,onda,19,,west bengal,,onda
+2007-19-185,tarakeswar,19,,west bengal,,tarakeswar
+2007-19-011,kalchini,19,,west bengal,,kalchini
+2007-19-084,bagdaha,19,,west bengal,,bagdaha
+2007-19-043,ratua,19,,west bengal,,ratua
+2007-19-136,kamarhati,19,,west bengal,,kamarhati
+2007-19-006,sitai,19,,west bengal,,sitai
+2007-19-283,nanur,19,,west bengal,,nanur
+2007-19-102,kultali,19,,west bengal,,kultali
+2007-19-178,chanditala,19,,west bengal,,chanditala
+2007-19-055,lalgola,19,,west bengal,,lalgola
+2007-19-065,kandi,19,,west bengal,,kandi
+2007-19-218,debra,19,,west bengal,,debra
+2007-19-122,mandirbazar,19,,west bengal,,mandirbazar
+2007-19-156,sealdah,19,,west bengal,,sealdah
+2007-19-175,amta,19,,west bengal,,amta
+2007-19-118,falta,19,,west bengal,,falta
+2007-19-294,murarai,19,,west bengal,,murarai
+2007-19-212,ramnagar,19,,west bengal,,ramnagar
+2007-19-120,magrahat west,19,,west bengal,,magrahat west
+2007-19-292,hansan,19,,west bengal,,hansan
+2007-19-207,narghat,19,,west bengal,,narghat
+2007-19-009,tufanganj,19,,west bengal,,tufanganj
+2007-19-253,vishnupur,19,,west bengal,,vishnupur
+2007-19-245,raipur,19,,west bengal,,raipur
+2007-19-286,dubrajpur,19,,west bengal,,dubrajpur
+2007-19-222,salbani,19,,west bengal,,salbani
+2007-19-225,kharagpur rural,19,,west bengal,,kharagpur rural
+2007-19-250,barjora,19,,west bengal,,barjora
+2007-19-017,mainaguri,19,,west bengal,,mainaguri
+2007-19-173,bagnan,19,,west bengal,,bagnan
+2007-19-129,naihati,19,,west bengal,,naihati
+2007-19-187,bansberia,19,,west bengal,,bansberia
+2007-19-154,taltola,19,,west bengal,,taltola
+2007-19-240,para,19,,west bengal,,para
+2007-19-035,gangarampur,19,,west bengal,,gangarampur
+2007-19-177,jangipara,19,,west bengal,,jangipara
+2007-19-190,polba,19,,west bengal,,polba
+2007-19-054,jangipur,19,,west bengal,,jangipur
+2007-19-244,taldangra,19,,west bengal,,taldangra
+2007-19-125,patharpratima,19,,west bengal,,patharpratima
+2007-19-109,sonarpur,19,,west bengal,,sonarpur
+2007-19-257,kulti,19,,west bengal,,kulti
+2007-19-251,bankura,19,,west bengal,,bankura
+2007-19-266,kanksa,19,,west bengal,,kanksa
+2007-19-030,karandighi,19,,west bengal,,karandighi
+2007-19-258,barabani,19,,west bengal,,barabani
+2007-19-099,hingalganj,19,,west bengal,,hingalganj
+2007-19-110,bishnupur east,19,,west bengal,,bishnupur east
+2007-19-285,labhpur,19,,west bengal,,labhpur
+2007-19-196,chandrakona,19,,west bengal,,chandrakona
+2007-19-059,jalangi,19,,west bengal,,jalangi
+2007-19-227,narayangarh,19,,west bengal,,narayangarh
+2007-19-139,belgachia east,19,,west bengal,,belgachia east
+2007-19-149,rashbehari avenue,19,,west bengal,,rashbehari avenue
+2007-19-073,chapra,19,,west bengal,,chapra
+2007-19-039,habibpur,19,,west bengal,,habibpur
+2007-19-069,karimpur,19,,west bengal,,karimpur
+2007-19-281,mangalkot,19,,west bengal,,mangalkot
+2007-19-198,daspur,19,,west bengal,,daspur
+2007-19-279,purbasthali,19,,west bengal,,purbasthali
+2007-19-058,murshidabad,19,,west bengal,,murshidabad
+2007-19-113,behala west,19,,west bengal,,behala west
+2007-19-235,balrampur,19,,west bengal,,balrampur
+2007-19-213,egra,19,,west bengal,,egra
+2007-19-231,jhargram,19,,west bengal,,jhargram
+2007-19-280,katwa,19,,west bengal,,katwa
+2007-19-148,alipore,19,,west bengal,,alipore
+2007-19-255,indas,19,,west bengal,,indas
+2007-19-157,vidyasagar,19,,west bengal,,vidyasagar
+2007-19-071,nakashipara,19,,west bengal,,nakashipara
+2007-19-228,dantan,19,,west bengal,,dantan
+2007-19-093,swarupnagar,19,,west bengal,,swarupnagar
+2007-19-176,udaynarayanpur,19,,west bengal,,udaynarayanpur
+2007-19-018,mal,19,,west bengal,,mal
+2007-19-193,khanakul,19,,west bengal,,khanakul
+2007-19-104,baruipur,19,,west bengal,,baruipur
+2007-19-243,hura,19,,west bengal,,hura
+2007-19-287,rajnagar,19,,west bengal,,rajnagar
+2007-19-045,malda,19,,west bengal,,malda
+2007-19-078,santipur,19,,west bengal,,santipur
+2007-19-121,magrahat east,19,,west bengal,,magrahat east
+2007-19-276,kalna,19,,west bengal,,kalna
+2007-19-246,ranibandh,19,,west bengal,,ranibandh
+2007-19-080,ranaghat east,19,,west bengal,,ranaghat east
+2007-19-172,shyampur,19,,west bengal,,shyampur
+2007-19-275,memari,19,,west bengal,,memari
+2007-19-052,suti,19,,west bengal,,suti
+2007-19-064,beldanga,19,,west bengal,,beldanga
+2007-19-206,nandigram,19,,west bengal,,nandigram
+2007-19-146,chowringhee,19,,west bengal,,chowringhee
+2007-19-221,garhbeta west,19,,west bengal,,garhbeta west
+2007-19-239,purulia,19,,west bengal,,purulia
+2007-19-106,canning east,19,,west bengal,,canning east
+2007-19-128,bijpur,19,,west bengal,,bijpur
+2007-19-108,jadavpur,19,,west bengal,,jadavpur
+2007-19-164,howrah south,19,,west bengal,,howrah south
+2007-19-179,uttarpara,19,,west bengal,,uttarpara
+2007-19-169,sankrail,19,,west bengal,,sankrail
+2007-19-288,suri,19,,west bengal,,suri
+2007-19-271,burdwan south,19,,west bengal,,burdwan south
+2007-19-053,sagardighi,19,,west bengal,,sagardighi
+2007-19-144,bara bazar,19,,west bengal,,bara bazar
+2007-19-191,dhaniakhali,19,,west bengal,,dhaniakhali
+2007-19-007,dinhata,19,,west bengal,,dinhata
+2007-19-188,balagarh,19,,west bengal,,balagarh
+2007-19-165,shibpur,19,,west bengal,,shibpur
+2007-19-107,bhangar,19,,west bengal,,bhangar
+2007-19-061,naoda,19,,west bengal,,naoda
+2007-19-001,mekliganj,19,,west bengal,,mekliganj
+2007-19-117,satgachia,19,,west bengal,,satgachia
+2007-19-027,chopra,19,,west bengal,,chopra
+2007-19-010,kumargram,19,,west bengal,,kumargram
+2007-19-077,nabadwip,19,,west bengal,,nabadwip
+2007-19-263,ukhra,19,,west bengal,,ukhra
+2007-19-041,kharba,19,,west bengal,,kharba
+2007-19-114,garden reach,19,,west bengal,,garden reach
+2007-19-091,rajarhat,19,,west bengal,,rajarhat
+2007-19-291,rampurhat,19,,west bengal,,rampurhat
+2007-19-013,falakata,19,,west bengal,,falakata
+2007-19-130,bhatpara,19,,west bengal,,bhatpara
+2007-19-180,serampore,19,,west bengal,,serampore
+2007-19-237,jhalda,19,,west bengal,,jhalda
+2007-20-023,ramgarh,20,,jharkhand,,ramgarh
+2007-21-009,khunta,21,,orissa,,khunta
+2007-21-095,khariar,21,,orissa,,khariar
+2007-21-020,dhamnagar,21,,orissa,,dhamnagar
+2007-21-031,patamundai,21,,orissa,,patamundai
+2007-21-026,dharamsala,21,,orissa,,dharamsala
+2007-21-024,korai,21,,orissa,,korai
+2007-21-043,cuttack sadar,21,,orissa,,cuttack sadar
+2007-21-116,angul,21,,orissa,,angul
+2007-21-139,rourkela,21,,orissa,,rourkela
+2007-21-068,aska,21,,orissa,,aska
+2007-21-051,jatni,21,,orissa,,jatni
+2007-21-006,kuliana,21,,orissa,,kuliana
+2007-21-017,nilgiri,21,,orissa,,nilgiri
+2007-21-130,jharsuguda,21,,orissa,,jharsuguda
+2007-21-022,basudevpur,21,,orissa,,basudevpur
+2007-21-078,ramagiri,21,,orissa,,ramagiri
+2007-21-076,chikati,21,,orissa,,chikati
+2007-21-012,jaleswar,21,,orissa,,jaleswar
+2007-21-028,bari derabisi,21,,orissa,,bari derabisi
+2007-21-081,bissam cuttack,21,,orissa,,bissam cuttack
+2007-21-058,chilka,21,,orissa,,chilka
+2007-21-036,ersama,21,,orissa,,ersama
+2007-21-114,birmaharajpur,21,,orissa,,birmaharajpur
+2007-21-141,bonai,21,,orissa,,bonai
+2007-21-097,koksara,21,,orissa,,koksara
+2007-21-057,brahmagiri,21,,orissa,,brahmagiri
+2007-21-128,sambalpur,21,,orissa,,sambalpur
+2007-21-072,chatrapur,21,,orissa,,chatrapur
+2007-21-091,kodinga,21,,orissa,,kodinga
+2007-21-094,nawapara,21,,orissa,,nawapara
+2007-21-143,patna,21,,orissa,,patna
+2007-21-100,narla,21,,orissa,,narala
+2007-21-054,kakatpur,21,,orissa,,kakatpur
+2007-21-111,bolangir,21,,orissa,,bolangir
+2007-21-004,rairangpur,21,,orissa,,rairangpur
+2007-21-049,balipatna,21,,orissa,,balipatna
+2007-21-121,pallahara,21,,orissa,,pallahara
+2007-21-142,champua,21,,orissa,,champua
+2007-21-052,pipli,21,,orissa,,pipli
+2007-21-005,bangriposi,21,,orissa,,bangriposi
+2007-21-129,brajarajnagar,21,,orissa,,brajarajnagar
+2007-21-037,balikuda,21,,orissa,,balikuda
+2007-21-060,begunia,21,,orissa,,begunia
+2007-21-102,balliguda,21,,orissa,,balliguda
+2007-21-092,dabugam,21,,orissa,,dabugam
+2007-21-110,loisingha,21,,orissa,,loisingha
+2007-21-013,basta,21,,orissa,,basta
+2007-21-106,titilagarh,21,,orissa,,titilagarh
+2007-21-008,baisinga,21,,orissa,,baisinga
+2007-21-003,bahalda,21,,orissa,,bahalda
+2007-21-070,kodala,21,,orissa,,kodala
+2007-21-053,nimapara,21,,orissa,,nimapara
+2007-21-034,patkura,21,,orissa,,patkura
+2007-21-099,bhawanipatna,21,,orissa,,bhawanipatna
+2007-21-096,dharamgarh,21,,orissa,,dharamgarh
+2007-21-084,pottangi,21,,orissa,,pottangi
+2007-21-113,binka,21,,orissa,,binka
+2007-21-073,hinjili,21,,orissa,,hinjili
+2007-21-146,ramchandrapur,21,,orissa,,ramchandrapur
+2007-21-123,padampur,21,,orissa,,padampur
+2007-21-025,jajpur,21,,orissa,,jajpur
+2007-21-147,anandapur,21,,orissa,,anandapur
+2007-21-064,daspalla,21,,orissa,,daspalla
+2007-21-007,baripada,21,,orissa,,baripada
+2007-21-056,puri,21,,orissa,,puri
+2007-21-065,jaganathprasad,21,,orissa,,jaganathprasad
+2007-21-134,deogarh,21,,orissa,,deogarh
+2007-21-132,kuchinda,21,,orissa,,kuchinda
+2007-21-062,nayagarh,21,,orissa,,nayagarh
+2007-21-087,chitrakonda,21,,orissa,,chitrakonda
+2007-21-115,athmallik,21,,orissa,,athmallik
+2007-21-047,athgarh,21,,orissa,,athgarh
+2007-21-145,telkoi,21,,orissa,,telkoi
+2007-21-027,barchana,21,,orissa,,barchana
+2007-21-001,karanjia,21,,orissa,,karanjia
+2007-21-137,rajgangpur,21,,orissa,,rajgangpur
+2007-21-118,dhenkanal,21,,orissa,,dhenkanal
+2007-21-023,sukinda,21,,orissa,,sukinda
+2007-21-030,aul,21,,orissa,,aul
+2007-21-059,khurda,21,,orissa,,khurda
+2007-21-089,jeypore,21,,orissa,,jeypore
+2007-21-135,sundargarh,21,,orissa,,sundargarh
+2007-21-080,gunupur,21,,orissa,,gunupur
+2007-21-133,rairakhol,21,,orissa,,rairakhol
+2007-21-109,saintala,21,,orissa,,saintala
+2007-21-104,phulbani,21,,orissa,,phulbani
+2007-21-108,patnagarh,21,,orissa,,patnagarh
+2007-21-131,laikera,21,,orissa,,laikera
+2007-21-014,balasore,21,,orissa,,balasore
+2007-21-045,choudwar,21,,orissa,,choudwar
+2007-21-015,soro,21,,orissa,,soro
+2007-21-075,berhampur,21,,orissa,,berhampur
+2007-21-040,mahanga,21,,orissa,,mahanga
+2007-21-140,raghunathpali,21,,orissa,,raghunathpali
+2007-21-083,lakshmipur,21,,orissa,,lakshmipur
+2007-21-033,kendrapara,21,,orissa,,kendrapara
+2007-21-088,kotpad,21,,orissa,,kotpad
+2007-21-021,chandbali,21,,orissa,,chandbali
+2007-21-105,boudh,21,,orissa,,boudh
+2007-21-046,banki,21,,orissa,,banki
+2007-21-093,umarkote,21,,orissa,,umarkote
+2007-21-002,jashipur,21,,orissa,,jashipur
+2007-21-029,binjharpur,21,,orissa,,binjharpur
+2007-21-041,salepur,21,,orissa,,salepur
+2007-21-061,ranpur,21,,orissa,,ranpur
+2007-21-050,bhubaneswar,21,,orissa,,bhubaneswar
+2007-21-071,khallikote,21,,orissa,,khallikote
+2007-21-042,gobindpur,21,,orissa,,gobindpur
+2007-21-038,jagatsinghpur,21,,orissa,,jagatsinghpur
+2007-21-138,biramitrapur,21,,orissa,,biramitrapur
+2007-21-085,koraput,21,,orissa,,koraput
+2007-21-107,kantabanji,21,,orissa,,kantabanji
+2007-21-032,rajnagar,21,,orissa,,rajnagar
+2007-21-066,bhanjanagar,21,,orissa,,bhanjanagar
+2007-21-125,bijepur,21,,orissa,,bijepur
+2007-21-120,kamakhyanagar,21,,orissa,,kamakhyanagar
+2007-21-086,malkangiri,21,,orissa,,malkangiri
+2007-21-079,parlakhemundi,21,,orissa,,parlakhemundi
+2007-21-136,talsara,21,,orissa,,talsara
+2007-21-101,kesinga,21,,orissa,,kesinga
+2007-21-019,bhadrak,21,,orissa,,bhadrak
+2007-21-063,khandapara,21,,orissa,,khandapara
+2007-21-077,mahona,21,,orissa,,mahona
+2007-21-074,gopalpur,21,,orissa,,gopalpur
+2007-21-126,bhatli,21,,orissa,,bhatli
+2007-21-067,suruda,21,,orissa,,suruda
+2007-21-018,bhandaripokhari,21,,orissa,,bhandaripokhari
+2007-21-055,satyabadi,21,,orissa,,satyabadi
+2007-21-035,tirtol,21,,orissa,,tirtol
+2007-21-119,gondia,21,,orissa,,gondia
+2007-21-090,nowrangpur,21,,orissa,,nowrangpur
+2007-21-011,bhograi,21,,orissa,,bhograi
+2007-21-082,rayagada,21,,orissa,,rayaapag
+2007-21-127,bargarh,21,,orissa,,bargarh
+2007-21-112,sonepur,21,,orissa,,sonepur
+2007-21-010,udala,21,,orissa,,udala
+2007-21-117,hindol,21,,orissa,,hindol
+2007-21-016,simulia,21,,orissa,,simulia
+2007-21-039,kissannagar,21,,orissa,,kissannagar
+2007-21-098,junagarh,21,,orissa,,junagarh
+2007-21-103,udayagiri,21,,orissa,,udayagiri
+2007-21-144,keonjhar,21,,orissa,,keonjhar
+2007-21-069,kavisuryanagar,21,,orissa,,kavisuryanagar
+2007-21-122,talcher,21,,orissa,,talcher
+2007-21-124,melchhamunda,21,,orissa,,melchhamunda
+2007-21-044,cuttack city,21,,orissa,,cuttack city
+2007-21-048,baramba,21,,orissa,,baramba
+2007-22-013,tapkara,22,,chhattisgarh,,tapkara
+2007-22-049,kasdol,22,,chhattisgarh,,kasdol
+2007-22-058,kurud,22,,chhattisgarh,,kurud
+2007-22-089,birendranagar,22,,chhattisgarh,,birendranagar
+2007-22-083,chowki,22,,chhattisgarh,,chowki
+2007-22-024,marwahi,22,,chhattisgarh,,marwahi
+2007-22-007,lundra,22,,chhattisgarh,,lundra
+2007-22-062,narayanpur,22,,chhattisgarh,,narayanpur
+2007-22-021,rampur,22,,chhattisgarh,,rampur
+2007-22-017,raigarh,22,,chhattisgarh,,raigarh
+2007-22-036,champa,22,,chhattisgarh,,champa
+2007-22-008,pilkha,22,,chhattisgarh,,pilkha
+2007-22-005,pal,22,,chhattisgarh,,pal
+2007-22-023,tanakhar,22,,chhattisgarh,,tanakhar
+2007-22-042,abhanpur,22,,chhattisgarh,,abhanpur
+2007-22-081,balod,22,,chhattisgarh,,balod
+2007-22-064,kondagaon,22,,chhattisgarh,,kondagaon
+2007-22-002,baikunthpur,22,,chhattisgarh,,baikunthpur
+2007-22-048,pallari,22,,chhattisgarh,,pallari
+2007-22-057,sihawa,22,,chhattisgarh,,sihawa
+2007-22-080,khertha,22,,chhattisgarh,,khertha
+2007-22-065,bhanpuri,22,,chhattisgarh,,bhanpuri
+2007-22-085,dongargaon,22,,chhattisgarh,,dongargaon
+2007-22-072,maro,22,,chhattisgarh,,maro
+2007-22-046,bhatapara,22,,chhattisgarh,,bhatapara
+2007-22-041,raipur rural,22,,chhattisgarh,,raipur rural
+2007-22-011,bagicha,22,,chhattisgarh,,bagicha
+2007-22-068,chitrakote,22,,chhattisgarh,,chitrakote
+2007-22-030,bilaspur,22,,chhattisgarh,,bilaspur
+2007-22-063,keskala,22,,chhattisgarh,,keskala
+2007-22-090,kawardha,22,,chhattisgarh,,kawardha
+2007-22-056,mahasamund,22,,chhattisgarh,,mahasamund
+2007-22-044,arang,22,,chhattisgarh,,arang
+2007-22-078,patan,22,,chhattisgarh,,patan
+2007-22-016,lailunga,22,,chhattisgarh,,lailunga
+2007-22-067,keslur,22,,chhattisgarh,,keslur
+2007-22-032,masturi,22,,chhattisgarh,,masturi
+2007-22-009,ambikapur,22,,chhattisgarh,,ambikapur
+2007-22-020,sarangarh,22,,chhattisgarh,,sarangarh
+2007-22-084,khujji,22,,chhattisgarh,,khujji
+2007-22-088,khairagarh,22,,chhattisgarh,,khairagarh
+2007-22-074,saja,22,,chhattisgarh,,saja
+2007-22-045,dharsiwa,22,,chhattisgarh,,dharsiwa
+2007-22-028,jarhagaon,22,,chhattisgarh,,jarhagaon
+2007-22-050,bhatgaon,22,,chhattisgarh,,bhatgaon
+2007-22-066,jagdalpur,22,,chhattisgarh,,jagdalpur
+2007-22-037,sakti,22,,chhattisgarh,,sakti
+2007-22-053,saraipali,22,,chhattisgarh,,saraipali
+2007-22-019,saria,22,,chhattisgarh,,saria
+2007-22-034,akaltara,22,,chhattisgarh,,akaltara
+2007-22-038,malkharoda,22,,chhattisgarh,,malkharoda sc
+2007-22-039,chandrapur,22,,chhattisgarh,,chandrapur
+2007-22-012,jashpur,22,,chhattisgarh,,jashpur
+2007-22-027,mungeli,22,,chhattisgarh,,mungeli
+2007-22-015,dharamjaigarh,22,,chhattisgarh,,dharamjaigarh
+2007-22-047,baloda bazar,22,,chhattisgarh,,baloda bazar
+2007-22-003,premnagar,22,,chhattisgarh,,premnagar
+2007-22-018,kharsia,22,,chhattisgarh,,kharsia
+2007-22-075,dhamdha,22,,chhattisgarh,,dhamdha
+2007-22-006,samri,22,,chhattisgarh,,samri
+2007-22-055,khallari,22,,chhattisgarh,,khallari
+2007-22-033,sipat,22,,chhattisgarh,,sipat
+2007-22-029,takhatpur,22,,chhattisgarh,,takhatpur
+2007-22-043,mandirhasod,22,,chhattisgarh,,mandirhasod
+2007-22-031,bilha,22,,chhattisgarh,,bilha
+2007-22-014,pathalgaon,22,,chhattisgarh,,pathalgaon
+2007-22-069,dantewada,22,,chhattisgarh,,dantewada
+2007-22-071,bijapur,22,,chhattisgarh,,bijapur
+2007-22-035,pamgarh,22,,chhattisgarh,,pamgarh
+2007-22-061,kanker,22,,chhattisgarh,,kanker
+2007-22-087,dongargarh,22,,chhattisgarh,,dongargarh
+2007-22-010,sitapur,22,,chhattisgarh,,sitapur
+2007-22-060,bhanupratappur,22,,chhattisgarh,,bhanupratappur
+2007-22-040,raipur town,22,,chhattisgarh,,raipur town
+2007-22-054,basna,22,,chhattisgarh,,basna
+2007-22-022,katghora,22,,chhattisgarh,,katghora
+2007-22-059,dhamtari,22,,chhattisgarh,,dhamtari
+2007-22-026,lormi,22,,chhattisgarh,,lormi
+2007-22-077,bhilai,22,,chhattisgarh,,bhilai
+2007-22-086,rajnandgaon,22,,chhattisgarh,,rajnandgaon
+2007-22-025,kota,22,,chhattisgarh,,kota
+2007-22-052,bindranawagarh,22,,chhattisgarh,,bindranawagarh
+2007-22-004,surajpur,22,,chhattisgarh,,surajpur
+2007-22-079,gunderdehi,22,,chhattisgarh,,gunderdehi
+2007-22-070,konta,22,,chhattisgarh,,konta
+2007-22-073,bemetara,22,,chhattisgarh,,bemetara
+2007-22-001,manendragarh,22,,chhattisgarh,,manendragarh
+2007-22-076,durg,22,,chhattisgarh,,durg
+2007-22-082,dondi lohara,22,,chhattisgarh,,dondi lohara
+2007-22-051,rajim,22,,chhattisgarh,,rajim
+2007-23-009,gohad,23,,madhya pradesh,,gohad
+2007-23-129,chaurai,23,,madhya pradesh,,chaurai
+2007-23-201,kasrawad,23,,madhya pradesh,,kasrawad
+2007-23-140,bhainsdehi,23,,madhya pradesh,,bhainsdehi
+2007-23-226,suwasara,23,,madhya pradesh,,suwasara
+2007-23-062,chitrakoot,23,,madhya pradesh,,chitrakoot
+2007-23-198,bhikangaon,23,,madhya pradesh,,bhikangaon
+2007-23-213,kukshi,23,,madhya pradesh,,kukshi
+2007-23-078,singrauli,23,,madhya pradesh,,singrauli
+2007-23-160,sironj,23,,madhya pradesh,,sironj
+2007-23-085,sohagpur,23,,madhya pradesh,,sohagpur
+2007-23-204,sendhwa,23,,madhya pradesh,,sendhwa
+2007-23-031,raghogarh,23,,madhya pradesh,,raghogarh
+2007-23-016,lashkar east,23,,madhya pradesh,,lashkar east
+2007-23-034,mungaoli,23,,madhya pradesh,,mungaoli
+2007-23-199,barwaha,23,,madhya pradesh,,barwaha
+2007-23-072,mauganj,23,,madhya pradesh,,mauganj
+2007-23-135,seoni malwa,23,,madhya pradesh,,seoni malwa
+2007-23-073,churahat,23,,madhya pradesh,,churahat
+2007-23-229,neemuch,23,,madhya pradesh,,neemuch
+2007-23-083,kotma,23,,madhya pradesh,,kotma
+2007-23-065,amarpatan,23,,madhya pradesh,,amarpatan
+2007-23-091,khairlanjee,23,,madhya pradesh,,khairlanjee
+2007-23-100,shahpura,23,,madhya pradesh,,shahpura
+2007-23-107,jabalpur west,23,,madhya pradesh,,jabalpur west
+2007-23-118,gotegaon,23,,madhya pradesh,,gotegaon
+2007-23-029,guna,23,,madhya pradesh,,guna
+2007-23-054,patharia,23,,madhya pradesh,,patharia
+2007-23-023,datia,23,,madhya pradesh,,datia
+2007-23-192,nimarkhedi,23,,madhya pradesh,,nimarkhedi
+2007-23-197,burhanpur,23,,madhya pradesh,,burhanpur
+2007-23-159,shamshabad,23,,madhya pradesh,,shamshabad
+2007-23-040,surkhi,23,,madhya pradesh,,surkhi
+2007-23-022,seondha,23,,madhya pradesh,,seondha
+2007-23-205,anjad,23,,madhya pradesh,,anjad
+2007-23-179,mhow,23,,madhya pradesh,,mhow
+2007-23-028,kolaras,23,,madhya pradesh,,kolaras
+2007-23-121,keolari,23,,madhya pradesh,,keolari
+2007-23-117,narsimhapur,23,,madhya pradesh,,narsimhapur
+2007-23-150,bhopal north,23,,madhya pradesh,,bhopal north
+2007-23-015,gwalior,23,,madhya pradesh,,gwalior
+2007-23-177,ujjain south,23,,madhya pradesh,,ujjain south
+2007-23-095,nainpur,23,,madhya pradesh,,nainpur
+2007-23-018,morar,23,,madhya pradesh,,morar
+2007-23-114,vijairaghogarh,23,,madhya pradesh,,vijairaghogarh
+2007-23-225,garoth,23,,madhya pradesh,,garoth
+2007-23-048,bijawar,23,,madhya pradesh,,bijawar
+2007-23-196,shahpur,23,,madhya pradesh,,shahpur
+2007-23-089,kirnapur,23,,madhya pradesh,,kirnapur
+2007-23-110,sihora,23,,madhya pradesh,,sihora
+2007-23-209,dharampuri,23,,madhya pradesh,,dharampuri
+2007-23-042,deori,23,,madhya pradesh,,deori
+2007-23-092,katangi,23,,madhya pradesh,,katangi
+2007-23-109,majholi,23,,madhya pradesh,,majholi
+2007-23-139,masod,23,,madhya pradesh,,masod
+2007-23-175,ghatiya,23,,madhya pradesh,,ghatiya
+2007-23-212,sardarpur,23,,madhya pradesh,,sardarpur
+2007-23-097,bichhia,23,,madhya pradesh,,bichhia
+2007-23-005,sumawali,23,,madhya pradesh,,sumawali
+2007-23-149,bhopal south,23,,madhya pradesh,,bhopal south
+2007-23-186,dewas,23,,madhya pradesh,,dewas
+2007-23-134,itarsi,23,,madhya pradesh,,itarsi
+2007-23-075,gopadbanas,23,,madhya pradesh,,gopad banas
+2007-23-003,sabalgarh,23,,madhya pradesh,,sabalgarh
+2007-23-187,sonkatch,23,,madhya pradesh,,sonkatch
+2007-23-004,joura,23,,madhya pradesh,,joura
+2007-23-157,basoda,23,,madhya pradesh,,basoda
+2007-23-167,gulana,23,,madhya pradesh,,gulana
+2007-23-025,pohri,23,,madhya pradesh,,pohri
+2007-23-195,nepanagar,23,,madhya pradesh,,nepanagar
+2007-23-014,lahar,23,,madhya pradesh,,lahar
+2007-23-191,harsud,23,,madhya pradesh,,harsud
+2007-23-218,thandla,23,,madhya pradesh,,thandla
+2007-23-168,shajapur,23,,madhya pradesh,,shajapur
+2007-23-080,umaria,23,,madhya pradesh,,umaria
+2007-23-221,sailana,23,,madhya pradesh,,sailana
+2007-23-216,jhabua,23,,madhya pradesh,,jhabua
+2007-23-060,nagod,23,,madhya pradesh,,nagod
+2007-23-088,lanji,23,,madhya pradesh,,lanji
+2007-23-125,chhindwara,23,,madhya pradesh,,chhindwara
+2007-23-164,rajgarh,23,,madhya pradesh,,rajgarh
+2007-23-058,pawai,23,,madhya pradesh,,pawai
+2007-23-137,harda,23,,madhya pradesh,,harda
+2007-23-188,hatpipalya,23,,madhya pradesh,,hatpipalya
+2007-23-102,bargi,23,,madhya pradesh,,bargi
+2007-23-011,attair,23,,madhya pradesh,,attair
+2007-23-180,indore-1,23,,madhya pradesh,,indore-1
+2007-23-219,ratlam town,23,,madhya pradesh,,ratlam town
+2007-23-066,rewa,23,,madhya pradesh,,rewa
+2007-23-026,shivpuri,23,,madhya pradesh,,shivpuri
+2007-23-184,indore v,23,,madhya pradesh,,indore v
+2007-23-190,khategaon,23,,madhya pradesh,,khategaon
+2007-23-138,multai,23,,madhya pradesh,,multai
+2007-23-193,pandhana,23,,madhya pradesh,,pandhana
+2007-23-147,sehore,23,,madhya pradesh,,sehore
+2007-23-194,khandwa,23,,madhya pradesh,,khandwa
+2007-23-069,sirmaur,23,,madhya pradesh,,sirmaur
+2007-23-127,damua,23,,madhya pradesh,,damua
+2007-23-170,susner,23,,madhya pradesh,,susner
+2007-23-076,dhauhani,23,,madhya pradesh,,dhauhani
+2007-23-172,mahidpur,23,,madhya pradesh,,mahidpur
+2007-23-176,ujjain north,23,,madhya pradesh,,ujjain north
+2007-23-090,waraseoni,23,,madhya pradesh,,waraseoni
+2007-23-001,sheopur,23,,madhya pradesh,,sheopur
+2007-23-098,bajag,23,,madhya pradesh,,bajag
+2007-23-206,rajpur,23,,madhya pradesh,,rajpur
+2007-23-032,shadora,23,,madhya pradesh,,shadora
+2007-23-165,khilchipur,23,,madhya pradesh,,khilchipur
+2007-23-103,panagar,23,,madhya pradesh,,panagar
+2007-23-045,khargapur,23,,madhya pradesh,,khargapur
+2007-23-153,udaipura,23,,madhya pradesh,,udaipura
+2007-23-214,alirajpur,23,,madhya pradesh,,alirajpur
+2007-23-099,dindori,23,,madhya pradesh,,dindori
+2007-23-046,tikamgarh,23,,madhya pradesh,,tikamgarh
+2007-23-143,amla,23,,madhya pradesh,,amla
+2007-23-227,sitamau,23,,madhya pradesh,,sitamau
+2007-23-087,baihar,23,,madhya pradesh,,baihar
+2007-23-056,panna,23,,madhya pradesh,,panna
+2007-23-064,rampur baghelan,23,,madhya pradesh,,rampur baghelan
+2007-23-178,depalpur,23,,madhya pradesh,,depalpur
+2007-23-008,ambah,23,,madhya pradesh,,ambah
+2007-23-112,murwara,23,,madhya pradesh,,murwara
+2007-23-038,naryaoli,23,,madhya pradesh,,naryaoli
+2007-23-041,rehli,23,,madhya pradesh,,rehli
+2007-23-158,vidisha,23,,madhya pradesh,,vidisha
+2007-23-161,biaora,23,,madhya pradesh,,biaora
+2007-23-156,kurwai,23,,madhya pradesh,,kurwai
+2007-23-124,jamai,23,,madhya pradesh,,jamai
+2007-23-108,patan,23,,madhya pradesh,,patan
+2007-23-115,gadarwara,23,,madhya pradesh,,gadarwara
+2007-23-154,bareli,23,,madhya pradesh,,bareli
+2007-23-082,jaisinghnagar,23,,madhya pradesh,,jaisinghnagar
+2007-23-200,maheshwar,23,,madhya pradesh,,maheshwar
+2007-23-053,damoh,23,,madhya pradesh,,damoh
+2007-23-074,sidhi,23,,madhya pradesh,,sidhi
+2007-23-155,bhojpur,23,,madhya pradesh,,bhojpur
+2007-23-130,sausar,23,,madhya pradesh,,sausar
+2007-23-037,banda,23,,madhya pradesh,,banda
+2007-23-174,badnagar,23,,madhya pradesh,,badnagar
+2007-23-050,maharajpur,23,,madhya pradesh,,maharajpur
+2007-23-185,sawer,23,,madhya pradesh,,sawer
+2007-23-128,amarwara,23,,madhya pradesh,,amarwara
+2007-23-061,raigaon,23,,madhya pradesh,,raigaon
+2007-23-189,bagli,23,,madhya pradesh,,bagli
+2007-23-136,timarni,23,,madhya pradesh,,timarni
+2007-23-163,sarangpur,23,,madhya pradesh,,sarangpur
+2007-23-047,malehra,23,,madhya pradesh,,malehra
+2007-23-030,chachaura,23,,madhya pradesh,,chachoda
+2007-23-036,khurai,23,,madhya pradesh,,khurai
+2007-23-207,barwani,23,,madhya pradesh,,barwani
+2007-23-215,jobat,23,,madhya pradesh,,jobat
+2007-23-146,ashta,23,,madhya pradesh,,ashta
+2007-23-093,balaghat,23,,madhya pradesh,,balaghat
+2007-23-079,beohari,23,,madhya pradesh,,beohari
+2007-23-145,ichhawar,23,,madhya pradesh,,ichhawar
+2007-23-081,nowrozabad,23,,madhya pradesh,,nowrozabad
+2007-23-182,indore-3,23,,madhya pradesh,,indore-3
+2007-23-071,deotalab,23,,madhya pradesh,,deotalab
+2007-23-183,indore-4,23,,madhya pradesh,,indore-4
+2007-23-013,ron,23,,madhya pradesh,,ron
+2007-23-123,seoni,23,,madhya pradesh,,seoni
+2007-23-202,khargone,23,,madhya pradesh,,khargone
+2007-23-230,jawad,23,,madhya pradesh,,jawad
+2007-23-181,indore-2,23,,madhya pradesh,,indore-2
+2007-23-105,jabalpur east,23,,madhya pradesh,,jabalpur east
+2007-23-223,alot,23,,madhya pradesh,,alot
+2007-23-057,amanganj,23,,madhya pradesh,,amanganj
+2007-23-006,morena,23,,madhya pradesh,,morena
+2007-23-051,chandla,23,,madhya pradesh,,chandla
+2007-23-132,piparia,23,,madhya pradesh,,piparia
+2007-23-151,berasia,23,,madhya pradesh,,berasia
+2007-23-039,sagar,23,,madhya pradesh,,sagar
+2007-23-096,mandla,23,,madhya pradesh,,mandla
+2007-23-017,lashkar west,23,,madhya pradesh,,lashkar west
+2007-23-086,pushparajgarh,23,,madhya pradesh,,pushparajgarh
+2007-23-210,dhar,23,,madhya pradesh,,dhar
+2007-23-019,gird,23,,madhya pradesh,,gird
+2007-23-173,khachrod,23,,madhya pradesh,,khachrod
+2007-23-162,narsingarh,23,,madhya pradesh,,narsingarh
+2007-23-119,lakhanadon,23,,madhya pradesh,,lakhanadon
+2007-23-077,deosar,23,,madhya pradesh,,deosar
+2007-23-222,jaora,23,,madhya pradesh,,jaora
+2007-23-020,dabra,23,,madhya pradesh,,dabra
+2007-23-133,hoshangabad,23,,madhya pradesh,,hoshangabad
+2007-23-024,karera,23,,madhya pradesh,,karera
+2007-23-166,shujalpur,23,,madhya pradesh,,shujalpur
+2007-23-059,maihar,23,,madhya pradesh,,maihar
+2007-23-126,parasia,23,,madhya pradesh,,parasia
+2007-23-021,bhander,23,,madhya pradesh,,bhander
+2007-23-224,manasa,23,,madhya pradesh,,manasa
+2007-23-116,bohani,23,,madhya pradesh,,bohani
+2007-23-007,dimni,23,,madhya pradesh,,dimni
+2007-23-152,sanchi,23,,madhya pradesh,,sanchi
+2007-23-144,budhni,23,,madhya pradesh,,budhni
+2007-23-084,anuppur,23,,madhya pradesh,,anuppur
+2007-23-027,pichhore,23,,madhya pradesh,,pichhore
+2007-23-208,manawar,23,,madhya pradesh,,manawar
+2007-23-070,teonthar,23,,madhya pradesh,,teonthar
+2007-23-067,gurh,23,,madhya pradesh,,gurh
+2007-23-228,mandsaur,23,,madhya pradesh,,mandsaur
+2007-23-171,tarana,23,,madhya pradesh,,tarana
+2007-23-049,chhatarpur,23,,madhya pradesh,,chhatarpur
+2007-23-101,niwas,23,,madhya pradesh,,niwas
+2007-23-055,hatta,23,,madhya pradesh,,hatta
+2007-23-033,ashoknagar,23,,madhya pradesh,,ashoknagar
+2007-23-063,satna,23,,madhya pradesh,,satna
+2007-23-217,petlawad,23,,madhya pradesh,,petlawad
+2007-23-035,bina,23,,madhya pradesh,,bina
+2007-23-068,mangawan,23,,madhya pradesh,,mangawan
+2007-23-104,jabalpur cantonment,23,,madhya pradesh,,jabalpur cantonment
+2007-23-043,niwari,23,,madhya pradesh,,niwari
+2007-23-120,ghansor,23,,madhya pradesh,,ghansor
+2007-23-169,agar,23,,madhya pradesh,,agar
+2007-23-111,bahoriband,23,,madhya pradesh,,bahoriband
+2007-23-148,govindpura,23,,madhya pradesh,,govindpura
+2007-23-122,barghat,23,,madhya pradesh,,barghat
+2007-23-010,mehgaon,23,,madhya pradesh,,mehgaon
+2007-23-044,jatara,23,,madhya pradesh,,jatara
+2007-23-012,bhind,23,,madhya pradesh,,bhind
+2007-23-141,betul,23,,madhya pradesh,,betul
+2007-23-002,vijaypur,23,,madhya pradesh,,vijaypur
+2007-23-220,ratlam rural,23,,madhya pradesh,,ratlam rural
+2007-23-106,jabalpur central,23,,madhya pradesh,,jabalpur central
+2007-23-131,pandhurna,23,,madhya pradesh,,pandhurna
+2007-23-094,paraswada,23,,madhya pradesh,,paraswada
+2007-23-142,ghora dongri,23,,madhya pradesh,,ghora dongri
+2007-23-211,badnawar,23,,madhya pradesh,,badnawar
+2007-23-113,badwara,23,,madhya pradesh,,badwara
+2007-23-052,nohata,23,,madhya pradesh,,nohata
+2007-23-203,dhulkot,23,,madhya pradesh,,dhulkot
+2007-24-093,sami,24,,gujarat,,sami
+2007-24-077,maninagar,24,,gujarat,,maninagar
+2007-24-046,dhari,24,,gujarat,,dhari
+2007-24-053,kundla,24,,gujarat,,kundla
+2007-24-052,sihor,24,,gujarat,,sihor
+2007-24-123,randhikpur,24,,gujarat,,randhikpur
+2007-24-133,anand,24,,gujarat,,anand
+2007-24-058,bhavnagar south,24,,gujarat,,bhavnagar south
+2007-24-057,bhavnagar north,24,,gujarat,,bhavnagar north
+2007-24-012,dhrangadhra,24,,gujarat,,dhrangadhra
+2007-24-161,nijhar,24,,gujarat,,nijhar
+2007-24-004,mundra,24,,gujarat,,mundra
+2007-24-162,162-mangrol,24,,gujarat,,mangrol
+2007-24-115,limkheda,24,,gujarat,,limkheda
+2007-24-073,rakhial,24,,gujarat,,rakhial
+2007-24-008,wadhwan,24,,gujarat,,wadhwan
+2007-24-154,jambusar,24,,gujarat,,jambusar
+2007-24-059,dhandhuka,24,,gujarat,,dhandhuka
+2007-24-050,gadhada,24,,gujarat,,gadhada
+2007-24-181,pardi,24,,gujarat,,pardi
+2007-24-143,nasvadi,24,,gujarat,,nasvadi
+2007-24-108,modasa,24,,gujarat,,modasa
+2007-24-134,sarsa,24,,gujarat,,sarsa
+2007-24-023,upleta,24,,gujarat,,upleta
+2007-24-054,054-mahuva,24,,gujarat,,mahuva
+2007-24-094,radhanpur,24,,gujarat,,radhanpur
+2007-24-136,sojitra,24,,gujarat,,sojitra
+2007-24-163,songadh,24,,gujarat,,songadh
+2007-24-131,nadiad,24,,gujarat,,nadiad
+2007-24-066,dehgam,24,,gujarat,,dehgam
+2007-24-167,kamrej,24,,gujarat,,kamrej
+2007-24-171,surat city west,24,,gujarat,,surat city west
+2007-24-001,abdasa,24,,gujarat,,abdasa
+2007-24-062,mandal,24,,gujarat,,mandal
+2007-24-157,ankleshwar,24,,gujarat,,ankleshwar
+2007-24-096,deodar,24,,gujarat,,deodar
+2007-24-016,jasdan,24,,gujarat,,jasdan
+2007-24-082,jotana,24,,gujarat,,jotana
+2007-24-159,dediapada,24,,gujarat,,dediapada
+2007-24-021,021-jetpur,24,,gujarat,,jetpur
+2007-24-135,petlad,24,,gujarat,,petlad
+2007-24-158,jhagadia,24,,gujarat,,jhagadia
+2007-24-148,sayajiganj,24,,gujarat,,sayajiganj
+2007-24-079,gandhinagar,24,,gujarat,,gandhinagar
+2007-24-175,gandevi,24,,gujarat,,gandevi
+2007-24-173,jalalpore,24,,gujarat,,jalalpore
+2007-24-137,matar,24,,gujarat,,matar
+2007-24-169,surat city north,24,,gujarat,,surat city north
+2007-24-139,bhadran,24,,gujarat,,bhardran
+2007-24-065,daskroi,24,,gujarat,,daskroi
+2007-24-119,119-kalol,24,,gujarat,,kalol
+2007-24-110,meghraj,24,,gujarat,,meghraj
+2007-24-177,dangs bansda,24,,gujarat,,dangs bansda
+2007-24-126,thasra,24,,gujarat,,thasra
+2007-24-035,manavadar,24,,gujarat,,manavadar
+2007-24-120,godhra,24,,gujarat,,godhra
+2007-24-071,kalupur,24,,gujarat,,kalupur
+2007-24-024,jodiya,24,,gujarat,,jodiya
+2007-24-180,mota pondha,24,,gujarat,,mota pondha
+2007-24-118,halol,24,,gujarat,,halol
+2007-24-048,rajula,24,,gujarat,,rajula
+2007-24-102,danta,24,,gujarat,,danta
+2007-24-070,shahpur,24,,gujarat,,shahpur
+2007-24-178,bulsar,24,,gujarat,,bulsar
+2007-24-111,santrampur,24,,gujarat,,santrampur
+2007-24-152,padra,24,,gujarat,,padra
+2007-24-069,dariapur kazipur,24,,gujarat,,dariapur kazipur
+2007-24-072,asarwa,24,,gujarat,,asarwa
+2007-24-051,palitana,24,,gujarat,,palitana
+2007-24-144,sankheda,24,,gujarat,,sankheda
+2007-24-095,vav,24,,gujarat,,vav
+2007-24-083,mehsana,24,,gujarat,,mehsana
+2007-24-112,jhalod,24,,gujarat,,jhalod
+2007-24-122,lunavada,24,,gujarat,,lunavada
+2007-24-076,jamalpur,24,,gujarat,,jamalpur
+2007-24-099,dhanera,24,,gujarat,,dhanera
+2007-24-055,talaja,24,,gujarat,,talaja
+2007-24-015,wankaner,24,,gujarat,,wankaner
+2007-24-121,shehra,24,,gujarat,,shehra
+2007-24-116,devgadh baria,24,,gujarat,,devgadh baria
+2007-24-151,baroda rural,24,,gujarat,,baroda rural
+2007-24-168,olpad,24,,gujarat,,olpad
+2007-24-160,rajpipla,24,,gujarat,,rajpipla
+2007-24-097,kankrej,24,,gujarat,,kankrej
+2007-24-047,kodinar,24,,gujarat,,kodinar
+2007-24-032,porbandar,24,,gujarat,,porbandar
+2007-24-114,dohad,24,,gujarat,,dohad
+2007-24-067,sabarmati,24,,gujarat,,sabarmati
+2007-24-172,chorasi,24,,gujarat,,chorasi
+2007-24-145,dabhoi,24,,gujarat,,dabhoi
+2007-24-142,142-jetpur,24,,gujarat,,jetpur
+2007-24-150,vaghodia,24,,gujarat,,vaghodia
+2007-24-031,dwarka,24,,gujarat,,dwarka
+2007-24-056,ghogho,24,,gujarat,,ghogho
+2007-24-090,vagdod,24,,gujarat,,vagdod
+2007-24-081,kadi,24,,gujarat,,kadi
+2007-24-170,surat city east,24,,gujarat,,surat city east
+2007-24-109,bayad,24,,gujarat,,bayad
+2007-24-156,broach,24,,gujarat,,broach
+2007-24-088,unjha,24,,gujarat,,unjha
+2007-24-011,halvad,24,,gujarat,,halvad
+2007-24-022,dhoraji,24,,gujarat,,dhoraji
+2007-24-043,babra,24,,gujarat,,babra
+2007-24-014,tankara,24,,gujarat,,tankara
+2007-24-104,idar,24,,gujarat,,idar
+2007-24-006,rapar,24,,gujarat,,rapar
+2007-24-036,keshod,24,,gujarat,,keshod
+2007-24-146,savli,24,,gujarat,,savli
+2007-24-009,limbdi,24,,gujarat,,limbdi
+2007-24-174,navsari,24,,gujarat,,navsari
+2007-24-005,anjar,24,,gujarat,,anjar
+2007-24-086,visnagar,24,,gujarat,,visnagar
+2007-24-074,shaher kotda,24,,gujarat,,shaher kotda
+2007-24-107,prantij,24,,gujarat,,prantij
+2007-24-165,165-mahuva,24,,gujarat,,mahuva
+2007-24-017,rajkot-1,24,,gujarat,,rajkot-1
+2007-24-105,bhiloda,24,,gujarat,,bhiloda
+2007-24-091,patan,24,,gujarat,,patan
+2007-24-049,botad,24,,gujarat,,botad
+2007-24-033,kutiyana,24,,gujarat,,kutiyana
+2007-24-061,bavla,24,,gujarat,,bavla
+2007-24-029,bhanvad,24,,gujarat,,bhanvad
+2007-24-113,limdi,24,,gujarat,,limdi
+2007-24-041,maliya,24,,gujarat,,maliya
+2007-24-132,chakalasi,24,,gujarat,,chakalasi
+2007-24-101,vadgam,24,,gujarat,,vadgam
+2007-24-182,umbergaon,24,,gujarat,,umbergaon
+2007-24-164,vyara,24,,gujarat,,vyara
+2007-24-100,palanpur,24,,gujarat,,palanpur
+2007-24-028,jamjodhpur,24,,gujarat,,jamjodhpur
+2007-24-125,kapadvanj,24,,gujarat,,kapadvanj
+2007-24-089,sidhpur,24,,gujarat,,sidhpur
+2007-24-075,khadia,24,,gujarat,,khadia
+2007-24-103,khedbrahma,24,,gujarat,,khedbrahma
+2007-24-138,borsad,24,,gujarat,,borsad
+2007-24-080,080-kalol,24,,gujarat,,kalol
+2007-24-153,karjan,24,,gujarat,,karjan
+2007-24-063,viramgam,24,,gujarat,,viramgam
+2007-24-044,lathi,24,,gujarat,,lathi
+2007-24-087,kheralu,24,,gujarat,,kheralu
+2007-24-010,chotila,24,,gujarat,,chotila
+2007-24-179,dharampur,24,,gujarat,,dharampur
+2007-24-027,kalawad,24,,gujarat,,kalawad
+2007-24-038,somnath,24,,gujarat,,somnath
+2007-24-147,baroda city,24,,gujarat,,baroda city
+2007-24-003,bhuj,24,,gujarat,,bhuj
+2007-24-130,mahudha,24,,gujarat,,mahudha
+2007-24-040,visavadar,24,,gujarat,,visavadar
+2007-24-060,dholka,24,,gujarat,,dholka
+2007-24-176,chikhli,24,,gujarat,,chikhli
+2007-24-018,rajkot-2,24,,gujarat,,rajkot-2
+2007-24-064,sarkhej,24,,gujarat,,sarkhej
+2007-24-149,raopura,24,,gujarat,,reopura
+2007-24-045,amreli,24,,gujarat,,amreli
+2007-24-085,vijapur,24,,gujarat,,vijapur
+2007-24-141,chhota udaipur,24,,gujarat,,chhota udaipur
+2007-24-030,khambhalia,24,,gujarat,,khambhalia
+2007-24-166,bardoli,24,,gujarat,,bardoli
+2007-24-084,mansa,24,,gujarat,,mansa
+2007-24-128,kathlal,24,,gujarat,,kathlal
+2007-24-020,gondal,24,,gujarat,,gondal
+2007-24-092,chanasma,24,,gujarat,,chanasma
+2007-24-068,ellis bridge,24,,gujarat,,ellis bridge
+2007-24-013,morvi,24,,gujarat,,morvi
+2007-24-025,jamnagar,24,,gujarat,,jamnagar
+2007-24-127,umreth,24,,gujarat,,umreth
+2007-24-002,mandvi,24,,gujarat,,mandvi
+2007-24-037,talala,24,,gujarat,,talala
+2007-24-034,034-mangrol,24,,gujarat,,mangrol
+2007-24-039,una,24,,gujarat,,una
+2007-24-042,junagadh,24,,gujarat,,junagadh
+2007-24-019,rajkot rural,24,,gujarat,,rajkot rural
+2007-24-098,deesa,24,,gujarat,,deesa
+2007-24-140,cambay,24,,gujarat,,cambay
+2007-24-129,mehmedabad,24,,gujarat,,mehmedabad
+2007-24-117,rajgadh,24,,gujarat,,rajgadh
+2007-24-007,dasada,24,,gujarat,,dasada
+2007-24-106,himatnagar,24,,gujarat,,himatnagar
+2007-24-078,naroda,24,,gujarat,,naroda
+2007-24-155,vagra,24,,gujarat,,vagra
+2007-24-124,balasinor,24,,gujarat,,balasinor
+2007-24-026,jamnagar rural,24,,gujarat,,jamnagar rural
+2007-25-028,mormugao,25,,daman diu,,mormugao
+2007-25-024,margao,25,,daman diu,,margao
+2007-25-027,dabolim,25,,daman diu,,dabolim
+2007-25-012,chum barjua,25,,daman diu,,cumbarjua
+2007-25-016,siroda,25,,daman diu,,siroda
+2007-25-015,ponda,25,,daman diu,,ponda
+2007-25-009,satari,25,,daman diu,,satari
+2007-25-023,navelim,25,,daman diu,,navelim
+2007-25-006,tivim,25,,daman diu,,tivim
+2007-25-019,canacona,25,,daman diu,,canacona
+2007-25-017,sanguem,25,,daman diu,,sanguem
+2007-25-030,diu,25,,daman diu,,diu
+2007-25-013,santo andre,25,,daman diu,,santo andre
+2007-25-004,calangute,25,,daman diu,,calangute
+2007-25-020,quepem,25,,daman diu,,quepem
+2007-25-021,cuncolim,25,,daman diu,,cuncolim
+2007-25-001,pernem,25,,daman diu,,pernem
+2007-25-022,benaulim,25,,daman diu,,benaulim
+2007-25-008,pale,25,,daman diu,,pale
+2007-25-018,rivona,25,,daman diu,,rivona
+2007-25-005,mapusa,25,,daman diu,,mapusa
+2007-25-010,panaji,25,,daman diu,,panaji
+2007-25-014,marcaim,25,,daman diu,,narcain
+2007-25-007,bicholim,25,,daman diu,,bicholim
+2007-25-003,siolim,25,,daman diu,,siolim
+2007-25-026,cortalim,25,,daman diu,,cortalim
+2007-25-002,mandrem,25,,daman diu,,mandrem
+2007-25-011,santa cruz,25,,daman diu,,santa cruz
+2007-25-025,curtorim,25,,daman diu,,curtorim
+2007-25-029,daman,25,,daman diu,,daman
+2007-27-085,shahade,27,,maharashtra,,shahade
+2007-27-265,patan,27,,maharashtra,,patan
+2007-27-224,sangole,27,,maharashtra,,sangole
+2007-27-146,gondia,27,,maharashtra,,gondia
+2007-27-152,gadchiroli,27,,maharashtra,,gadchiroli
+2007-27-116,murtajapur,27,,maharashtra,,murtajapur
+2007-27-170,nanded,27,,maharashtra,,nanded
+2007-27-270,bhilawadi wangi,27,,maharashtra,,bhilawadi wangi
+2007-27-066,igatpuri,27,,maharashtra,,igatpuri
+2007-27-141,ramtek,27,,maharashtra,,ramtek
+2007-27-035,dharavi,27,,maharashtra,,dharavi
+2007-27-133,nagpur north,27,,maharashtra,,nagpur north
+2007-27-042,042-goregaon,27,,maharashtra,,goregaon
+2007-27-047,chembur,27,,maharashtra,,chembur
+2007-27-097,jamner,27,,maharashtra,,jamner
+2007-27-037,kherwadi,27,,maharashtra,,kherwadi
+2007-27-038,vileparle,27,,maharashtra,,vileparle
+2007-27-039,amboli,27,,maharashtra,,amboli
+2007-27-276,jat,27,,maharashtra,,jat
+2007-27-235,kopargaon,27,,maharashtra,,kopargaon
+2007-27-124,amravati,27,,maharashtra,,amravati
+2007-27-190,kannad,27,,maharashtra,,kannad
+2007-27-249,kasba peth,27,,maharashtra,,kasba peth
+2007-27-122,teosa,27,,maharashtra,,teosa
+2007-27-203,ahmedpur,27,,maharashtra,,ahmedpur
+2007-27-153,sironcha,27,,maharashtra,,sironcha
+2007-27-029,shivadi,27,,maharashtra,,shivadi
+2007-27-284,kolhapur,27,,maharashtra,,kolhapur
+2007-27-032,dadar,27,,maharashtra,,dadar
+2007-27-067,nashik,27,,maharashtra,,nashik
+2007-27-077,surgana,27,,maharashtra,,surgana
+2007-27-236,rahuri,27,,maharashtra,,rahuri
+2007-27-158,chimur,27,,maharashtra,,chimur
+2007-27-245,haveli,27,,maharashtra,,haveli
+2007-27-084,akrani,27,,maharashtra,,akrani
+2007-27-010,khed,27,,maharashtra,,khed
+2007-27-040,santacruz,27,,maharashtra,,santacruz
+2007-27-154,rajura,27,,maharashtra,,rajura
+2007-27-030,worli,27,,maharashtra,,worli
+2007-27-166,pusad,27,,maharashtra,,pusad
+2007-27-283,radhanagari,27,,maharashtra,,radhanagari
+2007-27-174,mukhed,27,,maharashtra,,mukhed
+2007-27-205,her,27,,maharashtra,,her
+2007-27-002,vengurla,27,,maharashtra,,vengurla
+2007-27-026,nagpada,27,,maharashtra,,nagpada
+2007-27-007,sangameshwar,27,,maharashtra,,sangameshwar
+2007-27-009,chiplun,27,,maharashtra,,chiplun
+2007-27-180,kalamnuri,27,,maharashtra,,kalamnuri
+2007-27-225,malshiras,27,,maharashtra,,malshiras
+2007-27-172,bhokar,27,,maharashtra,,bhokar
+2007-27-230,ahmednagar north,27,,maharashtra,,ahmednagar north
+2007-27-091,parola,27,,maharashtra,,parola
+2007-27-200,chausala,27,,maharashtra,,chausala
+2007-27-277,shirol,27,,maharashtra,,shirol
+2007-27-197,manjlegaon,27,,maharashtra,,manjlegaon
+2007-27-212,omerga,27,,maharashtra,,omerga
+2007-27-182,jintur,27,,maharashtra,,jintur
+2007-27-169,hadgaon,27,,maharashtra,,hadgaon
+2007-27-022,khetwadi,27,,maharashtra,,khetwadi
+2007-27-012,mahad,27,,maharashtra,,mahad
+2007-27-050,ghatkopar,27,,maharashtra,,ghatkopar
+2007-27-062,palghar,27,,maharashtra,,palghar
+2007-27-161,ralegaon,27,,maharashtra,,ralegaon
+2007-27-209,osmanabad,27,,maharashtra,,osmanabad
+2007-27-260,khatav,27,,maharashtra,,khatav
+2007-27-008,guhagar,27,,maharashtra,,guhagar
+2007-27-059,wada,27,,maharashtra,,wada
+2007-27-073,malegaon,27,,maharashtra,,malegaon
+2007-27-151,armori,27,,maharashtra,,armori st
+2007-27-135,nagpur south,27,,maharashtra,,nagpur south
+2007-27-217,solapur city north,27,,maharashtra,,solapur city north
+2007-27-189,sillod,27,,maharashtra,,sillod
+2007-27-005,rajapur,27,,maharashtra,,rajapur
+2007-27-125,badnera,27,,maharashtra,,badnera
+2007-27-243,maval,27,,maharashtra,,maval
+2007-27-254,indapur,27,,maharashtra,,indapur
+2007-27-163,yavatmal,27,,maharashtra,,yavatmal
+2007-27-204,udgir,27,,maharashtra,,udgir
+2007-27-211,nilanga,27,,maharashtra,,nilanga
+2007-27-123,walgaon,27,,maharashtra,,walgaon
+2007-27-171,mudkhed,27,,maharashtra,,mudkhed
+2007-27-288,chandgad,27,,maharashtra,,chandgad
+2007-27-231,pathardi,27,,maharashtra,,pathardi
+2007-27-099,yaval,27,,maharashtra,,yaval
+2007-27-198,beed,27,,maharashtra,,beed
+2007-27-080,sakri,27,,maharashtra,,sakri
+2007-27-024,malbar hill,27,,maharashtra,,malbar hill
+2007-27-105,sindkhedraja,27,,maharashtra,,sinndkhedraja
+2007-27-193,aurangabad west,27,,maharashtra,,aurangabad west
+2007-27-101,edlabad,27,,maharashtra,,ealabad
+2007-27-069,sinnar,27,,maharashtra,,sinnar
+2007-27-051,bhandup,27,,maharashtra,,bhandup
+2007-27-268,shirala,27,,maharashtra,,shirala
+2007-27-253,daund,27,,maharashtra,,daund
+2007-27-257,bhor,27,,maharashtra,,bhor
+2007-27-057,kalyan,27,,maharashtra,,kalyan
+2007-27-139,katol,27,,maharashtra,,katol
+2007-27-234,shirdi,27,,maharashtra,,shirdi
+2007-27-251,pune cantonment,27,,maharashtra,,pune cantonment
+2007-27-191,vaijapur,27,,maharashtra,,vaijapur
+2007-27-229,ahmednagar south,27,,maharashtra,,ahmednagar south
+2007-27-086,shirpur,27,,maharashtra,,shirpur
+2007-27-121,morshi,27,,maharashtra,,morshi
+2007-27-255,baramati,27,,maharashtra,,baramati
+2007-27-034,mahim,27,,maharashtra,,mahim
+2007-27-120,achalpur,27,,maharashtra,,achalpur
+2007-27-164,darwha,27,,maharashtra,,darwha
+2007-27-185,ambad,27,,maharashtra,,ambad
+2007-27-226,karmala,27,,maharashtra,,karmala
+2007-27-145,tirora,27,,maharashtra,,tirora
+2007-27-278,ichalkaranji,27,,maharashtra,,ichalkaranji
+2007-27-021,mumbadevi,27,,maharashtra,,mumbadevi
+2007-27-044,kandivali,27,,maharashtra,,kandivali
+2007-27-011,dapoli,27,,maharashtra,,dapoli
+2007-27-147,147-goregaon,27,,maharashtra,,goregaon
+2007-27-144,adyar,27,,maharashtra,,adyar
+2007-27-113,medshi,27,,maharashtra,,medshi
+2007-27-241,ambegaon,27,,maharashtra,,ambegaon
+2007-27-188,bhokardan,27,,maharashtra,,bhokardan
+2007-27-177,singnapur,27,,maharashtra,,singnapur
+2007-27-019,colaba,27,,maharashtra,,colaba
+2007-27-214,akkalkot,27,,maharashtra,,akkalkot
+2007-27-031,naigaum,27,,maharashtra,,naigaum
+2007-27-199,ashti,27,,maharashtra,,ashti
+2007-27-264,satara,27,,maharashtra,,satara
+2007-27-183,pathri,27,,maharashtra,,pathri
+2007-27-218,north solapur,27,,maharashtra,,north solapur
+2007-27-282,sangrul,27,,maharashtra,,sangrul
+2007-27-184,partur,27,,maharashtra,,partur
+2007-27-093,chopda,27,,maharashtra,,chopda
+2007-27-159,bhadrawati,27,,maharashtra,,bhadrawati
+2007-27-025,chinchpokli,27,,maharashtra,,chinchpokli
+2007-27-267,karad south,27,,maharashtra,,karad south
+2007-27-244,mulshi,27,,maharashtra,,mulshi
+2007-27-076,dindori,27,,maharashtra,,dindori
+2007-27-272,miraj,27,,maharashtra,,miraj
+2007-27-273,tasgaon,27,,maharashtra,,tasgaon
+2007-27-053,thane,27,,maharashtra,,thane
+2007-27-136,nagpur central,27,,maharashtra,,nagpur central
+2007-27-028,parel,27,,maharashtra,,parel
+2007-27-060,bhiwandi,27,,maharashtra,,bhiwandi
+2007-27-222,madha,27,,maharashtra,,madha
+2007-27-286,kagal,27,,maharashtra,,kagal
+2007-27-074,dabhadi,27,,maharashtra,,dabhadi
+2007-27-003,malvan,27,,maharashtra,,malwan
+2007-27-063,dahanu,27,,maharashtra,,dahanu
+2007-27-213,tuljapur,27,,maharashtra,,tuljapur
+2007-27-143,bhandara,27,,maharashtra,,bhandara
+2007-27-114,washim,27,,maharashtra,,washim
+2007-27-068,deolali,27,,maharashtra,,deolali
+2007-27-173,biloli,27,,maharashtra,,biloli
+2007-27-018,khalapur,27,,maharashtra,,khalapur
+2007-27-092,amalner,27,,maharashtra,,amalner
+2007-27-115,mangrulpir,27,,maharashtra,,mangrulpir
+2007-27-271,sangli,27,,maharashtra,,sangli
+2007-27-287,gadhinglaj,27,,maharashtra,,gadhinglaj
+2007-27-088,kusumba,27,,maharashtra,,kusumba
+2007-27-194,aurangabad east,27,,maharashtra,,aurangabad east
+2007-27-013,shriwardhan,27,,maharashtra,,shriwardhan
+2007-27-227,karjat,27,,maharashtra,,karjat
+2007-27-127,arvi,27,,maharashtra,,arvi
+2007-27-252,shirur,27,,maharashtra,,shirur
+2007-27-079,baglan,27,,maharashtra,,baglan
+2007-27-250,bhavani peth,27,,maharashtra,,bhavani peth
+2007-27-112,balapur,27,,maharashtra,,balapur
+2007-27-001,sawantwadi,27,,maharashtra,,sawantwadi
+2007-27-269,walva,27,,maharashtra,,walva
+2007-27-275,kavathe mahankal,27,,maharashtra,,kavathe mahankal
+2007-27-072,nandgaon,27,,maharashtra,,nandgaon
+2007-27-078,kalvan,27,,maharashtra,,kalwan
+2007-27-221,barshi,27,,maharashtra,,barshi
+2007-27-020,umarkhadi,27,,maharashtra,,umarkhadi
+2007-27-128,pulgaon,27,,maharashtra,,pulgaon
+2007-27-157,brahmapuri,27,,maharashtra,,brahmapuri
+2007-27-216,solapur city south,27,,maharashtra,,solapur city south
+2007-27-263,jaoli,27,,maharashtra,,jaoli
+2007-27-109,akot,27,,maharashtra,,akot
+2007-27-041,andheri,27,,maharashtra,,andheri
+2007-27-004,devgad,27,,maharashtra,,devgad
+2007-27-148,amgaon,27,,maharashtra,,amgaon
+2007-27-156,saoli,27,,maharashtra,,saoli
+2007-27-242,khed alandi,27,,maharashtra,,khed alandi
+2007-27-070,niphad,27,,maharashtra,,niphad
+2007-27-061,vasai,27,,maharashtra,,vasai
+2007-27-065,shahapur,27,,maharashtra,,shahapur
+2007-27-220,mohol,27,,maharashtra,,mohol
+2007-27-155,chandrapur,27,,maharashtra,,chandrapur
+2007-27-126,chandur,27,,maharashtra,,chandur
+2007-27-201,kaij,27,,maharashtra,,kaij
+2007-27-246,bopodi,27,,maharashtra,,bopodi
+2007-27-006,ratnagiri,27,,maharashtra,,ratanagiri
+2007-27-240,junnar,27,,maharashtra,,junnar
+2007-27-132,kamptee,27,,maharashtra,,kamthi
+2007-27-233,shrirampur,27,,maharashtra,,shrirampur
+2007-27-098,bhusawal,27,,maharashtra,,bhusawal
+2007-27-262,wai,27,,maharashtra,,wai
+2007-27-119,melghat,27,,maharashtra,,melghat
+2007-27-108,jalamb,27,,maharashtra,,jalamb
+2007-27-256,purandhar,27,,maharashtra,,purandhar
+2007-27-248,parvati,27,,maharashtra,,parvati
+2007-27-103,buldhana,27,,maharashtra,,buldhana
+2007-27-261,koregaon,27,,maharashtra,,koregaon
+2007-27-142,tumsar,27,,maharashtra,,tumsar
+2007-27-071,yevla,27,,maharashtra,,yeola
+2007-27-055,ulhasnagar,27,,maharashtra,,ulhasnagar
+2007-27-075,chandwad,27,,maharashtra,,chandwad
+2007-27-081,nawapur,27,,maharashtra,,nawapur
+2007-27-043,malad,27,,maharashtra,,malad
+2007-27-058,murbad,27,,maharashtra,,murbad
+2007-27-087,sindkheda,27,,maharashtra,,sindkheda
+2007-27-014,mangaon,27,,maharashtra,,mangaon
+2007-27-102,malkapur,27,,maharashtra,,malkapur
+2007-27-176,gangakhed,27,,maharashtra,,gangakhed
+2007-27-215,south solapur,27,,maharashtra,,south solapur
+2007-27-045,borivali,27,,maharashtra,,borivali
+2007-27-150,lakhandur,27,,maharashtra,,lakhandur
+2007-27-168,kinwat,27,,maharashtra,,kinwat
+2007-27-165,digras,27,,maharashtra,,digras
+2007-27-082,nandurbar,27,,maharashtra,,nandurbar
+2007-27-178,parbhani,27,,maharashtra,,parbhani
+2007-27-137,nagpur west,27,,maharashtra,,nagpur west
+2007-27-238,sangamner,27,,maharashtra,,sangamner
+2007-27-118,daryapur,27,,maharashtra,,daryapur
+2007-27-095,jalgaon,27,,maharashtra,,jalgaon
+2007-27-104,chikhli,27,,maharashtra,,chikhli
+2007-27-033,matunga,27,,maharashtra,,matunga
+2007-27-090,chalisgaon,27,,maharashtra,,chalisgaon
+2007-27-274,khanapur atpadi,27,,maharashtra,,khanapur atpadi
+2007-27-266,karad north,27,,maharashtra,,karad north
+2007-27-107,khamgaon,27,,maharashtra,,khamgaon
+2007-27-056,ambernath,27,,maharashtra,,ambernath
+2007-27-100,raver,27,,maharashtra,,raver
+2007-27-167,umarkhed,27,,maharashtra,,umarkhed
+2007-27-064,jawhar,27,,maharashtra,,jawhar
+2007-27-016,alibag,27,,maharashtra,,alibag
+2007-27-110,borgaon manju,27,,maharashtra,,borgaon manju
+2007-27-202,renapur,27,,maharashtra,,renapur
+2007-27-237,parner,27,,maharashtra,,parner
+2007-27-179,basmath,27,,maharashtra,,basmath
+2007-27-036,bandra,27,,maharashtra,,vandre
+2007-27-015,pen,27,,maharashtra,,pen
+2007-27-208,paranda,27,,maharashtra,,paranda
+2007-27-196,georai,27,,maharashtra,,georai
+2007-27-285,karvir,27,,maharashtra,,karvir
+2007-27-140,savner,27,,maharashtra,,savner
+2007-27-206,latur,27,,maharashtra,,latur
+2007-27-083,talode,27,,maharashtra,,talode
+2007-27-096,pachora,27,,maharashtra,,pachora
+2007-27-279,vadgaon,27,,maharashtra,,vadgaon
+2007-27-186,jalna,27,,maharashtra,,jalna
+2007-27-048,nehrunagar,27,,maharashtra,,nehrunagar
+2007-27-106,mehkar,27,,maharashtra,,mehkar
+2007-27-162,kelapur,27,,maharashtra,,kelapur
+2007-27-130,hinganghat,27,,maharashtra,,hinganghat
+2007-27-049,kurla,27,,maharashtra,,kurla
+2007-27-280,shahuwadi,27,,maharashtra,,shahuwadi
+2007-27-223,pandharpur,27,,maharashtra,,pandharpur
+2007-27-054,belapur,27,,maharashtra,,belapur
+2007-27-160,wani,27,,maharashtra,,wani
+2007-27-046,trombay,27,,maharashtra,,trombay
+2007-27-094,erandol,27,,maharashtra,,erandol
+2007-27-111,akola,27,,maharashtra,,akola
+2007-27-027,mazgaon,27,,maharashtra,,mazgaon
+2007-27-247,shivajinagar,27,,maharashtra,,shivajinagar
+2007-27-117,karanja,27,,maharashtra,,karanja
+2007-27-175,kandhar,27,,maharashtra,,kandhar
+2007-27-195,paithan,27,,maharashtra,,paithan
+2007-27-228,shrigonda,27,,maharashtra,,shrigonda
+2007-27-239,nagar akola,27,,maharashtra,,nagar akola
+2007-27-023,opera house,27,,maharashtra,,opera house
+2007-27-207,kalamb,27,,maharashtra,,kalamb
+2007-27-181,hingoli,27,,maharashtra,,hingoli
+2007-27-052,mulund,27,,maharashtra,,mulund
+2007-27-134,nagpur east,27,,maharashtra,,nagpur east
+2007-27-129,wardha,27,,maharashtra,,wardha
+2007-27-149,sakoli,27,,maharashtra,,sakoli
+2007-27-192,gangapur,27,,maharashtra,,gangapur
+2007-27-138,kalmeshwar,27,,maharashtra,,kalmeshwar
+2007-27-017,panvel,27,,maharashtra,,panvel
+2007-27-187,badnapur,27,,maharashtra,,badnapur
+2007-27-258,phaltan,27,,maharashtra,,phaltan
+2007-27-210,ausa,27,,maharashtra,,ausa
+2007-27-131,umred,27,,maharashtra,,umred
+2007-27-281,panhala,27,,maharashtra,,panhala
+2007-27-259,man,27,,maharashtra,,man
+2007-27-219,mangalvedhe,27,,maharashtra,,mangalvedhe
+2007-27-232,sheogaon,27,,maharashtra,,sheogaon
+2007-27-089,dhule,27,,maharashtra,,dhule
+2007-28-045,tuni,28,,andhra pradesh,,tuni
+2007-28-221,dommat,28,,andhra pradesh,,dommat
+2007-28-185,nandikotkur,28,,andhra pradesh,,nandikotkur
+2007-28-047,sampara,28,,andhra pradesh,,sampara
+2007-28-037,chintapalli,28,,andhra pradesh,,chintapalli
+2007-28-144,madanpalle,28,,andhra pradesh,,madanpalle
+2007-28-067,tadepalligudem,28,,andhra pradesh,,tadepalligudem
+2007-28-212,malakpet,28,,andhra pradesh,,malakpet
+2007-28-214,maharajgunj,28,,andhra pradesh,,maharajgunj
+2007-28-260,narella,28,,andhra pradesh,,narella
+2007-28-077,vijayawada west,28,,andhra pradesh,,vijayawada west
+2007-28-102,mangalagiri,28,,andhra pradesh,,mangalagiri
+2007-28-003,tekkali,28,,andhra pradesh,,tekkali
+2007-28-071,gopalpuram,28,,andhra pradesh,,gopalpuram
+2007-28-168,rayadrug,28,,andhra pradesh,,rayadrug
+2007-28-220,siddipet,28,,andhra pradesh,,siddipet
+2007-28-235,banswada,28,,andhra pradesh,,banswada
+2007-28-021,sathivada,28,,andhra pradesh,,sathivada
+2007-28-097,ponnur,28,,andhra pradesh,,ponnur
+2007-28-095,duggirala,28,,andhra pradesh,,duggirala
+2007-28-116,santhanuthalapadu,28,,andhra pradesh,,santhanuthalapadu
+2007-28-093,repalle,28,,andhra pradesh,,repalle
+2007-28-178,kodumur,28,,andhra pradesh,,kodumur
+2007-28-219,medchal,28,,andhra pradesh,,medchal
+2007-28-114,addanki,28,,andhra pradesh,,addanki
+2007-28-194,wanaparthy,28,,andhra pradesh,,wanaparthy
+2007-28-289,nalgonda,28,,andhra pradesh,,nalgonda
+2007-28-001,ichapuram,28,,andhra pradesh,,ichapuram
+2007-28-170,gooty,28,,andhra pradesh,,gooty
+2007-28-086,mudinepalli,28,,andhra pradesh,,mudinepalli
+2007-28-019,gajapathinagaram,28,,andhra pradesh,,gajapathinagaram
+2007-28-229,andole,28,,andhra pradesh,,andole
+2007-28-122,markapur,28,,andhra pradesh,,markapur
+2007-28-118,kanigiri,28,,andhra pradesh,,kanigiri
+2007-28-029,paderu,28,,andhra pradesh,,paderu
+2007-28-205,ibrahimpatnam,28,,andhra pradesh,,ibrahimpatnam
+2007-28-112,parchur,28,,andhra pradesh,,parchur
+2007-28-230,balkonda,28,,andhra pradesh,,balkonda
+2007-28-239,mudhole,28,,andhra pradesh,,mudhole
+2007-28-035,payakaraopeta,28,,andhra pradesh,,payakaraopeta
+2007-28-247,chinnur,28,,andhra pradesh,,chinnur
+2007-28-012,therlam,28,,andhra pradesh,,therlam
+2007-28-294,deverkonda,28,,andhra pradesh,,deverakonda st
+2007-28-089,bandar,28,,andhra pradesh,,bandar
+2007-28-092,kuchinapudi,28,,andhra pradesh,,kuchinapudi
+2007-28-039,burugupudi,28,,andhra pradesh,,burugupudi
+2007-28-248,manthani,28,,andhra pradesh,,manthani
+2007-28-034,elamanchili,28,,andhra pradesh,,elamanchili
+2007-28-033,paravada,28,,andhra pradesh,,paravada
+2007-28-127,kovur,28,,andhra pradesh,,kovur
+2007-28-146,vayalpad,28,,andhra pradesh,,vayalpad
+2007-28-027,uttarapalli,28,,andhra pradesh,,uttarapalli
+2007-28-209,secunderabad,28,,andhra pradesh,,secunderabad
+2007-28-169,uravakonda,28,,andhra pradesh,,uravakonda
+2007-28-142,kuppam,28,,andhra pradesh,,kuppam
+2007-28-186,nandyal,28,,andhra pradesh,,nandyal
+2007-28-223,narsapur,28,,andhra pradesh,,narsapur
+2007-28-154,cuddapah,28,,andhra pradesh,,cuddapah
+2007-28-176,adoni,28,,andhra pradesh,,adoni
+2007-28-232,kamareddy,28,,andhra pradesh,,kamareddy
+2007-28-249,peddapalli,28,,andhra pradesh,,peddapalli
+2007-28-108,vinukonda,28,,andhra pradesh,,vinukonda
+2007-28-177,yemmiganur,28,,andhra pradesh,,yemmiganur
+2007-28-058,razole,28,,andhra pradesh,,razole
+2007-28-130,nellore,28,,andhra pradesh,,nellore
+2007-28-065,tanuku,28,,andhra pradesh,,tanuku
+2007-28-096,tenali,28,,andhra pradesh,,tenali
+2007-28-073,polavaram,28,,andhra pradesh,,polavaram
+2007-28-269,warangal,28,,andhra pradesh,,warangal
+2007-28-113,martur,28,,andhra pradesh,,martur
+2007-28-057,nagaram,28,,andhra pradesh,,nagaram
+2007-28-252,kamalapur,28,,andhra pradesh,,kamalapur
+2007-28-244,asifabad,28,,andhra pradesh,,asifabad
+2007-28-131,sarvepalli,28,,andhra pradesh,,sarvepalli
+2007-28-163,gorantla,28,,andhra pradesh,,gorantla
+2007-28-190,kalwakurthi,28,,andhra pradesh,,kalwakurthi
+2007-28-068,ungutur,28,,andhra pradesh,,ungutur
+2007-28-103,tadikonda,28,,andhra pradesh,,tadikonda
+2007-28-227,medak,28,,andhra pradesh,,medak
+2007-28-132,gudur,28,,andhra pradesh,,gudur
+2007-28-147,pileru,28,,andhra pradesh,,pileru
+2007-28-210,khairatabad,28,,andhra pradesh,,khairatabad
+2007-28-191,shadnagar,28,,andhra pradesh,,shadnagar
+2007-28-061,achanta,28,,andhra pradesh,,achanta
+2007-28-228,ramayampet,28,,andhra pradesh,,ramayampet
+2007-28-211,secunderabad cantonment,28,,andhra pradesh,,secunderabad cantonment
+2007-28-187,187-atmakur,28,,andhra pradesh,,atmakur
+2007-28-119,kondepi,28,,andhra pradesh,,kondepi
+2007-28-256,jagtial,28,,andhra pradesh,,jagtial
+2007-28-083,gannavaram,28,,andhra pradesh,,gannavaram
+2007-28-236,bodhan,28,,andhra pradesh,,bodhan
+2007-28-197,gadwal,28,,andhra pradesh,,gadwal
+2007-28-258,metpalli,28,,andhra pradesh,,metpalli
+2007-28-043,peddapuram,28,,andhra pradesh,,peddapuram
+2007-28-183,allagadda,28,,andhra pradesh,,allagada
+2007-28-215,karwan,28,,andhra pradesh,,karwan
+2007-28-062,bhimavaram,28,,andhra pradesh,,bhimavaram
+2007-28-026,pendurthi,28,,andhra pradesh,,pendurthi
+2007-28-288,nakrekal,28,,andhra pradesh,,nakrekal
+2007-28-078,vijayawada east,28,,andhra pradesh,,vijayawada east
+2007-28-264,dornakal,28,,andhra pradesh,,dornakal
+2007-28-099,prathipad,28,,andhra pradesh,,nindumolu sc
+2007-28-005,narasannapeta,28,,andhra pradesh,,narasannapeta
+2007-28-153,lakkireddipalli,28,,andhra pradesh,,lakkireddipalli
+2007-28-145,thamballapalle,28,,andhra pradesh,,thamballapalle
+2007-28-072,kovvur,28,,andhra pradesh,,kovvur
+2007-28-203,pargi,28,,andhra pradesh,,pargi
+2007-28-204,chevella,28,,andhra pradesh,,chevella
+2007-28-184,panyam,28,,andhra pradesh,,panyam
+2007-28-275,burgampahad,28,,andhra pradesh,,burgampahad
+2007-28-268,ghanpur,28,,andhra pradesh,,ghanpur
+2007-28-216,yakutpura,28,,andhra pradesh,,yakutpura
+2007-28-036,narsipatnam,28,,andhra pradesh,,narasipatnam
+2007-28-016,srikakulam,28,,andhra pradesh,,srikakulam
+2007-28-128,128-atmakur,28,,andhra pradesh,,atmakur
+2007-28-031,chodavaram,28,,andhra pradesh,,chodavaram
+2007-28-014,palakonda,28,,andhra pradesh,,palakonda
+2007-28-025,visakhapatnam-2,28,,andhra pradesh,,visakhapatnam-2
+2007-28-020,vizianagaram,28,,andhra pradesh,,vizianagaram
+2007-28-283,tungaturthi,28,,andhra pradesh,,tungaturthi
+2007-28-238,dichpalli,28,,andhra pradesh,,dichpalli
+2007-28-030,madugula,28,,andhra pradesh,,madugula
+2007-28-234,jukkal,28,,andhra pradesh,,jukkal
+2007-28-105,peddakurapadu,28,,andhra pradesh,,pedakurapadu
+2007-28-172,anantapur,28,,andhra pradesh,,anantapur
+2007-28-278,madhira,28,,andhra pradesh,,madhira
+2007-28-138,puttur,28,,andhra pradesh,,puttur
+2007-28-272,parkal,28,,andhra pradesh,,parkal
+2007-28-182,koilkuntla,28,,andhra pradesh,,koilkuntla
+2007-28-013,vunukuru,28,,andhra pradesh,,unukuru
+2007-28-101,guntur-2,28,,andhra pradesh,,guntur-2
+2007-28-174,tadpatri,28,,andhra pradesh,,tadpatri
+2007-28-135,sri kalahasti,28,,andhra pradesh,,sri kalahasti
+2007-28-189,nagarkurnool,28,,andhra pradesh,,nagarkurnool
+2007-28-263,chennur,28,,andhra pradesh,,chennur
+2007-28-157,proddatur,28,,andhra pradesh,,proddatur
+2007-28-274,bhadrachalam,28,,andhra pradesh,,bhadrachalam
+2007-28-285,kodad,28,,andhra pradesh,,kodad
+2007-28-255,choppadandi,28,,andhra pradesh,,choppadandi
+2007-28-069,dendulur,28,,andhra pradesh,,dendulur
+2007-28-156,mydukur,28,,andhra pradesh,,mydukur
+2007-28-051,ramachandrapuram,28,,andhra pradesh,,ramachandrapuram
+2007-28-292,bhongir,28,,andhra pradesh,,bhongir
+2007-28-049,tallarevu,28,,andhra pradesh,,tallarevu
+2007-28-123,giddalur,28,,andhra pradesh,,giddalur
+2007-28-137,nagari,28,,andhra pradesh,,nagari
+2007-28-121,darsi,28,,andhra pradesh,,darsi
+2007-28-100,guntur-1,28,,andhra pradesh,,guntur-1
+2007-28-290,ramannapet,28,,andhra pradesh,,ramanapet
+2007-28-181,dhone,28,,andhra pradesh,,dhona
+2007-28-017,etcherla,28,,andhra pradesh,,etcherla
+2007-28-224,sangareddy,28,,andhra pradesh,,sangareddy
+2007-28-120,cumbum,28,,andhra pradesh,,cumbum
+2007-28-150,kodur,28,,andhra pradesh,,kodur
+2007-28-148,chandragiri,28,,andhra pradesh,,chandragiri
+2007-28-233,yellareddy,28,,andhra pradesh,,yellareddy
+2007-28-218,charminar,28,,andhra pradesh,,charminar
+2007-28-084,vuyyur,28,,andhra pradesh,,vuyyur
+2007-28-081,tiruvuru,28,,andhra pradesh,,tiruvuru
+2007-28-088,malleswaram,28,,andhra pradesh,,malleswaram
+2007-28-159,kamalapuram,28,,andhra pradesh,,kamalapuram
+2007-28-259,sircilla,28,,andhra pradesh,,sircilla
+2007-28-253,indurthi,28,,andhra pradesh,,indurthi
+2007-28-124,udayagiri,28,,andhra pradesh,,udayagiri
+2007-28-087,kaikalur,28,,andhra pradesh,,kaikalur
+2007-28-286,miryalguda,28,,andhra pradesh,,miryalguda
+2007-28-207,himayatnagar,28,,andhra pradesh,,himayatnagar
+2007-28-293,mungode,28,,andhra pradesh,,mungode
+2007-28-158,jammalamadugu,28,,andhra pradesh,,jammalamadugu
+2007-28-140,chittoor,28,,andhra pradesh,,chittoor
+2007-28-143,punganur,28,,andhra pradesh,,punganur
+2007-28-237,nizamabad,28,,andhra pradesh,,nizamabad
+2007-28-085,gudivada,28,,andhra pradesh,,gudivada
+2007-28-136,satyavedu,28,,andhra pradesh,,satyavedu
+2007-28-201,tandur,28,,andhra pradesh,,tandur
+2007-28-155,badvel,28,,andhra pradesh,,badvel
+2007-28-056,kothapeta,28,,andhra pradesh,,kothapeta
+2007-28-217,chandrayangutta,28,,andhra pradesh,,chandrayangutta
+2007-28-226,narayankhed,28,,andhra pradesh,,narayankhed
+2007-28-173,dharmavaram,28,,andhra pradesh,,dharmavaram
+2007-28-180,pattikonda,28,,andhra pradesh,,pallikonda
+2007-28-111,chirala,28,,andhra pradesh,,chirala
+2007-28-028,srungavarapukota,28,,andhra pradesh,,srungavarapukota
+2007-28-055,amalapuram,28,,andhra pradesh,,amalapuram
+2007-28-231,armoor,28,,andhra pradesh,,armoor
+2007-28-022,bhogapuram,28,,andhra pradesh,,bhogapuram
+2007-28-063,undi,28,,andhra pradesh,,undi
+2007-28-149,tirupathi,28,,andhra pradesh,,tirupathi
+2007-28-023,bheemunipatnam,28,,andhra pradesh,,bheemunipatnam
+2007-28-024,visakhapatnam-1,28,,andhra pradesh,,visakhapatnam-1
+2007-28-076,nandigama,28,,andhra pradesh,,nandigama
+2007-28-046,pithapuram,28,,andhra pradesh,,pithapuram
+2007-28-117,kandukur,28,,andhra pradesh,,kandukur
+2007-28-090,nidumolu,28,,andhra pradesh,,nidumolu
+2007-28-082,nuzvid,28,,andhra pradesh,,nuzvid
+2007-28-193,mahbubnagar,28,,andhra pradesh,,mahabubnagar
+2007-28-202,vicarabad,28,,andhra pradesh,,vicarabad
+2007-28-175,alur,28,,andhra pradesh,,alur
+2007-28-094,vemur,28,,andhra pradesh,,vemur
+2007-28-192,jadcherla,28,,andhra pradesh,,jadcherla
+2007-28-104,sattenapalli,28,,andhra pradesh,,sattenapalli
+2007-28-164,hindupur,28,,andhra pradesh,,hindupur
+2007-28-279,palair,28,,andhra pradesh,,palair
+2007-28-266,narsampet,28,,andhra pradesh,,narsampet
+2007-28-106,gurzala,28,,andhra pradesh,,gurzala
+2007-28-179,kurnool,28,,andhra pradesh,,kurnool
+2007-28-060,palacole,28,,andhra pradesh,,palacole
+2007-28-141,palmaner,28,,andhra pradesh,,palmaner
+2007-28-129,rapur,28,,andhra pradesh,,rapur
+2007-28-134,venkatagiri,28,,andhra pradesh,,venkatagiri
+2007-28-080,mylavaram,28,,andhra pradesh,,mylavaram
+2007-28-273,mulug,28,,andhra pradesh,,mulug
+2007-28-009,parvathipuram,28,,andhra pradesh,,parvathipuram
+2007-28-050,anaparthy,28,,andhra pradesh,,anaparthy
+2007-28-291,alair,28,,andhra pradesh,,alair
+2007-28-162,nallamada,28,,andhra pradesh,,nallamada
+2007-28-280,khammam,28,,andhra pradesh,,khammam
+2007-28-241,boath,28,,andhra pradesh,,boath
+2007-28-032,anakapalli,28,,andhra pradesh,,anakapalli
+2007-28-265,mahbubabad,28,,andhra pradesh,,mahbubabad
+2007-28-196,alampur,28,,andhra pradesh,,alampur
+2007-28-251,huzurabad,28,,andhra pradesh,,huzurabad
+2007-28-195,kollapur,28,,andhra pradesh,,kollapur
+2007-28-246,sirpur,28,,andhra pradesh,,sirpur
+2007-28-161,kadiri,28,,andhra pradesh,,kadiri
+2007-28-277,sathupalli,28,,andhra pradesh,,sathupalli
+2007-28-098,bapatla,28,,andhra pradesh,,bapatla
+2007-28-038,yellavaram,28,,andhra pradesh,,yellavaram
+2007-28-166,penukonda,28,,andhra pradesh,,penukonda
+2007-28-200,kodangal,28,,andhra pradesh,,kodangal
+2007-28-110,chilakaluripet,28,,andhra pradesh,,chilakaluripet
+2007-28-107,macherla,28,,andhra pradesh,,macherla
+2007-28-245,luxettipet,28,,andhra pradesh,,luxettipet
+2007-28-070,eluru,28,,andhra pradesh,,eluru
+2007-28-254,karimnagar,28,,andhra pradesh,,karimnagar
+2007-28-048,kakinada,28,,andhra pradesh,,kakinada
+2007-28-199,makthal,28,,andhra pradesh,,makthal
+2007-28-267,wardhannapet,28,,andhra pradesh,,wardhannapet
+2007-28-125,kavali,28,,andhra pradesh,,kavali
+2007-28-126,allur,28,,andhra pradesh,,allur
+2007-28-004,puram,28,,andhra pradesh,,harishchandra puram
+2007-28-052,alamuru,28,,andhra pradesh,,alamuru
+2007-28-079,kankipadu,28,,andhra pradesh,,kankipadu
+2007-28-015,amadalavalasa,28,,andhra pradesh,,amadalavalasa
+2007-28-018,cheepurupalli,28,,andhra pradesh,,cheepurupalli
+2007-28-225,zahirabad,28,,andhra pradesh,,zahirabad
+2007-28-040,rajahmundry,28,,andhra pradesh,,rajahmundry
+2007-28-222,gajwel,28,,andhra pradesh,,gajwel
+2007-28-008,naguru,28,,andhra pradesh,,naguru
+2007-28-075,jaggayyapet,28,,andhra pradesh,,jaggayyapet
+2007-28-262,jangaon,28,,andhra pradesh,,jangaon
+2007-28-271,shyampet,28,,andhra pradesh,,shyampet
+2007-28-276,kothagudem,28,,andhra pradesh,,kothagudem
+2007-28-151,rajampet,28,,andhra pradesh,,rajampet
+2007-28-281,shujatnagar,28,,andhra pradesh,,shujanagar
+2007-28-287,chalakurthi,28,,andhra pradesh,,chalakurthi
+2007-28-066,attili,28,,andhra pradesh,,attili
+2007-28-115,ongole,28,,andhra pradesh,,ongole
+2007-28-074,chintalapudi,28,,andhra pradesh,,chintalapudi
+2007-28-242,adilabad,28,,andhra pradesh,,adilabad
+2007-28-160,pulivendla,28,,andhra pradesh,,pulivendla
+2007-28-054,allavaram,28,,andhra pradesh,,allavaram
+2007-28-002,sompeta,28,,andhra pradesh,,sompeta
+2007-28-257,buggaram,28,,andhra pradesh,,buggaram
+2007-28-006,patapatnam,28,,andhra pradesh,,pahapatnam
+2007-28-133,sulurpet,28,,andhra pradesh,,sulurpet
+2007-28-007,kothuru,28,,andhra pradesh,,kothuru
+2007-28-213,asafnagar,28,,andhra pradesh,,asafnagar
+2007-28-261,cheriyal,28,,andhra pradesh,,cheriyal
+2007-28-064,penugonda,28,,andhra pradesh,,penugonda
+2007-28-041,kadiam,28,,andhra pradesh,,kadiam
+2007-28-188,achampet,28,,andhra pradesh,,achampet
+2007-28-198,amarchinta,28,,andhra pradesh,,amarchinta
+2007-28-284,suryapet,28,,andhra pradesh,,suryapet
+2007-28-270,hanamkonda,28,,andhra pradesh,,hanamkonda
+2007-28-010,salur,28,,andhra pradesh,,salur
+2007-28-243,khanapur,28,,andhra pradesh,,khanapur
+2007-28-053,mummidivaram,28,,andhra pradesh,,mummidivaram
+2007-28-240,nirmal,28,,andhra pradesh,,nirmal
+2007-28-171,singanamala,28,,andhra pradesh,,singanamala
+2007-28-165,madakasira,28,,andhra pradesh,,madakasira
+2007-28-011,bobbili,28,,andhra pradesh,,bobbili
+2007-28-139,vepanjeri,28,,andhra pradesh,,vepanjeri
+2007-28-152,rayachoty,28,,andhra pradesh,,rayachoty
+2007-28-059,narasapur,28,,andhra pradesh,,narasapur
+2007-28-109,narasaraopet,28,,andhra pradesh,,narasaraopet
+2007-28-282,yellandu,28,,andhra pradesh,,yellandu
+2007-28-208,sanathnagar,28,,andhra pradesh,,sanathnagar
+2007-28-250,myadaram,28,,andhra pradesh,,myadaram
+2007-28-091,avanigadda,28,,andhra pradesh,,avanigadda
+2007-28-206,musheerabad,28,,andhra pradesh,,musheerabad
+2007-28-044,prathipadu,28,,andhra pradesh,,prathipadu
+2007-28-167,kalyandrug,28,,andhra pradesh,,kalyandrug
+2007-28-042,jaggampeta,28,,andhra pradesh,,jaggampeta
+2007-29-200,gokak,29,,karnataka,,gokak
+2007-29-009,alland,29,,karnataka,,alland
+2007-29-130,arsikere,29,,karnataka,,arsikere
+2007-29-173,haliyal,29,,karnataka,,haliyal
+2007-29-160,bhadravathi,29,,karnataka,,bhadravathi
+2007-29-143,ullal,29,,karnataka,,ullal
+2007-29-090,varthur,29,,karnataka,,varthur
+2007-29-084,shanthinagar,29,,karnataka,,shanthinagar
+2007-29-029,gangavathi,29,,karnataka,,gangavathi
+2007-29-187,mundargi,29,,karnataka,,mundargi
+2007-29-169,bhatkal,29,,karnataka,,bhatkal
+2007-29-158,channagiri,29,,karnataka,,channagiri
+2007-29-108,pandavapura,29,,karnataka,,pandavapura
+2007-29-025,sindhnoor,29,,karnataka,,sindhnoor
+2007-29-197,belgaum,29,,karnataka,,belgaum
+2007-29-145,kaup,29,,karnataka,,kaup
+2007-29-164,hosanagar,29,,karnataka,,hosanagar
+2007-29-034,hospet,29,,karnataka,,hospet
+2007-29-087,jayamahal,29,,karnataka,,jayamahal
+2007-29-093,channapatna,29,,karnataka,,channapatna
+2007-29-191,navalgund,29,,karnataka,,navalgund
+2007-29-023,manvi,29,,karnataka,,manvi
+2007-29-132,sravanabelagola,29,,karnataka,,sravanabelagola
+2007-29-077,rajajinagar,29,,karnataka,,rajajinagar
+2007-29-180,shiggaon,29,,karnataka,,shiggaon
+2007-29-020,deodurg,29,,karnataka,,deodurg
+2007-29-039,harapanahalli,29,,karnataka,,harapanahalli
+2007-29-179,kundgol,29,,karnataka,,kundgol
+2007-29-206,chikkodi,29,,karnataka,,chikkodi
+2007-29-049,holalkere,29,,karnataka,,holalkere
+2007-29-162,shimoga,29,,karnataka,,shimoga
+2007-29-183,ranibennur,29,,karnataka,,ranibennur
+2007-29-037,kottur,29,,karnataka,,kottur
+2007-29-205,sadalga,29,,karnataka,,sadalga
+2007-29-136,sakleshpur,29,,karnataka,,sakleshpur
+2007-29-126,virajpet,29,,karnataka,,virajpet
+2007-29-031,siruguppa,29,,karnataka,,siruguppa
+2007-29-095,magadi,29,,karnataka,,magadi
+2007-29-119,santhemarahalli,29,,karnataka,,santhemarahalli
+2007-29-103,kiragaval,29,,karnataka,,kiragaval
+2007-29-063,chiknaikanahalli,29,,karnataka,,chiknaikanahalli
+2007-29-144,surathkal,29,,karnataka,,surathkal
+2007-29-101,nagamangala,29,,karnataka,,nagamangala
+2007-29-211,bilgi,29,,karnataka,,bilgi
+2007-29-185,haveri,29,,karnataka,,haveri
+2007-29-220,tikota,29,,karnataka,,tikota
+2007-29-165,sagar,29,,karnataka,,sagar
+2007-29-043,bharamasagara,29,,karnataka,,bharamasagara
+2007-29-066,sidlaghatta,29,,karnataka,,sidlaghatta
+2007-29-062,tiptur,29,,karnataka,,tiptur
+2007-29-125,periyapatna,29,,karnataka,,periyapatna
+2007-29-018,shahapur,29,,karnataka,,shahapur
+2007-29-100,anekal,29,,karnataka,,anekal
+2007-29-189,ron,29,,karnataka,,ron
+2007-29-004,bidar,29,,karnataka,,bindar
+2007-29-033,bellary,29,,karnataka,,bellary
+2007-29-107,srirangapatna,29,,karnataka,,srirangapatna
+2007-29-098,devanahalli,29,,karnataka,,devanahalli
+2007-29-124,krishnarajanagar,29,,karnataka,,krishnarajanagar
+2007-29-149,baindur,29,,karnataka,,baindur
+2007-29-075,malur,29,,karnataka,,malur
+2007-29-221,bijapur,29,,karnataka,,bijapur
+2007-29-003,hulsoor,29,,karnataka,,hulsoor
+2007-29-099,hosakote,29,,karnataka,,hosakote
+2007-29-078,gandhinagar,29,,karnataka,,gandhinagar
+2007-29-195,kittur,29,,karnataka,,kittur
+2007-29-178,kalghatgi,29,,karnataka,,kalghatgi
+2007-29-110,hanur,29,,karnataka,,hanur
+2007-29-117,chamundeswari,29,,karnataka,,chamundeswari
+2007-29-104,malavalli,29,,karnataka,,malavalli
+2007-29-013,chitapur,29,,karnataka,,chitapur
+2007-29-118,nanjangud,29,,karnataka,,nanjangud
+2007-29-091,kanakapura,29,,karnataka,,kanakapura
+2007-29-224,sindgi,29,,karnataka,,sindgi
+2007-29-116,narasimharaja,29,,karnataka,,narasimharaja
+2007-29-044,chitradurga,29,,karnataka,,chitradurga
+2007-29-133,holenarasipur,29,,karnataka,,holenarasipur
+2007-29-032,kurugodu,29,,karnataka,,kurugodu
+2007-29-176,hubli,29,,karnataka,,hubli
+2007-29-161,honnali,29,,karnataka,,honnali
+2007-29-175,dharwad,29,,karnataka,,dharwad
+2007-29-216,hungund,29,,karnataka,,hungund
+2007-29-135,hassan,29,,karnataka,,hassan
+2007-29-019,shorapur,29,,karnataka,,shorapur
+2007-29-072,bethamangala,29,,karnataka,,bethamangala
+2007-29-171,ankola,29,,karnataka,,ankola
+2007-29-064,gowribidanur,29,,karnataka,,gowribidanur
+2007-29-147,brahmavar,29,,karnataka,,brahmavar
+2007-29-141,bantwal,29,,karnataka,,bantwal
+2007-29-214,badami,29,,karnataka,,badami
+2007-29-060,gubbi,29,,karnataka,,gubbi
+2007-29-123,hunsur,29,,karnataka,,hunsur
+2007-29-182,hirekerur,29,,karnataka,,hirekerur
+2007-29-151,moodabidri,29,,karnataka,,moodabidri
+2007-29-068,chintamani,29,,karnataka,,chintamani
+2007-29-079,chickpet,29,,karnataka,,chickpet
+2007-29-222,ballolli,29,,karnataka,,ballolli
+2007-29-172,karwar,29,,karnataka,,karwar
+2007-29-045,jagalur,29,,karnataka,,jagalur
+2007-29-106,keragodu,29,,karnataka,,keragodu
+2007-29-089,uttarahalli,29,,karnataka,,uttarahally
+2007-29-070,mulbagal,29,,karnataka,,mulbagal
+2007-29-190,naragund,29,,karnataka,,naragund
+2007-29-194,bailhongal,29,,karnataka,,bailhongal
+2007-29-042,mayakonda,29,,karnataka,,mayakonda
+2007-29-094,ramanagaram,29,,karnataka,,ramanagaram
+2007-29-202,hukkeri,29,,karnataka,,hukkeri
+2007-29-046,molakalmuru,29,,karnataka,,molakalmuru
+2007-29-086,bharathinagar,29,,karnataka,,bharathinagar
+2007-29-192,ramdurg,29,,karnataka,,ramdurg
+2007-29-051,pavagada,29,,karnataka,,pavagada
+2007-29-030,koppal,29,,karnataka,,koppal
+2007-29-198,uchagaon,29,,karnataka,,uchagaon
+2007-29-209,athani,29,,karnataka,,athani
+2007-29-006,basavakalyan,29,,karnataka,,basavakalyan
+2007-29-073,kolar,29,,karnataka,,kolar
+2007-29-155,birur,29,,karnataka,,birur
+2007-29-140,belthangady,29,,karnataka,,belthangady
+2007-29-157,tarikere,29,,karnataka,,tarikere
+2007-29-007,chincholi,29,,karnataka,,chincholi
+2007-29-113,t narasipur,29,,karnataka,,t narasipur
+2007-29-102,maddur,29,,karnataka,,maddur
+2007-29-170,kumta,29,,karnataka,,kumta
+2007-29-096,nelamangala,29,,karnataka,,nelamangala
+2007-29-181,hanagal,29,,karnataka,,hanagal
+2007-29-052,sira,29,,karnataka,,sira
+2007-29-021,raichur,29,,karnataka,,raichur
+2007-29-167,shikaripur,29,,karnataka,,shikaripur
+2007-29-114,krishnaraj,29,,karnataka,,krishnaraj
+2007-29-148,coondapur,29,,karnataka,,coondapur
+2007-29-050,hosadurga,29,,karnataka,,hosadurga
+2007-29-223,indi,29,,karnataka,,indi
+2007-29-127,madikere,29,,karnataka,,madikere
+2007-29-177,hubli rural,29,,karnataka,,hubli rural
+2007-29-053,kallambella,29,,karnataka,,kallambella
+2007-29-218,huvin hippargi,29,,karnataka,,huvin hippargi
+2007-29-150,karkal,29,,karnataka,,karkal
+2007-29-026,kushtagi,29,,karnataka,,kushtagi
+2007-29-010,gulbarga,29,,karnataka,,gulbarga
+2007-29-076,malleswaram,29,,karnataka,,malleswaram
+2007-29-011,shahabad,29,,karnataka,,shahabad
+2007-29-166,sorab,29,,karnataka,,sorab
+2007-29-199,bagewadi,29,,karnataka,,bagewadi
+2007-29-201,arabhavi,29,,karnataka,,arabhavi
+2007-29-080,binnypet,29,,karnataka,,binnypet
+2007-29-081,chamarajapet,29,,karnataka,,chamarajapet
+2007-29-193,parasgad,29,,karnataka,,parasgad
+2007-29-105,mandya,29,,karnataka,,mandya
+2007-29-188,gadag,29,,karnataka,,gadag
+2007-29-215,guledgud,29,,karnataka,,guledgud
+2007-29-038,hadagalli,29,,karnataka,,hadagalli
+2007-29-058,kunigal,29,,karnataka,,kunigal
+2007-29-174,dharwad rural,29,,karnataka,,dharwad rural
+2007-29-040,harihar,29,,karnataka,,harihar
+2007-29-138,puttur,29,,karnataka,,puttur
+2007-29-208,kagwad,29,,karnataka,,kagwad
+2007-29-168,sirsi,29,,karnataka,,sirsi
+2007-29-001,aurad,29,,karnataka,,aurad
+2007-29-071,kolar gold fields,29,,karnataka,,kolar gold fields
+2007-29-156,kadur,29,,karnataka,,kadur
+2007-29-128,somwarpet,29,,karnataka,,somwarpet
+2007-29-069,srinivasapur,29,,karnataka,,srinivasapur
+2007-29-131,gandsi,29,,karnataka,,gandsi
+2007-29-092,sathanur,29,,karnataka,,sathanur
+2007-29-184,byadgi,29,,karnataka,,byadgi
+2007-29-219,basavana bagewadi,29,,karnataka,,basavana bagewadi
+2007-29-139,vittal,29,,karnataka,,vittal
+2007-29-122,heggadadevanakote,29,,karnataka,,heggadadevanakote
+2007-29-016,gurmitkal,29,,karnataka,,gurmitkal
+2007-29-154,chikmagalur,29,,karnataka,,chikmagalur
+2007-29-074,vemgal,29,,karnataka,,vemgal
+2007-29-196,khanapur,29,,karnataka,,khanapur
+2007-29-017,yadgir,29,,karnataka,,yadgir
+2007-29-041,davangere,29,,karnataka,,davangere
+2007-29-059,huliyurdurga,29,,karnataka,,huliyurdurga
+2007-29-134,arkalgud,29,,karnataka,,arkalgud
+2007-29-152,sringeri,29,,karnataka,,sringeri
+2007-29-005,humnabad,29,,karnataka,,humnabad
+2007-29-012,afzalpur,29,,karnataka,,afzalpur
+2007-29-097,doddaballapur,29,,karnataka,,doddaballapur
+2007-29-028,kanakagiri,29,,karnataka,,kanakagiri
+2007-29-111,kollegal,29,,karnataka,,kollegal
+2007-29-015,jewargi,29,,karnataka,,jewargi
+2007-29-121,gundlupet,29,,karnataka,,gundlupet
+2007-29-055,madhugiri,29,,karnataka,,madhugiri
+2007-29-085,shivajinagar,29,,karnataka,,shivajinagar
+2007-29-083,jayanagar,29,,karnataka,,jayanagar
+2007-29-067,bagepalli,29,,karnataka,,bagepalli
+2007-29-082,basavanagudi,29,,karnataka,,basavanagudi
+2007-29-115,chamaraja,29,,karnataka,,chamaraja
+2007-29-137,sullia,29,,karnataka,,sullia
+2007-29-008,kamalapur,29,,karnataka,,kamalapur
+2007-29-047,challakere,29,,karnataka,,challakere
+2007-29-203,sankeshwar,29,,karnataka,,sankeshwar
+2007-29-213,bagalkot,29,,karnataka,,bagalkot
+2007-29-057,tumkur,29,,karnataka,,tumkur
+2007-29-056,koratagere,29,,karnataka,,koratagere
+2007-29-159,holehonnur,29,,karnataka,,holehonnur
+2007-29-027,yelburga,29,,karnataka,,yelburga
+2007-29-002,bhalki,29,,karnataka,,bhalki
+2007-29-035,sandur,29,,karnataka,,sandur
+2007-29-204,nippani,29,,karnataka,,nippani
+2007-29-109,krishnarajpet,29,,karnataka,,krishnarajpet
+2007-29-054,bellavi,29,,karnataka,,bellavi
+2007-29-024,lingsugur,29,,karnataka,,lingsugur
+2007-29-163,tirthahalli,29,,karnataka,,tirthahalli
+2007-29-129,belur,29,,karnataka,,belur
+2007-29-022,kalmala,29,,karnataka,,kalmala
+2007-29-112,bannur,29,,karnataka,,bannur
+2007-29-014,sedam,29,,karnataka,,sedam
+2007-29-065,chikballapur,29,,karnataka,,chikballapur
+2007-29-212,mudhol,29,,karnataka,,mudhol
+2007-29-217,muddebihal,29,,karnataka,,muddebihal
+2007-29-061,turuvekere,29,,karnataka,,turuvekere
+2007-29-120,chamarajanagar,29,,karnataka,,chamarajanagar
+2007-29-207,raibag,29,,karnataka,,raibag
+2007-29-186,shirhatti,29,,karnataka,,shirhatti
+2007-29-142,mangalore,29,,karnataka,,mangalore
+2007-29-210,jamkhandi,29,,karnataka,,jamkhandi
+2007-29-146,udupi,29,,karnataka,,udupi
+2007-29-048,hiriyur,29,,karnataka,,hiriyur
+2007-29-088,yelahanka,29,,karnataka,,yelahanka
+2007-29-153,mudigere,29,,karnataka,,mudigere
+2007-29-036,kudligi,29,,karnataka,,kudligi
+2007-30-006,siolim,30,,goa,,siolim
+2007-30-034,cuncolim,30,,goa,,cuncolim
+2007-30-027,loutulim,30,,goa,,loutulim
+2007-30-022,marcaim,30,,goa,,marcaim
+2007-30-020,ponda,30,,goa,,ponda
+2007-30-035,sanvordem,30,,goa,,sanvordem
+2007-30-028,benaulim,30,,goa,,benaulim
+2007-30-011,taleigao,30,,goa,,taleigao
+2007-30-003,dargalim,30,,goa,,dargalim
+2007-30-039,canacona,30,,goa,,canacona
+2007-30-036,sanguem,30,,goa,,sanguem
+2007-30-001,mandrem,30,,goa,,mandrem
+2007-30-021,priol,30,,goa,,priol
+2007-30-013,st andre,30,,goa,,st andre
+2007-30-032,navelim,30,,goa,,navelim
+2007-30-012,santa cruz,30,,goa,,santa cruz
+2007-30-015,bicholim,30,,goa,,bicholim
+2007-30-004,tivim,30,,goa,,tivim
+2007-30-033,velim,30,,goa,,velim
+2007-30-029,fatorda,30,,goa,,fatorda
+2007-30-010,panaji,30,,goa,,panaji
+2007-30-040,poinguinim,30,,goa,,poinguinim
+2007-30-031,curtorim,30,,goa,,curtorim
+2007-30-002,pernem,30,,goa,,pernem
+2007-30-005,mapusa,30,,goa,,mapusa
+2007-30-024,mormugao,30,,goa,,mormugao
+2007-30-008,saligao,30,,goa,,saligao
+2007-30-025,vasco da gama,30,,goa,,vasco da gama
+2007-30-007,calangute,30,,goa,,calangute
+2007-30-037,curchorem,30,,goa,,curchorem
+2007-30-014,cumbarjua,30,,goa,,cumbarjua
+2007-30-016,maem,30,,goa,,maem
+2007-30-038,quepem,30,,goa,,quepem
+2007-30-030,margao,30,,goa,,margao
+2007-30-023,siroda,30,,goa,,siroda
+2007-30-017,pale,30,,goa,,pale
+2007-30-009,aldona,30,,goa,,aldona
+2007-30-019,valpoi,30,,goa,,valpoi
+2007-30-018,poriem,30,,goa,,poriem
+2007-30-026,cortalim,30,,goa,,cortalim
+2007-32-050,chittur,32,,kerala,,chittur
+2007-32-090,kottayam,32,,kerala,,kottayam
+2007-32-001,manjeswar,32,,kerala,,manjeswar
+2007-32-099,mararikulam,32,,kerala,,mararikulam
+2007-32-069,vadakkekara,32,,kerala,,vadakkekara
+2007-32-071,narakal,32,,kerala,,narakal
+2007-32-029,kalpetta,32,,kerala,,kalpetta
+2007-32-125,eravipuram,32,,kerala,,eravipuram
+2007-32-140,parassala,32,,kerala,,parassala
+2007-32-004,hosdrug,32,,kerala,,hosdrug
+2007-32-135,trivandrum west,32,,kerala,,trivandrum west
+2007-32-055,wadakkancherry,32,,kerala,,wadakkancherry
+2007-32-046,sreekrishnapuram,32,,kerala,,sreekrishnapuram
+2007-32-051,kollengode,32,,kerala,,kollengode
+2007-32-036,tirurangadi,32,,kerala,,tirurangadi
+2007-32-108,chengannur,32,,kerala,,chengannur
+2007-32-037,tanur,32,,kerala,,tanur
+2007-32-132,nedumangad,32,,kerala,,nedumangad
+2007-32-136,trivandrum east,32,,kerala,,trivandrum east
+2007-32-032,nilambur,32,,kerala,,nilambur
+2007-32-039,ponnani,32,,kerala,,ponnani
+2007-32-103,haripad,32,,kerala,,haripad
+2007-32-068,ankamali,32,,kerala,,ankamali
+2007-32-019,meppayur,32,,kerala,,meppayur
+2007-32-124,quilon,32,,kerala,,quilon
+2007-32-102,kuttanad,32,,kerala,,kuttanad
+2007-32-048,malampuzha,32,,kerala,,malampuzha
+2007-32-081,kothamangalam,32,,kerala,,kothamangalam
+2007-32-031,wandoor,32,,kerala,,wandoor
+2007-32-127,varkala,32,,kerala,,varkala
+2007-32-038,tirur,32,,kerala,,tirur
+2007-32-005,trikkarpur,32,,kerala,,trikkarpur
+2007-32-139,neyyattinkara,32,,kerala,,neyyattinkara
+2007-32-066,nattika,32,,kerala,,nattika
+2007-32-023,koduvally,32,,kerala,,koduvally
+2007-32-033,manjeri,32,,kerala,,manjeri
+2007-32-078,kunnathunad,32,,kerala,,kunnathunad
+2007-32-095,kaduthuruthy,32,,kerala,,kaduthuruthy
+2007-32-057,cherpu,32,,kerala,,cherpu
+2007-32-126,chathanoor,32,,kerala,,chathanoor
+2007-32-014,kuthuparamba,32,,kerala,,kuthuparamba
+2007-32-079,piravom,32,,kerala,,piravom
+2007-32-016,north wynad,32,,kerala,,north wynad
+2007-32-002,kasaragod,32,,kerala,,kasaragod
+2007-32-121,karunagapally,32,,kerala,,karunagapally
+2007-32-133,kazhakuttam,32,,kerala,,kazhakuttam
+2007-32-106,kallooppara,32,,kerala,,kallooppara
+2007-32-129,kilimanoor,32,,kerala,,kilimanoor
+2007-32-010,cannanore,32,,kerala,,cannanore
+2007-32-022,balusseri,32,,kerala,,balusseri
+2007-32-040,kuttippuram,32,,kerala,,kuttippuram
+2007-32-027,kunnamangalam,32,,kerala,,kunnamangalam
+2007-32-131,ariyanad,32,,kerala,,ariyanad
+2007-32-028,thiruvambadi,32,,kerala,,thiruvambadi
+2007-32-086,peermade,32,,kerala,,peermade
+2007-32-003,udma,32,,kerala,,udma
+2007-32-044,pattambi,32,,kerala,,pattambi
+2007-32-060,kodakara,32,,kerala,,kodakara
+2007-32-059,ollur,32,,kerala,,ollur
+2007-32-076,alwaye,32,,kerala,,alwaye
+2007-32-008,taliparamba,32,,kerala,,taliparamba
+2007-32-007,payyannur,32,,kerala,,payyannur
+2007-32-080,muvattupuzha,32,,kerala,,muvattupuzha
+2007-32-012,tellicherry,32,,kerala,,tellicherry
+2007-32-075,trippunithura,32,,kerala,,trippunithura
+2007-32-042,perinthalmanna,32,,kerala,,perinthalmanna
+2007-32-047,mannarkkad,32,,kerala,,mannarkkad
+2007-32-116,chadayamangalam,32,,kerala,,chadayamangalam
+2007-32-074,palluruthy,32,,kerala,,palluruthy
+2007-32-053,alathur,32,,kerala,,alathur
+2007-32-064,manalur,32,,kerala,,manalur
+2007-32-087,kanjirappally,32,,kerala,,kanjirappally
+2007-32-085,udumbanchola,32,,kerala,,udumbanchola
+2007-32-056,kunnamkulam,32,,kerala,,kunnamkulam
+2007-32-137,nemom,32,,kerala,,nemom
+2007-32-024,calicut-1,32,,kerala,,calicut-1
+2007-32-049,palghat,32,,kerala,,palghat
+2007-32-100,alleppey,32,,kerala,,alleppey
+2007-32-067,kodungallur,32,,kerala,,kodungallur
+2007-32-052,coyalmannam,32,,kerala,,coyalmannam
+2007-32-120,kunnathur,32,,kerala,,kunnathur
+2007-32-006,irikkur,32,,kerala,,irikkur
+2007-32-021,perambra,32,,kerala,,perambra
+2007-32-026,beypore,32,,kerala,,beypore
+2007-32-101,ambalapuzha,32,,kerala,,ambalapuzha
+2007-32-110,pandalam,32,,kerala,,pandalam
+2007-32-025,calicut-2,32,,kerala,,calicut-2
+2007-32-030,sultan s battery,32,,kerala,,sultan s battery
+2007-32-114,pathanapuram,32,,kerala,,pathanapuram
+2007-32-104,kayamkulam,32,,kerala,,kayamkulam
+2007-32-061,chalakudi,32,,kerala,,chalakudi
+2007-32-119,adoor,32,,kerala,,adoor
+2007-32-017,badagara,32,,kerala,,badagara
+2007-32-018,nadapuram,32,,kerala,,nadapuram
+2007-32-073,mattancherry,32,,kerala,,mattanchery
+2007-32-070,parur,32,,kerala,,parur
+2007-32-084,idukki,32,,kerala,,idukki
+2007-32-094,palai,32,,kerala,,palai
+2007-32-072,ernakulam,32,,kerala,,ernakulam
+2007-32-082,thodupuzha,32,,kerala,,thodupuzha
+2007-32-092,puthuppally,32,,kerala,,puthuppally
+2007-32-105,thiruvalla,32,,kerala,,thiruvalla
+2007-32-109,mavelikara,32,,kerala,,mavelikara
+2007-32-128,attingal,32,,kerala,,attingal
+2007-32-035,kondotty,32,,kerala,,kondotty
+2007-32-065,guruvayoor,32,,kerala,,guruvayoor
+2007-32-077,perumbavoor,32,,kerala,,perumbavoor
+2007-32-083,devicolam,32,,kerala,,devicolam
+2007-32-062,mala,32,,kerala,,mala
+2007-32-097,aroor,32,,kerala,,aroor
+2007-32-054,chelakara,32,,kerala,,chelakara
+2007-32-020,quilandy,32,,kerala,,quilandy
+2007-32-096,vaikom,32,,kerala,,vaikom
+2007-32-091,ettumanoor,32,,kerala,,ettumanoor
+2007-32-063,irinjalakuda,32,,kerala,,irinjalakuda
+2007-32-034,malappuram,32,,kerala,,malappuram
+2007-32-089,changanacherry,32,,kerala,,changanacherry
+2007-32-011,edakkad,32,,kerala,,edakkad
+2007-32-107,aranmula,32,,kerala,,aranmula
+2007-32-118,neduvathur,32,,kerala,,neduvathur
+2007-32-013,peringalam,32,,kerala,,peringalam
+2007-32-117,kottarakara,32,,kerala,,kottarakara
+2007-32-093,poonjar,32,,kerala,,poonjar
+2007-32-043,thrithala,32,,kerala,,thrithala
+2007-32-112,pathanamthitta,32,,kerala,,pathanamthitta
+2007-32-122,chavara,32,,kerala,,chavara
+2007-32-041,mankada,32,,kerala,,mankada
+2007-32-111,ranni,32,,kerala,,ranni
+2007-32-113,konni,32,,kerala,,konni
+2007-32-058,trichur,32,,kerala,,trichur
+2007-32-015,peravoor,32,,kerala,,peravoor
+2007-32-134,trivandrum north,32,,kerala,,trivandrum north
+2007-32-123,kundara,32,,kerala,,kundara
+2007-32-045,ottapalam,32,,kerala,,ottapalam
+2007-32-130,vamanapuram,32,,kerala,,vamanapuram
+2007-32-009,azhicode,32,,kerala,,azhicode
+2007-32-115,punaloor,32,,kerala,,punalur
+2007-32-138,kovalam,32,,kerala,,kovalam
+2007-32-088,vazhoor,32,,kerala,,vazhoor
+2007-32-098,sherthalai,32,,kerala,,sherthalai
+2007-33-069,vridhachalam,33,,tamil nadu,,vridhachalam
+2007-33-127,ootacamund,33,,tamil nadu,,ootacamund
+2007-33-203,mudukulathur,33,,tamil nadu,,mudukulathur
+2007-33-201,ramanathapuram,33,,tamil nadu,,ramanathapuram
+2007-33-055,tindivanam,33,,tamil nadu,,tindivanam
+2007-33-144,madurai east,33,,tamil nadu,,madurai east
+2007-33-183,thanjavur,33,,tamil nadu,,thanjavur
+2007-33-190,kolathur,33,,tamil nadu,,kolathur
+2007-33-032,arkonam,33,,tamil nadu,,arkonam
+2007-33-133,bodinayakkanur,33,,tamil nadu,,bodinayakkanur
+2007-33-096,namakkal,33,,tamil nadu,,namakkal
+2007-33-013,mylapore,33,,tamil nadu,,mylapore
+2007-33-170,poompuhar,33,,tamil nadu,,poompuhar
+2007-33-009,theagaraya nagar,33,,tamil nadu,,theagaraya nagar
+2007-33-148,dindigul,33,,tamil nadu,,dindigul
+2007-33-079,harur,33,,tamil nadu,,harur
+2007-33-125,sathyamangalam,33,,tamil nadu,,sathyamangalam
+2007-33-020,tambaram,33,,tamil nadu,,tambaram
+2007-33-221,ambasamudram,33,,tamil nadu,,ambasamudram
+2007-33-037,gudiyatham,33,,tamil nadu,,gudiyatham
+2007-33-107,perur,33,,tamil nadu,,perur
+2007-33-160,perambalur,33,,tamil nadu,,perambalur
+2007-33-104,singanallur,33,,tamil nadu,,singanallur
+2007-33-070,mangalore,33,,tamil nadu,,mangalore
+2007-33-101,mettupalayam,33,,tamil nadu,,mettupalayam
+2007-33-216,tenkasi,33,,tamil nadu,,tenkasi
+2007-33-088,salem-1,33,,tamil nadu,,salem-1
+2007-33-026,kancheepuram,33,,tamil nadu,,kancheepuram
+2007-33-006,purasawalkam,33,,tamil nadu,,purasawalkam
+2007-33-153,krishnarayapuram,33,,tamil nadu,,krishnarayapuram
+2007-33-120,erode,33,,tamil nadu,,erode
+2007-33-188,thiruvidamarudur,33,,tamil nadu,,thiruvidamarudur
+2007-33-178,mannargudi,33,,tamil nadu,,mannargudi
+2007-33-150,vedasandur,33,,tamil nadu,,vedasandur
+2007-33-228,kanniyakumari,33,,tamil nadu,,kanniyakumari
+2007-33-102,avanashi,33,,tamil nadu,,avanashi
+2007-33-206,virudhunagar,33,,tamil nadu,,virudhunagar
+2007-33-064,panruti,33,,tamil nadu,,panruti
+2007-33-162,ariyalur,33,,tamil nadu,,ariyalur
+2007-33-137,thirumangalam,33,,tamil nadu,,thirumangalam
+2007-33-224,sattangulam,33,,tamil nadu,,sattangulam
+2007-33-036,katpadi,33,,tamil nadu,,katpadi
+2007-33-152,karur,33,,tamil nadu,,karur
+2007-33-056,vanur,33,,tamil nadu,,vanur
+2007-33-154,marungapuri,33,,tamil nadu,,marungapuri
+2007-33-014,saidapet,33,,tamil nadu,,saidapet
+2007-33-207,sivakasi,33,,tamil nadu,,sivakasi
+2007-33-024,acharapakkam,33,,tamil nadu,,acharapakam
+2007-33-123,gobichettipalayam,33,,tamil nadu,,gobichettipalayam
+2007-33-192,alangudi,33,,tamil nadu,,alangudi
+2007-33-182,thiruvonam,33,,tamil nadu,,thiruvonam
+2007-33-063,cuddalore,33,,tamil nadu,,cuddalore
+2007-33-129,palani,33,,tamil nadu,,palani
+2007-33-146,melur,33,,tamil nadu,,melur
+2007-33-042,chengam,33,,tamil nadu,,chengam
+2007-33-211,pottapidaram,33,,tamil nadu,,ottapidaram
+2007-33-199,manamadurai,33,,tamil nadu,,manamadurai
+2007-33-116,tiruppur,33,,tamil nadu,,tiruppur
+2007-33-094,rasipuram,33,,tamil nadu,,rasipuram
+2007-33-065,kurinjipadi,33,,tamil nadu,,kurinjipadi
+2007-33-179,pattukkottai,33,,tamil nadu,,pattukkottai
+2007-33-028,poonamallee,33,,tamil nadu,,poonamallee
+2007-33-168,thiruverambur,33,,tamil nadu,,thiruverambur
+2007-33-005,perambur,33,,tamil nadu,,perambur
+2007-33-227,tuticorin,33,,tamil nadu,,tuticorin
+2007-33-174,tiruvarur,33,,tamil nadu,,tiruvarur
+2007-33-196,tiruvadanai,33,,tamil nadu,,tiruvadanai
+2007-33-113,vellakoil,33,,tamil nadu,,vellakoil
+2007-33-059,mugaiyur,33,,tamil nadu,,mugaiyur
+2007-33-110,valparai,33,,tamil nadu,,valparai
+2007-33-062,nellikuppam,33,,tamil nadu,,nellikuppam
+2007-33-114,pongalur,33,,tamil nadu,,pongalur
+2007-33-066,bhuvanagiri,33,,tamil nadu,,bhuvanagiri
+2007-33-180,peravurani,33,,tamil nadu,,peravurani
+2007-33-121,bhavani,33,,tamil nadu,,bhavani
+2007-33-109,pollachi,33,,tamil nadu,,pollachi
+2007-33-011,chepauk,33,,tamil nadu,,chepauk
+2007-33-029,tiruvallur,33,,tamil nadu,,tiruvallur
+2007-33-080,morappur,33,,tamil nadu,,morappur
+2007-33-075,thalli,33,,tamil nadu,,thalli
+2007-33-191,pudukkottai,33,,tamil nadu,,pudukkottai
+2007-33-068,chidambaram,33,,tamil nadu,,chidambaram
+2007-33-195,karaikudi,33,,tamil nadu,,karaikudi
+2007-33-073,sankarapuram,33,,tamil nadu,,sankarapuram
+2007-33-087,yercaud,33,,tamil nadu,,yercaud
+2007-33-161,varahur,33,,tamil nadu,,varahur
+2007-33-108,kinathukkadavu,33,,tamil nadu,,kinathukkadavu
+2007-33-157,uppiliapuram,33,,tamil nadu,,uppiliapuram
+2007-33-053,melmalayanur,33,,tamil nadu,,melmalayanur
+2007-33-205,sattur,33,,tamil nadu,,sattur
+2007-33-187,kumbakonam,33,,tamil nadu,,kumbakonam
+2007-33-130,oddanchatram,33,,tamil nadu,,oddanchatram
+2007-33-106,coimbatore east,33,,tamil nadu,,coimbatore east
+2007-33-078,bargur,33,,tamil nadu,,bargur
+2007-33-186,valangiman,33,,tamil nadu,,valangiman
+2007-33-034,ranipet,33,,tamil nadu,,ranipet
+2007-33-135,andipatti,33,,tamil nadu,,andipatti
+2007-33-082,dharmapuri,33,,tamil nadu,,dharmapuri
+2007-33-126,coonoor,33,,tamil nadu,,coonoor
+2007-33-158,musiri,33,,tamil nadu,,musiri
+2007-33-048,vellore,33,,tamil nadu,,vellore
+2007-33-156,thottiam,33,,tamil nadu,,thottiam
+2007-33-233,vilavancode,33,,tamil nadu,,vilavancode
+2007-33-046,polur,33,,tamil nadu,,polur
+2007-33-045,kalasapakkam,33,,tamil nadu,,kalasapakkam
+2007-33-166,tiruchirapalli-1,33,,tamil nadu,,tiruchirapalli-1
+2007-33-141,tirupparankundram,33,,tamil nadu,,tirupparankundram
+2007-33-218,tirunelveli,33,,tamil nadu,,tirunelveli
+2007-33-194,194-tiruppattur,33,,tamil nadu,,tiruppattur
+2007-33-131,periyakulam,33,,tamil nadu,,periyakulam
+2007-33-044,tiruvannamalai,33,,tamil nadu,,tiruvannamalai
+2007-33-164,jayankondam,33,,tamil nadu,,jayankondam
+2007-33-085,taramangalam,33,,tamil nadu,,taramangalam
+2007-33-071,rishivandiam,33,,tamil nadu,,rishivandiam
+2007-33-151,aravakurichi,33,,tamil nadu,,aravakurichi
+2007-33-012,triplicane,33,,tamil nadu,,triplicane
+2007-33-184,tiruvaiyaru,33,,tamil nadu,,tiruvaiyaru
+2007-33-214,vasudevanallur,33,,tamil nadu,,vasudevanallur
+2007-33-169,sirkali,33,,tamil nadu,,sirkali
+2007-33-100,edapadi,33,,tamil nadu,,edapadi
+2007-33-173,nannilam,33,,tamil nadu,,nannilam
+2007-33-111,udumalpet,33,,tamil nadu,,udumalpet
+2007-33-019,alandur,33,,tamil nadu,,alandur
+2007-33-119,perundurai,33,,tamil nadu,,perundurai
+2007-33-155,kulithalai,33,,tamil nadu,,kulithalai
+2007-33-167,tiruchirapalli-2,33,,tamil nadu,,tiruchirappalli-2
+2007-33-105,coimbatore west,33,,tamil nadu,,coimbatore west
+2007-33-086,omalur,33,,tamil nadu,,omalur
+2007-33-091,panamarathupatty,33,,tamil nadu,,panamarathupatty
+2007-33-067,kattumannarkoil,33,,tamil nadu,,kattumannarkoil
+2007-33-124,bhavanisagar,33,,tamil nadu,,bhavanisagar
+2007-33-083,pennagaram,33,,tamil nadu,,pennagaram
+2007-33-051,vandavasi,33,,tamil nadu,,vandavasi
+2007-33-040,natrampalli,33,,tamil nadu,,natrampalli
+2007-33-189,thirumayam,33,,tamil nadu,,thirumayam
+2007-33-229,nagercoil,33,,tamil nadu,,nagercoil
+2007-33-077,krishnagiri,33,,tamil nadu,,krishnagiri
+2007-33-231,padmanabhapuram,33,,tamil nadu,,padmanabhapuram
+2007-33-215,kadayanallur,33,,tamil nadu,,kadayanallur
+2007-33-018,villivakkam,33,,tamil nadu,,villivakkam
+2007-33-015,gummidipundi,33,,tamil nadu,,gummidipundi
+2007-33-039,vaniayambadi,33,,tamil nadu,,vaniayambadi
+2007-33-074,hosur,33,,tamil nadu,,hosur
+2007-33-010,thousand lights,33,,tamil nadu,,thousand lights
+2007-33-232,thiruvattar,33,,tamil nadu,,thiruvattar
+2007-33-027,sriperumbudur,33,,tamil nadu,,sriperumbudur
+2007-33-033,sholinghur,33,,tamil nadu,,sholinghur
+2007-33-140,sholavandan,33,,tamil nadu,,sholavandan
+2007-33-138,usilampatti,33,,tamil nadu,,usilampatti
+2007-33-200,paramakudi,33,,tamil nadu,,paramakudi
+2007-33-230,colachel,33,,tamil nadu,,colachel
+2007-33-049,arni,33,,tamil nadu,,arni
+2007-33-095,sendamangalam,33,,tamil nadu,,sendamangalam
+2007-33-165,srirangam,33,,tamil nadu,,srirangam
+2007-33-176,vedaranyam,33,,tamil nadu,,vedaranyam
+2007-33-223,radhapuram,33,,tamil nadu,,radhapuram
+2007-33-208,srivilliputhur,33,,tamil nadu,,srivilliputhur
+2007-33-217,alangulam,33,,tamil nadu,,alangulam
+2007-33-204,aruppukottai,33,,tamil nadu,,aruppukottai
+2007-33-143,madurai central,33,,tamil nadu,,madurai central
+2007-33-139,nilakottai,33,,tamil nadu,,nilakottai
+2007-33-092,attur,33,,tamil nadu,,attur
+2007-33-097,kapilamalai,33,,tamil nadu,,kapilamalai
+2007-33-134,cumbum,33,,tamil nadu,,cumbum
+2007-33-076,kaveripattinam,33,,tamil nadu,,kaveripattinam
+2007-33-193,arantangi,33,,tamil nadu,,arantangi
+2007-33-212,koilpatti,33,,tamil nadu,,koilpatti
+2007-33-185,papanasam,33,,tamil nadu,,papanasam
+2007-33-171,mayuram,33,,tamil nadu,,mayuram
+2007-33-202,kadaladi,33,,tamil nadu,,kadaladi
+2007-33-054,gingee,33,,tamil nadu,,gingee
+2007-33-016,ponneri,33,,tamil nadu,,ponneri
+2007-33-122,andhiyur,33,,tamil nadu,,andhiyur
+2007-33-058,villupuram,33,,tamil nadu,,villupuram
+2007-33-017,thiruvottiyur,33,,tamil nadu,,thiruvottiyur
+2007-33-198,sivaganga,33,,tamil nadu,,sivaganga
+2007-33-213,sankaranayanarkoil,33,,tamil nadu,,sankaranayanarkoil
+2007-33-030,tiruttani,33,,tamil nadu,,tiruttani
+2007-33-128,gudalur,33,,tamil nadu,,gudalur
+2007-33-159,lalgudi,33,,tamil nadu,,lalgudi
+2007-33-181,orathanad,33,,tamil nadu,,orathanad
+2007-33-093,talavasal,33,,tamil nadu,,talavasal
+2007-33-050,cheyyar,33,,tamil nadu,,cheyyar
+2007-33-090,veerapandi,33,,tamil nadu,,veerapandi
+2007-33-038,pernambut,33,,tamil nadu,,pernambut
+2007-33-210,vilathikulam,33,,tamil nadu,,vilathikulam
+2007-33-118,modakurichi,33,,tamil nadu,,modakurichi
+2007-33-021,tirupporur,33,,tamil nadu,,tirupporur
+2007-33-115,palladam,33,,tamil nadu,,palladam
+2007-33-043,thandarambattu,33,,tamil nadu,,thandarambattu
+2007-33-175,nagapattinam,33,,tamil nadu,,nagapattinam
+2007-33-041,041-tiruppattur,33,,tamil nadu,,tiruppattur
+2007-33-003,dr radhakrishnan nagar,33,,tamil nadu,,dr radhakrishnan nagar
+2007-33-136,sedapatti,33,,tamil nadu,,sedapatti
+2007-33-060,thirunavalur,33,,tamil nadu,,thirunavalur
+2007-33-061,ulundurpet,33,,tamil nadu,,ulundurpet
+2007-33-098,tiruchengode,33,,tamil nadu,,tiruchengode
+2007-33-002,harbour,33,,tamil nadu,,harbour
+2007-33-225,tiruchendur,33,,tamil nadu,,tiruchendur
+2007-33-145,samayanallur,33,,tamil nadu,,samayanallur
+2007-33-004,park town,33,,tamil nadu,,park town
+2007-33-057,kandamangalam,33,,tamil nadu,,kandamangalam
+2007-33-025,uthiramerur,33,,tamil nadu,,uthiramerur
+2007-33-226,srivaikuntam,33,,tamil nadu,,srivaikuntam
+2007-33-234,killiyoor,33,,tamil nadu,,killiyoor
+2007-33-052,peranamallur,33,,tamil nadu,,peranamallur
+2007-33-177,tiruthuraipundi,33,,tamil nadu,,tiruthuraipundi
+2007-33-022,chengalpattu,33,,tamil nadu,,chengalpattu
+2007-33-031,pallipet,33,,tamil nadu,,pallipet
+2007-33-112,dharapuram,33,,tamil nadu,,dharapuram
+2007-33-001,royapuram,33,,tamil nadu,,royapuram
+2007-33-081,palacode,33,,tamil nadu,,palacode
+2007-33-008,anna nagar,33,,tamil nadu,,anna nagar
+2007-33-072,chinnasalem,33,,tamil nadu,,chinnasalem
+2007-33-023,maduranthakam,33,,tamil nadu,,maduranthakam
+2007-33-007,egmore,33,,tamil nadu,,egmore
+2007-33-163,andimadam,33,,tamil nadu,,andimadam
+2007-33-172,kuttalam,33,,tamil nadu,,kuttalam
+2007-33-047,anaicut,33,,tamil nadu,,anaicut
+2007-33-142,madurai west,33,,tamil nadu,,madurai west
+2007-33-220,cheranmahadevi,33,,tamil nadu,,cheranmahadevi
+2007-33-149,athoor,33,,tamil nadu,,athoor
+2007-33-222,nanguneri,33,,tamil nadu,,nanguneri
+2007-33-209,rajapalayam,33,,tamil nadu,,rajapalayam
+2007-33-219,palayamcottai,33,,tamil nadu,,palayamcottai
+2007-33-197,ilayangudi,33,,tamil nadu,,ilayangudi
+2007-33-132,theni,33,,tamil nadu,,theni
+2007-33-099,sankari,33,,tamil nadu,,sankari
+2007-33-117,kangayam,33,,tamil nadu,,kangayam
+2007-33-084,mettur,33,,tamil nadu,,mettur
+2007-33-089,salem-2,33,,tamil nadu,,salem-2
+2007-33-035,arcot,33,,tamil nadu,,arcot
+2007-33-103,thondamuthur,33,,tamil nadu,,thondamuthur
+2007-33-147,natham,33,,tamil nadu,,natham
+2007-34-015,mannadipeth,34,,pondicherry,,mannadipath
+2007-34-010,embalom,34,,pondicherry,,embalom
+2007-34-006,orleampeth,34,,pondicherry,,orleampeth
+2007-34-011,nettapakkam,34,,pondicherry,,nettapakkam
+2007-34-027,neduncadu,34,,pondicherry,,neduncadu
+2007-34-012,kuruvinatham,34,,pondicherry,,kuruvinatham
+2007-34-025,neravy grand aldee,34,,pondicherry,,neravy grand aldee
+2007-34-005,oupalam,34,,pondicherry,,oupalam
+2007-34-028,mahe,34,,pondicherry,,mahe
+2007-34-014,thirubuvanai,34,,pondicherry,,thirubuvanai
+2007-34-024,karaikal south,34,,pondicherry,,karaikal south
+2007-34-026,tirunallar,34,,pondicherry,,tirunallar
+2007-34-023,karaikal,34,,pondicherry,,karaikal
+2007-34-029,palloor,34,,pondicherry,,palloor
+2007-34-019,thattanchavady,34,,pondicherry,,thattanchavady
+2007-34-022,cotchery,34,,pondicherry,,cotchery
+2007-34-030,yanam,34,,pondicherry,,yanam
+2007-34-009,ariankuppam,34,,pondicherry,,ariankuppam
+2007-34-017,villenour,34,,pondicherry,,villenour
+2007-34-013,bahour,34,,pondicherry,,bahour
+2007-34-020,reddiarpalayam,34,,pondicherry,,reddiarpalayam
+2007-34-016,ossudu,34,,pondicherry,,ossudu
+2007-34-007,nellithope,34,,pondicherry,,nellithope
+2007-34-021,lawspet,34,,pondicherry,,lawspet
+2007-34-002,cassicade,34,,pondicherry,,cassicade
+2007-34-004,bussy,34,,pondicherry,,bussy
+2007-34-018,ozhukarai,34,,pondicherry,,ozhukarai
+2007-34-008,modeliarpeth,34,,pondicherry,,modeliarpeth
+2007-34-001,muthialpet,34,,pondicherry,,muthialpet
+2007-34-003,raj bhavan,34,,pondicherry,,raj bhavan
