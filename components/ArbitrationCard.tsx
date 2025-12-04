@@ -4,7 +4,7 @@ import { Check, ExternalLink, MapPin, BrainCircuit, X, RotateCcw } from 'lucide-
 import { apiService } from '../services/api';
 import AskAISidebar from './AskAISidebar';
 import DecisionConsole from './decision/DecisionConsole';
-import { ParsedEvent } from '../types';
+import { ParsedEvent } from '../src/types';
 import Chip from './Chip';
 
 interface ArbitrationCardProps {

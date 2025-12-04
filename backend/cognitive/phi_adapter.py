@@ -546,7 +546,11 @@ def get_phi_adapter(**kwargs) -> Optional[PhiAdapter]:
     if _phi_adapter is None:
         # Read from environment - defaults to disabled for safety
         phi_enabled = os.getenv("PHI_ENABLED", "").lower() == "true"
-        model_name = kwargs.get("model", "gemma2:9b")
+        # Allow overriding model via env var, default to passed arg or gemma2:9b
+        env_model = os.getenv("PHI_MODEL")
+        default_model = kwargs.get("model", "gemma2:9b")
+        model_name = env_model if env_model else default_model
+        
         _phi_adapter = PhiAdapter(enabled=phi_enabled, model=model_name)
         if phi_enabled:
             logger.info(f"LLM enrichment enabled via PHI_ENABLED environment variable (using {model_name})")

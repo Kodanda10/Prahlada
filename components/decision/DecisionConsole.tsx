@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DecisionRow from './DecisionRow';
-import { ParsedEvent } from '../../types';
+import { ParsedEvent } from '../../src/types';
 
 interface DecisionConsoleProps {
     event: ParsedEvent;

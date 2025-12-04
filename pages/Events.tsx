@@ -4,10 +4,9 @@ import { ExternalLink } from 'lucide-react';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
 import { LiquidLoader } from '../components/interactions/RiveLikeIcons';
 import { fetchEvents } from '../services/api';
-import { ParsedEvent } from '../types';
 
 const Events = () => {
-  const [events, setEvents] = useState<ParsedEvent[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

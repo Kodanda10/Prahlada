@@ -3,7 +3,7 @@ import { Filter, Download } from 'lucide-react';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
 import { PulseButton } from '../components/interactions/RiveLikeIcons';
 // import ingestedTweets from '../data/ingested_tweets.json'; // REMOVED
-import { ParsedEvent } from '../types';
+import { ParsedEvent } from '../src/types';
 import TweetPreviewModal from '../components/TweetPreviewModal';
 import TweetFilters from '../components/home/TweetFilters';
 import TweetTable from '../components/home/TweetTable';

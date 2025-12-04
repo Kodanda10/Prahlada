@@ -66,7 +66,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
   };
 
   // Cluster layer configuration
-  const clusterLayer = {
+  const clusterLayer: any = {
     id: 'clusters',
     type: 'circle' as const,
     source: 'locations',
@@ -90,7 +90,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
     },
   };
 
-  const clusterCountLayer = {
+  const clusterCountLayer: any = {
     id: 'cluster-count',
     type: 'symbol' as const,
     source: 'locations',
@@ -105,7 +105,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
     },
   };
 
-  const unclusteredPointLayer = {
+  const unclusteredPointLayer: any = {
     id: 'unclustered-point',
     type: 'circle' as const,
     source: 'locations',
@@ -138,7 +138,7 @@ const MapBoxVisual: React.FC<MapBoxVisualProps> = ({ locations = [], apiKey = MA
   };
 
   // Heatmap layer for density visualization
-  const heatmapLayer = {
+  const heatmapLayer: any = {
     id: 'heatmap',
     type: 'heatmap' as const,
     source: 'locations',

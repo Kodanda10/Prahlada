@@ -2,7 +2,7 @@ import os
 print("DEBUG: Imported os")
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 from fastapi import FastAPI, HTTPException, Depends, status, BackgroundTasks
 print("DEBUG: Imported fastapi")
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,11 +38,10 @@ async def lifespan(app: FastAPI):
     print("DEBUG: Connecting to database...")
     try:
         async with engine.begin() as conn:
-            # print("DEBUG: Database connected. Creating tables...")
+            print("DEBUG: Database connected. Creating tables...")
             # await conn.run_sync(models.Base.metadata.drop_all) # Use for development reset
-            # await conn.run_sync(models.Base.metadata.create_all)
-            # print("DEBUG: Tables created.")
-            pass
+            await conn.run_sync(models.Base.metadata.create_all)
+            print("DEBUG: Tables created.")
     except Exception as e:
         print(f"DEBUG: Database connection failed: {e}")
         raise e
@@ -384,7 +383,7 @@ async def get_analytics_districts(
 
 @app.get("/api/geo/children")
 async def get_geo_children(
-    parentId: str | None = None,
+    parentId: Optional[str] = None,
     level: str = "state", # state, district, block
     db: AsyncSession = Depends(get_db_session),
     _: models.AdminUser = Depends(get_current_user),
@@ -486,7 +485,7 @@ async def get_stats(
 
 @app.get("/api/events", response_model=list[schemas.EventResponse])
 async def get_events(
-    status: str | None = None,
+    status: Optional[str] = None,
     enriched_only: bool = True, # Default to True for Review UX focus
     db: AsyncSession = Depends(get_db_session),
     _: models.AdminUser = Depends(get_current_user),
@@ -552,7 +551,7 @@ async def get_events(
                 unique.append(name)
         return ", ".join(unique) if unique else "Unknown"
 
-    def map_status(raw_status: str | None):
+    def map_status(raw_status: Optional[str]):
         if not raw_status:
             return "SUCCESS"
         mapping = {

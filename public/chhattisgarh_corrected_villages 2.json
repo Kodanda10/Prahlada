@@ -1,0 +1,186 @@
+{
+  "state": "Chhattisgarh",
+  "total_villages": 18,
+  "villages": [
+    {
+      "village_code": "438693",
+      "name": "Rampur",
+      "district": "Bilaspur",
+      "assembly_constituency": "Bilaspur",
+      "block": "Belha",
+      "latitude": 20.122509,
+      "longitude": 82.862184,
+      "population_total": 4171
+    },
+    {
+      "village_code": "433174",
+      "name": "Ramnagar",
+      "district": "Surguja",
+      "assembly_constituency": "Ambikapur",
+      "block": "Udaipur",
+      "latitude": 22.271099,
+      "longitude": 83.358654,
+      "population_total": 1273
+    },
+    {
+      "village_code": "433132",
+      "name": "Rampur",
+      "district": "Surguja",
+      "assembly_constituency": "Ambikapur",
+      "block": "Lakhanpur",
+      "latitude": 18.693474,
+      "longitude": 82.441841,
+      "population_total": 4996
+    },
+    {
+      "village_code": "434530",
+      "name": "Ganeshpur",
+      "district": "Raigarh",
+      "assembly_constituency": "Dharamjaigarh",
+      "block": "Dharamjaigarh",
+      "latitude": 23.549181,
+      "longitude": 81.308347,
+      "population_total": 4983
+    },
+    {
+      "village_code": "436222",
+      "name": "Ganeshpur",
+      "district": "Korba",
+      "assembly_constituency": "Pali-tanakhar",
+      "block": "Pali",
+      "latitude": 22.883417,
+      "longitude": 82.46268,
+      "population_total": 3941
+    },
+    {
+      "village_code": "446373",
+      "name": "Rampur",
+      "district": "Mahasamund",
+      "assembly_constituency": "Basna",
+      "block": "Pithora",
+      "latitude": 17.080668,
+      "longitude": 80.159663,
+      "population_total": 4608
+    },
+    {
+      "village_code": "450939",
+      "name": "Rampur",
+      "district": "Bijapur",
+      "assembly_constituency": "Bijapur",
+      "block": "Usoor",
+      "latitude": 20.04358,
+      "longitude": 80.919187,
+      "population_total": 3959
+    },
+    {
+      "village_code": "436116",
+      "name": "Rampur",
+      "district": "Korba",
+      "assembly_constituency": "Pali-tanakhar",
+      "block": "Podi Uparoda",
+      "latitude": 22.925919,
+      "longitude": 84.428145,
+      "population_total": 4948
+    },
+    {
+      "village_code": "434538",
+      "name": "Rampur",
+      "district": "Raigarh",
+      "assembly_constituency": "Dharamjaigarh",
+      "block": "Lailunga",
+      "latitude": 22.853531,
+      "longitude": 83.662011,
+      "population_total": 2049
+    },
+    {
+      "village_code": "440654",
+      "name": "Rampur",
+      "district": "Rajnandgaon",
+      "assembly_constituency": "Dongargaon",
+      "block": "Dongarghar",
+      "latitude": 19.948193,
+      "longitude": 82.106933,
+      "population_total": 2900
+    },
+    {
+      "village_code": "438298",
+      "name": "Rampur",
+      "district": "Mungeli",
+      "assembly_constituency": "Mungeli",
+      "block": "Mungeli",
+      "latitude": 18.592174,
+      "longitude": 83.775776,
+      "population_total": 2376
+    },
+    {
+      "village_code": "436191",
+      "name": "Shivpur",
+      "district": "Korba",
+      "assembly_constituency": "Pali-tanakhar",
+      "block": "Pali",
+      "latitude": 17.384575,
+      "longitude": 82.025517,
+      "population_total": 939
+    },
+    {
+      "village_code": "444064",
+      "name": "Rampur",
+      "district": "Balodabazar-Bhatapara",
+      "assembly_constituency": "Bilaigarh",
+      "block": "Kasdol",
+      "latitude": 20.427905,
+      "longitude": 82.412112,
+      "population_total": 1370
+    },
+    {
+      "village_code": "433125",
+      "name": "Ganeshpur",
+      "district": "Surguja",
+      "assembly_constituency": "Ambikapur",
+      "block": "Lakhanpur",
+      "latitude": 20.707387,
+      "longitude": 84.509014,
+      "population_total": 3740
+    },
+    {
+      "village_code": "446814",
+      "name": "Rampur",
+      "district": "Dhamtari",
+      "assembly_constituency": "Kurud",
+      "block": "Kurud",
+      "latitude": 19.988964,
+      "longitude": 84.365861,
+      "population_total": 3257
+    },
+    {
+      "village_code": "445813",
+      "name": "Ganeshpur",
+      "district": "Mahasamund",
+      "assembly_constituency": "Basna",
+      "block": "Basna",
+      "latitude": 19.15515,
+      "longitude": 84.393509,
+      "population_total": 1753
+    },
+    {
+      "village_code": "434275",
+      "name": "Shivpur",
+      "district": "Jashpur",
+      "assembly_constituency": "Pathalgaon",
+      "block": "Patthalgaon",
+      "latitude": 17.322704,
+      "longitude": 84.424755,
+      "population_total": 3215
+    },
+    {
+      "village_code": "443479",
+      "name": "Ganeshpur",
+      "district": "Balodabazar-Bhatapara",
+      "assembly_constituency": "Bhatapara",
+      "block": "Simga",
+      "latitude": 23.327902,
+      "longitude": 81.241185,
+      "population_total": 755
+    }
+  ]
+}

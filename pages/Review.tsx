@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Search, RotateCw, Sparkles, CheckCircle, Zap, Download, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import AnimatedGlassCard from '../components/AnimatedGlassCard';
 import ArbitrationCard from '../components/ArbitrationCard';
-import { ParsedEvent } from '../types';
+import { ParsedEvent } from '../src/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import NumberTicker from '../components/NumberTicker';
 import { GeocodingService } from '../services/GeocodingService';

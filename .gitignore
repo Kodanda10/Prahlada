@@ -15,10 +15,10 @@ build/
 
 # Data (Exclude large datasets)
 data/
-KnowledgeBank/geo-data/
-KnowledgeBank/datasets/
-KnowledgeBank/vector-search/
-KnowledgeBank/Gemini/
+KnowledgeBank/
+LGD_*/
+shrug-*/
+maati/
 
 # Logs
 *.log

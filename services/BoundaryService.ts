@@ -69,8 +69,8 @@ export const BoundaryService = {
      * 
      * Strategy:
      * 1. Get AC list from LGD Hierarchy.
-     * 2. Fetch AC boundaries from Overpass API.
-     * 3. Match Overpass results with LGD list.
+     * 2. Try to generate boundaries from Village Points (Convex Hull).
+     * 3. Fallback to Overpass API if generation fails.
      */
     async fetchDistrictAssemblies(districtName: string): Promise<BoundaryCollection | null> {
         const cacheKey = `assemblies_${districtName}`;
@@ -91,14 +91,20 @@ export const BoundaryService = {
             const acNames = Object.keys(hierarchy[districtName]);
             console.log(`📍 Found ${acNames.length} ACs in ${districtName} (LGD):`, acNames);
 
-            // 2. Fetch from Overpass (Admin Level 7 = Assembly?)
+            // 2. Try Local Generation (Convex Hull from Villages)
+            const generatedBoundaries = await this.createACBoundariesFromVillages(districtName, hierarchy[districtName]);
+            if (generatedBoundaries && generatedBoundaries.features.length > 0) {
+                console.log(`✅ Generated ${generatedBoundaries.features.length} AC boundaries from village points`);
+                this.boundaryCache[cacheKey] = generatedBoundaries;
+                return generatedBoundaries;
+            }
+
+            // 3. Fallback to Overpass (Admin Level 7 = Assembly?)
             console.log('⏳ Fetching AC boundaries from Overpass...');
             const overpassData = await this.fetchFromOverpass(districtName, 7);
 
             if (overpassData && overpassData.features.length > 0) {
-                // 3. Match Overpass results with LGD list
-                // We filter the Overpass results to only include those that roughly match our LGD list
-                // This helps avoid showing irrelevant boundaries
+                // Match Overpass results with LGD list
                 const filteredFeatures = overpassData.features.filter(feature => {
                     const featureName = feature.properties.name.toLowerCase();
                     return acNames.some(acName => featureName.includes(acName.toLowerCase()) || acName.toLowerCase().includes(featureName));
@@ -113,8 +119,6 @@ export const BoundaryService = {
                     return filteredData;
                 }
 
-                // If filtering removed everything, maybe just return original?
-                // For now, let's return original but log warning
                 console.warn(`⚠️ Overpass found boundaries but none matched LGD names for ${districtName}. Returning all found.`);
                 this.boundaryCache[cacheKey] = overpassData;
                 return overpassData;
@@ -130,6 +134,101 @@ export const BoundaryService = {
     },
 
     /**
+     * Generate AC boundaries using Convex Hull of villages
+     */
+    async createACBoundariesFromVillages(districtName: string, acData: any): Promise<BoundaryCollection | null> {
+        try {
+            // We need d3-polygon for convex hull. 
+            // Since we can't easily import d3 here without ensuring it's in package.json and installed,
+            // we will implement a simple Monotone Chain algorithm for Convex Hull.
+
+            const features: BoundaryFeature[] = [];
+
+            for (const acName in acData) {
+                const blocks = acData[acName];
+                let allPoints: [number, number][] = [];
+
+                // Collect all village coordinates in this AC
+                for (const blockName in blocks) {
+                    const villages = blocks[blockName];
+                    villages.forEach((v: any) => {
+                        if (v.lat && v.lng) {
+                            allPoints.push([v.lng, v.lat]);
+                        }
+                    });
+                }
+
+                if (allPoints.length < 3) continue;
+
+                // Compute Convex Hull
+                const hull = this.calculateConvexHull(allPoints);
+
+                if (hull.length > 2) {
+                    // Close the polygon
+                    hull.push(hull[0]);
+
+                    features.push({
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Polygon',
+                            coordinates: [hull]
+                        },
+                        properties: {
+                            name: acName,
+                            id: `ac_gen_${acName.replace(/\s+/g, '_')}`,
+                            type: 'ASSEMBLY',
+                            adminLevel: 7
+                        }
+                    });
+                }
+            }
+
+            if (features.length === 0) return null;
+
+            return {
+                type: 'FeatureCollection',
+                features
+            };
+
+        } catch (e) {
+            console.error("Error generating AC boundaries:", e);
+            return null;
+        }
+    },
+
+    /**
+     * Monotone Chain Convex Hull Algorithm
+     */
+    calculateConvexHull(points: [number, number][]): [number, number][] {
+        points.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
+
+        const cross = (o: [number, number], a: [number, number], b: [number, number]) => {
+            return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+        };
+
+        const lower: [number, number][] = [];
+        for (const p of points) {
+            while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) {
+                lower.pop();
+            }
+            lower.push(p);
+        }
+
+        const upper: [number, number][] = [];
+        for (let i = points.length - 1; i >= 0; i--) {
+            const p = points[i];
+            while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) {
+                upper.pop();
+            }
+            upper.push(p);
+        }
+
+        upper.pop();
+        lower.pop();
+        return lower.concat(upper);
+    },
+
+    /**
      * Fetch blocks for a district
      */
     async fetchDistrictBlocks(districtName: string): Promise<BoundaryCollection | null> {
@@ -137,8 +236,7 @@ export const BoundaryService = {
         if (this.boundaryCache[cacheKey]) return this.boundaryCache[cacheKey];
 
         try {
-            // 1. Get Block List from Hierarchy (This is a bit harder as blocks are nested under ACs in our hierarchy structure)
-            // We need to flatten the hierarchy to get all blocks in the district
+            // 1. Get Block List from Hierarchy
             const hierarchy = await this.loadHierarchyData();
             if (!hierarchy || !hierarchy[districtName]) return null;
 
@@ -149,11 +247,19 @@ export const BoundaryService = {
 
             console.log(`📍 Found ${blockNames.size} Blocks in ${districtName} (LGD)`);
 
-            // 2. Fetch from Overpass (Admin Level 6 = Tehsil/Taluk)
+            // 2. Try Local Generation (Convex Hull from Villages)
+            const generatedBoundaries = await this.createBlockBoundariesFromVillages(districtName, hierarchy[districtName]);
+            if (generatedBoundaries && generatedBoundaries.features.length > 0) {
+                console.log(`✅ Generated ${generatedBoundaries.features.length} Block boundaries from village points`);
+                this.boundaryCache[cacheKey] = generatedBoundaries;
+                return generatedBoundaries;
+            }
+
+            // 3. Fallback to Overpass (Admin Level 6 = Tehsil/Taluk)
             const overpassData = await this.fetchFromOverpass(districtName, 6);
 
             if (overpassData && overpassData.features.length > 0) {
-                // 3. Match Overpass results with LGD list
+                // Match Overpass results with LGD list
                 const filteredFeatures = overpassData.features.filter(feature => {
                     const featureName = feature.properties.name.toLowerCase();
                     return Array.from(blockNames).some(blockName => featureName.includes(blockName.toLowerCase()) || blockName.toLowerCase().includes(featureName));
@@ -174,6 +280,68 @@ export const BoundaryService = {
             return null;
         } catch (error) {
             console.error(`Error fetching blocks for ${districtName}:`, error);
+            return null;
+        }
+    },
+
+    /**
+     * Generate Block boundaries using Convex Hull of villages
+     */
+    async createBlockBoundariesFromVillages(districtName: string, acData: any): Promise<BoundaryCollection | null> {
+        try {
+            const features: BoundaryFeature[] = [];
+            const blockPoints: Record<string, [number, number][]> = {};
+
+            // Group points by Block
+            for (const acName in acData) {
+                const blocks = acData[acName];
+                for (const blockName in blocks) {
+                    if (!blockPoints[blockName]) blockPoints[blockName] = [];
+
+                    const villages = blocks[blockName];
+                    villages.forEach((v: any) => {
+                        if (v.lat && v.lng) {
+                            blockPoints[blockName].push([v.lng, v.lat]);
+                        }
+                    });
+                }
+            }
+
+            // Generate Hull for each Block
+            for (const blockName in blockPoints) {
+                const points = blockPoints[blockName];
+                if (points.length < 3) continue;
+
+                const hull = this.calculateConvexHull(points);
+
+                if (hull.length > 2) {
+                    hull.push(hull[0]); // Close polygon
+
+                    features.push({
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Polygon',
+                            coordinates: [hull]
+                        },
+                        properties: {
+                            name: blockName,
+                            id: `block_gen_${blockName.replace(/\s+/g, '_')}`,
+                            type: 'BLOCK',
+                            adminLevel: 6
+                        }
+                    });
+                }
+            }
+
+            if (features.length === 0) return null;
+
+            return {
+                type: 'FeatureCollection',
+                features
+            };
+
+        } catch (e) {
+            console.error("Error generating Block boundaries:", e);
             return null;
         }
     },

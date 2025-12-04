@@ -11,10 +11,7 @@
     ],
     "skipLibCheck": true,
     "types": [
-      "node",
-      "@testing-library/jest-dom",
-      "vitest/globals",
-      "vitest"
+      "node"
     ],
     "moduleResolution": "bundler",
     "isolatedModules": true,
@@ -30,10 +27,15 @@
     "noEmit": true
   },
   "include": [
-    "**/*"
+    "src/**/*",
+    "vite.config.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "tests",
+    "**/*.test.tsx",
+    "**/*.test.ts",
+    "**/__tests__/**"
   ]
 }

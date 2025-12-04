@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
-import { ParsedEvent } from '../../types';
+import { ParsedEvent } from '../../src/types';
 import { translateToHindi } from '../../utils/textUtils';
 import Chip from '../Chip';
 

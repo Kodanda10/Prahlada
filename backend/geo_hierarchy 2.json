@@ -1,0 +1,52 @@
+{
+    "districts": {
+        "Raigarh": {
+            "blocks": [
+                "Raigarh",
+                "Kharsia",
+                "Gharghoda",
+                "Tamnar",
+                "Pussore",
+                "Lailunga",
+                "Dharamjaigarh"
+            ]
+        },
+        "Bilaspur": {
+            "blocks": [
+                "Bilaspur",
+                "Kota",
+                "Takhatpur",
+                "Masturi"
+            ]
+        },
+        "Raipur": {
+            "blocks": [
+                "Raipur",
+                "Dharsiwa",
+                "Tilda",
+                "Abhanpur"
+            ]
+        }
+    },
+    "blocks": {
+        "Raigarh": [
+            "Kirodimalnagar",
+            "Urdana",
+            "Patrapali",
+            "Jurda"
+        ],
+        "Kharsia": [
+            "Kharsia (Rural)",
+            "Bhaunra",
+            "Turekela"
+        ],
+        "Gharghoda": [
+            "Gharghoda (Rural)",
+            "Teram"
+        ],
+        "Tamnar": [
+            "Tamnar (Rural)",
+            "Sarasmal"
+        ]
+    }
+}

@@ -97,10 +97,13 @@ class VectorStore:
         for i in range(len(indices[0])):
             idx = indices[0][i]
             if idx != -1: # FAISS returns -1 for no result
-                results.append({
-                    "metadata": self.metadata[idx],
-                    "distance": float(distances[0][i])
-                })
+                if idx < len(self.metadata):
+                    results.append({
+                        "metadata": self.metadata[idx],
+                        "distance": float(distances[0][i])
+                    })
+                else:
+                    print(f"CRITICAL WARNING: Vector Store Desync! Index {idx} out of bounds for metadata length {len(self.metadata)}")
         return results
 
     def save(self):

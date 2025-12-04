@@ -1,4 +1,4 @@
-import { ParsedEvent, Stats } from '../types';
+import { ParsedEvent, Stats } from '../src/types';
 import { AllowedEventFilter, normalizeEventFilter, redactSensitiveLogData } from '../utils/security';
 
 // Points to the FastAPI backend; prefer env override and HTTPS when available

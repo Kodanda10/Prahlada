@@ -1,0 +1,114 @@
+/* Dhruv Geo-Monolith Aesthetic - Obsidian Glass & Neon */
+
+/* 1. The "Obsidian" Glass Texture */
+.glass-panel {
+  background: linear-gradient(180deg, rgba(13, 18, 30, 0.85) 0%, rgba(5, 5, 10, 0.95) 100%);
+  backdrop-filter: blur(24px); /* Heavy blur for depth */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 20px 50px -10px rgba(0, 0, 0, 0.8), 
+    0 0 20px rgba(6, 182, 212, 0.15) inset; /* Inner Neon Glow */
+}
+
+/* 2. The "Scanner" Grid Background */
+.scanner-grid {
+  background-image: 
+    linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+  animation: scanner-pulse 8s ease-in-out infinite;
+}
+
+@keyframes scanner-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* 3. Text Neon Glow */
+.text-neon {
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+.text-neon-strong {
+  text-shadow: 
+    0 0 10px rgba(34, 211, 238, 0.7),
+    0 0 20px rgba(34, 211, 238, 0.5),
+    0 0 30px rgba(34, 211, 238, 0.3);
+}
+
+/* 4. Input Glass Pill */
+.glass-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+  outline: none;
+}
+
+/* 5. Status Indicator Pulse */
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.status-online {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+/* 6. Breadcrumb Chips */
+.chip-glass {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.chip-glass:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+/* 7. Hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 8. Gradient Overlays */
+.gradient-overlay-top {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+}
+
+.gradient-overlay-bottom {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+}
+
+/* 9. Map Container - Full bleed behind UI */
+.map-viewport {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* 10. Cosmic Glow for villages/points */
+.cosmic-point {
+  filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.8));
+  animation: cosmic-twinkle 3s ease-in-out infinite;
+}
+
+@keyframes cosmic-twinkle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}

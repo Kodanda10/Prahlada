@@ -1,7 +1,18 @@
 from sqlalchemy import (
     Column, String, DateTime, Text, JSON, Boolean, Float
 )
-from sqlalchemy.dialects.postgresql import JSONB, ARRAY
+from sqlalchemy.dialects.postgresql import JSONB as PG_JSONB, ARRAY
+from sqlalchemy.types import TypeDecorator
+
+# Custom JSONB type to support both SQLite (as JSON) and Postgres (as JSONB)
+class JSONB(TypeDecorator):
+    impl = JSON
+    cache_ok = True
+
+    def load_dialect_impl(self, dialect):
+        if dialect.name == 'postgresql':
+            return dialect.type_descriptor(PG_JSONB())
+        return dialect.type_descriptor(JSON())
 from .database import Base
 import datetime
 import uuid

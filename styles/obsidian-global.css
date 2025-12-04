@@ -1,0 +1,97 @@
+/* 🌌 Obsidian OS: Global Design System */
+
+:root {
+    /* Core Palette (Preserved) */
+    --obsidian-void: #020408;
+    --obsidian-surface: #050505;
+    --neon-cyan: #22d3ee;
+    --neon-emerald: #10b981;
+    --neon-violet: #8b5cf6;
+
+    /* Material Physics */
+    --glass-blur-xl: 40px;
+    --glass-blur-lg: 24px;
+    --glass-border: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02));
+
+    /* Depth */
+    --depth-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+}
+
+/* 1. The Noise Texture (Tactile Grain) */
+.bg-noise {
+    position: relative;
+}
+
+.bg-noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: overlay;
+}
+
+/* 2. Hyper-Glass Utilities */
+.glass-panel-pro {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(var(--glass-blur-xl));
+    -webkit-backdrop-filter: blur(var(--glass-blur-xl));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--depth-shadow);
+}
+
+/* 3. Typography: Laser Precision */
+body {
+    letter-spacing: -0.015em;
+    /* Tighter, more modern */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: -0.025em;
+}
+
+/* Tabular Numbers for Data */
+.font-mono-nums {
+    font-variant-numeric: tabular-nums;
+}
+
+/* 4. Liquid Light Cursor (Global) */
+.liquid-cursor-glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    transition: opacity 0.5s ease;
+}
+
+/* 5. Scrollbar: Liquid */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(34, 211, 238, 0.4);
+}

@@ -1,7 +1,7 @@
 // import ExcelJS from 'exceljs';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { ParsedEvent } from '../types';
+import { ParsedEvent } from '../src/types';
 
 // Add this to make typescript happy with jspdf-autotable
 declare module 'jspdf' {
