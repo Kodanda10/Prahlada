@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ExternalLink, MapPin, BrainCircuit, X, RotateCcw, Edit2 } from 'lucide-react';
+import { Check, ExternalLink, MapPin, BrainCircuit, X, RotateCcw, Edit2, Plus, CheckCircle2 } from 'lucide-react';
 import { apiService } from '../services/api';
 import AskAISidebar from './AskAISidebar';
 import DecisionConsole from './decision/DecisionConsole';
@@ -89,6 +89,28 @@ const ArbitrationCard: React.FC<ArbitrationCardProps> = ({ event, onApprove }) =
     // GeoNeuroResolver State
     const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
     const [editedLocation, setEditedLocation] = useState(event.parsed_data_v8?.location || {});
+
+    // Word Bucket State
+    const [wordBuckets, setWordBuckets] = useState<string[]>(event.parsed_data_v8?.word_buckets || []);
+    const [isAddingWord, setIsAddingWord] = useState(false);
+    const [newWord, setNewWord] = useState('');
+
+    // Word Bucket Handlers
+    const handleAddWord = () => {
+        if (newWord.trim()) {
+            setWordBuckets(prev => [...prev, newWord.trim()]);
+            setNewWord('');
+            setIsAddingWord(false);
+        }
+    };
+
+    const handleRemoveWord = (index: number) => {
+        setWordBuckets(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleEditWord = (index: number, newValue: string) => {
+        setWordBuckets(prev => prev.map((w, i) => i === index ? newValue : w));
+    };
 
     // Fetch comparison data
     useEffect(() => {
@@ -246,19 +268,56 @@ const ArbitrationCard: React.FC<ArbitrationCardProps> = ({ event, onApprove }) =
                 </p>
             </div>
 
-            {/* Word Bucket Box - Shows enriched entities */}
+            {/* Word Bucket Box - Interactive with add/edit/remove */}
             <div className="mb-10">
                 <div className="bg-gradient-to-br from-slate-900/80 via-indigo-950/40 to-purple-950/30 backdrop-blur-2xl p-5 rounded-xl border border-white/10 shadow-[0_0_30px_rgba(139,92,246,0.15)] transform transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(139,92,246,0.25)] tilt-card glass-glow">
-                    <div className="flex items-center gap-2 mb-4 text-[10px] text-violet-400 uppercase tracking-widest font-bold font-hindi">
-                        <BrainCircuit size={12} className="text-violet-500" /> वर्ड बकेट
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2 text-[10px] text-violet-400 uppercase tracking-widest font-bold font-hindi">
+                            <BrainCircuit size={12} className="text-violet-500" /> वर्ड बकेट
+                        </div>
+                        {!isAddingWord && (
+                            <button
+                                onClick={() => setIsAddingWord(true)}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-dashed border-violet-500/30 text-xs text-violet-400 hover:text-violet-300 hover:bg-violet-500/10 transition-all font-hindi"
+                            >
+                                <Plus size={12} /> नया जोड़ें
+                            </button>
+                        )}
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {(event.parsed_data_v8?.word_buckets || []).length > 0 ? (
-                            event.parsed_data_v8.word_buckets.map((word: string, idx: number) => (
-                                <Chip key={idx} label={word} color="violet" readOnly />
+                        {wordBuckets.length > 0 ? (
+                            wordBuckets.map((word: string, idx: number) => (
+                                <Chip
+                                    key={idx}
+                                    label={word}
+                                    color="violet"
+                                    onRemove={() => handleRemoveWord(idx)}
+                                    onEdit={(newVal) => handleEditWord(idx, newVal)}
+                                />
                             ))
                         ) : (
-                            <span className="text-slate-500 text-xs italic font-hindi">कोई कीवर्ड नहीं</span>
+                            !isAddingWord && <span className="text-slate-500 text-xs italic font-hindi">कोई कीवर्ड नहीं</span>
+                        )}
+                        {/* Inline Add Input */}
+                        {isAddingWord && (
+                            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-left-2">
+                                <input
+                                    type="text"
+                                    autoFocus
+                                    value={newWord}
+                                    onChange={(e) => setNewWord(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleAddWord()}
+                                    onBlur={() => { if (!newWord) setIsAddingWord(false); }}
+                                    className="bg-black/40 border border-violet-500/30 rounded-full px-3 py-1.5 text-sm text-white focus:outline-none focus:border-violet-500 w-32 font-hindi"
+                                    placeholder="नया शब्द..."
+                                />
+                                <button onClick={handleAddWord} className="p-1 rounded-full bg-violet-500/20 text-violet-400 hover:bg-violet-500/30">
+                                    <CheckCircle2 size={14} />
+                                </button>
+                                <button onClick={() => { setIsAddingWord(false); setNewWord(''); }} className="p-1 rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30">
+                                    <X size={14} />
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>

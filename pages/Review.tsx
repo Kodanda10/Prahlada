@@ -172,10 +172,10 @@ const Review = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-140px)] animate-entrance"
+      className="grid grid-cols-1 lg:grid-cols-4 gap-6 animate-entrance"
     >
       {/* Left Sidebar - Stats & Filters */}
-      <div className="lg:col-span-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
+      <div className="lg:col-span-1 space-y-6">
         <AnimatedGlassCard className="p-5 border-l-4 border-l-[#8BF5E6]">
           <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2 font-hindi">
             समीक्षा स्थिति
@@ -213,7 +213,7 @@ const Review = () => {
         </AnimatedGlassCard>
 
         {/* Dhruv Vertical Nexus - The Kundalini Reactor */}
-        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+        <div className="mt-6">
           <DhruvVerticalNexus
             currentStage={showToast ? 7 : 6}
           />
@@ -221,10 +221,10 @@ const Review = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="lg:col-span-3 flex flex-col h-full overflow-hidden">
+      <div className="lg:col-span-3">
         {viewMode === 'pending' ? (
           pendingEvents.length > 0 ? (
-            <div className="flex flex-col h-full">
+          <div>
               {/* Navigation Controls */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">

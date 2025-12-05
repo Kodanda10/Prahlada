@@ -280,9 +280,12 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                         )}
                     </div>
 
+                    {/* Helper text at bottom - no longer overlapping */}
                     {finalValues.length === 0 && !isEditing && (
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
-                            <span className="text-xs text-slate-400 font-hindi">सुझाव पर क्लिक करें या नया जोड़ें</span>
+                        <div className="text-center pt-3 mt-auto border-t border-white/5">
+                            <span className="text-[10px] text-slate-500 font-hindi">
+                                ऊपर सुझावों पर क्लिक करें या नया जोड़ें
+                            </span>
                         </div>
                     )}
                 </div>
