@@ -104,6 +104,58 @@ const AREA_THEMES = {
 };
 
 // ============================================================================
+// HINDI-FIRST: Complete District Mapping (SSOT for Hindi names)
+// ============================================================================
+const DISTRICT_HINDI_MAP: Record<string, string> = {
+  'Balod': 'बलोद',
+  'Baloda Bazar': 'बलौदा बाज़ार',
+  'Balodabazar-Bhatapara': 'बालोदाबाज़ार-भाटापारा',
+  'Balrampur': 'बलरामपुर',
+  'Balrampur-Ramanujganj': 'बलरामपुर-रामानुजगंज',
+  'Bastar': 'बस्तर',
+  'Bemetara': 'बेमेतरा',
+  'Bijapur': 'बीजापुर',
+  'Bilaspur': 'बिलासपुर',
+  'Dakshin Bastar Dantewada': 'दक्षिण बस्तर दंतेवाड़ा',
+  'Dantewada': 'दंतेवाड़ा',
+  'Dhamtari': 'धमतरी',
+  'Durg': 'दुर्ग',
+  'Gariaband': 'गरियाबंद',
+  'Gariyaband': 'गरियाबंद',
+  'Gaurela-Pendra-Marwahi': 'गौरेला-पेंड्रा-मरवाही',
+  'Janjgir-Champa': 'जांजगीर-चांपा',
+  'Jashpur': 'जशपुर',
+  'Kabeerdham': 'कबीरधाम',
+  'Kabirdham': 'कबीरधाम',
+  'Kanker': 'कांकेर',
+  'Kondagaon': 'कोंडागांव',
+  'Korba': 'कोरबा',
+  'Korea': 'कोरिया',
+  'Koriya': 'कोरिया',
+  'Khairagarh-Chhuikhadan-Gandai': 'खैरागढ़-छुईखदान-गंडई',
+  'Mahasamund': 'महासमुंद',
+  'Manendragarh-Chirmiri-Bharatpur(M C B)': 'मनेन्द्रगढ़-चिरमिरी-भरतपुर',
+  'Manendragarh-Chirmiri-Bharatpur': 'मनेन्द्रगढ़-चिरमिरी-भरतपुर',
+  'Mohla-Manpur-Ambagarh Chouki': 'मोहला-मानपुर-अंबागढ़ चौकी',
+  'Mungeli': 'मुंगेली',
+  'Narayanpur': 'नारायणपुर',
+  'Raigarh': 'रायगढ़',
+  'Raipur': 'रायपुर',
+  'Rajnandgaon': 'राजनंदगांव',
+  'Sakti': 'सक्ती',
+  'Sarangarh-Bilaigarh': 'सारंगढ़-बिलाईगढ़',
+  'Sukma': 'सुकमा',
+  'Surajpur': 'सूरजपुर',
+  'Surguja': 'सरगुजा',
+  'Uttar Bastar Kanker': 'उत्तर बस्तर कांकेर',
+};
+
+// Helper to get Hindi name (ALWAYS returns Hindi)
+const getHindiDistrictName = (englishName: string): string => {
+  return DISTRICT_HINDI_MAP[englishName] || englishName;
+};
+
+// ============================================================================
 // ANIMATION VARIANTS
 // ============================================================================
 
@@ -344,11 +396,11 @@ export default function GeoNeuroResolver({
       
       if (hindiData) {
         setHindiHierarchy(hindiData);
-        // Build display items with Hindi names
+        // Build display items with Hindi names - ALWAYS use DISTRICT_HINDI_MAP first
         const districtItems = Object.entries(hindiData).map(([en, data]) => ({
           en,
-          hi: (data as any).name_hi || en
-        })).sort((a, b) => a.en.localeCompare(b.en));
+          hi: DISTRICT_HINDI_MAP[en] || (data as any).name_hi || en
+        })).sort((a, b) => a.hi.localeCompare(b.hi, 'hi'));
         setDisplayItems(districtItems);
       }
     } catch (err) {
@@ -510,28 +562,27 @@ export default function GeoNeuroResolver({
     }
   }, [suggestedLocation, step]);
 
-  // Get Hindi name for an item based on current step
+  // Get Hindi name for an item based on current step - HINDI-FIRST priority
   const getHindiName = useCallback((item: string): string => {
-    if (!hindiHierarchy) return item;
-    
     try {
       switch (step) {
         case 'DISTRICT':
-          return hindiHierarchy[item]?.name_hi || item;
+          // ALWAYS use DISTRICT_HINDI_MAP first (Single Source of Truth)
+          return DISTRICT_HINDI_MAP[item] || hindiHierarchy?.[item]?.name_hi || item;
         case 'VIDHANSABHA':
-          if (selections.district) {
+          if (selections.district && hindiHierarchy) {
             return hindiHierarchy[selections.district]?.acs?.[item]?.name_hi || item;
           }
           return item;
         case 'BLOCK':
-          if (selections.district && selections.vidhansabha) {
+          if (selections.district && selections.vidhansabha && hindiHierarchy) {
             return hindiHierarchy[selections.district]?.acs?.[selections.vidhansabha]?.blocks?.[item]?.name_hi || item;
           }
           return item;
         case 'VILLAGE':
         case 'GP':
           // Villages have name_hi in the array
-          if (selections.district && selections.vidhansabha && selections.block) {
+          if (selections.district && selections.vidhansabha && selections.block && hindiHierarchy) {
             const villages = hindiHierarchy[selections.district]?.acs?.[selections.vidhansabha]?.blocks?.[selections.block]?.villages || [];
             const village = villages.find(v => v.name === item);
             return village?.name_hi || item;
@@ -614,7 +665,6 @@ export default function GeoNeuroResolver({
                   <MapPin size={22} className="text-indigo-300" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400 uppercase tracking-[0.2em] font-medium">जियो रिज़ॉल्वर</p>
                   <h2 className="text-2xl font-bold text-white font-hindi">स्थान चयन</h2>
                 </div>
               </div>

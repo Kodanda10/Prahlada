@@ -98,17 +98,6 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
                 finalValues={finalData.location || []}
                 onUpdateFinal={(vals) => handleUpdate('location', vals)}
                 type="location"
-            />
-
-            <DecisionRow
-                label="वर्ड बकेट"
-                fieldKey="word_buckets"
-                parserValues={event.parsed_data_v8.word_buckets || []}
-                aiValues={[]} // AI might not give buckets separately
-                finalValues={finalData.word_buckets || []}
-                onUpdateFinal={(vals) => handleUpdate('word_buckets', vals)}
-                type="word_bucket"
-            />
         </div>
     );
 };
