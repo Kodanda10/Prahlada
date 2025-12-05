@@ -120,7 +120,7 @@ const TweetTable: React.FC<TweetTableProps> = ({
                     <tbody className="divide-y divide-white/5 text-slate-300">
                         {tweets.map((tweet) => (
                             <tr key={tweet.tweet_id} className="hover:bg-white/5 transition-colors group">
-                                <td className="px-6 py-4 whitespace-nowrap text-slate-400 font-hindi text-xs text-center">
+                                <td className="px-6 py-4 whitespace-nowrap text-slate-400 font-hindi text-sm text-center leading-relaxed">
                                     {formatDate(tweet.parsed_data_v8.event_date || tweet.created_at.split('T')[0])}
                                 </td>
                                 <td className="px-6 py-4 font-medium text-white text-center">
@@ -147,16 +147,13 @@ const TweetTable: React.FC<TweetTableProps> = ({
                                 </td>
                                 <td className="px-6 py-4 text-center">
                                     <div className="flex gap-1.5 flex-wrap justify-center">
-                                        {/* Check people_canonical first, then entities.people, then people array */}
-                                        {(tweet.parsed_data_v8.people_canonical?.length > 0 
-                                            ? tweet.parsed_data_v8.people_canonical.slice(0, 3)
-                                            : tweet.parsed_data_v8.entities?.people?.slice(0, 3) 
-                                            || tweet.parsed_data_v8.people?.slice(0, 3) 
-                                            || []
-                                        ).map((person: string, idx: number) => (
-                                            <Chip key={`${person}-${idx}`} label={person} color="slate" readOnly={true} className="text-[10px] px-2 py-0.5" />
-                                        ))}
-                                        {!(tweet.parsed_data_v8.people_canonical?.length > 0 || tweet.parsed_data_v8.entities?.people?.length > 0 || tweet.parsed_data_v8.people?.length > 0) && (
+                                        {/* Use only LLM parsed values - people_canonical or people_mentioned */}
+                                        {(tweet.parsed_data_v8.people_canonical || tweet.parsed_data_v8.people_mentioned || [])
+                                            .slice(0, 3)
+                                            .map((person: string, idx: number) => (
+                                                <Chip key={`${person}-${idx}`} label={person} color="slate" readOnly={true} className="text-[10px] px-2 py-0.5" />
+                                            ))}
+                                        {!(tweet.parsed_data_v8.people_canonical?.length > 0 || tweet.parsed_data_v8.people_mentioned?.length > 0) && (
                                             <span className="text-slate-600 text-xs font-hindi italic">कोई व्यक्ति नहीं</span>
                                         )}
                                     </div>

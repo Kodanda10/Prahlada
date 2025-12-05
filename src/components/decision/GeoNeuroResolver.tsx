@@ -210,8 +210,8 @@ const PathNode: React.FC<{ label: string; isActive: boolean; isCompleted: boolea
       ${isActive
         ? 'bg-gradient-to-r from-indigo-500/30 to-purple-500/30 border border-indigo-400/50 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] ring-2 ring-indigo-400/30'
         : isCompleted
-        ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-200'
-        : 'bg-white/5 border border-white/10 text-slate-400'
+          ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-200'
+          : 'bg-white/5 border border-white/10 text-slate-400'
       }
     `}
   >
@@ -302,8 +302,8 @@ const MagneticChip: React.FC<{
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       onClick={onClick}
-      style={{ 
-        x: magnetOffset.x, 
+      style={{
+        x: magnetOffset.x,
         y: magnetOffset.y,
         zIndex: isHovered ? 50 : 1, // Fix 3D tilt overlapping
         isolation: 'isolate',
@@ -318,7 +318,7 @@ const MagneticChip: React.FC<{
         <span className="text-sm text-white font-semibold font-hindi leading-tight">{displayName}</span>
         <ChevronRight className="w-4 h-4 text-white/20 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
       </div>
-      
+
       {isSuggested && (
         <motion.span
           initial={{ opacity: 0, scale: 0.8 }}
@@ -386,13 +386,13 @@ export default function GeoNeuroResolver({
       // Lock body scroll
       const originalOverflow = document.body.style.overflow;
       const originalPaddingRight = document.body.style.paddingRight;
-      
+
       // Get scrollbar width to prevent layout shift
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      
+
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollbarWidth}px`;
-      
+
       return () => {
         // Restore on unmount/close
         document.body.style.overflow = originalOverflow;
@@ -400,6 +400,20 @@ export default function GeoNeuroResolver({
       };
     }
   }, [isOpen]);
+
+  // Esc key to close modal
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   const loadHierarchy = async () => {
     setLoading(true);
@@ -409,12 +423,12 @@ export default function GeoNeuroResolver({
         BoundaryService.loadHierarchyData(),
         fetch('/chhattisgarh_hierarchy_hindi.json').then(r => r.ok ? r.json() : null).catch(() => null)
       ]);
-      
+
       if (legacyData) {
         setHierarchy(legacyData);
         setItems(Object.keys(legacyData).sort());
       }
-      
+
       if (hindiData) {
         setHindiHierarchy(hindiData);
         // Build display items with Hindi names - ALWAYS use DISTRICT_HINDI_MAP first
@@ -446,7 +460,7 @@ export default function GeoNeuroResolver({
   // Get items for current step
   const getItemsForStep = useCallback((targetStep: Step, loc: LocationState) => {
     if (!hierarchy) return [];
-    
+
     switch (targetStep) {
       case 'DISTRICT':
         return Object.keys(hierarchy).sort();
@@ -474,11 +488,11 @@ export default function GeoNeuroResolver({
   // Handle selection
   const handleSelection = useCallback((item: string) => {
     if (!hierarchy) return;
-    
+
     const newSelections = { ...selections };
     const steps = areaType === 'URBAN' ? URBAN_STEPS : RURAL_STEPS;
     const stepIndex = steps.indexOf(step as any);
-    
+
     // Update selection for current step
     switch (step) {
       case 'DISTRICT':
@@ -522,9 +536,9 @@ export default function GeoNeuroResolver({
         newSelections.ward = item;
         break;
     }
-    
+
     setSelections(newSelections);
-    
+
     // Move to next step or complete
     if (stepIndex < steps.length - 1) {
       const nextStep = steps[stepIndex + 1];
@@ -555,7 +569,7 @@ export default function GeoNeuroResolver({
     const steps = areaType === 'URBAN' ? URBAN_STEPS : RURAL_STEPS;
     const currentIdx = steps.indexOf(step as any);
     const targetIdx = steps.indexOf(targetStep as any);
-    
+
     if (targetIdx < currentIdx) {
       setStep(targetStep);
       setItems(getItemsForStep(targetStep, selections));
@@ -574,7 +588,7 @@ export default function GeoNeuroResolver({
   const isSuggested = useCallback((item: string) => {
     if (!suggestedLocation) return false;
     const normalize = (s: string) => s?.trim().toLowerCase() || '';
-    
+
     switch (step) {
       case 'DISTRICT': return normalize(suggestedLocation.district || '') === normalize(item);
       case 'VIDHANSABHA': return normalize(suggestedLocation.vidhansabha || '') === normalize(item);
@@ -678,7 +692,7 @@ export default function GeoNeuroResolver({
           <div className={`relative p-6 border-b border-white/10 bg-gradient-to-r ${areaTheme.header} transition-all duration-500`}>
             {/* Background decorations - dynamic based on area type */}
             <div className="absolute inset-0 opacity-30 transition-all duration-500" style={{ background: `radial-gradient(circle at 20% 30%, ${areaTheme.accent}, transparent 50%), radial-gradient(circle at 80% 20%, ${areaTheme.secondary}, transparent 40%)` }} />
-            
+
             <div className="relative flex items-center justify-between gap-4">
               {/* Title */}
               <div className="flex items-center gap-3">
@@ -706,7 +720,7 @@ export default function GeoNeuroResolver({
                     <Trees size={16} />
                     <span className="text-sm font-hindi font-medium">ग्रामीण</span>
                   </motion.button>
-                  
+
                   <motion.button
                     onClick={() => handleAreaSelect('URBAN')}
                     whileHover={{ scale: 1.05 }}
@@ -803,7 +817,7 @@ export default function GeoNeuroResolver({
           </div>
 
           {/* Chip Grid */}
-          <div className="flex-1 overflow-y-auto custom-scrollbar p-6 pt-4">
+          <div className="flex-1 overflow-y-auto custom-scrollbar p-6 pt-4 pb-8">
             {loading ? (
               <div className="flex justify-center items-center h-48">
                 <motion.div

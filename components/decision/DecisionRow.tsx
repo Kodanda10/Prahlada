@@ -43,7 +43,7 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
     const getLabel = (val: any) => {
         if (typeof val === 'string') return translateToHindi(val);
         if (!val) return '';
-        
+
         // Handle empty object
         if (typeof val === 'object' && Object.keys(val).length === 0) {
             return 'कोई स्थान उल्लेखित नहीं';
@@ -141,7 +141,11 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                 </div>
 
                 {/* 2. Suggestions Rail */}
-                <div className="geoneuro-glass rounded-xl p-3 relative overflow-hidden min-h-[120px] flex flex-col">
+                <motion.div
+                    className="geoneuro-glass rounded-xl p-3 relative overflow-hidden min-h-[120px] flex flex-col"
+                    whileHover={{ scale: 1.01, boxShadow: '0 0 30px rgba(99, 102, 241, 0.15)' }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                >
                     <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-cyan-500/50 to-violet-500/50" />
 
                     {/* Parser Suggestions */}
@@ -195,16 +199,25 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                             )) : <span className="text-slate-600 text-xs italic font-hindi">कोई सुझाव नहीं</span>}
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* 3. Final Decision Strip */}
-                <div className={`
-                min-h-[120px] rounded-xl border transition-all p-4 relative flex flex-col
-                ${finalValues.length > 0
-                        ? 'bg-emerald-500/5 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.05)]'
-                        : 'bg-black/20 border-white/10 border-dashed hover:border-white/20'
-                    }
-            `}>
+                <motion.div
+                    className={`
+                        min-h-[120px] rounded-xl border transition-all p-4 relative flex flex-col
+                        ${finalValues.length > 0
+                            ? 'bg-emerald-500/5 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.05)]'
+                            : 'bg-black/20 border-white/10 border-dashed'
+                        }
+                    `}
+                    whileHover={{
+                        scale: 1.01,
+                        boxShadow: finalValues.length > 0
+                            ? '0 0 30px rgba(16, 185, 129, 0.2)'
+                            : '0 0 30px rgba(99, 102, 241, 0.1)'
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                >
                     <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-hindi">
                         अंतिम निर्णय
                     </div>
@@ -291,11 +304,11 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                             </span>
                         </div>
                     )}
-                </div>
-            </div>
+                </motion.div>
+            </div >
 
             {/* GeoNeuroResolver Modal */}
-            <GeoNeuroResolver
+            < GeoNeuroResolver
                 isOpen={isLocationModalOpen}
                 onClose={() => setIsLocationModalOpen(false)}
                 onSelect={handleLocationSelect}
