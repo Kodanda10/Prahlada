@@ -172,7 +172,7 @@ const Review = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-140px)]"
+      className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-140px)] animate-entrance"
     >
       {/* Left Sidebar - Stats & Filters */}
       <div className="lg:col-span-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
@@ -184,12 +184,12 @@ const Review = () => {
           <div className="space-y-3">
             <button
               onClick={() => setViewMode('pending')}
-              className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${viewMode === 'pending'
+              className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all hover-glow-shadow btn-press ${viewMode === 'pending'
                 ? 'bg-[#8BF5E6]/10 border-[#8BF5E6]/30 text-white shadow-[0_0_15px_rgba(139,245,230,0.1)]'
                 : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10'
                 }`}
             >
-              <span className="font-hindi">लंबित (Pending)</span>
+              <span className="font-hindi">लंबित</span>
               <span className={`px-2 py-0.5 rounded text-xs font-bold ${viewMode === 'pending' ? 'bg-[#8BF5E6]/20 text-[#8BF5E6]' : 'bg-black/30'
                 }`}>
                 {pendingEvents.length}
@@ -198,12 +198,12 @@ const Review = () => {
 
             <button
               onClick={() => setViewMode('approved')}
-              className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${viewMode === 'approved'
+              className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all hover-glow-emerald btn-press ${viewMode === 'approved'
                 ? 'bg-green-500/10 border-green-500/30 text-white shadow-[0_0_15px_rgba(34,197,94,0.1)]'
                 : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10'
                 }`}
             >
-              <span className="font-hindi">स्वीकृत (Approved)</span>
+              <span className="font-hindi">स्वीकृत</span>
               <span className={`px-2 py-0.5 rounded text-xs font-bold ${viewMode === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-black/30'
                 }`}>
                 {approvedEvents.length}
@@ -287,7 +287,7 @@ const Review = () => {
           <div className="h-full overflow-y-auto custom-scrollbar">
             <AnimatedGlassCard className="p-6">
               <h2 className="text-xl font-bold text-white mb-6 font-hindi flex items-center gap-2">
-                <CheckCircle className="text-green-400" /> स्वीकृत ट्वीट्स (Approved Tweets)
+                <CheckCircle className="text-green-400" /> स्वीकृत ट्वीट्स
               </h2>
 
               {approvedEvents.length === 0 ? (
@@ -315,7 +315,7 @@ const Review = () => {
                           </td>
                           <td className="p-3">
                             <span className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs border border-green-500/30">
-                              Approved
+                              स्वीकृत
                             </span>
                           </td>
                         </tr>

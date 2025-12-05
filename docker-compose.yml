@@ -37,6 +37,11 @@ services:
       - PYTHONUNBUFFERED=1
       # Use Docker PostgreSQL service
       - DATABASE_URL=postgresql+asyncpg://dhruv:dhruv123@postgres:5432/dhruv_db
+      # Admin credentials for default user creation
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin123
+      # JWT secret for authentication
+      - AUTH_SECRET_KEY=prahlada-dhruv-secret-key-2024
     depends_on:
       postgres:
         condition: service_healthy

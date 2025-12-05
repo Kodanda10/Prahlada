@@ -127,7 +127,7 @@ const TweetTable: React.FC<TweetTableProps> = ({
                                     <div className="flex items-center justify-center gap-2">
                                         <div className="p-1.5 bg-white/5 rounded-full"><MapPin size={12} className="text-[#8BF5E6]" /></div>
                                         <span className="font-hindi">
-                                            {translateToHindi(tweet.parsed_data_v8.location?.ulb || tweet.parsed_data_v8.location?.village || tweet.parsed_data_v8.location?.district || "अज्ञात")}
+                                            {translateToHindi(tweet.parsed_data_v8.location?.ulb || tweet.parsed_data_v8.location?.village || tweet.parsed_data_v8.location?.district || "कोई स्थान उल्लेखित नहीं")}
                                         </span>
                                     </div>
                                 </td>
@@ -147,9 +147,18 @@ const TweetTable: React.FC<TweetTableProps> = ({
                                 </td>
                                 <td className="px-6 py-4 text-center">
                                     <div className="flex gap-1.5 flex-wrap justify-center">
-                                        {tweet.parsed_data_v8.people_canonical?.length > 0 ? tweet.parsed_data_v8.people_canonical.slice(0, 2).map(tag => (
-                                            <Chip key={tag} label={tag} color="slate" readOnly={true} className="text-[10px] px-2 py-0.5" />
-                                        )) : <span className="text-slate-600">-</span>}
+                                        {/* Check people_canonical first, then entities.people, then people array */}
+                                        {(tweet.parsed_data_v8.people_canonical?.length > 0 
+                                            ? tweet.parsed_data_v8.people_canonical.slice(0, 3)
+                                            : tweet.parsed_data_v8.entities?.people?.slice(0, 3) 
+                                            || tweet.parsed_data_v8.people?.slice(0, 3) 
+                                            || []
+                                        ).map((person: string, idx: number) => (
+                                            <Chip key={`${person}-${idx}`} label={person} color="slate" readOnly={true} className="text-[10px] px-2 py-0.5" />
+                                        ))}
+                                        {!(tweet.parsed_data_v8.people_canonical?.length > 0 || tweet.parsed_data_v8.entities?.people?.length > 0 || tweet.parsed_data_v8.people?.length > 0) && (
+                                            <span className="text-slate-600 text-xs font-hindi italic">कोई व्यक्ति नहीं</span>
+                                        )}
                                     </div>
                                 </td>
                                 {/* Full text display - removed truncation classes */}

@@ -88,45 +88,6 @@ const AnalyticsDashboard = () => {
       className="space-y-6 font-sans pb-10"
     >
 
-      {/* Top Filters & Export */}
-      <motion.div
-        variants={{ hidden: { y: -20, opacity: 0 }, show: { y: 0, opacity: 1 } }}
-        className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-xl shadow-lg"
-      >
-        <div className="flex flex-wrap gap-3 w-full xl:w-auto">
-          <select className="bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:border-[#8BF5E6] outline-none cursor-pointer hover:bg-white/5 transition-colors w-full sm:w-auto font-hindi">
-            <option>📍 सभी स्थान</option>
-            <option>रायगढ़</option>
-            <option>खरसिया</option>
-          </select>
-          <select className="bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:border-[#8BF5E6] outline-none cursor-pointer hover:bg-white/5 transition-colors w-full sm:w-auto font-hindi">
-            <option>📑 सभी विषय</option>
-            <option>विकास कार्य</option>
-            <option>सामाजिक</option>
-          </select>
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <input type="date" className="flex-1 bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 outline-none" />
-            <span className="text-slate-500 text-sm font-hindi">से</span>
-            <input type="date" className="flex-1 bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 outline-none" />
-          </div>
-        </div>
-
-        <div className="flex gap-2 w-full xl:w-auto">
-          <button
-            onClick={handleDownloadExcel}
-            className="flex-1 xl:flex-none justify-center items-center gap-2 px-6 py-2.5 bg-green-600/10 text-green-400 border border-green-500/20 rounded-xl hover:bg-green-600/20 transition-colors text-sm font-medium font-hindi"
-          >
-            <Download size={16} /> एक्सेल
-          </button>
-          <button
-            onClick={handleDownloadPDF}
-            className="flex-1 xl:flex-none justify-center items-center gap-2 px-6 py-2.5 bg-red-600/10 text-red-400 border border-red-500/20 rounded-xl hover:bg-red-600/20 transition-colors text-sm font-medium font-hindi"
-          >
-            <Download size={16} /> पीडीएफ
-          </button>
-        </div>
-      </motion.div>
-
       {/* Main Grid Layout - 9 Sections - Responsive grid to prevent overlap */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 

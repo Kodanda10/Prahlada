@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AlertTriangle, CheckCircle2, HelpCircle, Plus, Sparkles, BrainCircuit, X, Edit2 } from 'lucide-react';
 import Chip from '../Chip';
 import { translateToHindi } from '../../utils/textUtils';
-import ProjectAakash from '../ProjectAakash';
+import GeoNeuroResolver from '../../src/components/decision/GeoNeuroResolver';
 
 interface DecisionRowProps {
     label: string;
@@ -42,6 +42,12 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
     const getLabel = (val: any) => {
         if (typeof val === 'string') return translateToHindi(val);
         if (!val) return '';
+        
+        // Handle empty object
+        if (typeof val === 'object' && Object.keys(val).length === 0) {
+            return 'कोई स्थान उल्लेखित नहीं';
+        }
+
         // Handle Location Object
         if (val.district || val.ulb || val.block) {
             const parts = [val.ulb, val.block, val.district, val.state].filter(Boolean);
@@ -86,25 +92,36 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
         }
     };
 
-    const [isAakashOpen, setIsAakashOpen] = useState(false);
+    const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
     const handleAdd = () => {
         if (fieldKey === 'location') {
-            setIsAakashOpen(true);
+            setIsLocationModalOpen(true);
         } else {
             setIsEditing(true);
         }
     };
 
-    const handleAakashSelect = (location: any) => {
-        if (location === null) {
+    // Handle location selection from GeoNeuroResolver
+    const handleLocationSelect = (locationData: any) => {
+        if (!locationData) {
             // Handle "Not Applicable"
             onUpdateFinal([]);
         } else {
-            // Handle selected location object
-            onUpdateFinal([location]);
+            // Convert GeoNeuroResolver format to our location format
+            const isUrban = locationData.areaType === 'URBAN';
+            const locationObj = {
+                district: locationData.district,
+                assembly: locationData.vidhansabha,
+                block: locationData.block,
+                village: isUrban ? null : locationData.village,
+                gp: isUrban ? null : locationData.gp,
+                ulb: isUrban ? locationData.ulb : null,
+                ward: locationData.ward,
+            };
+            onUpdateFinal([locationObj]);
         }
-        setIsAakashOpen(false);
+        setIsLocationModalOpen(false);
     };
 
     return (
@@ -128,8 +145,8 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
 
                     {/* Parser Suggestions */}
                     <div className="mb-3 last:mb-0">
-                        <div className="flex items-center gap-1.5 mb-2 text-[10px] text-cyan-400 font-bold uppercase tracking-wider opacity-70">
-                            <BrainCircuit size={10} /> Parser
+                        <div className="flex items-center gap-1.5 mb-2 text-[10px] text-cyan-400 font-bold uppercase tracking-wider opacity-70 font-hindi">
+                            <BrainCircuit size={10} /> पार्सर
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {pValues.length > 0 ? pValues.map((val, idx) => (
@@ -147,14 +164,14 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                                         className="cursor-pointer hover:ring-1 hover:ring-cyan-400/50"
                                     />
                                 </motion.button>
-                            )) : <span className="text-slate-600 text-xs italic">No suggestions</span>}
+                            )) : <span className="text-slate-600 text-xs italic font-hindi">कोई सुझाव नहीं</span>}
                         </div>
                     </div>
 
                     {/* AI Suggestions */}
                     <div>
-                        <div className="flex items-center gap-1.5 mb-2 text-[10px] text-violet-400 font-bold uppercase tracking-wider opacity-70">
-                            <Sparkles size={10} /> AI Model
+                        <div className="flex items-center gap-1.5 mb-2 text-[10px] text-violet-400 font-bold uppercase tracking-wider opacity-70 font-hindi">
+                            <Sparkles size={10} /> एआई
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {aValues.length > 0 ? aValues.map((val, idx) => (
@@ -172,7 +189,7 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                                         className="cursor-pointer hover:ring-1 hover:ring-violet-400/50"
                                     />
                                 </motion.button>
-                            )) : <span className="text-slate-600 text-xs italic">No suggestions</span>}
+                            )) : <span className="text-slate-600 text-xs italic font-hindi">कोई सुझाव नहीं</span>}
                         </div>
                     </div>
                 </div>
@@ -185,8 +202,8 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                         : 'bg-black/20 border-white/10 border-dashed hover:border-white/20'
                     }
             `}>
-                    <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                        Final Decision
+                    <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-hindi">
+                        अंतिम निर्णय
                     </div>
 
                     <div className="flex flex-wrap gap-2 mt-4">
@@ -265,25 +282,28 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
 
                     {finalValues.length === 0 && !isEditing && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
-                            <span className="text-xs text-slate-400 font-hindi">Click suggestions or Add New</span>
+                            <span className="text-xs text-slate-400 font-hindi">सुझाव पर क्लिक करें या नया जोड़ें</span>
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* Project Aakash Modal */}
-            <AnimatePresence>
-                {isAakashOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100]"
-                    >
-                        <ProjectAakash onSelect={handleAakashSelect} onClose={() => setIsAakashOpen(false)} />
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            {/* GeoNeuroResolver Modal */}
+            <GeoNeuroResolver
+                isOpen={isLocationModalOpen}
+                onClose={() => setIsLocationModalOpen(false)}
+                onSelect={handleLocationSelect}
+                initialLocation={{
+                    district: finalValues[0]?.district || null,
+                    vidhansabha: finalValues[0]?.assembly || null,
+                    block: finalValues[0]?.block || null,
+                    village: finalValues[0]?.village || null,
+                    gp: finalValues[0]?.gp || null,
+                    ulb: finalValues[0]?.ulb || null,
+                    ward: finalValues[0]?.ward || null,
+                    areaType: finalValues[0]?.ulb ? 'URBAN' : 'RURAL',
+                }}
+            />
         </>
     );
 };

@@ -51,8 +51,7 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
     return (
         <div className="flex flex-col gap-2">
             <DecisionRow
-                label="Event Type"
-                subLabel="घटना का प्रकार"
+                label="घटना का प्रकार"
                 fieldKey="event_type"
                 parserValues={comparison.comparison.event_type?.parser?.value}
                 aiValues={comparison.comparison.event_type?.llm?.value}
@@ -62,8 +61,7 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
             />
 
             <DecisionRow
-                label="People"
-                subLabel="व्यक्ति / नेता"
+                label="व्यक्ति / नेता"
                 fieldKey="people"
                 parserValues={comparison.comparison.people?.parser?.value}
                 aiValues={comparison.comparison.people?.llm?.value}
@@ -73,8 +71,7 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
             />
 
             <DecisionRow
-                label="Schemes"
-                subLabel="योजनाएं"
+                label="योजनाएं"
                 fieldKey="schemes"
                 parserValues={comparison.comparison.schemes?.parser?.value}
                 aiValues={comparison.comparison.schemes?.llm?.value}
@@ -84,8 +81,7 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
             />
 
             <DecisionRow
-                label="Communities"
-                subLabel="समुदाय / लक्ष्य समूह"
+                label="समुदाय / लक्ष्य समूह"
                 fieldKey="communities"
                 parserValues={comparison.comparison.communities?.parser?.value}
                 aiValues={comparison.comparison.communities?.llm?.value}
@@ -95,8 +91,7 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
             />
 
             <DecisionRow
-                label="Location"
-                subLabel="स्थान"
+                label="स्थान"
                 fieldKey="location"
                 parserValues={comparison.comparison.location?.parser?.value ? [comparison.comparison.location.parser.value] : []}
                 aiValues={comparison.comparison.location?.llm?.value ? [comparison.comparison.location.llm.value] : []}
@@ -106,8 +101,7 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
             />
 
             <DecisionRow
-                label="Word Bucket"
-                subLabel="कीवर्ड्स"
+                label="वर्ड बकेट"
                 fieldKey="word_buckets"
                 parserValues={event.parsed_data_v8.word_buckets || []}
                 aiValues={[]} // AI might not give buckets separately

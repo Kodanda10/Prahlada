@@ -518,6 +518,14 @@ async def get_events(
         
     if enriched_only:
         query = query.where(models.EnrichedItem.tweet_id != None)
+    
+    # Filter out replies (starting with @) and retweets (starting with RT @)
+    # Only include original tweets
+    query = query.where(
+        ~models.RawTweet.text.like('@%')  # Exclude replies
+    ).where(
+        ~models.RawTweet.text.like('RT @%')  # Exclude retweets
+    )
 
     results = await db.execute(query)
     rows = results.all()

@@ -37,7 +37,7 @@ const AskAISidebar: React.FC<AskAISidebarProps> = ({ tweetId }) => {
             console.error('Ask AI failed:', error);
             setMessages(prev => [...prev, {
                 role: 'ai',
-                text: 'Sorry, I encountered an error. Please try again.'
+                text: 'क्षमा करें, कोई त्रुटि हुई। कृपया पुनः प्रयास करें।'
             }]);
         } finally {
             setLoading(false);
@@ -48,10 +48,10 @@ const AskAISidebar: React.FC<AskAISidebarProps> = ({ tweetId }) => {
         <div className="ask-ai-sidebar visible bg-[#1e1b4b]/50 rounded-xl border border-white/10 p-4 h-full flex flex-col">
             <div className="mb-3">
                 <h3 className="text-sm font-bold text-yellow-400 flex items-center gap-2 font-hindi">
-                    <span className="text-lg">💬</span> Ask AI
+                    <span className="text-lg">💬</span> एआई से पूछें
                 </h3>
-                <p className="text-[10px] text-slate-500 mt-1">
-                    Query cognitive reasoning
+                <p className="text-[10px] text-slate-500 mt-1 font-hindi">
+                    संज्ञानात्मक तर्क जानने के लिए प्रश्न करें
                 </p>
             </div>
 
@@ -69,8 +69,8 @@ const AskAISidebar: React.FC<AskAISidebarProps> = ({ tweetId }) => {
                                 : 'bg-violet-500/20 text-violet-200 mr-4 border border-violet-500/30'
                                 }`}
                         >
-                            <div className="font-bold mb-1 text-[10px] opacity-70">
-                                {msg.role === 'user' ? '👤 You' : '🤖 AI'}
+                            <div className="font-bold mb-1 text-[10px] opacity-70 font-hindi">
+                                {msg.role === 'user' ? '👤 आप' : '🤖 एआई'}
                             </div>
                             <div className="whitespace-pre-wrap font-hindi leading-relaxed">
                                 {msg.role === 'ai' ? (
@@ -108,7 +108,7 @@ const AskAISidebar: React.FC<AskAISidebarProps> = ({ tweetId }) => {
                     >
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-                            Thinking...
+                            सोच रहा है...
                         </div>
                     </motion.div>
                 )}
@@ -122,7 +122,7 @@ const AskAISidebar: React.FC<AskAISidebarProps> = ({ tweetId }) => {
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleAsk()}
-                    placeholder="Ask about this tweet..."
+                    placeholder="इस ट्वीट के बारे में पूछें..."
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 pr-10"
                 />
                 <button

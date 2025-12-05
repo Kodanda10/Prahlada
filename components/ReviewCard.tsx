@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Edit2, MapPin } from 'lucide-react';
-import LocationDecisionModal from '../src/components/decision/LocationDecisionModal';
+import GeoNeuroResolver from '../src/components/decision/GeoNeuroResolver';
 import { ParsedEvent } from '../src/types';
 
 type ReviewCardProps = {
@@ -12,7 +12,25 @@ type ReviewCardProps = {
 };
 
 const LocationBreadcrumbs = ({ location }: { location: ParsedEvent['parsed_data_v8']['location'] }) => {
-  if (!location) return null;
+  // Check if location has any meaningful data
+  const hasLocation = location && (
+    location.district || 
+    location.assembly || 
+    location.block || 
+    location.village || 
+    location.gp || 
+    location.ulb || 
+    location.ward
+  );
+  
+  if (!hasLocation) {
+    return (
+      <div className="text-amber-400/80 text-sm font-hindi italic">
+        कोई स्थान उल्लेखित नहीं
+      </div>
+    );
+  }
+
   const isUrban = !!location.ulb;
   const render = (label: string | null | undefined, tag: string, isLast?: boolean) =>
     label ? (
@@ -51,15 +69,18 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ event, onApprove, onEdit, onSav
   const [editedLocation, setEditedLocation] = useState(event.parsed_data_v8.location);
 
   const handleLocationSelect = (locationData: any) => {
+    // Handle both Urban and Rural hierarchies
+    const isUrban = locationData.areaType === 'URBAN';
     setEditedLocation(prev => ({
       ...prev,
       district: locationData.district,
-      assembly: locationData.assembly,
+      assembly: locationData.vidhansabha,
       block: locationData.block,
-      village: locationData.village,
-      ulb: null,
+      village: isUrban ? null : locationData.village,
+      gp: isUrban ? null : locationData.gp,
+      ulb: isUrban ? locationData.ulb : null,
       zone: null,
-      ward: null,
+      ward: locationData.ward,
     }));
     if (onSave) {
       onSave({
@@ -68,10 +89,13 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ event, onApprove, onEdit, onSav
           ...event.parsed_data_v8,
           location: {
             ...event.parsed_data_v8.location,
-            ...locationData,
-            ulb: null,
-            zone: null,
-            ward: null,
+            district: locationData.district,
+            assembly: locationData.vidhansabha,
+            block: locationData.block,
+            village: isUrban ? null : locationData.village,
+            gp: isUrban ? null : locationData.gp,
+            ulb: isUrban ? locationData.ulb : null,
+            ward: locationData.ward,
           },
         },
       });
@@ -121,11 +145,20 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ event, onApprove, onEdit, onSav
         <LocationBreadcrumbs location={editedLocation} />
       </div>
 
-      <LocationDecisionModal
+      <GeoNeuroResolver
         isOpen={isLocationModalOpen}
         onClose={() => setIsLocationModalOpen(false)}
         onSelect={handleLocationSelect}
-        initialLocation={editedLocation}
+        initialLocation={{
+          district: editedLocation?.district || null,
+          vidhansabha: editedLocation?.assembly || null,
+          block: editedLocation?.block || null,
+          village: editedLocation?.village || null,
+          gp: editedLocation?.gp || null,
+          ulb: editedLocation?.ulb || null,
+          ward: editedLocation?.ward || null,
+          areaType: editedLocation?.ulb ? 'URBAN' : 'RURAL',
+        }}
       />
     </motion.div>
   );

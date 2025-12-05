@@ -1,8 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap');
+@import './styles/animations.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Responsive Breakpoints */
+@media (max-width: 480px) {
+
+    /* Mobile */
+    .responsive-stack {
+        flex-direction: column;
+    }
+
+    .responsive-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+    /* Tablet */
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* iPad */
+    .responsive-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 
 * {
     margin: 0;
@@ -112,6 +142,7 @@ body {
             rgba(15, 23, 42, 0.8) 100%);
     background-size: 1000px 100%;
 }
+
 .text-shadow-glow {
-  text-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
 }
