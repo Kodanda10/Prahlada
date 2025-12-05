@@ -98,6 +98,7 @@ const DecisionConsole: React.FC<DecisionConsoleProps> = ({ event, comparison, on
                 finalValues={finalData.location || []}
                 onUpdateFinal={(vals) => handleUpdate('location', vals)}
                 type="location"
+            />
         </div>
     );
 };
