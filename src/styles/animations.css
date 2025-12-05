@@ -25,12 +25,10 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
   transition: 0.5s;
 }
 
@@ -45,6 +43,7 @@
     transform: translateY(20px);
     filter: blur(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -56,11 +55,25 @@
   animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.stagger-1 { animation-delay: 100ms; }
-.stagger-2 { animation-delay: 200ms; }
-.stagger-3 { animation-delay: 300ms; }
-.stagger-4 { animation-delay: 400ms; }
-.stagger-5 { animation-delay: 500ms; }
+.stagger-1 {
+  animation-delay: 100ms;
+}
+
+.stagger-2 {
+  animation-delay: 200ms;
+}
+
+.stagger-3 {
+  animation-delay: 300ms;
+}
+
+.stagger-4 {
+  animation-delay: 400ms;
+}
+
+.stagger-5 {
+  animation-delay: 500ms;
+}
 
 /* Micro-interactions */
 .btn-press {
@@ -77,26 +90,27 @@
 }
 
 .hover-glow-shadow:hover {
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); /* Indigo glow */
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  /* Indigo glow */
 }
 
 .hover-glow-emerald:hover {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); /* Emerald glow */
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  /* Emerald glow */
 }
 
 .hover-glow-amber:hover {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); /* Amber glow */
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  /* Amber glow */
 }
 
 /* Text Shimmer */
 .text-shimmer {
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.5) 20%,
-    #fff 40%,
-    #fff 60%,
-    rgba(255, 255, 255, 0.5) 80%
-  );
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0.5) 20%,
+      #fff 40%,
+      #fff 60%,
+      rgba(255, 255, 255, 0.5) 80%);
   background-size: 200% auto;
   color: transparent;
   background-clip: text;
@@ -112,10 +126,176 @@
 
 /* Floating Animation */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+/* ============================================================================
+   GEONEURO VISUAL SYSTEM ANIMATIONS
+   Source of Truth: GeoNeuroResolver.tsx
+   ============================================================================ */
+
+/* Neural Pulse - for active indicators */
+@keyframes neuralPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+    box-shadow: 0 0 20px 10px rgba(99, 102, 241, 0);
+  }
+}
+
+.animate-neural-pulse {
+  animation: neuralPulse 2s ease-in-out infinite;
+}
+
+/* Geo Glow - ambient glow effect */
+@keyframes geoGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.4);
+  }
+}
+
+.animate-geo-glow {
+  animation: geoGlow 3s ease-in-out infinite;
+}
+
+/* Card Lift - hover state enhancement */
+.geoneuro-card {
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.geoneuro-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(99, 102, 241, 0.2);
+}
+
+/* GeoNeuro Chip Base */
+.geoneuro-chip {
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.geoneuro-chip:hover {
+  transform: scale(1.05) translateY(-2px);
+}
+
+.geoneuro-chip:active {
+  transform: scale(0.95);
+}
+
+/* GeoNeuro Glass Panel */
+.geoneuro-glass {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.geoneuro-glass:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+}
+
+/* Shimmer Loading */
+@keyframes geoShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.geoneuro-shimmer {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.03) 100%);
+  background-size: 200% 100%;
+  animation: geoShimmer 1.5s infinite;
+}
+
+/* Skeleton Loading */
+.geoneuro-skeleton {
+  background: linear-gradient(90deg,
+      rgba(99, 102, 241, 0.1) 25%,
+      rgba(99, 102, 241, 0.2) 50%,
+      rgba(99, 102, 241, 0.1) 75%);
+  background-size: 200% 100%;
+  animation: geoShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* Rural Theme Glow */
+.geoneuro-rural-glow {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.35);
+}
+
+.geoneuro-rural-glow:hover {
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+}
+
+/* Urban Theme Glow */
+.geoneuro-urban-glow {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.35);
+}
+
+.geoneuro-urban-glow:hover {
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+}
+
+/* 3D Perspective Container */
+.geoneuro-3d-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.geoneuro-3d-card {
+  transition: transform 0.2s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-neural-pulse,
+  .animate-geo-glow,
+  .animate-float,
+  .animate-entrance,
+  .geoneuro-shimmer,
+  .geoneuro-skeleton {
+    animation: none;
+  }
+
+  .geoneuro-card:hover,
+  .geoneuro-chip:hover,
+  .geoneuro-3d-card {
+    transform: none;
+  }
 }

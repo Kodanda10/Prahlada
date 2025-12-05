@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Loader2, Cpu, Database, BrainCircuit, Save, Eye, FileCheck, BarChart3, Search } from 'lucide-react';
+import { GEONEURO_THEMES, SPRING_PRESETS } from '../src/hooks/useGeoNeuroAnimations';
 
 // --- CONFIGURATION (Pure Hindi) ---
 // Extended to match the 9 stages from Review.tsx
@@ -43,11 +44,11 @@ export default function DhruvVerticalNexus({
     }, [autoPlay, stages.length]);
 
     return (
-        // CONTAINER: Deep Void Black
-        <div className="flex items-start justify-center w-full h-full bg-[#020408] font-sans overflow-hidden rounded-3xl relative">
+        // CONTAINER: GeoNeuro Deep Void
+        <div className="flex items-start justify-center w-full h-full bg-geoneuro-default font-sans overflow-hidden rounded-3xl relative geoneuro-3d-container">
 
-            {/* BACKGROUND: Subtle moving fog */}
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(6,182,212,0.15),transparent_70%)] animate-pulse pointer-events-none" />
+            {/* BACKGROUND: Neural ambient glow */}
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(99,102,241,0.15),transparent_70%)] animate-geo-glow pointer-events-none" />
 
             <div className="relative z-10 w-full p-6">
 
@@ -66,7 +67,7 @@ export default function DhruvVerticalNexus({
 
                     {/* THE PROGRESS BEAM (Active Line) */}
                     <motion.div
-                        className="absolute left-[2.5rem] top-4 w-0.5 bg-cyan-400 shadow-[0_0_15px_#22d3ee]"
+                        className="absolute left-[2.5rem] top-4 w-0.5 bg-geoneuro-primary shadow-geoneuro"
                         initial={{ height: "0%" }}
                         animate={{ height: `${((activeStage - 1) / (stages.length - 1)) * 100}%` }}
                         transition={{ duration: 0.8, ease: "easeInOut" }}

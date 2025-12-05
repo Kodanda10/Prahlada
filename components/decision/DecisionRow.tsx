@@ -4,6 +4,7 @@ import { AlertTriangle, CheckCircle2, HelpCircle, Plus, Sparkles, BrainCircuit, 
 import Chip from '../Chip';
 import { translateToHindi } from '../../utils/textUtils';
 import GeoNeuroResolver from '../../src/components/decision/GeoNeuroResolver';
+import { chipVariants, cardVariants, GEONEURO_THEMES } from '../../src/hooks/useGeoNeuroAnimations';
 
 interface DecisionRowProps {
     label: string;
@@ -140,7 +141,7 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                 </div>
 
                 {/* 2. Suggestions Rail */}
-                <div className="bg-white/5 rounded-xl border border-white/5 p-3 backdrop-blur-sm relative overflow-hidden">
+                <div className="geoneuro-glass rounded-xl p-3 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-cyan-500/50 to-violet-500/50" />
 
                     {/* Parser Suggestions */}
@@ -152,8 +153,9 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                             {pValues.length > 0 ? pValues.map((val, idx) => (
                                 <motion.button
                                     key={`p-${idx}`}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    variants={chipVariants}
+                                    whileHover="hover"
+                                    whileTap="tap"
                                     onClick={() => handleAddFromSuggestion(val)}
                                     className="text-left"
                                 >
@@ -177,8 +179,9 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                             {aValues.length > 0 ? aValues.map((val, idx) => (
                                 <motion.button
                                     key={`a-${idx}`}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    variants={chipVariants}
+                                    whileHover="hover"
+                                    whileTap="tap"
                                     onClick={() => handleAddFromSuggestion(val)}
                                     className="text-left"
                                 >
