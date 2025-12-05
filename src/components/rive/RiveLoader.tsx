@@ -1,18 +1,17 @@
 /**
  * RiveLoader.tsx
  * 
- * Premium loading animation component using Rive.
- * Replaces boring spinners with engaging, on-brand animations.
+ * Premium loading animation component.
+ * Uses Framer Motion for smooth, world-class animations.
  * 
  * Features:
- * - Multiple loader variants (spinner, dots, pulse, orbital)
+ * - Multiple loader variants (spinner, dots, pulse, orbital, neural)
  * - Customizable colors and sizes
  * - Accessibility support
- * - Fallback CSS animations when Rive unavailable
+ * - Reduced motion support
  */
 
 import React, { useMemo } from 'react';
-import { useRive, Layout, Fit, Alignment, UseRiveParameters } from '@rive-app/react-canvas';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 
@@ -55,21 +54,22 @@ export const RiveLoader: React.FC<RiveLoaderProps> = ({
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }, []);
 
-  // Rive configuration
-  const riveParams = useMemo<UseRiveParameters>(() => ({
-    src: `/rive/loader-${variant}.riv`,
-    stateMachines: ['State Machine'],
-    autoplay: !prefersReducedMotion,
-    layout: new Layout({
-      fit: Fit.Contain,
-      alignment: Alignment.Center,
-    }),
-  }), [variant, prefersReducedMotion]);
+  // Premium CSS-based loader
+  const renderLoader = () => {
+    // If user prefers reduced motion, show static version
+    if (prefersReducedMotion) {
+      return (
+        <div 
+          className="rounded-full"
+          style={{
+            width: size * 0.4,
+            height: size * 0.4,
+            background: `linear-gradient(135deg, ${color}, ${secondaryColor})`,
+          }}
+        />
+      );
+    }
 
-  const { RiveComponent, rive } = useRive(riveParams);
-
-  // Fallback: CSS-based premium loader
-  const renderFallbackLoader = () => {
     switch (variant) {
       case 'dots':
         return (
@@ -137,6 +137,7 @@ export const RiveLoader: React.FC<RiveLoaderProps> = ({
                 top: 0,
                 left: '50%',
                 marginLeft: -size / 12,
+                transformOrigin: `${size / 12}px ${size / 2}px`,
               }}
               animate={{ rotate: 360 }}
               transition={{
@@ -146,6 +147,23 @@ export const RiveLoader: React.FC<RiveLoaderProps> = ({
               }}
             />
           </div>
+        );
+
+      case 'spinner':
+        return (
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          >
+            <Loader2 
+              size={size} 
+              style={{ color }} 
+            />
+          </motion.div>
         );
 
       case 'neural':
@@ -166,7 +184,7 @@ export const RiveLoader: React.FC<RiveLoaderProps> = ({
                 boxShadow: `0 0 ${size / 2}px ${color}50`,
               }}
               animate={{
-                scale: [1, 1.1, 1],
+                scale: [1, 1.15, 1],
                 boxShadow: [
                   `0 0 ${size / 2}px ${color}50`,
                   `0 0 ${size}px ${color}70`,
@@ -185,61 +203,34 @@ export const RiveLoader: React.FC<RiveLoaderProps> = ({
                 key={i}
                 className="absolute rounded-full"
                 style={{
-                  width: size * 0.15,
-                  height: size * 0.15,
+                  width: size * 0.12,
+                  height: size * 0.12,
                   backgroundColor: secondaryColor,
                   boxShadow: `0 0 ${size / 4}px ${secondaryColor}`,
-                }}
-                initial={{
                   top: '50%',
                   left: '50%',
-                  marginTop: -size * 0.075,
-                  marginLeft: -size * 0.075,
+                  marginTop: -size * 0.06,
+                  marginLeft: -size * 0.06,
                 }}
                 animate={{
-                  rotate: 360,
-                  x: Math.cos((i * 2 * Math.PI) / 3) * size * 0.35,
-                  y: Math.sin((i * 2 * Math.PI) / 3) * size * 0.35,
+                  x: [
+                    Math.cos((i * 2 * Math.PI) / 3) * size * 0.35,
+                    Math.cos((i * 2 * Math.PI) / 3 + Math.PI * 2) * size * 0.35,
+                  ],
+                  y: [
+                    Math.sin((i * 2 * Math.PI) / 3) * size * 0.35,
+                    Math.sin((i * 2 * Math.PI) / 3 + Math.PI * 2) * size * 0.35,
+                  ],
+                  scale: [1, 1.2, 1],
                 }}
                 transition={{
-                  rotate: {
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  },
-                  x: { duration: 0 },
-                  y: { duration: 0 },
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'linear',
+                  delay: i * 0.2,
                 }}
               />
             ))}
-            {/* Spinner fallback */}
-            <motion.div
-              className="absolute inset-0"
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
-            >
-              <Loader2 
-                size={size} 
-                className="text-transparent" 
-                style={{ 
-                  stroke: `url(#gradient-${variant})`,
-                  strokeWidth: 1.5,
-                }} 
-              />
-            </motion.div>
-            {/* SVG gradient definition */}
-            <svg width="0" height="0">
-              <defs>
-                <linearGradient id={`gradient-${variant}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor={color} stopOpacity="0.8" />
-                  <stop offset="100%" stopColor={secondaryColor} stopOpacity="0.8" />
-                </linearGradient>
-              </defs>
-            </svg>
           </div>
         );
     }
@@ -251,9 +242,8 @@ export const RiveLoader: React.FC<RiveLoaderProps> = ({
       role="status"
       aria-label={text || "Loading..."}
     >
-      {/* Try Rive, fallback to CSS */}
-      <div style={{ width: size, height: size }}>
-        {rive ? <RiveComponent /> : renderFallbackLoader()}
+      <div style={{ width: size, height: size }} className="flex items-center justify-center">
+        {renderLoader()}
       </div>
 
       {/* Optional text */}
@@ -271,3 +261,4 @@ export const RiveLoader: React.FC<RiveLoaderProps> = ({
 };
 
 export default RiveLoader;
+

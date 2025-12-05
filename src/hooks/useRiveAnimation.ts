@@ -1,13 +1,9 @@
 /**
- * useRiveAnimation.ts
+ * useGeoNeuroAnimations.ts
  * 
- * World-class Rive animation hook for the GeoNeuro visual system.
- * Provides unified state machine control, performance optimization,
- * and accessibility support.
+ * Animation utilities and presets for the GeoNeuro visual system.
+ * Provides state machine-like animation control using Framer Motion.
  */
-
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRive, UseRiveParameters, RiveState, StateMachineInput, Layout, Fit, Alignment } from '@rive-app/react-canvas';
 
 // ============================================================================
 // TYPES
@@ -15,196 +11,167 @@ import { useRive, UseRiveParameters, RiveState, StateMachineInput, Layout, Fit, 
 
 export type AnimationState = 'idle' | 'hover' | 'active' | 'loading' | 'success' | 'error';
 
-export interface RiveAnimationConfig {
-  src: string;
-  stateMachine?: string;
-  artboard?: string;
-  autoplay?: boolean;
-  fit?: Fit;
-  alignment?: Alignment;
-}
-
-export interface UseRiveAnimationReturn {
-  RiveComponent: React.FC<{ className?: string; style?: React.CSSProperties }>;
-  rive: RiveState | null;
-  isLoaded: boolean;
-  error: Error | null;
-  setState: (state: AnimationState) => void;
-  currentState: AnimationState;
-  play: () => void;
-  pause: () => void;
-  reset: () => void;
+export interface AnimationConfig {
+  duration?: number;
+  delay?: number;
+  ease?: string | number[];
 }
 
 // ============================================================================
-// CONSTANTS
+// ANIMATION PRESETS
+// ============================================================================
+
+export const SPRING_PRESETS = {
+  snappy: { type: 'spring', stiffness: 400, damping: 25 },
+  bouncy: { type: 'spring', stiffness: 300, damping: 15 },
+  smooth: { type: 'spring', stiffness: 200, damping: 30 },
+  gentle: { type: 'spring', stiffness: 100, damping: 20 },
+};
+
+export const EASE_PRESETS = {
+  smooth: [0.4, 0, 0.2, 1],
+  bouncy: [0.68, -0.55, 0.265, 1.55],
+  sharp: [0.4, 0, 0.6, 1],
+  linear: [0, 0, 1, 1],
+};
+
+// ============================================================================
+// RIVE-LIKE ASSET PATHS (for future use)
 // ============================================================================
 
 export const RIVE_ASSETS = {
-  // Neural/Brain icons
   NEURAL_NETWORK: '/rive/neural-network.riv',
   BRAIN_PULSE: '/rive/brain-pulse.riv',
-  
-  // Geo/Location icons
   LOCATION_PIN: '/rive/location-pin.riv',
   MAP_MARKER: '/rive/map-marker.riv',
-  
-  // Status/Action icons
   CHECK_SUCCESS: '/rive/check-success.riv',
   LOADING_SPINNER: '/rive/loading-spinner.riv',
   PROCESSING: '/rive/processing.riv',
-  
-  // Pipeline/Flow icons
   DATA_FLOW: '/rive/data-flow.riv',
   PIPELINE_NODE: '/rive/pipeline-node.riv',
-  
-  // Decision icons
   APPROVE: '/rive/approve.riv',
   REJECT: '/rive/reject.riv',
   EDIT: '/rive/edit.riv',
 };
 
-// State machine input names (convention)
-export const STATE_INPUTS = {
-  IS_IDLE: 'isIdle',
-  IS_HOVER: 'isHover',
-  IS_ACTIVE: 'isActive',
-  IS_LOADING: 'isLoading',
-  IS_SUCCESS: 'isSuccess',
-  IS_ERROR: 'isError',
-  TRIGGER: 'trigger',
+// ============================================================================
+// ANIMATION VARIANTS FOR FRAMER MOTION
+// ============================================================================
+
+export const stateAnimations = {
+  idle: {
+    scale: 1,
+    opacity: 1,
+    rotate: 0,
+  },
+  hover: {
+    scale: 1.05,
+    opacity: 1,
+    rotate: 0,
+  },
+  active: {
+    scale: [1, 1.1, 1],
+    opacity: 1,
+  },
+  loading: {
+    rotate: 360,
+    transition: {
+      duration: 1,
+      repeat: Infinity,
+      ease: 'linear',
+    },
+  },
+  success: {
+    scale: [0, 1.2, 1],
+    transition: {
+      duration: 0.4,
+      ease: 'easeOut',
+    },
+  },
+  error: {
+    x: [-5, 5, -5, 5, 0],
+    transition: {
+      duration: 0.4,
+    },
+  },
 };
 
 // ============================================================================
-// HOOK IMPLEMENTATION
+// GLOW EFFECTS
 // ============================================================================
 
-export function useRiveAnimation(config: RiveAnimationConfig): UseRiveAnimationReturn {
-  const [currentState, setCurrentState] = useState<AnimationState>('idle');
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
-  // Check for reduced motion preference
-  const prefersReducedMotion = useMemo(() => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }, []);
-
-  // Rive parameters
-  const riveParams = useMemo<UseRiveParameters>(() => ({
-    src: config.src,
-    stateMachines: config.stateMachine ? [config.stateMachine] : undefined,
-    artboard: config.artboard,
-    autoplay: config.autoplay ?? !prefersReducedMotion,
-    layout: new Layout({
-      fit: config.fit ?? Fit.Contain,
-      alignment: config.alignment ?? Alignment.Center,
-    }),
-    onLoad: () => setIsLoaded(true),
-    onLoadError: (err: Error) => setError(err),
-  }), [config.src, config.stateMachine, config.artboard, config.autoplay, config.fit, config.alignment, prefersReducedMotion]);
-
-  const { rive, RiveComponent } = useRive(riveParams);
-
-  // State machine control
-  const setState = useCallback((state: AnimationState) => {
-    if (!rive || !config.stateMachine) return;
-    
-    setCurrentState(state);
-
-    // Get state machine inputs
-    const inputs = rive.stateMachineInputs(config.stateMachine);
-    if (!inputs) return;
-
-    // Reset all boolean inputs
-    inputs.forEach((input: StateMachineInput) => {
-      if (input.type === 56) { // Boolean type
-        input.value = false;
-      }
-    });
-
-    // Set the appropriate input based on state
-    const inputMap: Record<AnimationState, string> = {
-      idle: STATE_INPUTS.IS_IDLE,
-      hover: STATE_INPUTS.IS_HOVER,
-      active: STATE_INPUTS.IS_ACTIVE,
-      loading: STATE_INPUTS.IS_LOADING,
-      success: STATE_INPUTS.IS_SUCCESS,
-      error: STATE_INPUTS.IS_ERROR,
-    };
-
-    const targetInput = inputs.find((i: StateMachineInput) => i.name === inputMap[state]);
-    if (targetInput && targetInput.type === 56) {
-      targetInput.value = true;
-    }
-  }, [rive, config.stateMachine]);
-
-  // Playback controls
-  const play = useCallback(() => {
-    rive?.play();
-  }, [rive]);
-
-  const pause = useCallback(() => {
-    rive?.pause();
-  }, [rive]);
-
-  const reset = useCallback(() => {
-    rive?.reset();
-    setCurrentState('idle');
-  }, [rive]);
-
-  return {
-    RiveComponent,
-    rive,
-    isLoaded,
-    error,
-    setState,
-    currentState,
-    play,
-    pause,
-    reset,
-  };
-}
+export const glowColors = {
+  primary: 'rgba(99, 102, 241, 0.5)', // Indigo
+  secondary: 'rgba(168, 85, 247, 0.5)', // Purple
+  success: 'rgba(16, 185, 129, 0.5)', // Emerald
+  error: 'rgba(239, 68, 68, 0.5)', // Red
+  warning: 'rgba(245, 158, 11, 0.5)', // Amber
+  info: 'rgba(14, 165, 233, 0.5)', // Sky
+};
 
 // ============================================================================
-// PRESETS - Ready-to-use configurations
+// PRESETS (for component configuration)
 // ============================================================================
 
 export const RIVE_PRESETS = {
   neuralIcon: {
-    src: RIVE_ASSETS.NEURAL_NETWORK,
-    stateMachine: 'State Machine',
-    autoplay: true,
-    fit: Fit.Contain,
-  } as RiveAnimationConfig,
+    variant: 'neural' as const,
+    color: '#6366f1',
+    secondaryColor: '#a855f7',
+  },
   
   locationPin: {
-    src: RIVE_ASSETS.LOCATION_PIN,
-    stateMachine: 'State Machine',
-    autoplay: true,
-    fit: Fit.Contain,
-  } as RiveAnimationConfig,
+    variant: 'pulse' as const,
+    color: '#10b981',
+    secondaryColor: '#14b8a6',
+  },
   
   checkSuccess: {
-    src: RIVE_ASSETS.CHECK_SUCCESS,
-    stateMachine: 'State Machine',
-    autoplay: false,
-    fit: Fit.Contain,
-  } as RiveAnimationConfig,
+    variant: 'pulse' as const,
+    color: '#10b981',
+  },
   
   loadingSpinner: {
-    src: RIVE_ASSETS.LOADING_SPINNER,
-    stateMachine: 'State Machine',
-    autoplay: true,
-    fit: Fit.Contain,
-  } as RiveAnimationConfig,
+    variant: 'spinner' as const,
+    color: '#6366f1',
+  },
   
   pipelineNode: {
-    src: RIVE_ASSETS.PIPELINE_NODE,
-    stateMachine: 'State Machine',
-    autoplay: true,
-    fit: Fit.Contain,
-  } as RiveAnimationConfig,
+    variant: 'neural' as const,
+    color: '#6366f1',
+    secondaryColor: '#a855f7',
+  },
 };
 
-export default useRiveAnimation;
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+export function getStateTransition(state: AnimationState, config?: AnimationConfig) {
+  const baseTransition = stateAnimations[state];
+  
+  return {
+    ...baseTransition,
+    transition: {
+      ...baseTransition.transition,
+      ...config,
+    },
+  };
+}
+
+export function getGlowStyle(color: keyof typeof glowColors = 'primary', intensity: number = 0.5) {
+  return {
+    boxShadow: `0 0 20px ${glowColors[color].replace('0.5', String(intensity))}`,
+  };
+}
+
+export default {
+  stateAnimations,
+  glowColors,
+  SPRING_PRESETS,
+  EASE_PRESETS,
+  RIVE_ASSETS,
+  RIVE_PRESETS,
+  getStateTransition,
+  getGlowStyle,
+};

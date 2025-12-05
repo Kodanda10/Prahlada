@@ -13,5 +13,4 @@ export { default as RiveIcon, type RiveIconProps, type RiveIconState } from './R
 export { default as RiveLoader, type RiveLoaderProps, type LoaderVariant } from './RiveLoader';
 export { default as RiveSuccess, type RiveSuccessProps, type SuccessVariant } from './RiveSuccess';
 
-// Re-export Rive types for convenience
-export { Fit, Alignment, Layout } from '@rive-app/react-canvas';
+// Note: Rive types (Fit, Alignment, Layout) should be imported directly from @rive-app/react-canvas if needed

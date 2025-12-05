@@ -1,18 +1,17 @@
 /**
  * RiveIcon.tsx
  * 
- * Premium animated icon component using Rive.
+ * Premium animated icon component.
  * Supports hover, active, loading, and success states with smooth transitions.
  * 
  * Features:
- * - State machine driven animations
+ * - State-driven animations
  * - Hover detection with smooth state transitions
  * - Accessibility support (reduced motion)
- * - Fallback to static icons when Rive fails
+ * - Uses Lucide icons with Framer Motion animations
  */
 
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { useRive, Layout, Fit, Alignment, UseRiveParameters } from '@rive-app/react-canvas';
+import React, { useCallback, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 
@@ -23,24 +22,20 @@ import { LucideIcon } from 'lucide-react';
 export type RiveIconState = 'idle' | 'hover' | 'active' | 'loading' | 'success' | 'error';
 
 export interface RiveIconProps {
-  /** Path to the Rive file */
-  src: string;
+  /** Lucide icon component */
+  icon: LucideIcon;
   /** Size of the icon in pixels */
   size?: number;
   /** Current state of the icon */
   state?: RiveIconState;
-  /** State machine name in the Rive file */
-  stateMachine?: string;
-  /** Artboard name (optional) */
-  artboard?: string;
   /** Enable hover state detection */
   enableHover?: boolean;
-  /** Fallback Lucide icon when Rive fails */
-  fallbackIcon?: LucideIcon;
   /** CSS class name */
   className?: string;
   /** Click handler */
   onClick?: () => void;
+  /** Color for the icon */
+  color?: string;
   /** Color for the glow effect */
   glowColor?: string;
   /** Whether to show glow effect */
@@ -52,21 +47,17 @@ export interface RiveIconProps {
 // ============================================================================
 
 export const RiveIcon: React.FC<RiveIconProps> = ({
-  src,
+  icon: Icon,
   size = 24,
   state = 'idle',
-  stateMachine = 'State Machine',
-  artboard,
   enableHover = true,
-  fallbackIcon: FallbackIcon,
   className = '',
   onClick,
+  color = 'currentColor',
   glowColor = 'rgba(99, 102, 241, 0.5)',
   showGlow = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   // Check for reduced motion preference
   const prefersReducedMotion = useMemo(() => {
@@ -74,92 +65,64 @@ export const RiveIcon: React.FC<RiveIconProps> = ({
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }, []);
 
-  // Rive configuration
-  const riveParams = useMemo<UseRiveParameters>(() => ({
-    src,
-    stateMachines: [stateMachine],
-    artboard,
-    autoplay: !prefersReducedMotion,
-    layout: new Layout({
-      fit: Fit.Contain,
-      alignment: Alignment.Center,
-    }),
-    onLoad: () => setIsLoaded(true),
-    onLoadError: () => setHasError(true),
-  }), [src, stateMachine, artboard, prefersReducedMotion]);
-
-  const { rive, RiveComponent } = useRive(riveParams);
-
-  // Update state machine inputs based on state and hover
-  useEffect(() => {
-    if (!rive || !isLoaded) return;
-
-    const inputs = rive.stateMachineInputs(stateMachine);
-    if (!inputs) return;
-
-    // Find and set the appropriate boolean inputs
-    const setInput = (name: string, value: boolean) => {
-      const input = inputs.find(i => i.name === name);
-      if (input && input.type === 56) { // Boolean type
-        input.value = value;
-      }
-    };
-
-    // Determine effective state (hover takes precedence if enabled)
-    const effectiveState = enableHover && isHovered && state === 'idle' ? 'hover' : state;
-
-    // Reset all states
-    setInput('isIdle', false);
-    setInput('isHover', false);
-    setInput('isActive', false);
-    setInput('isLoading', false);
-    setInput('isSuccess', false);
-    setInput('isError', false);
-
-    // Set current state
-    switch (effectiveState) {
-      case 'idle':
-        setInput('isIdle', true);
-        break;
-      case 'hover':
-        setInput('isHover', true);
-        break;
-      case 'active':
-        setInput('isActive', true);
-        break;
-      case 'loading':
-        setInput('isLoading', true);
-        break;
-      case 'success':
-        setInput('isSuccess', true);
-        break;
-      case 'error':
-        setInput('isError', true);
-        break;
-    }
-  }, [rive, isLoaded, state, isHovered, enableHover, stateMachine]);
-
   // Event handlers
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
   const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
-  // Calculate glow visibility
-  const shouldShowGlow = showGlow || state === 'active' || state === 'success';
+  // Calculate effective state
+  const effectiveState = enableHover && isHovered && state === 'idle' ? 'hover' : state;
 
-  // Render fallback if Rive failed
-  if (hasError && FallbackIcon) {
-    return (
-      <motion.div
-        className={`flex items-center justify-center ${className}`}
-        style={{ width: size, height: size }}
-        onClick={onClick}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <FallbackIcon size={size * 0.8} className="text-current" />
-      </motion.div>
-    );
-  }
+  // Calculate glow visibility
+  const shouldShowGlow = showGlow || effectiveState === 'active' || effectiveState === 'success';
+
+  // Animation variants based on state
+  const getAnimationProps = () => {
+    if (prefersReducedMotion) {
+      return {};
+    }
+
+    switch (effectiveState) {
+      case 'loading':
+        return {
+          animate: { rotate: 360 },
+          transition: { duration: 1, repeat: Infinity, ease: 'linear' },
+        };
+      case 'success':
+        return {
+          initial: { scale: 0, rotate: -180 },
+          animate: { scale: 1, rotate: 0 },
+          transition: { type: 'spring', stiffness: 400, damping: 15 },
+        };
+      case 'error':
+        return {
+          animate: { x: [-2, 2, -2, 2, 0] },
+          transition: { duration: 0.4 },
+        };
+      case 'active':
+        return {
+          animate: { scale: [1, 1.1, 1] },
+          transition: { duration: 0.3 },
+        };
+      default:
+        return {};
+    }
+  };
+
+  // Color based on state
+  const getColor = () => {
+    switch (effectiveState) {
+      case 'success':
+        return '#10B981'; // Emerald
+      case 'error':
+        return '#EF4444'; // Red
+      case 'loading':
+        return '#6366F1'; // Indigo
+      case 'active':
+        return '#6366F1'; // Indigo
+      default:
+        return color;
+    }
+  };
 
   return (
     <motion.div
@@ -168,12 +131,12 @@ export const RiveIcon: React.FC<RiveIconProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      whileHover={{ scale: enableHover ? 1.1 : 1 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={enableHover && !prefersReducedMotion ? { scale: 1.1 } : {}}
+      whileTap={!prefersReducedMotion ? { scale: 0.95 } : {}}
     >
       {/* Glow effect */}
       <AnimatePresence>
-        {shouldShowGlow && (
+        {shouldShowGlow && !prefersReducedMotion && (
           <motion.div
             className="absolute inset-0 rounded-full blur-lg"
             style={{ backgroundColor: glowColor }}
@@ -185,17 +148,16 @@ export const RiveIcon: React.FC<RiveIconProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Rive canvas */}
-      <div className="relative z-10 w-full h-full">
-        <RiveComponent />
-      </div>
-
-      {/* Loading placeholder */}
-      {!isLoaded && !hasError && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-1/2 h-1/2 rounded-full bg-white/10 animate-pulse" />
-        </div>
-      )}
+      {/* Icon */}
+      <motion.div
+        className="relative z-10"
+        {...getAnimationProps()}
+      >
+        <Icon 
+          size={size * 0.8} 
+          style={{ color: getColor() }}
+        />
+      </motion.div>
     </motion.div>
   );
 };
