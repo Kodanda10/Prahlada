@@ -127,7 +127,7 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
 
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-[140px_300px_1fr] gap-4 mb-6 items-start group">
+            <div className="grid grid-cols-1 md:grid-cols-[140px_1fr_1fr] gap-4 mb-6 items-stretch group">
                 {/* 1. Field Label */}
                 <div className="pt-3">
                     <div className="flex items-center gap-2 mb-1">
@@ -141,7 +141,7 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                 </div>
 
                 {/* 2. Suggestions Rail */}
-                <div className="geoneuro-glass rounded-xl p-3 relative overflow-hidden">
+                <div className="geoneuro-glass rounded-xl p-3 relative overflow-hidden min-h-[120px] flex flex-col">
                     <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-cyan-500/50 to-violet-500/50" />
 
                     {/* Parser Suggestions */}
@@ -199,7 +199,7 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
 
                 {/* 3. Final Decision Strip */}
                 <div className={`
-                min-h-[100px] rounded-xl border transition-all p-4 relative flex flex-col justify-between
+                min-h-[120px] rounded-xl border transition-all p-4 relative flex flex-col
                 ${finalValues.length > 0
                         ? 'bg-emerald-500/5 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.05)]'
                         : 'bg-black/20 border-white/10 border-dashed hover:border-white/20'
