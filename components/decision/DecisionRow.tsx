@@ -201,23 +201,25 @@ const DecisionRow: React.FC<DecisionRowProps> = ({
                     </div>
                 </motion.div>
 
-                {/* 3. Final Decision Strip */}
+                {/* 3. Final Decision Strip - Same GeoNeuro glass theme as Suggestions Rail */}
                 <motion.div
                     className={`
-                        min-h-[120px] rounded-xl border transition-all p-4 relative flex flex-col
+                        geoneuro-glass rounded-xl p-4 relative overflow-hidden min-h-[120px] flex flex-col
                         ${finalValues.length > 0
-                            ? 'bg-emerald-500/5 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.05)]'
-                            : 'bg-black/20 border-white/10 border-dashed'
+                            ? 'border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
+                            : 'border border-white/10 border-dashed'
                         }
                     `}
                     whileHover={{
                         scale: 1.01,
                         boxShadow: finalValues.length > 0
                             ? '0 0 30px rgba(16, 185, 129, 0.2)'
-                            : '0 0 30px rgba(99, 102, 241, 0.1)'
+                            : '0 0 30px rgba(99, 102, 241, 0.15)'
                     }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                 >
+                    {/* Accent bar matching suggestions rail */}
+                    <div className={`absolute top-0 right-0 w-1 h-full bg-gradient-to-b ${finalValues.length > 0 ? 'from-emerald-500/50 to-teal-500/50' : 'from-indigo-500/30 to-purple-500/30'}`} />
                     <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-hindi">
                         अंतिम निर्णय
                     </div>
