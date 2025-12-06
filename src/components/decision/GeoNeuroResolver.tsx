@@ -424,9 +424,11 @@ export default function GeoNeuroResolver({
         fetch('/chhattisgarh_hierarchy_hindi.json').then(r => r.ok ? r.json() : null).catch(() => null)
       ]);
 
-      if (legacyData) {
-        setHierarchy(legacyData);
-        setItems(Object.keys(legacyData).sort());
+      // Prefer Hindi hierarchy as the primary source to ensure Hindi labels render.
+      const chosenHierarchy = (hindiData as any) || legacyData;
+      if (chosenHierarchy) {
+        setHierarchy(chosenHierarchy);
+        setItems(Object.keys(chosenHierarchy).sort());
       }
 
       if (hindiData) {
@@ -437,6 +439,8 @@ export default function GeoNeuroResolver({
           hi: DISTRICT_HINDI_MAP[en] || (data as any).name_hi || en
         })).sort((a, b) => a.hi.localeCompare(b.hi, 'hi'));
         setDisplayItems(districtItems);
+      } else {
+        console.warn('Hindi hierarchy not loaded; falling back to English-only hierarchy');
       }
     } catch (err) {
       console.error('पदानुक्रम लोड करने में विफल', err);
@@ -577,12 +581,98 @@ export default function GeoNeuroResolver({
     }
   }, [step, areaType, getItemsForStep, selections]);
 
-  // Filter items by search
+  // Flatten hierarchy for Global Search
+  const flattenedItems = useMemo(() => {
+    if (!hindiHierarchy && !hierarchy) return [];
+
+    const results: { name: string; nameHi: string; type: Step; path: LocationState }[] = [];
+
+    // Helper to walk the tree
+    // We prioritize Hindi hierarchy if available as it contains the structure
+    const sourceData = hindiHierarchy || hierarchy;
+    if (!sourceData) return [];
+
+    Object.entries(sourceData).forEach(([distName, distData]: [string, any]) => {
+      const distHi = (distData as any).name_hi || DISTRICT_HINDI_MAP[distName] || distName;
+
+      // Add District
+      results.push({
+        name: distName,
+        nameHi: distHi,
+        type: 'DISTRICT',
+        path: { areaType: 'RURAL', district: distName, vidhansabha: null, block: null, gp: null, village: null, ulb: null, ward: null }
+      });
+
+      // Walk ACs
+      const acs = (distData as any).acs || (distData as any).vidhansabhas || {};
+      Object.entries(acs).forEach(([acName, acData]: [string, any]) => {
+        const acHi = (acData as any).name_hi || acName;
+
+        // Add AC (skip for simplified search if needed, but keeping for completeness)
+        // results.push({ ...type: 'VIDHANSABHA'... })
+
+        // Walk Blocks
+        const blocks = (acData as any).blocks || {};
+        Object.entries(blocks).forEach(([blockName, blockData]: [string, any]) => {
+          const blockHi = (blockData as any).name_hi || blockName;
+
+          // Add Block
+          results.push({
+            name: blockName,
+            nameHi: blockHi,
+            type: 'BLOCK',
+            path: { areaType: 'RURAL', district: distName, vidhansabha: acName, block: blockName, gp: null, village: null, ulb: null, ward: null }
+          });
+
+          // Walk Villages/GPs
+          const villages = (blockData as any).villages || [];
+          villages.forEach((v: any) => {
+            const vName = typeof v === 'string' ? v : v.name;
+            const vHi = typeof v === 'string' ? v : (v.name_hi || vName);
+
+            // Add Village
+            results.push({
+              name: vName,
+              nameHi: vHi,
+              type: 'VILLAGE',
+              path: { areaType: 'RURAL', district: distName, vidhansabha: acName, block: blockName, gp: null, village: vName, ulb: null, ward: null }
+            });
+          });
+        });
+      });
+    });
+
+    return results;
+  }, [hindiHierarchy, hierarchy]);
+
+  // Filter items by search (Global vs Local)
   const filteredItems = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return items;
+
+    // Local filter if query is short
+    if (query.length < 2) {
+      return items.filter(item => item.toLowerCase().includes(query));
+    }
+
+    // Global Search Mode
+    // We don't return 'items' here, we need a special display mode.
+    // But to keep it simple within existing UI, we might need a separate 'searchResults' state.
+    // For now, let's just filter the current level items if we stay in local mode.
+    // BUT the user asked for Global Search.
     return items.filter(item => item.toLowerCase().includes(query));
   }, [items, searchQuery]);
+
+  // Global Search Results (separate from current step items)
+  const globalSearchResults = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query || query.length < 3) return null; // Only trigger global search on 3+ chars
+
+    return flattenedItems.filter(item =>
+      item.name.toLowerCase().includes(query) ||
+      item.nameHi.includes(query)
+    ).slice(0, 50); // Limit results
+  }, [flattenedItems, searchQuery]);
 
   // Check if item matches suggestion
   const isSuggested = useCallback((item: string) => {
@@ -619,8 +709,9 @@ export default function GeoNeuroResolver({
           // Villages have name_hi in the array
           if (selections.district && selections.vidhansabha && selections.block && hindiHierarchy) {
             const villages = hindiHierarchy[selections.district]?.acs?.[selections.vidhansabha]?.blocks?.[selections.block]?.villages || [];
-            const village = villages.find(v => v.name === item);
-            return village?.name_hi || item;
+            // Handle both string array and object array
+            const village = villages.find((v: any) => (typeof v === 'string' ? v : v.name) === item);
+            return typeof village === 'string' ? village : (village?.name_hi || item);
           }
           return item;
         default:
@@ -686,10 +777,10 @@ export default function GeoNeuroResolver({
             perspective: 1200,
             transformStyle: 'preserve-3d',
           }}
-          className={`relative w-full max-w-5xl bg-gradient-to-b ${areaTheme.gradient} border border-white/10 rounded-3xl shadow-[0_25px_100px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col max-h-[88vh] transition-all duration-500`}
+          className={`relative w-full max-w-5xl bg-gradient-to-b ${areaTheme.gradient} border border-white/10 rounded-3xl shadow-[0_25px_100px_rgba(0,0,0,0.5)] flex flex-col max-h-[90vh] overflow-hidden transition-all duration-500`}
         >
           {/* Header */}
-          <div className={`relative p-6 border-b border-white/10 bg-gradient-to-r ${areaTheme.header} transition-all duration-500`}>
+          <div className={`relative p-6 border-b border-white/10 bg-gradient-to-r ${areaTheme.header} transition-all duration-500 shrink-0`}>
             {/* Background decorations - dynamic based on area type */}
             <div className="absolute inset-0 opacity-30 transition-all duration-500" style={{ background: `radial-gradient(circle at 20% 30%, ${areaTheme.accent}, transparent 50%), radial-gradient(circle at 80% 20%, ${areaTheme.secondary}, transparent 40%)` }} />
 
@@ -795,12 +886,12 @@ export default function GeoNeuroResolver({
           </div>
 
           {/* Search Bar */}
-          <div className="relative p-4 border-b border-white/5 bg-black/20">
+          <div className="relative p-4 border-b border-white/5 bg-black/20 shrink-0">
             <div className="relative max-w-2xl mx-auto">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
-                placeholder="खोजें या टाइप करें... (Cmd/Ctrl + K)"
+                placeholder="खोजें (गांव, ब्लॉक, जिला)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-400/60 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500/20 transition-all font-hindi text-base"
@@ -816,7 +907,7 @@ export default function GeoNeuroResolver({
             </div>
           </div>
 
-          {/* Chip Grid */}
+          {/* Main Content Area: Grid or Global Search Results */}
           <div className="flex-1 overflow-y-auto custom-scrollbar p-6 pt-4 pb-8">
             {loading ? (
               <div className="flex justify-center items-center h-48">
@@ -826,7 +917,49 @@ export default function GeoNeuroResolver({
                   transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
                 />
               </div>
+            ) : globalSearchResults ? (
+              // GLOBAL SEARCH RESULTS VIEW
+              <div className="space-y-2">
+                {globalSearchResults.length === 0 ? (
+                  <div className="text-center py-12 text-slate-400 font-hindi">
+                    <p>"{searchQuery}" से मेल खाता कोई स्थान नहीं मिला</p>
+                  </div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-3"
+                  >
+                    {globalSearchResults.map((res, idx) => (
+                      <button
+                        key={`${res.type}-${res.name}-${idx}`}
+                        onClick={() => {
+                          setSelections(res.path);
+                          // If leaf node, select. If district/block just navigate?
+                          // Requirement: "user can to be sure and selected it"
+                          // Let's select it directly.
+                          onSelect(res.path);
+                          onClose();
+                        }}
+                        className="flex flex-col items-start p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-indigo-400/30 transition-all text-left group"
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`text-xs px-2 py-0.5 rounded-full ${res.type === 'VILLAGE' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-indigo-500/20 text-indigo-300'}`}>
+                            {STEP_LABELS[res.type]}
+                          </span>
+                          <span className="font-bold text-white font-hindi">{res.nameHi}</span>
+                          <span className="text-xs text-slate-500">({res.name})</span>
+                        </div>
+                        <div className="text-sm text-slate-400 font-hindi pl-1">
+                          {res.path.district} {res.path.block ? `> ${res.path.block}` : ''}
+                        </div>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
             ) : (
+              // STEP-BY-STEP GRID VIEW
               <AnimatePresence mode="wait">
                 <motion.div
                   key={step}
@@ -852,7 +985,7 @@ export default function GeoNeuroResolver({
               </AnimatePresence>
             )}
 
-            {!loading && filteredItems.length === 0 && (
+            {!loading && !globalSearchResults && filteredItems.length === 0 && (
               <div className="text-center py-12 text-slate-400 font-hindi">
                 <p>"{searchQuery}" से मेल खाता कोई स्थान नहीं मिला</p>
               </div>
